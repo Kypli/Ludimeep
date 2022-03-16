@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{# {{ encore_entry_link_tags('home') }} #}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{# {{ encore_entry_script_tags('home') }} #}
+{% endblock %}
+
+{% block body %}
+
+	<div class="wrapper">
+		<div class="container">
+
+			<div class='row'>
+				{% set col = 'col-9 offset-1' %}
+
+				{# ACCUEIL #}
+				<div class='ecartTop50 {{ col }}'>
+					Bonjour 
+					{# {{ app.user.username|capitalize }} #}
+					 et bienvenue sur l'intranet
+				</div>
+
+			</div>
+		</div>
+	</div>
+{% endblock %}

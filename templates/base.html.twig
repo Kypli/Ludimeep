@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<title>{% block title %}Bienvenue{% endblock %}</title>
+
+		{% block stylesheets %}
+			{# {{ encore_entry_link_tags('app') }} #}
+		{% endblock %}
+
+		{% block javascripts %}
+			{# {{ encore_entry_script_tags('app') }} #}
+		{% endblock %}
+	</head>
+	<body>
+
+		{# MESSAGES FLASH SUCCES #}
+		{% for message in app.flashes('success') %}
+			<div class="flash-notice mt-3 text-success">
+				Succès : {{ message }}
+			</div>
+		{% endfor %}
+
+		{# MESSAGES FLASH ERROR #}
+		{% for message in app.flashes('error') %}
+			<div class="flash-notice mt-3 text-error">
+				Erreur : {{ message }}
+			</div>
+		{% endfor %}
+		
+		{% block body %}{% endblock %}
+	</body>
+</html>
