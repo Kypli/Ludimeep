@@ -15,6 +15,10 @@
 	</head>
 	<body>
 
+		{# NAVIGATION #}
+		{% block navbar %}{% include 'navigation.html.twig' %}{% endblock %}
+
+
 		{# MESSAGES FLASH SUCCES #}
 		{% for message in app.flashes('success') %}
 			<div class="flash-notice mt-3 text-success">

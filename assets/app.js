@@ -9,4 +9,4 @@ import './js/navigation.js';
 
 // CSS
 import './styles/app.css';
-import './styles/navigation.css';
+import './styles/navigation.scss';
