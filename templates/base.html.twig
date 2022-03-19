@@ -10,6 +10,7 @@
 		{% endblock %}
 
 		{% block javascripts %}
+			<script type="text/javascript" src="{{ asset('/jquery/jquery_3.6.0_min.js') }}"></script>
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>
@@ -17,7 +18,6 @@
 
 		{# NAVIGATION #}
 		{% block navbar %}{% include 'navigation.html.twig' %}{% endblock %}
-
 
 		{# MESSAGES FLASH SUCCES #}
 		{% for message in app.flashes('success') %}

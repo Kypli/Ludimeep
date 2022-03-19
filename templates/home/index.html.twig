@@ -14,25 +14,25 @@
 		<div class="container">
 
 			<div class='row'>
-				{% set col = 'col-9 offset-1' %}
+				{% set col = 'col-10 offset-1' %}
 
 				{# ACCUEIL #}
-				<div class='ecartTop50 {{ col }}'>
+				<div class='{{ col }} center mb-3'>
+					Site en construction, les fonctionnalités arriveront petit à petit<br />
+				</div>
+				<div class='{{ col }} center mb-3'>
 					Bonjour 
 					{# {{ app.user.username|capitalize }} #}
-					 et bienvenue sur le site de l'association Ludi-Meep'
+					et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'<br/>
+					Nous serons ravis de vous accueillir pour notre ouverture prochaine le 19 avril 2022 à partir de 18h30 à la mairie de Baule
 				</div>
+			</div>
+		</div>
+	</div>
 
-				{# ACCUEIL #}
-				<div class='ecartTop50 {{ col }}'>
-					Coucou Sandrine ^^
-				</div>
-
-				{# ACCUEIL #}
-				<div class='test {{ col }}'>
-					a
-				</div>
-
+	<div class="container">
+			<div class='col-12 center mb-3'>
+				<img class='img_event'src="{{ asset('build/image/event/flyer.png') }}">
 			</div>
 		</div>
 	</div>
