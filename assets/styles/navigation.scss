@@ -1,7 +1,6 @@
 /*VAR*/
 $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 
-
 .hoverable {
 	vertical-align: middle;
 	position:relative;
@@ -10,7 +9,6 @@ $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 	transition-duration: .3s;
 	transition-property:transform;
 }
-
 
 .hoverable:before {
 	position:absolute;

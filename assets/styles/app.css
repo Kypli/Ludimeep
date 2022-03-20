@@ -10,10 +10,12 @@ body {
 
 .center				{ 	text-align: center;				}
 .alignBottom		{	text-align: bottom;				}
-.alingRight			{	text-align: right;				}
+.alignRight			{	text-align: right;				}
+.alignLeft			{	text-align: left;				}
 
 .floatbottom		{	float : bottom;					}
 .floatright			{	float : right;					}
+.floatleft			{	float : left;					}
 .floatcenter		{	float : center;					}
 
 .conteneur			{	display: flex;					}
