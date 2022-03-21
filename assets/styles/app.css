@@ -8,6 +8,20 @@ body {
 	background-color: lightgray;
 }
 
+section {
+	display: block;	background-color: lightgray;
+}
+
+.entete-section {
+	padding-top: 6px;
+	margin-bottom: 10px;
+	border: 1px solid;
+	border-radius: 10% / 50%;
+	display: block;
+	background-color: #DA70D6;
+}
+
+
 .center				{ 	text-align: center;				}
 .alignBottom		{	text-align: bottom;				}
 .alignRight			{	text-align: right;				}

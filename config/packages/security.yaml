@@ -20,6 +20,16 @@ security:
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
+            form_login:
+                # "login" is the name of the route created previously
+                login_path: login
+                check_path: login
+
+        secured_area:
+
+            form_login:
+                enable_csrf: true
+
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:

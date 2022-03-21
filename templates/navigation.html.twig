@@ -1,79 +1,114 @@
 <div class="container mt-3 mb-4">
-  	<div class="row justify-content-md-center">
 
   		{# COUVERTURE #}
-		<div class="col-10">
-			<a href="{{ path('home') }}">
-				<img src="{{ asset('build/image/logo/entete.png') }}">
-			</a>
+  		<div class="row text-center">
+			<div class="col-12">
+				<a href="{{ path('home') }}">
+					<img src="{{ asset('build/image/logo/entete.png') }}">
+				</a>
+			</div>
 		</div>
 
 		{# NAVBAR #}
-		<div class="col-12 text-center">
+		{% set route = app.request.attributes.get('_route') %}
+		<div class="text-center">
 			<nav class="navbar navbar-expand-lg navbar-light">
-				<ul class="nav navbar-nav me-auto mb-2 mb-lg-0">
+				<div class="container-fluid">
+					<ul class="navbar-nav me-auto mb-2">
 
-					{# ACTUS #}
-					<li class="nav-item">
-						<a class="hoverable nav-link" aria-current="page" href="{{ path('actu') }}">Actualités</a>
-					</li>
+						{# ACTUS #}
+						<li class="nav-item">
+							<a class="hoverable nav-link {{ route == 'actu' ? 'active'}}" aria-current="page" href="{{ path('actu') }}">
+								<i class="fa-solid fa-newspaper" title='Actualités'></i>
+								Actualités
+							</a>
+						</li>
 
-					{# PHOTOS #}
-					<li class="nav-item">
-						<a class="hoverable nav-link" aria-current="page" href="{{ path('photos') }}">Photos</a>
-					</li>
+						{# PHOTOS #}
+						<li class="nav-item">
+							<a class="hoverable nav-link {{ route == 'photos' ? 'active'}}" aria-current="page" href="{{ path('photos') }}">
+								<i class="fa-solid fa-image" title='Photos'></i>
+								Photos
+							</a>
+						</li>
 
-					{# NEWLETTERS #}
-					<li class="nav-item">
-						<a class="hoverable nav-link" href="{{ path('newsletters') }}">Newletters</a>
-					</li>
+						{# NEWLETTERS #}
+						<li class="nav-item">
+							<a class="hoverable nav-link {{ route == 'newsletters' ? 'active'}}" href="{{ path('newsletters') }}">
+								<i class="fa-regular fa-envelope" title='Newsletters'></i>
+								Newletters
+							</a>
+						</li>
 
-					{# ASSO #}
-					<li class="nav-item dropdown">
-						<a
-							class="hoverable nav-link dropdown-toggle"
-							href="#"
-							id="navbarDropdown"
-							role="button"
-							data-bs-toggle="dropdown"
-							aria-expanded="false"
-						>
-							L'asso
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="{{ path('infos') }}">Infos pratique</a></li>
-							<li><a class="dropdown-item" href="{{ path('faq') }}">Foire aux questions</a></li>
-							<li><a class="dropdown-item" href="{{ path('organigramme') }}">Organigramme</a></li>
-							<li><a class="dropdown-item" href="{{ path('reglement') }}">Réglement intérieur</a></li>
-							<li><a class="dropdown-item" href="{{ path('statuts') }}">Statuts</a></li>
-						</ul>
-					</li>
+						{# ASSO #}
+						{% 
+							set route_asso = 
+								route == 'infos' or
+								route == 'faq' or
+								route == 'organigramme' or
+								route == 'reglement' or
+								route == 'statuts'
+									? true
+									: false
+						%}
+						<li class="nav-item dropdown">
+							<a
+								class="hoverable nav-link {{ route_asso ? 'active'}} dropdown-toggle"
+								href="#"
+								id="navbarDropdown"
+								role="button"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
+							>
+								<i class="fa-solid fa-chess-board" title='Asso'></i>
+								L'asso
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="{{ path('infos') }}">Infos pratique</a></li>
+								<li><a class="dropdown-item" href="{{ path('faq') }}">Foire aux questions</a></li>
+								<li><a class="dropdown-item" href="{{ path('organigramme') }}">Organigramme</a></li>
+								<li><a class="dropdown-item" href="{{ path('reglement') }}">Réglement intérieur</a></li>
+								<li><a class="dropdown-item" href="{{ path('statuts') }}">Statuts</a></li>
+							</ul>
+						</li>
 
-					{# CONTACT #}
-					<li class="nav-item dropdown">
-						<a
-							class="hoverable nav-link dropdown-toggle"
-							href="#"
-							id="navbarDropdown"
-							role="button"
-							data-bs-toggle="dropdown"
-							aria-expanded="false"
-						>
-							Nous contacter
-						</a>
-						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<li><a class="dropdown-item" href="{{ path('message') }}">Laisser un message</a></li>
-							<li><a class="dropdown-item" href="{{ path('appel') }}">Nous appeller</a></li>
-							<li><hr class="dropdown-divider"></li>
-							<li>ludimeep@protonmail.com</li>
-						</ul>
-					</li>
+						{# CONTACT #}
+						{% 
+							set route_contact = 
+								route == 'message' or
+								route == 'appel'
+									? true
+									: false
+						%}
+						<li class="nav-item dropdown">
+							<a
+								class="hoverable nav-link {{ route_contact ? 'active'}} dropdown-toggle"
+								href="#"
+								id="navbarDropdown"
+								role="button"
+								data-bs-toggle="dropdown"
+								aria-expanded="false"
+							>
+								<i class="fa-solid fa-envelope"title='Contact'></i>
+								Nous contacter
+							</a>
+							<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<li><a class="dropdown-item" href="{{ path('message') }}">Laisser un message</a></li>
+								<li><a class="dropdown-item" href="{{ path('appel') }}">Nous appeller</a></li>
+								<li><hr class="dropdown-divider"></li>
+								<li>ludimeep@protonmail.com</li>
+							</ul>
+						</li>
 
-					{# CONNEXION #}
-					<li class="nav-item">
-						<a class="hoverable nav-link" href="{{ path('inscription') }}">Inscription</a>
-					</li>
-				</ul>
+						{# CONNEXION #}
+						<li class="nav-item">
+							<a class="hoverable nav-link {{ route == 'inscription' ? 'active'}}" href="{{ path('inscription') }}">
+								<i class="fa-solid fa-file-contract" title='Inscription'></i>
+								Inscription
+							</a>
+						</li>
+					</ul>
+				</div>
 			</nav>
 		</div>
 	</div>

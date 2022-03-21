@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,8 +13,16 @@ class HomeController extends AbstractController
 	/**
 	 * @Route("/", name="home")
 	 */
-	public function index(Request $request)
+	public function index(AuthenticationUtils $authenticationUtils, Request $request)
 	{
+		// Login
+		// get the login error if there is one
+		$error = $authenticationUtils->getLastAuthenticationError();
+
+		// last username entered by the user
+		$lastUsername = $authenticationUtils->getLastUsername();
+
+		// Timer
 		$dateJour = new \DateTime('now');
 		setlocale(LC_TIME, 'fr_CA.UTF-8');
 		date_default_timezone_set('Europe/Paris');
@@ -20,6 +30,8 @@ class HomeController extends AbstractController
 		return $this->render('home/index.html.twig',[
 			'dateJour' => $this->translate_date($dateJour->format('D')).' '.$dateJour->format('d').' '.strftime("%B").' '.$dateJour->format('Y'),
 			'prochaineSeance' => $this->translate_date($dateJour->format('D')).' '.$dateJour->format('d').' '.strftime("%B").' '.$dateJour->format('Y'),
+			'last_username' => $lastUsername,
+			'error' => $error,
 		]);
 	}
 

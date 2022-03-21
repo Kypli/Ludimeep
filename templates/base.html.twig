@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="UTF-8">
 
-		<title>{% block title %}Bienvenue{% endblock %}</title>
+		<title>Ludi-Meep' - {% block title %}Bienvenue{% endblock %}</title>
 
 		{% block stylesheets %}
 			{{ encore_entry_link_tags('app') }}
@@ -19,16 +19,16 @@
 		{# NAVIGATION #}
 		{% block navbar %}{% include 'navigation.html.twig' %}{% endblock %}
 
-		{# MESSAGES FLASH SUCCES #}
+		{# MESSAGES FLASH SUCCESS #}
 		{% for message in app.flashes('success') %}
-			<div class="flash-notice mt-3 text-success">
+			<div class="flash-notice mt-3 mb-3 bg-success text-center">
 				Succès : {{ message }}
 			</div>
 		{% endfor %}
 
 		{# MESSAGES FLASH ERROR #}
 		{% for message in app.flashes('error') %}
-			<div class="flash-notice mt-3 text-error">
+			<div class="flash-notice mt-3 mb-3 bg-danger text-center">
 				Erreur : {{ message }}
 			</div>
 		{% endfor %}
