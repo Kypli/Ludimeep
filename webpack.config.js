@@ -37,6 +37,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('timer', './assets/js/service/timer.js')
+    .addStyleEntry('home', './assets/styles/home/page.css')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

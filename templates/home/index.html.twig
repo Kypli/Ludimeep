@@ -3,6 +3,7 @@
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags('timer') }}
+	{{ encore_entry_link_tags('home') }}
 {% endblock %}
 
 {% block javascripts %}
@@ -19,7 +20,10 @@
 
 			{# CONNEXION (GAUCHE) #}
 			<section class='col-xs-12 col-sm-12 col-md-12 col-lg-3'>
-				<div class="entete-section">
+				<div class="entete-section d-none d-lg-block d-xl-block">
+					<h4>Connexion</h4>
+				</div>
+				<div class="entete-section-middle d-none d-lg-none d-xl-none d-sm-block d-md-block">
 					<h4>Connexion</h4>
 				</div>
 
@@ -30,7 +34,15 @@
 					</div>
 				{% endfor %}
 
-				{% include 'login/index.html.twig' %}
+				{% if app.user is not null %}
+					<p>
+						Pseudo : {{ app.user.userName }}
+						<br />
+						<a href='{{ path('logout') }}'>Déconnexion</a>
+					</p>
+				{% else %}
+					{% include 'login/index.html.twig' %}
+				{% endif %}
 
 				{# MESSAGES FLASH LOGIN ERROR #}
 				{% for message in app.flashes('login_error') %}
@@ -41,13 +53,13 @@
 			</section>
 
 			{# ACTUS (CENTRE) #}
-			<section class='col-xs-12 col-sm-12 col-md-12 col-lg-6'>
-				<div class="entete-section">
+			<section class='section-middle col-xs-12 col-sm-12 col-md-12 col-lg-6'>
+				<div class="entete-section-middle">
 					<h4>Actualités</h4>
 				</div>
 				<div class='mb-3'>
 					Bonjour 
-					{# {{ app.user.username|capitalize }} #}
+					{{ app.user is  not null ? app.user.username|capitalize }}
 					et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'
 				</div>
 				<div class='mb-3'>Nous serons ravis de vous accueillir pour notre ouverture prochaine.</div>
@@ -61,7 +73,10 @@
 
 			{# CALENDRIER (DROITE) #}
 			<section class='col-xs-12 col-sm-12 col-md-12 col-lg-3'>
-				<div class="entete-section">
+				<div class="entete-section d-none d-lg-block d-xl-block">
+					<h4>Calendrier</h4>
+				</div>
+				<div class="entete-section-middle d-none d-lg-none d-xl-none d-sm-block d-md-block">
 					<h4>Calendrier</h4>
 				</div>
 				<div>Nous somme le {{ dateJour }}</div>

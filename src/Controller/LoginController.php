@@ -16,11 +16,7 @@ class LoginController extends AbstractController
 	public function index(AuthenticationUtils $authenticationUtils): Response
 	{
 		// get the login error if there is one
-
 		$error = $authenticationUtils->getLastAuthenticationError();
-
-		// dump($error);
-		// die;
 
 		if ($error == null || $error){
 			$this->addFlash('login_error', 'Email ou Mot de passe incorrect !');
