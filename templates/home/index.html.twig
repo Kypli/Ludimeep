@@ -72,16 +72,19 @@
 					frameborder="0"
 					scrolling="no"
 				></iframe>
-
 				<div>
-					Prochaine séance dans :
-					<span id="timer"></span>
-					<div id="countdown">
-						<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
-						<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
-						<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
-						<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
-					</div>
+					{% if 'now'|date('l') == 'Tuesday' and 'now'|date('H') >= 18 and 'now'|date('H') <= 23 %}
+						<div class='entoure seance-actif'>Séance en cours !</div>
+					{% else %}
+						Prochaine séance dans :
+						<span id="timer"></span>
+						<div id="countdown">
+							<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
+							<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
+							<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
+							<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
+						</div>
+					{% endif %}
 				</div>
 			</section>
 		</div>

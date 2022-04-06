@@ -9,16 +9,16 @@ var twoDigitMonth = ((d_nextTuesday.getMonth().length + 1) === 1)
 		: (d_nextTuesday.getMonth()+1)
 ;
 d_nextTuesday.setDate(d_nextTuesday.getDate() + (((2 + 7 - d_nextTuesday.getDay()) % 7) || 7));
+d_nextTuesday.setHours(18, 30, 0, 0);
 
 // Prochain mardi suivant
-if (d_nextTuesday < new Date('2022-04-13')){
+if (d_nextTuesday <= new Date('2022-04-12T18:30:00')){
 	d_nextTuesday.setDate(d_nextTuesday.getDate() + 7);
 }
 
 // Date timer
 var nextTuesday = d_nextTuesday.getFullYear() + '-' + twoDigitMonth + "-" + d_nextTuesday.getDate()
 let d = new Date(nextTuesday + 'T19:30:00') - new Date();
-
 
 const gc = s => document.querySelector('#countdown [count="' + s + '"] span');
 

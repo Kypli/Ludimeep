@@ -21,6 +21,12 @@ section {
 	background-color: #DA70D6;
 }
 
+/* Séance en cours */
+.seance-actif {
+	font-size: 25px;
+	padding: 15px;
+	font-weight: bold;
+}
 
 .center				{ 	text-align: center;				}
 .alignBottom		{	text-align: bottom;				}
