@@ -22,59 +22,31 @@ class HomeController extends AbstractController
 		// last username entered by the user
 		$lastUsername = $authenticationUtils->getLastUsername();
 
-		// Timer
-		$dateJour = new \DateTime('now');
-		setlocale(LC_TIME, 'fr_CA.UTF-8');
-		date_default_timezone_set('Europe/Paris');
-
 		return $this->render('home/index.html.twig',[
-			'dateJour' => $this->translate_date($dateJour->format('D')).' '.$dateJour->format('d').' '.strftime("%B").' '.$dateJour->format('Y'),
-			'prochaineSeance' => $this->translate_date($dateJour->format('D')).' '.$dateJour->format('d').' '.strftime("%B").' '.$dateJour->format('Y'),
+			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
 			'last_username' => $lastUsername,
 			'error' => $error,
 		]);
 	}
 
 	/**
-	 * Traduit le jour de la semaine
+	 * Crée et traduit une date en Français
 	 */
-	function translate_date($untranslated_date)
+	public static function dateToFrench($date, $format) 
 	{
-		switch ($untranslated_date)
-		{
-			case "Mon":
-				$translated_date = "lundi";
-				break;
-				
-			case "Tue":
-				$translated_date = "mardi";
-				break;
-				
-			case "Wed":
-				$translated_date = "mercredi";
-				break;
-				
-			case "Thu":
-				$translated_date = "jeudi";
-				break;
-				
-			case "Fri":
-				$translated_date = "vendredi";
-				break;
-				
-			case "Sat":
-				$translated_date = "samedi";
-				break;
-				
-			case "Sun":
-				$translated_date = "dimanche";
-				break;
+		$english_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+		$french_days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
+		$english_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+		$french_months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
-			default:
-				$translated_date = "";
-				break;
-		}
-
-		return $translated_date;
+		return str_replace(
+			$english_months,
+			$french_months,
+			str_replace(
+				$english_days,
+				$french_days,
+				date($format, strtotime($date))
+			)
+		);
 	}
 }

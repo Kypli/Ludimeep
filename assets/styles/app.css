@@ -16,7 +16,7 @@ section {
 	padding-top: 6px;
 	margin-bottom: 10px;
 	border: 1px solid;
-	border-radius: 10% / 50%;
+	border-radius: 5% / 45%;
 	display: block;
 	background-color: #DA70D6;
 }
@@ -50,6 +50,13 @@ section {
 .pointeur 			{	cursor: pointer;				}
 .pointeur_base		{	cursor: auto;					}
 
+
+.entoure {
+	border: 4mm ridge rgba(215, 0, 213, 0.5);
+	color: purple;
+	display: block;
+	padding: 15px;
+}
 
 
 .img_event {
