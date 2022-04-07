@@ -1,0 +1,16 @@
+<section class='section-middle col-xs-12 col-sm-12 col-md-12 col-lg-6'>
+	<h4 class="radius-long offset-2 col-8">Actualités</h4>
+	<div class='mb-3'>
+		Bonjour 
+		{{ app.user is  not null ? app.user.username|capitalize }}
+		et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'
+	</div>
+	<div class='mb-3'>Nous serons ravis de vous accueillir pour notre ouverture prochaine.</div>
+	<div class='mb-3 gras entoure'>
+		le 19 avril 2022 à partir de 18h30
+		<br />
+		4 Rue Jean Bordier, 45130 Baule. Batiment annexe gauche de la mairie
+	</div>
+	<div class='mb-3'>Et ensuite hebdomadairement tout les mardis à 18h30.</div>
+	<img class='img_event'src="{{ asset('build/image/event/flyer.jpg') }}">
+</section>

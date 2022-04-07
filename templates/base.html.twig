@@ -16,8 +16,8 @@
 	</head>
 	<body>
 
-		{# NAVIGATION #}
-		{% block navbar %}{% include 'navigation.html.twig' %}{% endblock %}
+		{# HEADER #}
+		{% block header %}{% include 'header.html.twig' %}{% endblock %}
 
 		{# MESSAGES FLASH SUCCESS #}
 		{% for message in app.flashes('success') %}
@@ -33,6 +33,10 @@
 			</div>
 		{% endfor %}
 		
+		{# BODY #}
 		{% block body %}{% endblock %}
+
+		{# FOOTER #}
+		{% block footer %}{% include 'footer.html.twig' %}{% endblock %}
 	</body>
 </html>

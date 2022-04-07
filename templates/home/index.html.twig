@@ -19,82 +19,14 @@
 		<div class='row center mb-3'>
 
 			{# CONNEXION (GAUCHE) #}
-			<section class='col-xs-12 col-sm-12 col-md-12 col-lg-3'>
-				<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">{{ titre_connexion }}</h4>
-				<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">{{ titre_connexion }}</h4>
-
-				{# MESSAGES FLASH SUCCESS #}
-				{% for message in app.flashes('login_success') %}
-					<div class="flash-notice mt-3 mb-3 bg-success text-center">
-						Succès : {{ message }}
-					</div>
-				{% endfor %}
-
-				{# FORM LOGIN #}
-				{% if app.user is not null %}
-					<p>
-						Pseudo : {{ app.user.userName }}
-						<br />
-						<a href='{{ path('logout') }}'>Déconnexion</a>
-					</p>
-				{% else %}
-					{% include 'login/index.html.twig' %}
-				{% endif %}
-
-				{# MESSAGES FLASH LOGIN ERROR #}
-				{% for message in app.flashes('login_error') %}
-					<div class="flash-notice mt-3 mb-3 bg-danger text-center">
-						Erreur : {{ message }}
-					</div>
-				{% endfor %}
-			</section>
+			{% include 'home/connexion/index.html.twig' %}
 
 			{# ACTUS (CENTRE) #}
-			<section class='section-middle col-xs-12 col-sm-12 col-md-12 col-lg-6'>
-				<h4 class="radius-long offset-2 col-8">Actualités</h4>
-				<div class='mb-3'>
-					Bonjour 
-					{{ app.user is  not null ? app.user.username|capitalize }}
-					et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'
-				</div>
-				<div class='mb-3'>Nous serons ravis de vous accueillir pour notre ouverture prochaine.</div>
-				<div class='mb-3 gras entoure'>
-					le 19 avril 2022 à partir de 18h30
-					<br />
-					4 Rue Jean Bordier, 45130 Baule. Batiment annexe gauche de la mairie
-				</div>
-				<div class='mb-3'>Et ensuite hebdomadairement tout les mardis à 18h30.</div>
-				<img class='img_event'src="{{ asset('build/image/event/flyer.jpg') }}">
-			</section>
+			{% include 'home/actualite/index.html.twig' %}
 
 			{# CALENDRIER (DROITE) #}
-			<section class='col-xs-12 col-sm-12 col-md-12 col-lg-3'>
-				<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Calendrier</h4>
-				<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Calendrier</h4>
+			{% include 'home/calendrier/index.html.twig' %}
 
-				<div class='mb-2'>Nous somme le {{ dateJour }}</div>
-				<iframe
-					src="https://calendar.google.com/calendar/embed?height=300&wkst=2&bgcolor=%23dc81f3&ctz=Europe%2FParis&mode=AGENDA&title=S%C3%A9ance%20Ludi-Meep'&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=azlqajNrcGw5b29xNWxlbG9kdTdvcDBxYzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%239E69AF" style="border:solid 1px #777"
-					width="300"
-					height="300"
-					frameborder="0"
-					scrolling="no"
-				></iframe>
-				<div class='mb-5'>
-					{% if 'now'|date('l') == 'Tuesday' and 'now'|date('H') >= 18 and 'now'|date('H') <= 23 %}
-						<div class='entoure seance-actif'>Séance en cours !</div>
-					{% else %}
-						Prochaine séance dans :
-						<span id="timer"></span>
-						<div id="countdown">
-							<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
-							<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
-							<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
-							<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
-						</div>
-					{% endif %}
-				</div>
-			</section>
 		</div>
 	</div>
 {% endblock %}

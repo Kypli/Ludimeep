@@ -1,5 +1,5 @@
 /*VAR*/
-$nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
+$nav-sub-color: #F5F5DC;
 
 .hoverable {
 	vertical-align: middle;
@@ -13,7 +13,6 @@ $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 .hoverable:before {
 	position:absolute;
 	pointer-events: none;
-	z-index:-1;
 	content: '';
 	top: 100%;
 	left: 5%;
@@ -22,7 +21,6 @@ $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 	opacity:0;
 	background: -webkit-radial-gradient(center, ellipse, rgba($nav-sub-color, 0.8) 0%, rgba($nav-sub-color, 0) 80%);
 	background: radial-gradient(ellipse at center, rgba($nav-sub-color, 0.35) 0%, rgba($nav-sub-color, 0) 80%);
-	/* W3C */
 	transition-duration: 0.3s;
 	transition-property: transform, opacity;
 }
@@ -30,7 +28,6 @@ $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 .hoverable:hover:before, .hoverable:active:before, .hoverable:focus:before {
 	opacity: 1;
 }
-
 
 @keyframes bounce-animation {
 	16.65% {
@@ -68,7 +65,6 @@ $nav-sub-color: #9808b4; /* 153, 8, 180, 0.8 */
 	animation-name: bounce-animation;
 	animation-duration: 2s;
 }
-
 
 @media (min-width: 768px) {
 	.navbar{
