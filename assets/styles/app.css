@@ -1,3 +1,4 @@
+/* Visuel bootstrap */
 /*[class*='col'] {
 	border: 1px solid;
 	background-color: lightgreen;
@@ -16,9 +17,50 @@ section {
 	padding: 10px;
 }
 
+h2 {
+	text-align: center;
+	padding: 4px;
+	margin-top: 8px!important;
+	margin-bottom: 15px;
+	display: block;
+	color: #DA70D6;
+    text-decoration: underline wavy #DA70D6;
+    text-shadow: 2px 1px grey;
+}
+
+h4 {
+	text-align: center;
+	padding: 2px;
+	padding-bottom: 5px;
+	margin-bottom: 12px;
+	border: 1px solid #BBADC1;
+	display: block;
+	color:#A48DC8;
+	background-color: #DA70D6;
+	text-shadow:
+		-1px -1px 0 #7218FC,
+		1px -1px 0 #7218FC,
+		-1px 1px 0 #7218FC,
+		1px 1px 0 #7218FC,
+		1px 1px 2px grey,
+		1px 1px 3px grey,
+		1px 1px 5px grey,
+		1px 1px 7px grey,
+		1px 1px 10px grey,
+		1px 1px 12px grey,
+		1px 1px 18px grey;
+}
+
 .section-middle {
 	background-color: rgb(211, 197, 217);
+}
 
+/* Radius */
+.radius-short {
+	border-radius: 5% / 45%;
+}
+.radius-long {
+	border-radius: 3% / 45%;
 }
 
 .test {
@@ -63,4 +105,11 @@ section {
 	color: purple;
 	display: block;
 	padding: 15px;
+}
+
+.prochainement {
+	margin-top: 15px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 25px;
 }

@@ -1,5 +1,5 @@
 <form action="{{ path('login') }}" method="post">
-	<div class="row">
+	<div class="row form_login">
 
 		{# Mail #}
 		<div class="col-4">
@@ -23,7 +23,7 @@
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		{# VALID #}
-		<div class="col-4 col-offset-3">
+		<div class="col-4 offset-4 mt-1">
 			<button type="submit">Go</button>
 		</div>
 	</div>

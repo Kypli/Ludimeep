@@ -8,23 +8,20 @@
 	{{ parent() }}
 {% endblock %}
 
-{% block title %}newsletters{% endblock %}
+{% block title %}Newsletters{% endblock %}
 
 {% block body %}
 
 	<div class="container">
-		<div class='row mb-1'>
+		<div class='row mb-3'>
 
 			{# TITRE #}
-			<div class='col-12'>
-				<h2 class='center souligne'>Newsletters</h2>
-			</div>
-		</div>
-		<div class='row center'>
-			<div class='col-12'>
-				A venir
-			</div>
+			<h2 class="radius-long offset-4 col-4">Newsletters</h2>
+
+			{# ... #}
+			<section class='prochainement'>
+				Prochainement
+			</section>
 		</div>
 	</div>
-
 {% endblock %}
