@@ -15,7 +15,6 @@ class HomeController extends AbstractController
 	 */
 	public function index(AuthenticationUtils $authenticationUtils, Request $request)
 	{
-
 		return $this->render('home/index.html.twig',[
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user

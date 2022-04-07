@@ -2,13 +2,15 @@
 
 {% block stylesheets %}
 	{{ parent() }}
-	{{ encore_entry_link_tags('timer') }}
 	{{ encore_entry_link_tags('home') }}
+	{{ encore_entry_link_tags('timer') }}
+	{{ encore_entry_link_tags('modal_photo') }}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('timer') }}
+	{{ encore_entry_script_tags('modal_photo') }}
 {% endblock %}
 
 {% block title %}Accueil{% endblock %}
@@ -29,4 +31,8 @@
 
 		</div>
 	</div>
+
+	{# MODAL #}
+	{% include 'home/modal.html.twig' %}
+
 {% endblock %}

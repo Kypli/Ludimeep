@@ -36,8 +36,13 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
-    .addEntry('timer', './assets/js/service/timer.js')
+
+    // Home
     .addStyleEntry('home', './assets/styles/home/page.css')
+
+    // Service
+    .addEntry('timer', './assets/js/service/timer.js')
+    .addEntry('modal_photo', './assets/js/service/modal_photo.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
