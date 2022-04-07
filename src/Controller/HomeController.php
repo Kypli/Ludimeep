@@ -15,17 +15,13 @@ class HomeController extends AbstractController
 	 */
 	public function index(AuthenticationUtils $authenticationUtils, Request $request)
 	{
-		// Login
-		// get the login error if there is one
-		$error = $authenticationUtils->getLastAuthenticationError();
-
-		// last username entered by the user
-		$lastUsername = $authenticationUtils->getLastUsername();
 
 		return $this->render('home/index.html.twig',[
+			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
+			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
-			'last_username' => $lastUsername,
-			'error' => $error,
+			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
+			'user' => $this->getUser(),
 		]);
 	}
 
