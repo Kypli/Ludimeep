@@ -1,0 +1,49 @@
+{% set route = app.request.attributes.get('_route') %}
+<div class="text-center">
+	<nav class="navbar navbar-expand-lg navbar-light">
+		<div class="container-fluid">
+
+
+			<ul class="navbar-nav me-auto mb-2">
+
+				{# ADMIN #}
+				<li class="nav-item admin">
+					<i class="fas fa-screwdriver" title='Admin'></i>
+					ADMIN
+				</li>
+
+				{# MEMBRES #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'user_users' ? 'active'}}" aria-current="page" href="{{ path('user_users') }}">
+						<i class="fas fa-user" title='Membres'></i>
+						Membres
+					</a>
+				</li>
+
+				{# ADD ACTU #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'actu_add' ? 'active'}}" aria-current="page" href="{{ path('actu_add') }}">
+						<i class="fas fa-user" title="Ajout d'une actualité"></i>
+						Ajout Actu
+					</a>
+				</li>
+
+				{# ADD PHOTO #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'photo_add' ? 'active'}}" aria-current="page" href="{{ path('photo_add') }}">
+						<i class="fas fa-user" title='Membres'></i>
+						Ajout Photo
+					</a>
+				</li>
+
+				{# ADD NEWSLETTER #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'newsletter_add' ? 'active'}}" aria-current="page" href="{{ path('newsletter_add') }}">
+						<i class="fas fa-user" title='Membres'></i>
+						Créer Newsletter
+					</a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>

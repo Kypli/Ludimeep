@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin - Liste des utilisateurs{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Liste utilisateurs</h2>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3 overflow-scroll'>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Courriel</th>
+							<th>Adresse</th>
+							<th>Tél</th>
+							<th>Id</th>
+							<th>Login</th>
+							<th>Roles</th>
+							<th>Droit image</th>
+							<th>Newsletter</th>
+							<th>Adhérant</th>
+							<th>Notoriété</th>
+							<th>Rôle CA</th>
+							<th>Date fin mandat</th>
+							<th>Membre d'honneur</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for user in users %}
+						<tr>
+							<td style='min-width:120px;'>
+								<a href="{{ path('user_show', {'id': user.id}) }}">Fiche</a>
+								<a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+							</td>
+							<td>{{ user.nom }}</td>
+							<td>{{ user.prenom }}</td>
+							<td>{{ user.mail }}</td>
+							<td style='min-width:160px;'>{{ user.adresse }}</td>
+							<td style='min-width:120px;'>{{ user.telephone }}</td>
+							<td>{{ user.id }}</td>
+							<td>{{ user.userName }}</td>
+							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+							<td>{{ user.droitImage ? 'Oui' : 'Non' }}</td>
+							<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
+							<td>{{ user.adherant is null ? 'Non' : user.adherant }}</td>
+							<td style='min-width:150px;'>{{ user.notoriete }}</td>
+							<td>{{ user.roleCa is null ? 'Non' : user.roleCa }}</td>
+							<td>{{ user.dateFinMandat is null ? '/' : user.dateFinMandat|date('d/m/Y') }}</td>
+							<td>{{ user.membreHonneur ? 'Oui' : 'Non' }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">no records found</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

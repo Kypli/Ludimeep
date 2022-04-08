@@ -38,29 +38,34 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ORM\Column(type="json")
+     * @ORM\Column(type="json", nullable=true)
      */
     private $roles = [];
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean", nullable=true)
      */
-    private $nom;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $prenom;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mail;
+    private $droitImage;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $membre;
+    private $newsletter;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mail;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -71,6 +76,42 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=25, nullable=true)
      */
     private $telephone;
+
+    /**
+     * @ORM\Column(type="integer", length=20, nullable=true)
+     */
+    private $adherant;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateFinAdhesion;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $notoriete;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $roleCa;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateFinMandat;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $membreHonneur;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $commentaire;
+
 
     public function getId(): ?int
     {
@@ -148,6 +189,30 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getDroitImage(): ?bool
+    {
+        return $this->droitImage;
+    }
+
+    public function setDroitImage(bool $droitImage): self
+    {
+        $this->droitImage = $droitImage;
+
+        return $this;
+    }
+
+    public function getNewsletter(): ?bool
+    {
+        return $this->newsletter;
+    }
+
+    public function setNewsletter(bool $newsletter): self
+    {
+        $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
     public function getNom(): ?string
     {
         return $this->nom;
@@ -184,18 +249,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getMembre(): ?bool
-    {
-        return $this->membre;
-    }
-
-    public function setMembre(bool $membre): self
-    {
-        $this->membre = $membre;
-
-        return $this;
-    }
-
     public function getAdresse(): ?string
     {
         return $this->adresse;
@@ -216,6 +269,90 @@ class User implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getAdherant(): ?int
+    {
+        return $this->adherant;
+    }
+
+    public function setAdherant(int $adherant): self
+    {
+        $this->adherant = $adherant;
+
+        return $this;
+    }
+
+    public function getDateFinAdhesion(): ?\DateTimeInterface
+    {
+        return $this->dateFinAdhesion;
+    }
+
+    public function setDateFinAdhesion(?\DateTimeInterface $dateFinAdhesion): self
+    {
+        $this->dateFinAdhesion = $dateFinAdhesion;
+
+        return $this;
+    }
+
+    public function getNotoriete(): ?string
+    {
+        return $this->notoriete;
+    }
+
+    public function setNotoriete(?string $notoriete): self
+    {
+        $this->notoriete = $notoriete;
+
+        return $this;
+    }
+
+    public function getRoleCa(): ?string
+    {
+        return $this->roleCa;
+    }
+
+    public function setRoleCa(?string $roleCa): self
+    {
+        $this->roleCa = $roleCa;
+
+        return $this;
+    }
+
+    public function getDateFinMandat(): ?\DateTimeInterface
+    {
+        return $this->dateFinMandat;
+    }
+
+    public function setDateFinMandat(?\DateTimeInterface $dateFinMandat): self
+    {
+        $this->dateFinMandat = $dateFinMandat;
+
+        return $this;
+    }
+
+    public function getMembreHonneur(): ?bool
+    {
+        return $this->membreHonneur;
+    }
+
+    public function setMembreHonneur(bool $membreHonneur): self
+    {
+        $this->membreHonneur = $membreHonneur;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }

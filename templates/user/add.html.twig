@@ -1,13 +1,5 @@
 {% extends 'base.html.twig' %}
 
-{% block stylesheets %}
-	{{ parent() }}
-{% endblock %}
-
-{% block javascripts %}
-	{{ parent() }}
-{% endblock %}
-
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
@@ -18,9 +10,9 @@
 			{# TITRE #}
 			<h2 class="radius-long offset-4 col-4">Inscription</h2>
 
-			{# ... #}
+			{# INSCRIPTION #}
 			<section class='prochainement'>
-				Prochainement
+				{% include 'user/_form.html.twig' %}
 			</section>
 		</div>
 	</div>

@@ -1,13 +1,24 @@
 <header class="container">
 
 	{# COUVERTURE #}
-	<div class="row text-center navi2">
-		<div class="col-12">
+	<div class="row text-center">
+		<div class="d-none d-lg-block d-xl-block d-xxl-block  offset-xxl-2 col-xxl-8  offset-xl-1 col-xl-10">
 			<a href="{{ path('home') }}">
 				<img src="{{ asset('build/image/logo/entete.png') }}">
 			</a>
 		</div>
+		<div class="d-none d-lg-none d-xl-none d-xxl-none d-xs-block d-sm-block d-md-block">
+			<a href="{{ path('home') }}">
+				<img src="{{ asset('build/image/logo/entete1_small.png') }}" class='offset-md-2 col-md-8 offset-2 col-8 couv'>
+				<img src="{{ asset('build/image/logo/entete2_small.png') }}" class='offset-md-0 col-md-12 offset-0 col-12'>
+			</a>
+		</div>
 	</div>
+
+	{# NAVBAR ADMIN #}
+	{% if is_granted('ROLE_ADMIN') %}
+		{% include 'navigation_admin.html.twig' %}
+	{% endif %}
 
 	{# NAVBAR #}
 	{% include 'navigation.html.twig' %}

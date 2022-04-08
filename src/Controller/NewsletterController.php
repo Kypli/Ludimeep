@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
- * @Route("/actu", name="actu")
+ * @Route("/newsletter", name="newsletter")
  */
-class ActuController extends AbstractController
+class NewsletterController extends AbstractController
 {
 	/**
 	 * @Route("/", name="")
@@ -19,7 +19,7 @@ class ActuController extends AbstractController
 	public function index(Request $request)
 	{
 
-		return $this->render('actu/index.html.twig');
+		return $this->render('newsletter/index.html.twig');
 	}
 
 	/**
@@ -29,6 +29,6 @@ class ActuController extends AbstractController
 	public function add(Request $request)
 	{
 
-		return $this->render('actu/index.html.twig');
+		return $this->render('newsletter/index.html.twig');
 	}
 }

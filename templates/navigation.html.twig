@@ -4,7 +4,7 @@
 		<div class="container-fluid">
 			<ul class="navbar-nav me-auto mb-2">
 
-				{# ACTUS #}
+				{# ACTU #}
 				<li class="nav-item">
 					<a class="hoverable nav-link {{ route == 'actu' ? 'active'}}" aria-current="page" href="{{ path('actu') }}">
 						<i class="fa-solid fa-newspaper" title='Actualités'></i>
@@ -12,17 +12,17 @@
 					</a>
 				</li>
 
-				{# PHOTOS #}
+				{# PHOTO #}
 				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'photos' ? 'active'}}" aria-current="page" href="{{ path('photos') }}">
+					<a class="hoverable nav-link {{ route == 'photo' ? 'active'}}" aria-current="page" href="{{ path('photo') }}">
 						<i class="fa-solid fa-image" title='Photos'></i>
 						Photos
 					</a>
 				</li>
 
-				{# NEWLETTERS #}
+				{# NEWLETTER #}
 				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'newsletters' ? 'active'}}" href="{{ path('newsletters') }}">
+					<a class="hoverable nav-link {{ route == 'newsletter' ? 'active'}}" href="{{ path('newsletter') }}">
 						<i class="fa-regular fa-envelope" title='Newsletters'></i>
 						Newletters
 					</a>
@@ -88,13 +88,15 @@
 					</ul>
 				</li>
 
-				{# CONNEXION #}
-				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'inscription' ? 'active'}}" href="{{ path('inscription') }}">
-						<i class="fa-solid fa-file-contract" title='Inscription'></i>
-						Inscription
-					</a>
-				</li>
+				{# INSCRIPTION #}
+				{% if app.user is null or is_granted('ROLE_ADMIN') %}
+					<li class="nav-item">
+						<a class="hoverable nav-link {{ route == 'user_add' ? 'active'}}" href="{{ path('user_add') }}">
+							<i class="fa-solid fa-file-contract" title='Inscription'></i>
+							Inscription
+						</a>
+					</li>
+				{% endif %}
 			</ul>
 		</div>
 	</nav>

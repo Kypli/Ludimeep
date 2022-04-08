@@ -39,6 +39,7 @@ h4 {
 	text-align: center;
 	padding: 2px;
 	padding-bottom: 5px;
+	padding-top: 5px;
 	margin-bottom: 12px;
 	border: 1px solid #BBADC1;
 	display: block;
@@ -90,6 +91,9 @@ h4 {
 .taille10 			{	font-size: 10px;				}
 .taille11 			{	font-size: 11px;				}
 .taille12 			{	font-size: 12px;				}
+.taille13 			{	font-size: 13px;				}
+.taille14 			{	font-size: 14px;				}
+.taille15 			{	font-size: 15px;				}
 
 .barre 				{	text-decoration: line-through;	}
 .souligne			{  	text-decoration: underline;		}
@@ -98,6 +102,9 @@ h4 {
 
 .pointeur 			{	cursor: pointer;				}
 .pointeur_base		{	cursor: auto;					}
+.pointeur_help		{	cursor: help;					}
+
+.block				{	display: block;					}
 
 /* Bordure */
 .entoure {
@@ -106,6 +113,7 @@ h4 {
 	display: block;
 	padding: 15px;
 }
+
 
 .prochainement {
 	margin-top: 15px;

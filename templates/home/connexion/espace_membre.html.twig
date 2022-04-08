@@ -1,5 +1,27 @@
-<p>
-	Pseudo : {{ app.user.userName }}
-	<br />
-	<a href='{{ path('logout') }}'>Déconnexion</a>
-</p>
+<div class='row mt-2'>
+	<div class='col-5 alignRight'>{{ app.user.userName|capitalize }}</div>
+	{% if app.user.adherant %}
+		<div class='col-1'>
+			<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.adherant }}">
+		</div>
+	{% endif %}
+	<div class='col-6'><a href="{{ path('user_show', { 'id':app.user.id} ) }}" class='lien_profil'>Mon profil</a></div>
+</div>
+<div class='row mt-2'>
+	<div class='col-12 mt-4'>
+		<p>
+			<span class='souligne'>A venir</span>
+			<ul>
+				<li>Confirmer sa présence à la prochaine séance</li>
+				<li>Réserver une table avec un jeu</li>
+				<li>Rejoindre une table réservée</li>
+				<li>Commenter les actualités/images/newsletters</li>
+			</ul>
+		</p>
+	</div>
+</div>
+<div class='row mt-4'>
+	<div class='col-12'>
+		<a href='{{ path('logout') }}'>Déconnexion</a>
+	</div>
+</div>

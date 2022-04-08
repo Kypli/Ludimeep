@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fiche utilisateur{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Fiche utilisateur</h2>
+
+			{# FICHE #}
+			<section class='row'>
+				<div class="center offset-9 col-3"><a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mes informations</a></div>
+				<div class='col-8 offset-2 mb-3'>
+
+					<h3>Profil</h3>
+					<table class="table mb-4">
+						<tbody>
+							<tr>
+								<th>Nom</th>
+								<td>{{ user.nom }}</td>
+							</tr>
+							<tr>
+								<th>Prénom</th>
+								<td>{{ user.prenom }}</td>
+							</tr>
+							<tr>
+								<th>Courriel</th>
+								<td>{{ user.mail }}</td>
+							</tr>
+							<tr>
+								<th>Adresse</th>
+								<td>{{ user.adresse }}</td>
+							</tr>
+							<tr>
+								<th>Téléphone</th>
+								<td>{{ user.telephone }}</td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+
+					<h3 class='mt-4 mb-4'>Site internet</h3>
+					<table class="table">
+						<tbody>
+							{% if is_granted('ROLE_ADMIN') %}
+								<tr>
+									<th>Id</th>
+									<td>{{ user.id }}</td>
+								</tr>
+							{% endif %}
+							<tr>
+								<th>Login</th>
+								<td>{{ user.userName }}</td>
+							</tr>
+							<tr>
+								<th>Mot de passe</th>
+								<td>*****</td>
+							</tr>
+							<tr>
+								<th>Rôle</th>
+								<td>{{ user.roles|json_encode }}</td>
+							</tr>
+							<tr>
+								<th>J'autorise Ludi-Meep' à utiliser mon image ?</th>
+								<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? 'Oui' : 'Non' }}</td>
+							</tr>
+							<tr>
+								<th>Inscrit à la newsletter</th>
+								<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
+							</tr>
+						</tbody>
+					</table>
+					<br />
+
+					<h3 class='mt-4'>Association Ludi-Meep'</h3>
+					<table class="table">
+						<tbody>
+							<tr>
+								<th>Adhérant ?</th>
+								<td>{{ user.adherant is not null  ? 'Oui' : 'Non' }}</td>
+							</tr>
+							{% if user.adherant %}
+								<tr>
+									<th>N° adhérant</th>
+									<td>{{ user.adherant }}</td>
+								</tr>
+							{% endif %}
+							<tr>
+								<th>Vous avez connu Ludi-Meep' gràce à</th>
+								<td>{{ user.notoriete }}</td>
+							</tr>
+							<tr>
+								<th>Membre du CA ?</th>
+								<td>{{user.roleCa is not null ? 'Oui' : 'Non' }}</td>
+							</tr>
+							{% if user.roleCa is not null %}
+								<tr>
+									<th>Rôle du CA</th>
+									<td>{{ user.roleCa }}</td>
+								</tr>
+								<tr>
+									<th>Date de fin de mandat</th>
+									<td>{{ user.dateFinMandat|date("d/m/Y") }}</td>
+								</tr>
+							{% endif %}
+							<tr>
+								<th>Membre d'honneur ?</th>
+								<td>{{ user.membreHonneur ? 'Oui' : 'Non' }}</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+		</div>
+	</div>
+{% endblock %}

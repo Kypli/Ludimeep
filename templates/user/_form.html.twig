@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+	<div class="row center mt-4">
+
+		{# LOGIN #}
+		<div class="col-3 offset-3 mb-4">
+			{{ form_label(form.userName) }}
+		</div>
+		<div class="col-3 mb-4">
+			{{ form_widget(form.userName) }}
+		</div>
+
+		{# MOT DE PASSE #}
+		<div class="col-3 offset-3 mb-4">
+			{{ form_label(form.password) }}
+		</div>
+		<div class="col-3 mb-4">
+			{{ form_widget(form.password) }}
+		</div>
+
+		{{ form_widget(form) }}
+
+		<div class="col-6 offset-3 mt-4 mb-4">
+			<button class="btn btn-success">{{ button_label|default("S'enregistrer") }}</button>
+		</div>
+	</div>
+{{ form_end(form) }}
