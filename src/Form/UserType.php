@@ -86,7 +86,7 @@ class UserType extends AbstractType
 				TextType::class,
 				[
 					'required' => true,
-					'label' => 'Login',
+					'label' => 'Pseudo',
 					'attr' => [
 						'class' => 'form-control',
 					],
@@ -96,7 +96,7 @@ class UserType extends AbstractType
 				'password',
 				PasswordType::class,
 				[
-					'required' => false,
+					'required' => true,
 					'label' => 'Mot de passe',
 					'attr' => [
 						'class' => 'form-control',
@@ -160,10 +160,10 @@ class UserType extends AbstractType
 				[
 					'widget' => 'single_text',
 					'required' => false,
+					'label' => "Date d'inscription",
 					'attr' => [
 						'class' => 'form-control',
 					],
-					'label' => "Date d'inscription",
 				]
 			)
 			->add(
@@ -172,10 +172,10 @@ class UserType extends AbstractType
 				[
 					'widget' => 'single_text',
 					'required' => false,
+					'label' => "Date de fin d'adhésion",
 					'attr' => [
 						'class' => 'form-control',
 					],
-					'label' => "Date de fin d'adhésion",
 				]
 			)
 			->add(
@@ -206,10 +206,10 @@ class UserType extends AbstractType
 				[
 					'widget' => 'single_text',
 					'required' => false,
+					'label' => "Date de fin de mandat",
 					'attr' => [
 						'class' => 'form-control',
 					],
-					'label' => "Date de fin de mandat",
 				]
 			)
 			->add(

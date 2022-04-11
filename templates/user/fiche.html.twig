@@ -69,10 +69,6 @@
 								<td>{{ user.roles|json_encode }}</td>
 							</tr>
 							<tr>
-								<th>J'autorise l'utilisation de mon image ?</th>
-								<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? 'Oui' : 'Non' }}</td>
-							</tr>
-							<tr>
 								<th>Inscrit à la newsletter</th>
 								<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
 							</tr>
@@ -101,6 +97,10 @@
 									<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
 							{% endif %}
+							<tr>
+								<th>J'autorise l'utilisation de mon image ?</th>
+								<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? 'Oui' : 'Non' }}</td>
+							</tr>
 							<tr>
 								<th>Vous avez connu Ludi-Meep' gràce à</th>
 								<td>{{ user.notoriete }}</td>

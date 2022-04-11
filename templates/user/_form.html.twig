@@ -11,7 +11,7 @@
 		<div class="row center mt-4">
 
 			{# NOM #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.nom) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -19,7 +19,7 @@
 			</div>
 
 			{# PRENOM #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.prenom) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -27,7 +27,7 @@
 			</div>
 
 			{# MAIL #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.mail) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -35,15 +35,15 @@
 			</div>
 
 			{# ADRESSE #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.adresse) }}
 			</div>
-			<div class="col-6 mb-4">
+			<div class="col-5 mb-4">
 				{{ form_widget(form.adresse) }}
 			</div>
 
 			{# TÉLÉPHONE #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.telephone) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -65,7 +65,7 @@
 
 		{# LOGIN #}
 		{% if edit == false or is_granted('ROLE_ADMIN') %}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.userName) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -75,7 +75,7 @@
 
 		{# MOT DE PASSE #}
 		{% if edit == false %}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.password) }}
 			</div>
 			<div class="col-3 mb-4">
@@ -87,7 +87,7 @@
 
 			{# ROLES #}
 			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.roles) }}
 				</div>
 				<div class="col-3 mb-4">
@@ -95,19 +95,11 @@
 				</div>
 			{% endif %}
 
-			{# DROIT IMAGE #}
-			<div class="col-3 offset-3 mb-4">
-				{{ form_label(form.droitImage) }}
-			</div>
-			<div class="col-3 mb-4">
-				{{ form_widget(form.droitImage) }}
-			</div>
-
 			{# NEWSLETTER #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.newsletter) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="col-3 mb-4 pt-2">
 				{{ form_widget(form.newsletter) }}
 			</div>
 		{% endif %}
@@ -125,7 +117,7 @@
 
 			{# ADHERANT #}
 			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.adherant) }}
 				</div>
 				<div class="col-3 mb-4">
@@ -133,15 +125,15 @@
 				</div>
 
 				{# DATE INSCRIPTION #}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.dateInscription) }}
 				</div>
 				<div class="col-3 mb-4">
 					{{ form_widget(form.dateInscription) }}
 				</div>
 
-				{# DATE FIn ADHÉSION #}
-				<div class="col-3 offset-3 mb-4">
+				{# DATE FIN ADHÉSION #}
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.dateFinAdhesion) }}
 				</div>
 				<div class="col-3 mb-4">
@@ -149,8 +141,16 @@
 				</div>
 			{% endif %}
 
+			{# DROIT IMAGE #}
+			<div class="col-3 offset-3 mb-4 alignRight">
+				{{ form_label(form.droitImage) }}
+			</div>
+			<div class="col-3 mb-4 pt-2">
+				{{ form_widget(form.droitImage) }}
+			</div>
+
 			{# NOTORIETE #}
-			<div class="col-3 offset-3 mb-4">
+			<div class="col-3 offset-3 mb-4 alignRight">
 				{{ form_label(form.notoriete) }}
 			</div>
 			<div class="col-4 mb-4 pt-3">
@@ -160,7 +160,7 @@
 			{% if is_granted('ROLE_ADMIN') %}
 
 				{# ROLE CA #}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.roleCa) }}
 				</div>
 				<div class="col-3 mb-4">
@@ -168,7 +168,7 @@
 				</div>
 
 				{# DATE FIN MANDAT #}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.dateFinMandat) }}
 				</div>
 				<div class="col-3 mb-4">
@@ -176,18 +176,18 @@
 				</div>
 
 				{# MEMBRE D'HONNEUR #}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.membreHonneur) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="col-3 mb-4 pt-2">
 					{{ form_widget(form.membreHonneur) }}
 				</div>
 
 				{# COMMENTAIRE #}
-				<div class="col-3 offset-3 mb-4">
+				<div class="col-3 offset-3 mb-4 alignRight">
 					{{ form_label(form.commentaire) }}
 				</div>
-				<div class="col-6 mb-4">
+				<div class="col-5 mb-4">
 					{{ form_widget(form.commentaire) }}
 				</div>
 			{% endif %}

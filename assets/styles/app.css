@@ -156,3 +156,8 @@ input[type="checkbox"]::before {
 input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
+
+
+form[name="user"] label {
+	padding-right: 15px;
+}
