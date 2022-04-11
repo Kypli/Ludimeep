@@ -40,6 +40,9 @@ Encore
     // Home
     .addStyleEntry('home', './assets/styles/home/page.css')
 
+    // User
+    .addStyleEntry('user_fiche', './assets/styles/user/fiche.css')
+
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
     .addEntry('modal_photo', './assets/js/service/modal_photo.js')

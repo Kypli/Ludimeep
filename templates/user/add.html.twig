@@ -11,8 +11,9 @@
 			<h2 class="radius-long offset-4 col-4">Inscription</h2>
 
 			{# INSCRIPTION #}
-			<section class='prochainement'>
-				{% include 'user/_form.html.twig' %}
+			<section class='form'>
+				{% set edit = {'edit': false} %}
+				{% include 'user/_form.html.twig' with edit %}
 			</section>
 		</div>
 	</div>

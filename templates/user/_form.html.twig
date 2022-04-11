@@ -1,21 +1,197 @@
 {{ form_start(form) }}
+
+	{# PROFIL #}
+	{% if edit %}
+		<div class="row center mt-4">
+			<div class="col-4 offset-4 mb-4 souligne">
+				Profil
+			</div>
+		</div>
+
+		<div class="row center mt-4">
+
+			{# NOM #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.nom) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.nom) }}
+			</div>
+
+			{# PRENOM #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.prenom) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.prenom) }}
+			</div>
+
+			{# MAIL #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.mail) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.mail) }}
+			</div>
+
+			{# ADRESSE #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.adresse) }}
+			</div>
+			<div class="col-6 mb-4">
+				{{ form_widget(form.adresse) }}
+			</div>
+
+			{# TÉLÉPHONE #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.telephone) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.telephone) }}
+			</div>
+		</div>
+	{% endif %}
+
+	{# SITE INTERNET #}
+	{% if edit %}
+		<div class="row center mt-5">
+			<div class="col-4 offset-4 mb-4 souligne">
+				Site internet
+			</div>
+		</div>
+	{% endif %}
+
 	<div class="row center mt-4">
 
 		{# LOGIN #}
-		<div class="col-3 offset-3 mb-4">
-			{{ form_label(form.userName) }}
-		</div>
-		<div class="col-3 mb-4">
-			{{ form_widget(form.userName) }}
-		</div>
+		{% if edit == false or is_granted('ROLE_ADMIN') %}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.userName) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.userName) }}
+			</div>
+		{% endif %}
 
 		{# MOT DE PASSE #}
-		<div class="col-3 offset-3 mb-4">
-			{{ form_label(form.password) }}
+		{% if edit == false %}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.password) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.password) }}
+			</div>
+		{% endif %}
+
+		{% if edit %}
+
+			{# ROLES #}
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.roles) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.roles) }}
+				</div>
+			{% endif %}
+
+			{# DROIT IMAGE #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.droitImage) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.droitImage) }}
+			</div>
+
+			{# NEWSLETTER #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.newsletter) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.newsletter) }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ASSOCIATION #}
+	{% if edit %}
+		<div class="row center mt-5">
+			<div class="col-4 offset-4 mb-4 souligne">
+				Association Ludi-Meep'
+			</div>
 		</div>
-		<div class="col-3 mb-4">
-			{{ form_widget(form.password) }}
-		</div>
+
+		<div class="row center mt-4">
+
+			{# ADHERANT #}
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.adherant) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.adherant) }}
+				</div>
+
+				{# DATE INSCRIPTION #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.dateInscription) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.dateInscription) }}
+				</div>
+
+				{# DATE FIn ADHÉSION #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.dateFinAdhesion) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.dateFinAdhesion) }}
+				</div>
+			{% endif %}
+
+			{# NOTORIETE #}
+			<div class="col-3 offset-3 mb-4">
+				{{ form_label(form.notoriete) }}
+			</div>
+			<div class="col-4 mb-4 pt-3">
+				{{ form_widget(form.notoriete) }}
+			</div>
+
+			{% if is_granted('ROLE_ADMIN') %}
+
+				{# ROLE CA #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.roleCa) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.roleCa) }}
+				</div>
+
+				{# DATE FIN MANDAT #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.dateFinMandat) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.dateFinMandat) }}
+				</div>
+
+				{# MEMBRE D'HONNEUR #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.membreHonneur) }}
+				</div>
+				<div class="col-3 mb-4">
+					{{ form_widget(form.membreHonneur) }}
+				</div>
+
+				{# COMMENTAIRE #}
+				<div class="col-3 offset-3 mb-4">
+					{{ form_label(form.commentaire) }}
+				</div>
+				<div class="col-6 mb-4">
+					{{ form_widget(form.commentaire) }}
+				</div>
+			{% endif %}
+		{% endif %}
 
 		{{ form_widget(form) }}
 

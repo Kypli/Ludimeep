@@ -27,6 +27,8 @@
 							<th>Droit image</th>
 							<th>Newsletter</th>
 							<th>Adhérant</th>
+							<th>Date d'inscription</th>
+							<th>Date fin adhésion</th>
 							<th>Notoriété</th>
 							<th>Rôle CA</th>
 							<th>Date fin mandat</th>
@@ -51,6 +53,8 @@
 							<td>{{ user.droitImage ? 'Oui' : 'Non' }}</td>
 							<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
 							<td>{{ user.adherant is null ? 'Non' : user.adherant }}</td>
+							<td>{{ user.dateInscription is null ? '/' : user.dateInscription|date('d/m/Y') }}</td>
+							<td>{{ user.dateFinAdhesion is null ? '/' : user.dateFinAdhesion|date('d/m/Y') }}</td>
 							<td style='min-width:150px;'>{{ user.notoriete }}</td>
 							<td>{{ user.roleCa is null ? 'Non' : user.roleCa }}</td>
 							<td>{{ user.dateFinMandat is null ? '/' : user.dateFinMandat|date('d/m/Y') }}</td>

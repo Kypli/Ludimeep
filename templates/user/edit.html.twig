@@ -10,15 +10,14 @@
 			{# TITRE #}
 			<h2 class="radius-long offset-4 col-4">Modifier mes informations</h2>
 
-			{# ... #}
-			<section class='prochainement'>
-				Prochainement
+			{# MODIFIER USER #}
+			<section class='form'>
+				{% set edit = {'edit': true, 'button_label': 'Modifier'} %}
+				{% include 'user/_form.html.twig' with edit %}
 
-			{# {{ include('user/_form.html.twig', {'button_label': 'Modifier'}) }} #}
-
-			{# <a href="{{ path('home') }}">back to list</a> #}
-
-			{# {{ include('user/_delete_form.html.twig') }} #}
+				<div class="col-3 offset-9 center mb-2">
+					{{ include('user/_delete_form.html.twig') }}
+				</div>
 			</section>
 		</div>
 	</div>

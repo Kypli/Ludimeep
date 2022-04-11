@@ -38,6 +38,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 			->setAdresse('10 rue du clos drouard, 45740 lailly-en-val')
 			->setTelephone('06 27 95 04 89')
 			->setAdherant('1')
+			->setDateInscription(new \Datetime('2022-04-19'))
 			->setDateFinAdhesion(new \Datetime('2023-07-01'))
 			->setNotoriete('Membre fondateur')
 			->setRoleCa('Président')

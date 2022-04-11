@@ -41,13 +41,14 @@ class UserController extends AbstractController
 	{
 		// Ne doit pas être membre ou être admin
 		if (null !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
-			$this->addFlash('error', 'Vous ne devez pas être membre pour vous inscrire.');
+			$this->addFlash('error', 'Vous ne pouvez pas vous inscrire si vous êtes déjà membre.');
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
 		$form
+			->remove('roles')
 			->remove('droitImage')
 			->remove('newsletter')
 			->remove('nom')
@@ -56,8 +57,10 @@ class UserController extends AbstractController
 			->remove('adresse')
 			->remove('telephone')
 			->remove('adherant')
+			->remove('dateInscription')
 			->remove('notoriete')
 			->remove('roleCa')
+			->remove('dateFinAdhesion')
 			->remove('dateFinMandat')
 			->remove('membreHonneur')
 			->remove('commentaire')
@@ -129,11 +132,37 @@ class UserController extends AbstractController
 		}
 
 		$form = $this->createForm(UserType::class, $user);
+
+		$form->remove('password');
+
+		// Champs exclus si non-admin
+		if (!$this->isGranted('ROLE_ADMIN')){
+			$form
+				->remove('userName')
+				->remove('password')
+				->remove('roles')
+				->remove('adherant')
+				->remove('dateInscription')
+				->remove('dateFinAdhesion')
+				->remove('roleCa')
+				->remove('dateFinMandat')
+				->remove('membreHonneur')
+				->remove('commentaire')
+			;
+		}
+
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid()){
+
+			// TODO
+				// Si adherant, rajouter date inscription + date fin adhesion
+				// Si newsletter, doit avoir un mail
+				// Courriel valide
+
 			$userRepository->add($user);
-			return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+			$this->addFlash('success', 'Vos modifications ont bien été prise en compte.');
+			return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
 
 		return $this->renderForm('user/edit.html.twig', [
@@ -151,6 +180,9 @@ class UserController extends AbstractController
 		if ($this->AccesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
+
+		// TODO
+			// Il doit rester au moins un admin
 
 		if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
 			$userRepository->remove($user);

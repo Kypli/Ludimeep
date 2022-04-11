@@ -2,6 +2,11 @@
 
 {% block title %}Fiche utilisateur{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('user_fiche') }}
+{% endblock %}
+
 {% block body %}
 
 	<div class="container">
@@ -15,12 +20,12 @@
 				<div class="center offset-9 col-3"><a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mes informations</a></div>
 				<div class='col-8 offset-2 mb-3'>
 
-					<h3>Profil</h3>
-					<table class="table mb-4">
+					<h3 class='mt-4 mb-4'>Profil</h3>
+					<table class="table table-striped table-hover table-responsive mb-4">
 						<tbody>
 							<tr>
 								<th>Nom</th>
-								<td>{{ user.nom }}</td>
+								<td class="smallbox">{{ user.nom }}</td>
 							</tr>
 							<tr>
 								<th>Prénom</th>
@@ -43,7 +48,7 @@
 					<br />
 
 					<h3 class='mt-4 mb-4'>Site internet</h3>
-					<table class="table">
+					<table class="table table-striped table-hover table-responsive">
 						<tbody>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>
@@ -64,7 +69,7 @@
 								<td>{{ user.roles|json_encode }}</td>
 							</tr>
 							<tr>
-								<th>J'autorise Ludi-Meep' à utiliser mon image ?</th>
+								<th>J'autorise l'utilisation de mon image ?</th>
 								<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? 'Oui' : 'Non' }}</td>
 							</tr>
 							<tr>
@@ -75,8 +80,8 @@
 					</table>
 					<br />
 
-					<h3 class='mt-4'>Association Ludi-Meep'</h3>
-					<table class="table">
+					<h3 class='mt-4 mb-4'>Association Ludi-Meep'</h3>
+					<table class="table table-striped table-hover">
 						<tbody>
 							<tr>
 								<th>Adhérant ?</th>
@@ -86,6 +91,14 @@
 								<tr>
 									<th>N° adhérant</th>
 									<td>{{ user.adherant }}</td>
+								</tr>
+								<tr>
+									<th>Date d'inscription</th>
+									<td>{{ user.dateInscription is null ? '' : user.dateInscription|date('d/m/Y') }}</td>
+								</tr>
+								<tr>
+									<th>Date de fin d'adhésion</th>
+									<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
 							{% endif %}
 							<tr>
@@ -103,13 +116,19 @@
 								</tr>
 								<tr>
 									<th>Date de fin de mandat</th>
-									<td>{{ user.dateFinMandat|date("d/m/Y") }}</td>
+									<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>
 								</tr>
 							{% endif %}
 							<tr>
 								<th>Membre d'honneur ?</th>
 								<td>{{ user.membreHonneur ? 'Oui' : 'Non' }}</td>
 							</tr>
+							{% if is_granted('ROLE_ADMIN') %}
+								<tr>
+									<th>Commentaire</th>
+									<td>{{ user.commentaire }}</td>
+								</tr>
+							{% endif %}
 						</tbody>
 					</table>
 				</div>

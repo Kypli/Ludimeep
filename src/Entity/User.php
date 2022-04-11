@@ -85,6 +85,11 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="date", nullable=true)
      */
+    private $dateInscription;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
     private $dateFinAdhesion;
 
     /**
@@ -281,6 +286,18 @@ class User implements UserInterface
     public function setAdherant(int $adherant): self
     {
         $this->adherant = $adherant;
+
+        return $this;
+    }
+
+    public function getDateInscription(): ?\DateTimeInterface
+    {
+        return $this->dateInscription;
+    }
+
+    public function setDateInscription(?\DateTimeInterface $dateInscription): self
+    {
+        $this->dateInscription = $dateInscription;
 
         return $this;
     }
