@@ -31,8 +31,8 @@ h2 {
 	margin-bottom: 15px;
 	display: block;
 	color: #DA70D6;
-    text-decoration: underline wavy #DA70D6;
-    text-shadow: 2px 1px grey;
+	text-decoration: underline wavy #DA70D6;
+	text-shadow: 2px 1px grey;
 }
 
 h4 {
@@ -59,6 +59,7 @@ h4 {
 		1px 1px 18px grey;
 }
 
+/* Section variante */
 .section-middle {
 	background-color: rgb(211, 197, 217);
 }
@@ -138,10 +139,6 @@ input[type="checkbox"] {
   place-content: center;
 }
 
-.form-control + .form-control {
-  margin-top: 1em;
-}
-
 input[type="checkbox"]::before {
   content: "";
   width: 0.65em;
@@ -157,7 +154,12 @@ input[type="checkbox"]:checked::before {
   transform: scale(1);
 }
 
+.form-control + .form-control {
+  margin-top: 1em;
+}
 
+
+/* Form User */
 form[name="user"] label {
 	padding-right: 15px;
 }
