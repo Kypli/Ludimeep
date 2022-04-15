@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -116,6 +118,22 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $commentaire;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="auteur")
+     */
+    private $comments;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Actu::class, mappedBy="auteur")
+     */
+    private $actus;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->actus = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -370,6 +388,66 @@ class User implements UserInterface
     public function setCommentaire(string $commentaire): self
     {
         $this->commentaire = $commentaire;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getAuteur() === $this) {
+                $comment->setAuteur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Actu>
+     */
+    public function getActus(): Collection
+    {
+        return $this->actus;
+    }
+
+    public function addActu(Actu $actu): self
+    {
+        if (!$this->actus->contains($actu)) {
+            $this->actus[] = $actu;
+            $actu->setAuteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActu(Actu $actu): self
+    {
+        if ($this->actus->removeElement($actu)) {
+            // set the owning side to null (unless already changed)
+            if ($actu->getAuteur() === $this) {
+                $actu->setAuteur(null);
+            }
+        }
 
         return $this;
     }

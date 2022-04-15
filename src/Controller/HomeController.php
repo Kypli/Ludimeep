@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\ActuRepository;
+
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -13,14 +15,15 @@ class HomeController extends AbstractController
 	/**
 	 * @Route("/", name="home")
 	 */
-	public function index(AuthenticationUtils $authenticationUtils, Request $request)
+	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository)
 	{
 		return $this->render('home/index.html.twig',[
-			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
-			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
+			'user' => $this->getUser(),
+			'actus' => $actuRepository->findBy([], [], 3, 0),
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
 			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
-			'user' => $this->getUser(),
+			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
+			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 		]);
 	}
 
