@@ -15,7 +15,7 @@
 				{# MEMBRES #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'user_users' ? 'active'}}" aria-current="page" href="{{ path('user_users') }}">
-						<i class="fas fa-user" title='Membres'></i>
+						<i class="fas fa-user" title='Liste des membres'></i>
 						Membres
 					</a>
 				</li>
@@ -23,7 +23,7 @@
 				{# ADD ACTU #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'actu_add' ? 'active'}}" aria-current="page" href="{{ path('actu_add') }}">
-						<i class="fas fa-user" title="Ajout d'une actualité"></i>
+						<i class="fa-solid fa-newspaper" title="Ajout d'actualités"></i>
 						Ajout Actu
 					</a>
 				</li>
@@ -31,7 +31,7 @@
 				{# ADD PHOTO #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'photo_add' ? 'active'}}" aria-current="page" href="{{ path('photo_add') }}">
-						<i class="fas fa-user" title='Membres'></i>
+						<i class="fa-solid fa-image" title='Ajout de photos'></i>
 						Ajout Photo
 					</a>
 				</li>
@@ -39,8 +39,16 @@
 				{# ADD NEWSLETTER #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'newsletter_add' ? 'active'}}" aria-current="page" href="{{ path('newsletter_add') }}">
-						<i class="fas fa-user" title='Membres'></i>
+						<i class="fa-regular fa-envelope" title='Créer des newsletters'></i>
 						Créer Newsletter
+					</a>
+				</li>
+
+				{# ADD NEWSLETTER #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'newsletter_add' ? 'active'}}" aria-current="page" href="{{ path('newsletter_add') }}">
+						<i class="fas fa-comment"  title='Voir les messages'></i>
+						Voir les messages
 					</a>
 				</li>
 			</ul>
