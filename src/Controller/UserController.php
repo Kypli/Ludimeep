@@ -48,7 +48,7 @@ class UserController extends AbstractController
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
 		$form
-			->remove('roles')
+			->remove('admin')
 			->remove('droitImage')
 			->remove('newsletter')
 			->remove('nom')
@@ -71,7 +71,7 @@ class UserController extends AbstractController
 		$req_user = $form->getData();
 
 		// Valid form
-		if ($form->isSubmitted() && $form->isValid()){
+		if ($form->isSubmitted() && $form->isValid() && $this->FormControl($user)){
 
 			// Duplicate control
 			if (!empty($userRepository->findByUserName($req_user->getUserName()))){
@@ -82,6 +82,8 @@ class UserController extends AbstractController
 
 				// Default datas
 				$user
+					->setNom(strtolower($user->getNom()))
+					->setPrenom(strtolower($user->getPrenom()))
 					->setDroitImage(false)
 					->setNewsletter(false)
 					->setMembreHonneur(false)
@@ -140,7 +142,7 @@ class UserController extends AbstractController
 			$form
 				->remove('userName')
 				->remove('password')
-				->remove('roles')
+				->remove('admin')
 				->remove('adherant')
 				->remove('dateInscription')
 				->remove('dateFinAdhesion')
@@ -153,12 +155,31 @@ class UserController extends AbstractController
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()){
+		if ($form->isSubmitted() && $form->isValid() && $this->FormControl($user)){
 
-			// TODO
-				// Si adherant, rajouter date inscription + date fin adhesion
-				// Si newsletter, doit avoir un mail
-				// Courriel valide
+			// Lower Nom + Prenom
+			$user
+				->setNom(strtolower($user->getNom()))
+				->setPrenom(strtolower($user->getPrenom()))
+			;
+
+			// Edit admin
+			if ($this->isGranted('ROLE_ADMIN')){
+
+				// True
+				$req_user = $request->request->get('user');
+				if (isset($req_user['admin']) && $req_user['admin'] == 1){
+					$user->setRoles(["ROLE_ADMIN"]);
+
+				// False
+				} elseif($userRepository->myFindCountAdmin() > 1){
+					$user->setRoles(["ROLE_USER"]);
+
+				// Null
+				} else {
+					$this->addFlash('error', 'Suppression du rôle Admin annulée, il doit au moins en rester un.');
+				}
+			}
 
 			$userRepository->add($user);
 			$this->addFlash('success', 'Vos modifications ont bien été prise en compte.');
@@ -208,6 +229,29 @@ class UserController extends AbstractController
 				return false;
 			}
 		}
+		return true;
+	}
+
+	public function FormControl($user)
+	{
+		// Si adherant, rajouter date inscription + date fin adhesion
+		if (null == $user->getAdherant() && (null == $user->getDateInscription() || null == $user->getDateFinAdhesion())){
+			$this->addFlash('error', "Si l'utilisateur est un adhérant, il doit avoir une date d'inscription et de fin d'adhésion.");
+			return false;
+		}
+
+		// Courriel valide
+		if (!empty($user->getMail()) && !filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)){
+			$this->addFlash('error', "Le courriel n'est pas valide.");
+			return false;
+		}
+
+		// Si newsletter, doit avoir un mail
+		if (empty($user->getMail()) && $user->getNewsletter()){
+			$this->addFlash('error', "Vous devez avoir un courriel pour être inscrit à la newsletter.");
+			return false;
+		}
+
 		return true;
 	}
 }

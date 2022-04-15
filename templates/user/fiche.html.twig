@@ -65,12 +65,14 @@
 								<td>*****</td>
 							</tr>
 							<tr>
-								<th>Rôle</th>
-								<td>{{ user.roles|json_encode }}</td>
+								<th>Admin</th>
+								<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							</tr>
 							<tr>
 								<th>Inscrit à la newsletter</th>
-								<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
+								<td>
+									{{ user.newsletter is null ? 'Sans réponse' : user.newsletter ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+								</td>
 							</tr>
 						</tbody>
 					</table>
@@ -99,7 +101,9 @@
 							{% endif %}
 							<tr>
 								<th>J'autorise l'utilisation de mon image ?</th>
-								<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? 'Oui' : 'Non' }}</td>
+								<td>
+									{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+								</td>
 							</tr>
 							<tr>
 								<th>Vous avez connu Ludi-Meep' gràce à</th>
@@ -107,7 +111,7 @@
 							</tr>
 							<tr>
 								<th>Membre du CA ?</th>
-								<td>{{user.roleCa is not null ? 'Oui' : 'Non' }}</td>
+								<td>{{  user.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							</tr>
 							{% if user.roleCa is not null %}
 								<tr>
@@ -121,7 +125,7 @@
 							{% endif %}
 							<tr>
 								<th>Membre d'honneur ?</th>
-								<td>{{ user.membreHonneur ? 'Oui' : 'Non' }}</td>
+								<td>{{ user.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							</tr>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>

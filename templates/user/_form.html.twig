@@ -85,13 +85,13 @@
 
 		{% if edit %}
 
-			{# ROLES #}
+			{# ADMIN #}
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="col-3 offset-3 mb-4 alignRight">
-					{{ form_label(form.roles) }}
+					{{ form_label(form.admin) }}
 				</div>
-				<div class="col-3 mb-4">
-					{{ form_widget(form.roles) }}
+				<div class="col-3 mb-4 pt-2">
+					{{ form_widget(form.admin) }}
 				</div>
 			{% endif %}
 

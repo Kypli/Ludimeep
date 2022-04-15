@@ -16,49 +16,41 @@
 					<thead>
 						<tr>
 							<th>Actions</th>
-							<th>Nom</th>
-							<th>Prénom</th>
-							<th>Courriel</th>
-							<th>Adresse</th>
-							<th>Tél</th>
 							<th>Id</th>
 							<th>Login</th>
-							<th>Roles</th>
+							<th>Nom</th>
+							<th>Prénom</th>
+							<th>Admin</th>
 							<th>Droit image</th>
 							<th>Newsletter</th>
-							<th>Adhérant</th>
-							<th>Date d'inscription</th>
 							<th>Date fin adhésion</th>
-							<th>Notoriété</th>
 							<th>Rôle CA</th>
 							<th>Date fin mandat</th>
-							<th>Membre d'honneur</th>
 						</tr>
 					</thead>
 					<tbody>
 					{% for user in users %}
 						<tr>
-							<td style='min-width:120px;'>
-								<a href="{{ path('user_show', {'id': user.id}) }}">Fiche</a>
-								<a href="{{ path('user_edit', {'id': user.id}) }}">Modifier</a>
+							<td style='min-width:100px;'>
+								<div class='row'>
+									<div class='col-4 offset-1'>
+										<a href="{{ path('user_show', {'id': user.id}) }}" class="mr-3"><i class="fas fa-user" title="Fiche utilisateur"></i></a>
+									</div>
+									<div class='col-4'>
+										<a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit" title="Modifier sa fiche"></i></a>
+									</div>
+								</div>
 							</td>
-							<td>{{ user.nom }}</td>
-							<td>{{ user.prenom }}</td>
-							<td>{{ user.mail }}</td>
-							<td style='min-width:160px;'>{{ user.adresse }}</td>
-							<td style='min-width:120px;'>{{ user.telephone }}</td>
 							<td>{{ user.id }}</td>
 							<td>{{ user.userName }}</td>
-							<td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-							<td>{{ user.droitImage ? 'Oui' : 'Non' }}</td>
-							<td>{{ user.newsletter ? 'Oui' : 'Non' }}</td>
-							<td>{{ user.adherant is null ? 'Non' : user.adherant }}</td>
-							<td>{{ user.dateInscription is null ? '/' : user.dateInscription|date('d/m/Y') }}</td>
+							<td>{{ user.nom }}</td>
+							<td>{{ user.prenom }}</td>
+							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+							<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+							<td>{{ user.newsletter is null ? 'Sans réponse' : user.newsletter ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							<td>{{ user.dateFinAdhesion is null ? '/' : user.dateFinAdhesion|date('d/m/Y') }}</td>
-							<td style='min-width:150px;'>{{ user.notoriete }}</td>
 							<td>{{ user.roleCa is null ? 'Non' : user.roleCa }}</td>
 							<td>{{ user.dateFinMandat is null ? '/' : user.dateFinMandat|date('d/m/Y') }}</td>
-							<td>{{ user.membreHonneur ? 'Oui' : 'Non' }}</td>
 						</tr>
 					{% else %}
 						<tr>

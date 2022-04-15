@@ -104,13 +104,14 @@ class UserType extends AbstractType
 				]
 			)
 			->add(
-				'roles',
-				TextType::class,
+				'admin',
+				CheckboxType::class,
 				[
+					'label' => 'Admin',
 					'required' => false,
-					'label' => 'Rôles',
+					'data'   => in_array('ROLE_ADMIN', $options['data']->getRoles()) ? true : false,
 					'attr' => [
-						'class' => 'form-control',
+						'class' => 'checkType',
 					],
 					'mapped' => false,
 				]

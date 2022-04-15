@@ -13,12 +13,11 @@ class ActuFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 {
 	public function load(ObjectManager $manager)
 	{
-		// Admin
 		$entity = new Entity();
 		$entity
 			->setTitre("Ouverture de l'association")
 			->setAuteur($this->getReference(UserFixtures::USER_PIERRE))
-			->setDate(new \Datetime('2022-03-10'))
+			->setDate(new \Datetime('2022-03-20 10:30:00'))
 			->setText1("Bonjour et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'")
 			->setText2("Nous serons ravis de vous accueillir pour notre ouverture prochaine.")
 			->setText3("le 19 avril 2022 à partir de 18h30<br/>4 Rue Jean Bordier, 45130 Baule. Batiment annexe gauche de la mairie")
