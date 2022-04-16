@@ -28,7 +28,7 @@ class Comment
     private $date;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="comments")
      */
     private $auteur;
 

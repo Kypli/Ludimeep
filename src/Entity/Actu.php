@@ -20,7 +20,7 @@ class Actu
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=user::class, inversedBy="actus")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="actus")
      */
     private $auteur;
 
