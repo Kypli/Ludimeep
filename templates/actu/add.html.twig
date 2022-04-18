@@ -17,8 +17,7 @@
 					<a href="{{ path('actu_index') }}">Retour à la liste</a>
 				</div>
 
-				{% set edit = {'edit': false} %}
-				{% include 'actu/_form.html.twig' with edit %}
+				{% include 'actu/_form.html.twig' with {'edit': false} %}
 			</section>
 		</div>
 	</div>

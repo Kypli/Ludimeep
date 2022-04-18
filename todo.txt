@@ -1,0 +1,54 @@
+TO DO LIST
+
+ACTUALITÉS
+- Supprimer les photos lorsqu'on supprime une actualité
+- Modifier une actualité
+- Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
+- Controler l'ordre (doublon)
+- Commenter une actu (membre only)
+- Aimer une actu (tous)
+
+
+CALENDRIER
+- Associer le timer avec le calendrier google
+
+
+SESSION
+- Liste des jeux de l'association
+- S'inscrire pour une session
+	- Afficher les jeux des utilisateurs inscrit
+	- Demander à un user d'ammener un jeu
+- Réserver une table avec un jeux
+	- Limiter les abus de réservation
+	- S'inscrire à une table
+
+USER
+- Enregistrer la liste de jeux d'un utilisateur
+
+
+PHOTOS
+- Pouvoir afficher des photos (CRUD)
+- Membre peuvent proposer l'affichage de photos
+
+
+NOUS CONTACTER
+- NOUS APPELLER
+	- Afficher nos numéros de téléphone, avec des horaires d'appels
+	- En cas de soucis, retirer les numéros.
+- MESSAGE
+	- Tout le monde peut nous envoyer un message
+	- Système de sécurité pour les bots
+	- Afficher le login par défaut
+	- Lire les messages (admin only)
+
+
+NEWSLETTER
+- S'inscrire
+- Envoyer des newsletters aux mails
+
+
+L'ASSO
+- Ajouter les fiches de jeu
+- Organigramme à faire
+- Réglement intérieur à intégrer
+- Statuts à intégrer

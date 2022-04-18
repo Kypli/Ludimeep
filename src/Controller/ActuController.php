@@ -19,6 +19,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ActuController extends AbstractController
 {
+	private $file_uploader;
+
+	public function __construct(FileUploader $file_uploader)
+	{
+		$this->file_uploader = $file_uploader;
+	}
+
 	/**
 	 * @Route("/", name="_index", methods={"GET"})
 	 */
@@ -33,7 +40,7 @@ class ActuController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/add", name="_add", methods={"GET", "POST"})
 	 */
-	public function add(Request $request, ActuRepository $actuRepository, FileUploader $file_uploader): Response
+	public function add(Request $request, ActuRepository $actuRepository): Response
 	{
 		$actu = new Actu();
 		$form = $this->createForm(ActuType::class, $actu);
@@ -104,9 +111,9 @@ class ActuController extends AbstractController
 
 					$file = $form['photo'.$i]->getData();
 					if ($file){
-						$file_name = $file_uploader->upload($file);
+						$file_name = $this->file_uploader->upload($file);
 						if (null !== $file_name){
-							// $directory = $file_uploader->getTargetDirectory();
+							// $directory = $this->file_uploader->getTargetDirectory();
 							// $full_path = $directory.'/'.$file_name;
 
 							$text = 'setPhoto'.$i;
