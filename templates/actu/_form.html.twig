@@ -1,0 +1,206 @@
+{{ form_start(form) }}
+
+	{# META-DONNÉES #}
+	<div class="row center mt-4">
+		<div class="col-4 offset-4 mb-2 souligne">
+			Méta-données
+		</div>
+	</div>
+	<div class="row center mt-4">
+
+		{# EDIT #}
+		{% if edit %}
+
+			{# AUTEUR #}
+			<div class="col-3 offset-3 mb-4 alignRight">
+				{{ form_label(form.auteur) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.auteur) }}
+			</div>
+
+			{# DATE #}
+			<div class="col-3 offset-3 mb-4 alignRight">
+				{{ form_label(form.date) }}
+			</div>
+			<div class="col-3 mb-4">
+				{{ form_widget(form.date) }}
+			</div>
+
+		{# ADD #}
+		{% else %}
+
+			{# AUTEUR #}
+			<div class="col-3 offset-3 mb-2 alignRight">
+				Auteur
+			</div>
+			<div class="col-3 mb-2 alignLeft">
+				{{ app.user.nom|upper ~  ' ' ~ app.user.prenom|capitalize }}
+			</div>
+
+			{# DATE #}
+			<div class="col-3 offset-3 alignRight">
+				Date
+			</div>
+			<div class="col-3 alignLeft">
+				{{ 'now'|date('d/m/Y à H:i') }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# TITRE #}
+	<div class="row center mt-5">
+		<div class="col-4 offset-4 souligne">
+			Titre
+		</div>
+	</div>
+	<div class="row center mt-4">
+		<div class="col-4 offset-4 alignRight">
+			{{ form_widget(form.titre) }}
+		</div>
+	</div>
+
+	{# TEXTES #}
+	<div class="row center mt-5">
+		<div class="col-4 offset-4 mb-4 souligne">
+			Textes
+		</div>
+	</div>
+
+	<div class="row center mt-4">
+
+		{# TEXT1 #}
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text1) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text1) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 1, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 1} %}
+
+		{# TEXT2 #}
+		<hr>
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text2) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text2) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 2, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 2} %}
+
+		{# TEXT3 #}
+		<hr>
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text3) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text3) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 3, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 3} %}
+
+		{# TEXT4 #}
+		<hr>
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text4) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text4) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 4, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 4} %}
+
+		{# TEXT5 #}
+		<hr>
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text5) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text5) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 5, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 5} %}
+
+		{# TEXT6 #}
+		<hr>
+		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+			{{ form_label(form.text6) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.text6) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 6, 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 6} %}
+	</div>
+
+	{# IMAGES #}
+	<div class="row center mt-5">
+		<div class="col-4 offset-4 mb-4 souligne">
+			Images
+		</div>
+	</div>
+
+	{# PHOTOS #}
+	<div class="row center mt-4">
+
+		{# PHOTO 1 #}
+		<div class="col-2 offset-3 mb-1 alignRight">
+			{{ form_label(form.photo1) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.photo1) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 1, 'type':'p'} %}
+
+		{# PHOTO ALT 1 #}
+		<div class="col-2 offset-3 mb-4 alignRight">
+			{{ form_label(form.photo1Alt) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.photo1Alt) }}
+		</div>
+
+		{# PHOTO 2 #}
+		<div class="col-2 offset-3 mb-1 alignRight">
+			{{ form_label(form.photo2) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.photo2) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 2, 'type':'p'} %}
+
+		{# PHOTO 2 ALT #}
+		<div class="col-2 offset-3 mb-4 alignRight">
+			{{ form_label(form.photo2Alt) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.photo2Alt) }}
+		</div>
+
+		{# PHOTO 3 #}
+		<div class="col-2 offset-3 mb-1 alignRight">
+			{{ form_label(form.photo3) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.photo3) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'i': 3, 'type':'p'} %}
+
+		{# PHOTO 3 ALT #}
+		<div class="col-2 offset-3 mb-1 alignRight">
+			{{ form_label(form.photo3Alt) }}
+		</div>
+		<div class="col-4 mb-1">
+			{{ form_widget(form.photo3Alt) }}
+		</div>
+	</div>
+
+	{# VALIDER (voir brouillon) #}
+	<div class="row center mt-4 mb-3">
+		<div class="offset-4 col-4">
+			<button class="btn btn-warning">{{ button_label|default('Créer un brouillon') }}</button>
+		</div>
+	</div>
+{{ form_end(form) }}

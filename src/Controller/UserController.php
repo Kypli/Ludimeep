@@ -25,11 +25,11 @@ class UserController extends AbstractController
 
 	/**
 	 * @IsGranted("ROLE_ADMIN")
-	 * @Route("/", name="_users", methods={"GET"})
+	 * @Route("/", name="_index", methods={"GET"})
 	 */
-	public function liste(UserRepository $userRepository): Response
+	public function index(UserRepository $userRepository): Response
 	{
-		return $this->render('user/liste.html.twig', [
+		return $this->render('user/index.html.twig', [
 			'users' => $userRepository->findAll(),
 		]);
 	}
@@ -71,7 +71,7 @@ class UserController extends AbstractController
 		$req_user = $form->getData();
 
 		// Valid form
-		if ($form->isSubmitted() && $form->isValid() && $this->FormControl($user)){
+		if ($form->isSubmitted() && $form->isValid()){
 
 			// Duplicate control
 			if (!empty($userRepository->findByUserName($req_user->getUserName()))){
@@ -87,6 +87,7 @@ class UserController extends AbstractController
 					->setDroitImage(false)
 					->setNewsletter(false)
 					->setMembreHonneur(false)
+					->setRoles(["ROLE_USER"]);
 				;
 
 				// Encrypt password
@@ -111,14 +112,14 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/{id}", name="_show", methods={"GET"})
 	 */
-	public function fiche(User $user): Response
+	public function show(User $user): Response
 	{
 		// Acces control
-		if ($this->AccesControl($user->getId()) == false){
+		if ($this->accesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
-		return $this->render('user/fiche.html.twig', [
+		return $this->render('user/show.html.twig', [
 			'user' => $user,
 		]);
 	}
@@ -129,7 +130,7 @@ class UserController extends AbstractController
 	public function edit(Request $request, User $user, UserRepository $userRepository): Response
 	{
 		// Acces control
-		if ($this->AccesControl($user->getId()) == false){
+		if ($this->accesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
@@ -155,7 +156,7 @@ class UserController extends AbstractController
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid() && $this->FormControl($user)){
+		if ($form->isSubmitted() && $form->isValid() && $this->formControl($user)){
 
 			// Lower Nom + Prenom
 			$user
@@ -198,7 +199,7 @@ class UserController extends AbstractController
 	public function delete(Request $request, User $user, UserRepository $userRepository): Response
 	{
 		// Acces control
-		if ($this->AccesControl($user->getId()) == false){
+		if ($this->accesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
@@ -212,7 +213,7 @@ class UserController extends AbstractController
 		return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
 	}
 
-	public function AccesControl($user_id)
+	public function accesControl($user_id)
 	{
 		// Si non-admin
 		if (!$this->isGranted('ROLE_ADMIN')){
@@ -232,10 +233,10 @@ class UserController extends AbstractController
 		return true;
 	}
 
-	public function FormControl($user)
+	public function formControl($user)
 	{
-		// Si adherant, rajouter date inscription + date fin adhesion
-		if (null == $user->getAdherant() && (null == $user->getDateInscription() || null == $user->getDateFinAdhesion())){
+		// Si adhérant, rajouter date inscription + date fin adhesion
+		if (null != $user->getAdherant() && (null == $user->getDateInscription() || null == $user->getDateFinAdhesion())){
 			$this->addFlash('error', "Si l'utilisateur est un adhérant, il doit avoir une date d'inscription et de fin d'adhésion.");
 			return false;
 		}

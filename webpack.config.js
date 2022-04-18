@@ -43,6 +43,9 @@ Encore
     // User
     .addStyleEntry('user_fiche', './assets/styles/user/fiche.css')
 
+    // Actu
+    .addStyleEntry('actu_show', './assets/styles/actu/show.css')
+
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
     .addEntry('modal_photo', './assets/js/service/modal_photo.js')

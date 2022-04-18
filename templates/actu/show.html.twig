@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actualité n° {{ actu.id }}{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('actu_show') }}
+{% endblock %}
+
+{% block body %}
+	<h2>Actualité n° {{ actu.id }}</h2>
+
+	{# LIENS #}
+	<div class='row center mt-1 mb-3'>
+		<div class='offset-3 col-2'>
+			<a href="{{ path('actu_index') }}">Retour à la liste</a>
+		</div>
+
+		{% if is_granted('ROLE_ADMIN') %}
+			<div class='col-2'>
+				<a href="{{ path('actu_edit', {'id': actu.id}) }}">Modifier</a>
+			</div>
+			<div class='col-2'>
+				{{ include('actu/_delete_form.html.twig') }}
+			</div>
+		{% endif %}
+	</div>
+
+	{# ACTU #}
+	<section class='offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 center mb-3 {{ actu.valid ? : "brouillon" }}'>
+		{% if actu.valid != true %}
+			<span class='brouillon_text'>!! BROUILLON !!</span>
+		{% endif %}
+		{% include 'actu/actus.html.twig' %}
+	</section>
+
+	{# (DÉ)VALID #}
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class='row center mt-1 mb-3'>
+			<div class='offset-4 col-4'>
+				<a href="{{  path('actu_valid', {'id': actu.id}) }}">
+					{% if actu.valid == true %}
+						<div class="btn btn-warning">Repasser en brouillon</div>
+					{% else %}
+						<div class="btn btn-success">Valider le brouillon</div>
+					{% endif %}
+				</a>
+			</div>
+		</div>
+	{% endif %}
+
+{% endblock %}

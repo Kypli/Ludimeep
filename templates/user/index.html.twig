@@ -11,7 +11,7 @@
 			<h2 class="radius-long offset-4 col-4">Liste utilisateurs</h2>
 
 			{# TABLEAU LISTE #}
-			<section class='col-12 mb-3 overflow-scroll'>
+			<section class='col-12 mb-3 {# overflow-scroll #}'>
 				<table class="table">
 					<thead>
 						<tr>
@@ -54,7 +54,7 @@
 						</tr>
 					{% else %}
 						<tr>
-							<td colspan="11">no records found</td>
+							<td colspan="11">Pas d'utilisateurs</td>
 						</tr>
 					{% endfor %}
 					</tbody>

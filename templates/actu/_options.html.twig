@@ -1,0 +1,35 @@
+{% set classInput = "col-1 mb-4 pt-2" %}
+{% set classLabel = "col-1 mb-4 pt-1 alignRight taille20" %}
+
+{# GRAS #}
+<div class="offset-1 {{ classLabel }}">Gras</div>
+<div class="{{ classInput }}"><input type="checkbox" id='gras_{{ i }}' name='gras_{{ i }}'></div>
+
+{# ITALIQUE #}
+<div class="{{ classLabel }}">Italique</div>
+<div class="{{ classInput }}"><input type="checkbox" id='italique_{{ i }}' name='italique_{{ i }}'></div>
+
+{# ENTOURÉ #}
+<div class="{{ classLabel }}">Entouré</div>
+<div class="{{ classInput }}"><input type="checkbox" id='entoure_{{ i }}' name='entoure_{{ i }}'></div>
+
+{# GROS #}
+<div class="{{ classLabel }}">Gros</div>
+<div class="{{ classInput }}"><input type="checkbox" id='gros_{{ i }}' name='gros_{{ i }}'></div>
+
+{# COULEUR #}
+<div class="col-1 mb-4 pt-1 alignRight taille20">Couleur</div>
+<div class="col-2 mb-4">
+	<select id='_{{ i }}' name='couleur_{{ i }}' class='form-control'>
+		<option value="Noir" class='section-middle'selected='selected'>Noir</option>
+		<option value="red" class='section-middle red'>Rouge</option>
+		<option value="green" class='section-middle green'>Vert</option>
+		<option value="blue" class='section-middle blue'>Bleu</option>
+		<option value="yellow" class='section-middle yellow'>Jaune</option>
+		<option value="purple" class='section-middle purple'>Violet</option>
+		<option value="pink" class='section-middle pink'>Rose</option>
+		<option value="maroon" class='section-middle maroon'>Marron</option>
+		<option value="white" class='section-middle white'>Blanc</option>
+		<option value="orange" class='section-middle orange'>Orange</option>
+	</select>
+</div>

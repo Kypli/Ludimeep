@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Actus{% endblock %}
+{% block title %}Liste des actualités{% endblock %}
 
 {% block body %}
 
@@ -8,11 +8,61 @@
 		<div class='row mb-3'>
 
 			{# TITRE #}
-			<h2 class="radius-long offset-4 col-4">Actualités</h2>
+			<h2 class="radius-long offset-4 col-4">Liste des actualités</h2>
 
-			{# ... #}
-			<section class='prochainement'>
-				Prochainement
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3 {# overflow-scroll #}'>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							{% if is_granted('ROLE_ADMIN') %}
+								<th>État</th>
+							{% endif %}
+							<th>Date</th>
+							<th>Auteur</th>
+							<th>Titre</th>
+							<th>Text ...</th>
+							{% if is_granted('ROLE_ADMIN') %}
+								<th>Ordre</th>
+							{% endif %}
+						</tr>
+					</thead>
+					<tbody>
+					{% for actu in actus %}
+						{% if is_granted('ROLE_ADMIN') or actu.valid == true %}
+							<tr>
+								<td style='min-width:100px;'>
+									<div class='row'>
+										<div class='col-4 offset-1'>
+											<a href="{{ path('actu_show', {'id': actu.id}) }}" class="mr-3"><i class="fa-solid fa-newspaper" title="Fiche"></i></a>
+										</div>
+										{% if is_granted('ROLE_ADMIN') %}
+											<div class='col-4'>
+												<a href="{{ path('actu_edit', {'id': actu.id}) }}"><i class="fas fa-edit" title="Modifier"></i></a>
+											</div>
+										{% endif %}
+									</div>
+								</td>
+								{% if is_granted('ROLE_ADMIN') %}
+									<td>{{ actu.valid ? '' : '<span class="yellow">BROUILLON</span>' }}</td>
+								{% endif %}
+								<td>{{ actu.date ? actu.date|date('d/m/Y à H:i') : '' }}</td>
+								<td>{{ actu.auteur.prenom|capitalize ~ ' ' ~ actu.auteur.nom|upper }}</td>
+								<td>{{ actu.titre }}</td>
+								<td>{{ actu.text1|slice(0, 30) }} ...</td>
+								{% if is_granted('ROLE_ADMIN') %}
+									<td>{{ actu.ordre }}</td>
+								{% endif %}
+							</tr>
+						{% endif %}
+					{% else %}
+						<tr>
+							<td colspan="{{ is_granted('ROLE_ADMIN') ? '7' : '5' }}">Pas d'actualités</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
 			</section>
 		</div>
 	</div>

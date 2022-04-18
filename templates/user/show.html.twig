@@ -18,8 +18,14 @@
 			{# FICHE #}
 			<section class='row'>
 				<div class="center offset-9 col-3"><a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mes informations</a></div>
-				<div class='col-8 offset-2 mb-3'>
 
+				{% if not is_granted('ROLE_ADMIN') %}
+					<h5 class="center gras offset-4 col-4">
+						{{ user.userName|capitalize }}
+					</h5>
+				{% endif %}
+
+				<div class='col-8 offset-2 mb-3'>
 					<h3 class='mt-4 mb-4'>Profil</h3>
 					<table class="table table-striped table-hover table-responsive mb-4">
 						<tbody>
@@ -55,19 +61,19 @@
 									<th>Id</th>
 									<td>{{ user.id }}</td>
 								</tr>
+								<tr>
+									<th>Login</th>
+									<td>{{ user.userName }}</td>
+								</tr>
+								<tr>
+									<th>Mot de passe</th>
+									<td>*****</td>
+								</tr>
+								<tr>
+									<th>Admin</th>
+									<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+								</tr>
 							{% endif %}
-							<tr>
-								<th>Login</th>
-								<td>{{ user.userName }}</td>
-							</tr>
-							<tr>
-								<th>Mot de passe</th>
-								<td>*****</td>
-							</tr>
-							<tr>
-								<th>Admin</th>
-								<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
-							</tr>
 							<tr>
 								<th>Inscrit à la newsletter</th>
 								<td>

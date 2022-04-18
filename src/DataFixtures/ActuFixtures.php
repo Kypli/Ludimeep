@@ -26,6 +26,7 @@ class ActuFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 			->setPhoto1("flyerOuverture.jpg")
 			->setPhoto1Alt("Flyer de l'ouverture")
 			->setOrdre("t1_t2_t3_t4_p1")
+			->setValid(true)
 		;
 
 		$manager->persist($entity);

@@ -95,6 +95,9 @@ h4 {
 .taille13 			{	font-size: 13px;								}
 .taille14 			{	font-size: 14px;								}
 .taille15 			{	font-size: 15px;								}
+.taille18 			{	font-size: 18px;								}
+.taille20 			{	font-size: 20px;								}
+.taille25 			{	font-size: 25px;								}
 
 .barre 					{	text-decoration: line-through;	}
 .souligne				{  	text-decoration: underline;		}
@@ -109,6 +112,13 @@ h4 {
 
 .red						{	color: red;											}
 .green					{	color: green;										}
+.blue						{	color: blue;										}
+.yellow					{	color: yellow;									}
+.purple					{	color: purple;									}
+.pink						{	color: pink;										}
+.maroon					{	color: maroon;									}
+.white					{	color: white;										}
+.orange					{	color: orange;									}
 
 /* Bordure */
 .entoure {

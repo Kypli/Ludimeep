@@ -134,6 +134,11 @@ class Actu
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $valid = false;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -434,6 +439,18 @@ class Actu
                 $comment->setActu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getValid(): ?bool
+    {
+        return $this->valid;
+    }
+
+    public function setValid(bool $valid): self
+    {
+        $this->valid = $valid;
 
         return $this;
     }
