@@ -21,6 +21,9 @@ SESSION
 - Réserver une table avec un jeux
 	- Limiter les abus de réservation
 	- S'inscrire à une table
+- Jeu mis à l'honneur
+- Soirée à thèmes
+- Évènements
 
 USER
 - Enregistrer la liste de jeux d'un utilisateur

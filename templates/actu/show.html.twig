@@ -5,6 +5,12 @@
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags('actu_show') }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('modal_photo') }}
 {% endblock %}
 
 {% block body %}
@@ -48,5 +54,8 @@
 			</div>
 		</div>
 	{% endif %}
+
+	{# MODAL #}
+	{% include 'home/modal.html.twig' %}
 
 {% endblock %}

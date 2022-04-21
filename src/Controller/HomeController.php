@@ -19,7 +19,7 @@ class HomeController extends AbstractController
 	{
 		return $this->render('home/index.html.twig',[
 			'user' => $this->getUser(),
-			'actus' => $actuRepository->findBy(['valid' => true], [], 3, 0),
+			'actus' => $actuRepository->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
 			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one

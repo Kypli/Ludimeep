@@ -1,11 +1,13 @@
 /* Style the Image Used to Trigger the Modal */
-#myImg {
+.img_grow img {
   border-radius: 5px;
   cursor: pointer;
   transition: 0.3s;
+  max-width : 700px;
+  max-height : 700px;
 }
 
-#myImg:hover {opacity: 0.7;}
+.img_grow img:hover {opacity: 0.7;}
 
 /* The Modal (background) */
 .modal {

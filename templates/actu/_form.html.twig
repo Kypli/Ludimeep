@@ -31,19 +31,13 @@
 		{% else %}
 
 			{# AUTEUR #}
-			<div class="col-3 offset-3 mb-2 alignRight">
-				Auteur
-			</div>
-			<div class="col-3 mb-2 alignLeft">
-				{{ app.user.nom|upper ~  ' ' ~ app.user.prenom|capitalize }}
+			<div class="offset-2 col-4">
+				Par {{ app.user.prenom|capitalize ~  ' ' ~ app.user.nom|upper }}
 			</div>
 
 			{# DATE #}
-			<div class="col-3 offset-3 alignRight">
-				Date
-			</div>
-			<div class="col-3 alignLeft">
-				{{ 'now'|date('d/m/Y à H:i') }}
+			<div class="offset-1 col-3">
+				Le {{ 'now'|date('d/m/Y à H:i') }}
 			</div>
 		{% endif %}
 	</div>
@@ -200,7 +194,7 @@
 	{# VALIDER (voir brouillon) #}
 	<div class="row center mt-4 mb-3">
 		<div class="offset-4 col-4">
-			<button class="btn btn-warning">{{ button_label|default('Créer un brouillon') }}</button>
+			<button class="btn btn-warning">{{ button_label|default("Voir l'aperçu") }}</button>
 		</div>
 	</div>
 {{ form_end(form) }}
