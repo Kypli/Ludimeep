@@ -2,6 +2,16 @@
 
 {% block title %}Modification d'une actualité{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('modal_photo') }}
+{% endblock %}
+
 {% block body %}
 
 	<div class="container">
@@ -17,10 +27,12 @@
 					<a href="{{ path('actu_index') }}">Retour à la liste</a>
 				</div>
 
-				{# {% set edit = {'edit': true, 'button_label': 'Modifier'} %}
-				{% include 'actu/_form.html.twig' with edit %} #}
-				En cours
+				{% set edit = {'edit': true, 'metaDatas': metaDatas, 'button_label': 'Modifier'} %}
+				{% include 'actu/_form.html.twig' with edit %}
 			</section>
+
+			{# MODAL #}
+			{% include 'home/modal.html.twig' %}
 		</div>
 	</div>
 {% endblock %}

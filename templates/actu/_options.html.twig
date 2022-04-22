@@ -3,33 +3,34 @@
 
 {# GRAS #}
 <div class="offset-1 {{ classLabel }}">Gras</div>
-<div class="{{ classInput }}"><input type="checkbox" id='gras_{{ i }}' name='gras_{{ i }}'></div>
+<div class="{{ classInput }}"><input type="checkbox" id='gras_{{ i }}' name='gras_{{ i }}' {{ 'gras' in class ? 'checked' }}></div>
 
 {# ITALIQUE #}
 <div class="{{ classLabel }}">Italique</div>
-<div class="{{ classInput }}"><input type="checkbox" id='italique_{{ i }}' name='italique_{{ i }}'></div>
+<div class="{{ classInput }}"><input type="checkbox" id='italique_{{ i }}' name='italique_{{ i }}' {{ 'italique' in class ? 'checked' }}></div>
 
 {# ENTOURÉ #}
 <div class="{{ classLabel }}">Entouré</div>
-<div class="{{ classInput }}"><input type="checkbox" id='entoure_{{ i }}' name='entoure_{{ i }}'></div>
+<div class="{{ classInput }}"><input type="checkbox" id='entoure_{{ i }}' name='entoure_{{ i }}' {{ 'entoure' in class ? 'checked' }}></div>
 
 {# GROS #}
 <div class="{{ classLabel }}">Gros</div>
-<div class="{{ classInput }}"><input type="checkbox" id='gros_{{ i }}' name='gros_{{ i }}'></div>
+<div class="{{ classInput }}"><input type="checkbox" id='gros_{{ i }}' name='gros_{{ i }}' {{ 'taille25' in class ? 'checked' }}></div>
 
 {# COULEUR #}
 <div class="col-1 mb-4 pt-1 alignRight taille20">Couleur</div>
 <div class="col-2 mb-4">
+	{% set selected = "selected='selected'" %}
 	<select id='_{{ i }}' name='couleur_{{ i }}' class='form-control'>
-		<option value="Noir" class='section-middle'selected='selected'>Noir</option>
-		<option value="red" class='section-middle red'>Rouge</option>
-		<option value="green" class='section-middle green'>Vert</option>
-		<option value="blue" class='section-middle blue'>Bleu</option>
-		<option value="yellow" class='section-middle yellow'>Jaune</option>
-		<option value="purple" class='section-middle purple'>Violet</option>
-		<option value="pink" class='section-middle pink'>Rose</option>
-		<option value="maroon" class='section-middle maroon'>Marron</option>
-		<option value="white" class='section-middle white'>Blanc</option>
-		<option value="orange" class='section-middle orange'>Orange</option>
+		<option value="Noir" class='section-middle'>Noir</option>
+		<option value="red" class='section-middle red' {{ 'red' in class ? selected }}>Rouge</option>
+		<option value="green" class='section-middle green' {{ 'green' in class ? selected }}>Vert</option>
+		<option value="blue" class='section-middle blue' {{ 'blue' in class ? selected }}>Bleu</option>
+		<option value="yellow" class='section-middle yellow' {{ 'yellow' in class ? selected }}>Jaune</option>
+		<option value="purple" class='section-middle purple' {{ 'purple' in class ? selected }}>Violet</option>
+		<option value="pink" class='section-middle pink' {{ 'pink' in class ? selected }}>Rose</option>
+		<option value="maroon" class='section-middle maroon' {{ 'maroon' in class ? selected }}>Marron</option>
+		<option value="white" class='section-middle white {{ 'white' in class ? selected }}'>Blanc</option>
+		<option value="orange" class='section-middle orange' {{ 'orange' in class ? selected }}>Orange</option>
 	</select>
 </div>

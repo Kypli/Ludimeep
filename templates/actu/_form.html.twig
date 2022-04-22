@@ -70,8 +70,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text1) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 1, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 1} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 1, 'i': metaDatas['ordre']['t1'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 1, 'class': metaDatas['class'][1]} %}
 
 		{# TEXT2 #}
 		<hr>
@@ -81,8 +81,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text2) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 2, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 2} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 2, 'i': metaDatas['ordre']['t2'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 2, 'class': metaDatas['class'][2]} %}
 
 		{# TEXT3 #}
 		<hr>
@@ -92,8 +92,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text3) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 3, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 3} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 3, 'i': metaDatas['ordre']['t3'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 3, 'class': metaDatas['class'][3]} %}
 
 		{# TEXT4 #}
 		<hr>
@@ -103,8 +103,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text4) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 4, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 4} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 4, 'i': metaDatas['ordre']['t4'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 4, 'class': metaDatas['class'][4]} %}
 
 		{# TEXT5 #}
 		<hr>
@@ -114,8 +114,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text5) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 5, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 5} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 5, 'i': metaDatas['ordre']['t5'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 5, 'class': metaDatas['class'][5]} %}
 
 		{# TEXT6 #}
 		<hr>
@@ -125,8 +125,8 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.text6) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 6, 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 6} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 6, 'i': metaDatas['ordre']['t6'], 'type':'t'} %}
+		{% include 'actu/_options.html.twig' with {'i': 6, 'class': metaDatas['class'][6]} %}
 	</div>
 
 	{# IMAGES #}
@@ -137,16 +137,28 @@
 	</div>
 
 	{# PHOTOS #}
-	<div class="row center mt-4">
+	<div class="row center mt-4 img_grow">
 
 		{# PHOTO 1 #}
-		<div class="col-2 offset-3 mb-1 alignRight">
+		<div class="col-3 mb-1">
+			{% if actu.photo1 %}
+				<div class="row">
+					<div class='offset-3 col-2'>
+						<input type="checkbox" id='photo_keep_1' name='photo_keep_1' {{ actu.photo1 ? 'checked' }}>
+					</div>
+					<div class='col-3'>
+						<img id='img_1' class="col-12" src="{{ asset('uploads/actus/images/' ~ actu.photo1) }}" alt="{{ actu.photo1Alt }}">
+					</div>
+				</div>
+			{% endif %}
+		</div>
+		<div class="col-2 mb-1 alignRight">
 			{{ form_label(form.photo1) }}
 		</div>
 		<div class="col-4 mb-1">
 			{{ form_widget(form.photo1) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 1, 'type':'p'} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 1, 'i': metaDatas['ordre']['p1'], 'type':'p'} %}
 
 		{# PHOTO ALT 1 #}
 		<div class="col-2 offset-3 mb-4 alignRight">
@@ -155,15 +167,28 @@
 		<div class="col-4 mb-4">
 			{{ form_widget(form.photo1Alt) }}
 		</div>
+		<div class="col-3"></div>
 
 		{# PHOTO 2 #}
-		<div class="col-2 offset-3 mb-1 alignRight">
+		<div class="col-3 mb-1">
+			{% if actu.photo2 %}
+				<div class="row">
+					<div class='offset-3 col-2'>
+						<input type="checkbox" id='photo_keep_2' name='photo_keep_2' {{ actu.photo2 ? 'checked' }}>
+					</div>
+					<div class='col-3'>
+						<img id='img_2' class="col-12" src="{{ asset('uploads/actus/images/' ~ actu.photo2) }}" alt="{{ actu.photo2Alt }}">
+					</div>
+				</div>
+			{% endif %}
+		</div>
+		<div class="col-2 mb-1 alignRight">
 			{{ form_label(form.photo2) }}
 		</div>
 		<div class="col-4 mb-1">
 			{{ form_widget(form.photo2) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 2, 'type':'p'} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 2, 'i': metaDatas['ordre']['p2'], 'type':'p'} %}
 
 		{# PHOTO 2 ALT #}
 		<div class="col-2 offset-3 mb-4 alignRight">
@@ -172,15 +197,28 @@
 		<div class="col-4 mb-4">
 			{{ form_widget(form.photo2Alt) }}
 		</div>
+		<div class="col-3"></div>
 
 		{# PHOTO 3 #}
-		<div class="col-2 offset-3 mb-1 alignRight">
+		<div class="col-3 mb-1">
+			{% if actu.photo3 %}
+				<div class="row">
+					<div class='offset-3 col-2'>
+						<input type="checkbox" id='photo_keep_3' name='photo_keep_3' {{ actu.photo3 ? 'checked' }}>
+					</div>
+					<div class='col-3'>
+						<img id='img_3' class="col-12" src="{{ asset('uploads/actus/images/' ~ actu.photo3) }}" alt="{{ actu.photo3Alt }}">
+					</div>
+				</div>
+			{% endif %}
+		</div>
+		<div class="col-2 mb-1 alignRight">
 			{{ form_label(form.photo3) }}
 		</div>
 		<div class="col-4 mb-1">
 			{{ form_widget(form.photo3) }}
 		</div>
-		{% include 'actu/_ordre.html.twig' with {'i': 3, 'type':'p'} %}
+		{% include 'actu/_ordre.html.twig' with {'id': 3, 'i': metaDatas['ordre']['p3'], 'type':'p'} %}
 
 		{# PHOTO 3 ALT #}
 		<div class="col-2 offset-3 mb-1 alignRight">
@@ -189,6 +227,7 @@
 		<div class="col-4 mb-1">
 			{{ form_widget(form.photo3Alt) }}
 		</div>
+		<div class="col-3"></div>
 	</div>
 
 	{# VALIDER (voir brouillon) #}
