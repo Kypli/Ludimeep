@@ -19,7 +19,6 @@ yarn-error.log
 
 ### Ajout perso ###
 
-.env
 composer.lock
 /uploads/photos
 /uploads/actus/images
