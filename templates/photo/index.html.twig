@@ -1,19 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Photos{% endblock %}
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('photo_index') }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('modal_photo') }}
+{% endblock %}
+
+{% block title %}Liste des photos{% endblock %}
 
 {% block body %}
-
 	<div class="container">
-		<div class='row mb-3'>
 
-			{# TITRE #}
-			<h2 class="radius-long offset-4 col-4">Photos</h2>
+		{# TITRE #}
+		<h2 class="radius-long offset-4 col-4">Liste des photos</h2>
 
-			{# ... #}
-			<section class='prochainement'>
-				Prochainement
-			</section>
-		</div>
+		{# ADD #}
+		{# {% if is_granted('ROLE_ADMIN') %} #}
+		{% if is_granted('ROLE_USER') and app.user.accesPhoto %}
+			<a href="{{ path('photo_add') }}">
+				<div class="btn btn-success mb-2">
+					Ajouter une image
+				</div>
+			</a>
+		{% endif %}
+
+		{# LISTE #}
+		<section class='row mb-3'>
+			{% include 'photo/_photos.html.twig' %}
+		</section>
 	</div>
+
+	{# MODAL #}
+	{% include 'home/modal.html.twig' %}
+
 {% endblock %}

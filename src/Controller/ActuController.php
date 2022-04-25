@@ -88,7 +88,6 @@ class ActuController extends AbstractController
 	{
 		return $this->render('actu/show.html.twig', [
 			'actu' => $actu,
-			'actus' => [$actu],
 		]);
 	}
 
@@ -129,7 +128,8 @@ class ActuController extends AbstractController
 	 */
 	public function delete(Request $request, Actu $actu, ActuRepository $actuRepository): Response
 	{
-		if ($this->isCsrfTokenValid('delete'.$actu->getId(), $request->request->get('_token'))) {
+		if ($this->isCsrfTokenValid('delete'.$actu->getId(), $request->request->get('_token'))){
+			$this->addFlash('success', "L'actualité a bien été supprimée.");
 			$actuRepository->remove($actu);
 		}
 

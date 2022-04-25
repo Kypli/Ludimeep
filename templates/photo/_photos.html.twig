@@ -1,0 +1,28 @@
+{# PHOTOS #}
+{% for photo in photos %}
+	{% if
+		photo.valid or
+		is_granted('ROLE_ADMIN') or
+		(
+			app.user is not null and
+			(
+				photo.user.id == app.user.id or
+				(
+					photo.lanceurAlerte is not null and
+					photo.lanceurAlerte.id == app.user.id
+				)
+			)
+		)
+	%}
+		<div class="col-4 mb-3 center img_grow">
+			{% include 'photo/_photo.html.twig' %}
+		</div>
+	{% endif %}
+{% endfor %}
+
+{# VIDE #}
+{% if photos is empty %}
+	<p class="mt-2 center">
+		Il n'y a pas encore de photos, n'hésitez pas à en poster une :)
+	</p>
+{% endif %}

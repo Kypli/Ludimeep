@@ -73,52 +73,52 @@ h4 {
 }
 
 /* Commun */
-.center					{ 	text-align: center;						}
-.alignBottom		{	text-align: bottom;							}
-.alignRight			{	text-align: right;							}
-.alignLeft			{	text-align: left;								}
+.center				{ 	text-align: center;				}
+.alignBottom		{	text-align: bottom;				}
+.alignRight			{	text-align: right;				}
+.alignLeft			{	text-align: left;				}
 
-.floatbottom		{	float : bottom;									}
-.floatright			{	float : right;									}
-.floatleft			{	float : left;										}
-.floatcenter		{	float : center;									}
+.floatbottom		{	float : bottom;					}
+.floatright			{	float : right;					}
+.floatleft			{	float : left;					}
+.floatcenter		{	float : center;					}
 
-.conteneur			{	display: flex;									}
+.conteneur			{	display: flex;					}
+.hidden				{	display: none;					}
 
-.hidden					{	display: none;									}
+.taille8 			{	font-size: 8px;					}
+.taille9 			{	font-size: 9px;					}
+.taille10 			{	font-size: 10px;				}
+.taille11 			{	font-size: 11px;				}
+.taille12 			{	font-size: 12px;				}
+.taille13 			{	font-size: 13px;				}
+.taille14 			{	font-size: 14px;				}
+.taille15 			{	font-size: 15px;				}
+.taille18 			{	font-size: 18px;				}
+.taille20 			{	font-size: 20px;				}
+.taille25 			{	font-size: 25px;				}
 
-.taille8 				{	font-size: 8px;									}
-.taille9 				{	font-size: 9px;									}
-.taille10 			{	font-size: 10px;								}
-.taille11 			{	font-size: 11px;								}
-.taille12 			{	font-size: 12px;								}
-.taille13 			{	font-size: 13px;								}
-.taille14 			{	font-size: 14px;								}
-.taille15 			{	font-size: 15px;								}
-.taille18 			{	font-size: 18px;								}
-.taille20 			{	font-size: 20px;								}
-.taille25 			{	font-size: 25px;								}
+.barre 				{	text-decoration: line-through;	}
+.souligne			{	text-decoration: underline;		}
+.gras						{	font-weight: bold;		}
+.italique			{	font-style : italic;			}
 
-.barre 					{	text-decoration: line-through;	}
-.souligne				{  	text-decoration: underline;		}
-.gras						{	font-weight: bold;							}
-.italique				{	font-style : italic;						}
+.pointeur 			{	cursor: pointer;				}
+.pointeur_base		{	cursor: auto;					}
+.pointeur_help		{	cursor: help;					}
 
-.pointeur 			{	cursor: pointer;								}
-.pointeur_base	{	cursor: auto;										}
-.pointeur_help	{	cursor: help;										}
+.block				{	display: block;					}
 
-.block					{	display: block;									}
+.red				{	color: red;						}
+.green				{	color: green;					}
+.blue				{	color: blue;					}
+.yellow				{	color: yellow;					}
+.purple				{	color: purple;					}
+.pink				{	color: pink;					}
+.maroon				{	color: maroon;					}
+.white				{	color: white;					}
+.orange				{	color: orange;					}
 
-.red						{	color: red;											}
-.green					{	color: green;										}
-.blue						{	color: blue;										}
-.yellow					{	color: yellow;									}
-.purple					{	color: purple;									}
-.pink						{	color: pink;										}
-.maroon					{	color: maroon;									}
-.white					{	color: white;										}
-.orange					{	color: orange;									}
 
 /* Bordure */
 .entoure {

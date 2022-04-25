@@ -1,5 +1,10 @@
 TO DO LIST
 
+HOME
+- Tchat pour membre
+	- Message de nouvel actualité / update / photo / newsletter ...
+
+
 ACTUALITÉS
 - Supprimer les photos lorsqu'on supprime une actualité
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
@@ -29,8 +34,11 @@ USER
 
 
 PHOTOS
-- Pouvoir afficher des photos (CRUD)
-- Membre peuvent proposer l'affichage de photos
+- Membres peuvent proposer l'affichage de photos
+	- Contraintes, photo, taille...
+- Bouton pour n'afficher que ses photos
+- Aimer/commenter une photo
+- Tester diffents format et taille d'image
 
 
 NOUS CONTACTER

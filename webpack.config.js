@@ -46,6 +46,9 @@ Encore
     // Actu
     .addStyleEntry('actu_show', './assets/styles/actu/show.css')
 
+    // Photo
+    .addStyleEntry('photo_index', './assets/styles/photo/index.css')
+
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
     .addEntry('modal_photo', './assets/js/service/modal_photo.js')

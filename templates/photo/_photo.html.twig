@@ -1,0 +1,141 @@
+{# INITIALISE #}
+{% set p_user = photo.user %}
+{% set u = app.user %}
+
+{# ETAT #}
+{% set etat =
+	photo.valid != true
+		? u is not null and photo.lanceurAlerte is not null and photo.lanceurAlerte.id == u.id
+			? 'lanceurAlerte'
+			: u is not null and p_user.id == u.id
+				? 'owner_alert'
+				: 'alerte'
+		: u is not null and p_user.id == u.id
+			? 'owner'
+%}
+
+{# CARD #}
+<div class="offset-2 col-8 card {{ etat }}" style="width: 18rem;">
+
+	{# PHOTO SIGNALÉE #}
+	{% if photo.valid != true %}
+		<div class='orange souligne taille18 pointeur_help' title="Les photos signalées ne sont plus visible par le public">
+			{% if is_granted('ROLE_ADMIN') %}
+				PHOTO SIGNALÉE
+			{% elseif etat == 'owner' or etat == 'owner_alert' %}
+				Votre photo a été signalée
+				<br />
+				et n'est plus visible.
+				<br />
+				Un admin va venir constaté et la restaurer le cas échéant.
+			{% else %}
+				Vous avez signalé cette photo.
+				<br />
+				Un admin va venir constaté.
+			{% endif %}
+		</div>
+	{% endif %}
+
+	{# ADMIN - PHOTO SIGNALÉE LANCEUR ALERTE #}
+	{% if photo.valid != true and is_granted('ROLE_ADMIN') %}
+		<div class='orange souligne taille20 pointeur_help' title="Les photos signalées ne sont plus visible par le public">
+			par
+			{% if photo.lanceurAlerte.prenom is not empty and photo.lanceurAlerte.nom is not empty %}
+				{{ photo.lanceurAlerte.prenom|capitalize }}
+				{{ photo.lanceurAlerte.nom|upper }}
+			{% else %}
+				{{ photo.lanceurAlerte.userName|capitalize }}
+			{% endif %}
+		</div>
+	{% endif %}
+
+	{# IMG #}
+	<img id='img_{{ photo.id }}' class="card-img-top" src="{{ asset('uploads/photos/' ~ photo.name) }}" alt="{{ photo.alt }}">
+
+	{# CARD BODY #}
+	<div class="card-body b_lightgrey">
+
+		{# TITRE #}
+		<h5 class="card-title">{{ photo.alt }}</h5>
+
+		{# DESCRIPTION #}
+		{% if photo.description %}
+			<p class="card-text">{{ photo.description }}</p>
+		{% else %}
+			<br />
+		{% endif %}
+
+		{# AUTEUR #}
+		<div class='mb-3 taille11 alignRight italique'>
+			{% set auteur = p_user.prenom is not empty and p_user.nom is not empty
+				? p_user.prenom|capitalize ~ ' ' ~ p_user.nom|upper
+				: p_user.userName|capitalize
+			%}
+
+			Par 
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('user_show', {'id': photo.user.id}) }}">{{ auteur }}</a>
+			{% else %}
+				{{ auteur }}
+			{% endif %}
+			 - {{ photo.date|date('d/m/Y') }}
+		</div>
+
+		{# BOUTONS #}
+		{% if u is not null %}
+			<div class="row mt-4 mb-0">
+
+				{# DEBLOQUER #}
+				{% if photo.valid != true and (u.id == photo.lanceurAlerte.id or is_granted('ROLE_ADMIN')) %}
+					<div class="col-2 p-0">
+						<a href="{{ path('photo_signale', {'id': photo.id}) }}" class="btn btn-info" title="Débloquer">
+							<i class="fas fa-unlock"></i>
+						</a>
+					</div>
+
+				{# SIGNALER #}
+				{% elseif photo.valid == true and ((p_user.id != u.id and u.accesPhotoLanceurAlerte) or is_granted('ROLE_ADMIN')) %}
+					<div class="col-2 p-0">
+						<a href="{{ path('photo_signale', {'id': photo.id}) }}" class="btn btn-secondary" title="Signaler">
+							<i class="fas fa-exclamation-circle"></i>
+						</a>
+					</div>
+				{% endif %}
+
+				{# ADMIN OU PROPRIETAIRE #}
+				{% if is_granted('ROLE_ADMIN') or p_user.id == u.id %}
+
+					{# MODIFIER #}
+					{% set offset = 
+						is_granted('ROLE_ADMIN') or
+						(
+							p_user.id != u.id and
+							(
+								(
+									photo.valid == true and
+									u.accesPhotoLanceurAlerte
+								) or
+								(
+									photo.valid != true and
+									u.id == photo.lanceurAlerte.id
+								)
+							)
+						)
+							? 6
+							: 8
+					%}
+					<div class="offset-{{ offset }} col-2 p-0" title="Modifier">
+						<a href="{{ path('photo_edit', {'id': photo.id}) }}" class="btn btn-warning">
+							<i class="fas fa-edit"></i>
+						</a>
+					</div>
+
+					{# SUPPRIMER #}
+					<div class="col-2 p-0" title="Supprimer">
+						{{ include('photo/_delete_form.html.twig') }}
+					</div>
+				{% endif %}
+			</div>
+		{% endif %}
+	</div>
+</div>

@@ -117,10 +117,21 @@ class UserType extends AbstractType
 				]
 			)
 			->add(
-				'droitImage',
+				'accesPhoto',
 				CheckboxType::class,
 				[
-					'label' => "Droit à l'image",
+					'label' => "Droit de poster des images",
+					'required' => false,
+					'attr' => [
+						'class' => 'checkType',
+					],
+				]
+			)
+			->add(
+				'accesPhotoLanceurAlerte',
+				CheckboxType::class,
+				[
+					'label' => "Droit de signaler des images",
 					'required' => false,
 					'attr' => [
 						'class' => 'checkType',
@@ -152,6 +163,17 @@ class UserType extends AbstractType
 						'class' => 'form-control',
 						'min' => 0,
 						'step'=> 1,
+					],
+				]
+			)
+			->add(
+				'droitImage',
+				CheckboxType::class,
+				[
+					'label' => "Droit à l'image",
+					'required' => false,
+					'attr' => [
+						'class' => 'checkType',
 					],
 				]
 			)

@@ -49,6 +49,8 @@ class UserController extends AbstractController
 		$form = $this->createForm(UserType::class, $user);
 		$form
 			->remove('admin')
+			->remove('accesPhoto')
+			->remove('accesPhotoLanceurAlerte')
 			->remove('droitImage')
 			->remove('newsletter')
 			->remove('nom')
@@ -144,6 +146,8 @@ class UserController extends AbstractController
 				->remove('userName')
 				->remove('password')
 				->remove('admin')
+				->remove('accesPhoto')
+				->remove('accesPhotoLanceurAlerte')
 				->remove('adherant')
 				->remove('dateInscription')
 				->remove('dateFinAdhesion')

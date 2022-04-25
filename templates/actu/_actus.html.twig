@@ -1,0 +1,8 @@
+{% for actu in actus %}
+	
+	{% include 'actu/_actu.html.twig' with {'actu': actu } %}
+
+	{# BARRE DE SÉPARATION #}
+	{{  loop.last ? '' : '<hr>' }}
+
+{% endfor %}
