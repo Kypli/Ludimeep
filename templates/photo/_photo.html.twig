@@ -15,7 +15,7 @@
 %}
 
 {# CARD #}
-<div class="offset-2 col-8 card {{ etat }}" style="width: 18rem;">
+<div class="card {{ etat }}" style="width: 19rem;">
 
 	{# PHOTO SIGNALÉE #}
 	{% if photo.valid != true %}
@@ -66,7 +66,7 @@
 		{% endif %}
 
 		{# AUTEUR #}
-		<div class='mb-3 taille11 alignRight italique'>
+		<div class='taille11 alignRight italique'>
 			{% set auteur = p_user.prenom is not empty and p_user.nom is not empty
 				? p_user.prenom|capitalize ~ ' ' ~ p_user.nom|upper
 				: p_user.userName|capitalize
@@ -83,7 +83,7 @@
 
 		{# BOUTONS #}
 		{% if u is not null %}
-			<div class="row mt-4 mb-0">
+			<div class="row mt-2 mb-0">
 
 				{# DEBLOQUER #}
 				{% if photo.valid != true and (u.id == photo.lanceurAlerte.id or is_granted('ROLE_ADMIN')) %}

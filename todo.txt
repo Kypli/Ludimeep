@@ -11,10 +11,12 @@ ACTUALITÉS
 - Controler l'ordre (doublon)
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
+- Réduire la section de la page actu/show
 
 
 CALENDRIER
 - Associer le timer avec le calendrier google
+- Sinon faire une liste de date sans séance en js
 
 
 SESSION
