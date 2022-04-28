@@ -40,7 +40,6 @@ PHOTOS
 	- Contraintes, photo, taille...
 - Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
-- Tester diffents format et taille d'image
 
 
 NOUS CONTACTER
