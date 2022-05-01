@@ -2,23 +2,39 @@ import '../../styles/service/timer.css';
 
 // Prochain mardi
 var d_nextTuesday = new Date();
+if (d_nextTuesday.getDay() != 2){
+	d_nextTuesday.setDate(d_nextTuesday.getDate() + (((2 + 7 - d_nextTuesday.getDay()) % 7) || 7));
+}
+
+// A 18h30
+d_nextTuesday.setHours(18, 30, 0, 0);
+
+// TODO Date sans séance
+// Prochain mardi suivant 
+// if (d_nextTuesday <= new Date('2022-04-26T18:30:00')){
+// 	d_nextTuesday.setDate(d_nextTuesday.getDate() + 7);
+// }
+
+// Jour avec zéros
+var twoDigitDay = ((d_nextTuesday.getDate().length) === 1)
+	? (d_nextTuesday.getDate())
+	: d_nextTuesday.getDate() < 10
+		? '0' + (d_nextTuesday.getDate())
+		: (d_nextTuesday.getDate())
+;
+
+// Mois avec zéros
 var twoDigitMonth = ((d_nextTuesday.getMonth().length + 1) === 1)
 	? (d_nextTuesday.getMonth() + 1)
 	: d_nextTuesday.getMonth() + 1 < 10
 		? '0' + (d_nextTuesday.getMonth()+1)
 		: (d_nextTuesday.getMonth()+1)
 ;
-d_nextTuesday.setDate(d_nextTuesday.getDate() + (((2 + 7 - d_nextTuesday.getDay()) % 7) || 7));
-d_nextTuesday.setHours(18, 30, 0, 0);
-
-// Prochain mardi suivant
-if (d_nextTuesday <= new Date('2022-04-12T18:30:00')){
-	d_nextTuesday.setDate(d_nextTuesday.getDate() + 7);
-}
 
 // Date timer
-var nextTuesday = d_nextTuesday.getFullYear() + '-' + twoDigitMonth + "-" + d_nextTuesday.getDate()
+var nextTuesday = d_nextTuesday.getFullYear() + '-' + twoDigitMonth + "-" + twoDigitDay
 let d = new Date(nextTuesday + 'T19:30:00') - new Date();
+let a = new Date(nextTuesday + 'T19:30:00');
 
 const gc = s => document.querySelector('#countdown [count="' + s + '"] span');
 

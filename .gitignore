@@ -21,3 +21,4 @@ yarn-error.log
 composer.lock
 /uploads/photos
 /uploads/actus/images
+.env
