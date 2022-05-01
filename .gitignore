@@ -18,7 +18,6 @@ yarn-error.log
 ###< symfony/webpack-encore-bundle ###
 
 ### Ajout perso ###
-
 composer.lock
 /uploads/photos
 /uploads/actus/images

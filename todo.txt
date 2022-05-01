@@ -39,6 +39,7 @@ PHOTOS
 - Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
 - Tester diffents format et taille d'image
+- Carroussel
 
 
 NOUS CONTACTER
