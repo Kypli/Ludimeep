@@ -3,6 +3,7 @@ TO DO LIST
 HOME
 - Tchat pour membre
 	- Message de nouvel actualité / update / photo / newsletter ...
+- Message pour les visiteurs sur ce qu'ils pourront faire en tant que membre
 
 
 ACTUALITÉS
