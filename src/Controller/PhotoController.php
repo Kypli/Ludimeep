@@ -33,7 +33,7 @@ class PhotoController extends AbstractController
 	public function index(PhotoRepository $photoRepository): Response
 	{
 		return $this->render('photo/index.html.twig', [
-			'photos' => $photoRepository->findAll(),
+			'photos' => $photoRepository->findBy([], ['id' => 'DESC']),
 		]);
 	}
 

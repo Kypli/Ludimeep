@@ -37,7 +37,7 @@ class ActuController extends AbstractController
 	public function index(ActuRepository $actuRepository): Response
 	{
 		return $this->render('actu/index.html.twig', [
-			'actus' => $actuRepository->findAll(),
+			'actus' => $actuRepository->findBy([], ['id' => 'DESC']),
 		]);
 	}
 
