@@ -1,4 +1,62 @@
 {{ form_start(form) }}
-	{{ form_widget(form) }}
-	<button class="btn">{{ button_label|default('Save') }}</button>
+
+	<div class="row center mt-4">
+
+		{% if edit and is_granted('ROLE_ADMIN') %}
+
+			{# AUTEUR #}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.user) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.user) }}
+			</div>
+
+			{# DATE #}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.date) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.date) }}
+			</div>
+		{% endif %}
+
+		{% if not edit %}
+
+			{# NAME #}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.name) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.name) }}
+			</div>
+		{% else %}
+			<div class="row">
+				<div class="offset-4 col-4 mb-4">
+					<img id='img_1' class="col-12" src="{{ asset('uploads/photos/' ~ photo.name) }}" alt="{{ photo.alt }}">
+				</div>
+			</div>
+		{% endif %}
+
+		{# ALT #}
+		<div class="offset-2 col-3 mb-4 alignRight">
+			{{ form_label(form.alt) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.alt) }}
+		</div>
+
+		{# DESCRIPTION #}
+		<div class="offset-2 col-3 mb-4 alignRight">
+			{{ form_label(form.description) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.description) }}
+		</div>
+	</div>
+
+	<button class="btn btn-success">
+		{{ button_label|default('Enregistrer') }}
+	</button>
+
 {{ form_end(form) }}

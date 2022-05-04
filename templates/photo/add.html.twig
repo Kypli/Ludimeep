@@ -1,11 +1,37 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Photo{% endblock %}
+{% block title %}Ajout d'une photo{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('modal_photo') }}
+{% endblock %}
 
 {% block body %}
-	<h1>Create new Photo</h1>
 
-	{{ include('photo/_form.html.twig') }}
+	<div class="container">
+		<div class='row mb-3'>
 
-	<a href="{{ path('photo_index') }}">back to list</a>
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Ajout d'une photo</h2>
+
+			{# INSCRIPTION #}
+			<section class='form mb-3'>
+
+				<div class='col-2 mb-3'>
+					<a href="{{ path('photo_index') }}">Retour à la liste</a>
+				</div>
+
+				{% include 'photo/_form.html.twig' with { 'edit': false } %}
+			</section>
+
+			{# MODAL #}
+			{% include 'home/modal.html.twig' %}
+		</div>
+	</div>
 {% endblock %}

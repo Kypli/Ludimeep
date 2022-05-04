@@ -7,6 +7,8 @@ use App\Form\ActuType;
 use App\Service\FileUploader;
 use App\Repository\ActuRepository;
 
+
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -218,7 +220,7 @@ class ActuController extends AbstractController
 
 				$file = $form['photo'.$i]->getData();
 				if ($file){
-					$file_name = $this->file_uploader->upload($file);
+					$file_name = $this->file_uploader->upload($file, 'actu');
 					if (null !== $file_name){
 						// $directory = $this->file_uploader->getTargetDirectory();
 						// $full_path = $directory.'/'.$file_name;

@@ -3,7 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Photo;
-use App\Form\PhotoType;
+use App\Form\PhotoType as PhotoForm;
+use App\Service\FileUploader;
 use App\Repository\PhotoRepository;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -18,6 +19,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class PhotoController extends AbstractController
 {
+
+	private $file_uploader;
+
+	public function __construct(FileUploader $file_uploader)
+	{
+		$this->file_uploader = $file_uploader;
+	}
+
 	/**
 	 * @Route("/", name="_index", methods={"GET"})
 	 */
@@ -34,13 +43,60 @@ class PhotoController extends AbstractController
 	 */
 	public function add(Request $request, PhotoRepository $photoRepository): Response
 	{
+		// User sans droit d'ajout d'image
+		if (!$this->getUser()->getAccesPhoto()){
+			$this->addFlash('error', "Vous n'avez pas les droits pour poster une image.");
+			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+		}
+
 		$photo = new Photo();
-		$form = $this->createForm(PhotoType::class, $photo);
+		$form = $this->createForm(PhotoForm::class, $photo);
+		$form
+			->remove('user')
+			->remove('date')
+		;
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid() && $this->getUser()->getAccesPhoto()){
-			$photoRepository->add($photo);
-			return $this->redirectToRoute('app_photo_index', [], Response::HTTP_SEE_OTHER);
+		// Photo invalid
+		if ($form->isSubmitted() && !$form->isValid()){
+			$this->addFlash('error', "Seul des images de moins de 5M sont autorisées.");
+		}
+
+		// Form submit
+		if ($form->isSubmitted() && $form->isValid()){
+
+			// Date + auteur
+			$photo
+				->setUser($this->getUser())
+				->setDate(new \Datetime('now'))
+			;
+
+			// Photo
+			$file = $form['name']->getData();
+
+			// Add file photo
+			if ($file){
+
+				$file_name = $this->file_uploader->upload($file);
+
+				if (null !== $file_name){
+					// $directory = $this->file_uploader->getTargetDirectory();
+					// $full_path = $directory.'/'.$file_name;
+
+					$text = 'setName';
+					$photo->$text($file_name);
+
+				} else {
+					$this->addFlash('error', "Erreur d'upload de l'image.");
+				}
+
+				$photoRepository->add($photo);
+				return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+
+			// Pas de photo
+			} else {
+				$this->addFlash('error', "Vous devez choisir une image.");
+			}
 		}
 
 		return $this->renderForm('photo/add.html.twig', [
@@ -55,12 +111,35 @@ class PhotoController extends AbstractController
 	 */
 	public function edit(Request $request, Photo $photo, PhotoRepository $photoRepository): Response
 	{
-		$form = $this->createForm(PhotoType::class, $photo);
+		// User sans droit d'ajout d'image
+		if (!$this->getUser()->getAccesPhoto()){
+			$this->addFlash('error', "Vous n'avez pas les droits pour poster une image.");
+			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+		}
+
+		// User non propriétaire
+		if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() != $photo->getUser()->getId()){
+			$this->addFlash('error', "Vous n'avez pas les droits pour modifier cette image.");
+			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+		}
+
+		$form = $this->createForm(PhotoForm::class, $photo);
+
+		// remove fields
+		$form->remove('name');
+		if(!$this->isGranted('ROLE_ADMIN')){
+			$form
+				->remove('user')
+				->remove('date')
+				->remove('name')
+			;
+		}
+
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid()) {
+		if ($form->isSubmitted() && $form->isValid()){
 			$photoRepository->add($photo);
-			return $this->redirectToRoute('app_photo_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
 		}
 
 		return $this->renderForm('photo/edit.html.twig', [
@@ -78,12 +157,12 @@ class PhotoController extends AbstractController
 		if (
 			$this->isCsrfTokenValid('delete'.$photo->getId(), $request->request->get('_token')) &&
 			(
-				$this->isGranted('ROLE_ADMIN') &&
+				$this->isGranted('ROLE_ADMIN') ||
 				$this->getUser()->getId() == $photo->getUser()->getId()
 			)
 		){
-			$this->addFlash('success', "La photo a bien été supprimée.");
 			$photoRepository->remove($photo);
+			$this->addFlash('success', "La photo a bien été supprimée.");
 		}
 
 		return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
@@ -92,36 +171,39 @@ class PhotoController extends AbstractController
 	/**
 	 * @IsGranted("ROLE_USER")
 	 * @Route("/{id}/signale", name="_signale")
-	 * Signale une photo et la rend invisible (sauf admin et propriétaire)
+	 * Signale une photo et la rend invisible (sauf pour admin et propriétaire)
 	 */
 	public function signale(Request $request, Photo $photo, PhotoRepository $photoRepository): Response
 	{
-		// Initialise
-		$user_id = $this->getUser()->getId();
-		$photo_user_id = $photo->getUser()->getId();
-		$photo_valid = $photo->getValid();
-
-		// Signale
 		if (
+			$this->isGranted('ROLE_ADMIN') ||
 			(
-				$photo_valid &&
-				$user_id != $photo_user_id &&
+				$photo->getValid() &&
+				$this->getUser()->getId() != $photo->getUser()->getId() &&
 				$this->getUser()->getAccesPhotoLanceurAlerte()
-			) ||
-			$this->isGranted('ROLE_ADMIN')
+			)
 		){
 			$photo->setLanceurAlerte($this->getUser());
 			$photo->setValid(false);
 			$photoRepository->add($photo);
 		}
 
-		// Revalid
+		return $this->redirectToRoute('photo_index', ['id' => $photo->getId()], Response::HTTP_SEE_OTHER);
+	}
+
+	/**
+	 * @IsGranted("ROLE_USER")
+	 * @Route("/{id}/revalid", name="_revalid")
+	 * Revalide une photo et la rend visible
+	 */
+	public function revalid(Request $request, Photo $photo, PhotoRepository $photoRepository): Response
+	{
 		if (
+			$this->isGranted('ROLE_ADMIN') ||
 			(
-				!$photo_valid &&
-				$user_id == $photo->getLanceurAlerte()->getId()
-			) ||
-			$this->isGranted('ROLE_ADMIN')
+				!$photo->getValid() &&
+				$this->getUser()->getId() == $photo->getLanceurAlerte()->getId()
+			)
 		){
 			$photo->setLanceurAlerte(null);
 			$photo->setValid(true);

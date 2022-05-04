@@ -88,7 +88,7 @@
 				{# DEBLOQUER #}
 				{% if photo.valid != true and (u.id == photo.lanceurAlerte.id or is_granted('ROLE_ADMIN')) %}
 					<div class="col-2 p-0">
-						<a href="{{ path('photo_signale', {'id': photo.id}) }}" class="btn btn-info" title="Débloquer">
+						<a href="{{ path('photo_revalid', {'id': photo.id}) }}" class="btn btn-info" title="Débloquer">
 							<i class="fas fa-unlock"></i>
 						</a>
 					</div>

@@ -27,10 +27,7 @@
 					<a href="{{ path('photo_index') }}">Retour à la liste</a>
 				</div>
 
-				PROCHAINEMENT
-
-				{# {% set edit = {'edit': true, 'metaDatas': metaDatas, 'button_label': 'Modifier'} %}
-				{% include 'actu/_form.html.twig' with edit %} #}
+				{% include 'photo/_form.html.twig' with { 'edit': true, 'button_label': 'Modifier'} %}
 			</section>
 
 			{# MODAL #}

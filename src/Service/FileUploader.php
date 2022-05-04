@@ -10,22 +10,28 @@ class FileUploader
 {
 	private $slugger;
 
-	private $targetDirectory;
+	private $targetDirectory_actu;
 
-	public function __construct($targetDirectory, SluggerInterface $slugger)
+	private $targetDirectory_photo;
+
+	public function __construct($targetDirectory_actu, $targetDirectory_photo, SluggerInterface $slugger)
 	{
-		$this->targetDirectory = $targetDirectory;
+		$this->targetDirectory_actu = $targetDirectory_actu;
+		$this->targetDirectory_photo = $targetDirectory_photo;
 		$this->slugger = $slugger;
 	}
 
-	public function upload(UploadedFile $file)
+	public function upload(UploadedFile $file, $directory = 'photo')
 	{
 		$originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 		$safeFilename = $this->slugger->slug($originalFilename);
 		$fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
 		try {
-			$file->move($this->getTargetDirectory(), $fileName);
+			$directory == 'photo'
+				? $file->move($this->targetDirectory_photo(), $fileName)
+				: $file->move($this->targetDirectory_actu(), $fileName)
+			;
 		} catch (FileException $e) {
 			// ... handle exception if something happens during file upload
 			return null; // for example
@@ -33,8 +39,13 @@ class FileUploader
 		return $fileName;
 	}
 
-	public function getTargetDirectory()
+	public function targetDirectory_actu()
 	{
-		return $this->targetDirectory;
+		return $this->targetDirectory_actu;
+	}
+
+	public function targetDirectory_photo()
+	{
+		return $this->targetDirectory_photo;
 	}
 }

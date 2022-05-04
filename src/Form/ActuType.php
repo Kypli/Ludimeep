@@ -2,11 +2,11 @@
 
 namespace App\Form;
 
-use App\Entity\Actu;
 use App\Entity\User;
+use App\Entity\Actu;
 use App\Repository\UserRepository;
 
-use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -143,25 +143,11 @@ class ActuType extends AbstractType
 					'attr' => [
 						'class' => 'form-control',
 					],
-					// 'constraints' => [
-					// 	new File([ 
-					// 		'mimeTypes' => [ // We want to let upload only txt, csv or Excel files
-					// 		'text/x-comma-separated-values', 
-					// 		'text/comma-separated-values', 
-					// 		'text/x-csv', 
-					// 		'text/csv', 
-					// 		'text/plain',
-					// 		'application/octet-stream', 
-					// 		'application/vnd.ms-excel', 
-					// 		'application/x-csv', 
-					// 		'application/csv', 
-					// 		'application/excel', 
-					// 		'application/vnd.msexcel', 
-					// 		'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-					// 		],
-					// 		'mimeTypesMessage' => "Ce document n'est pas valide, uniquement des photos (.jpeg, .jpg, .png).",
-					// 	])
-					// ],
+					'constraints' => [
+						new Image([
+							'maxSize' => '5M'
+						]),
+					],
 				]
 			)
 			->add(
@@ -187,6 +173,11 @@ class ActuType extends AbstractType
 					'attr' => [
 						'class' => 'form-control',
 					],
+					'constraints' => [
+						new Image([
+							'maxSize' => '5M'
+						]),
+					]
 				]
 			)
 			->add(
@@ -212,6 +203,11 @@ class ActuType extends AbstractType
 					'attr' => [
 						'class' => 'form-control',
 					],
+					'constraints' => [
+						new Image([
+							'maxSize' => '5M'
+						]),
+					]
 				]
 			)
 			->add(

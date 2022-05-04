@@ -4,6 +4,7 @@ HOME
 - Tchat pour membre
 	- Message de nouvel actualité / update / photo / newsletter ...
 - Message pour les visiteurs sur ce qu'ils pourront faire en tant que membre
+	- Lien ajout photo
 
 
 ACTUALITÉS
@@ -13,6 +14,7 @@ ACTUALITÉS
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
 - Réduire la section de la page actu/show
+- Alterner couleur de fond entre chaque actu
 
 
 CALENDRIER
@@ -37,12 +39,10 @@ USER
 
 
 PHOTOS
-- Membres peuvent proposer l'affichage de photos
-	- Contraintes, photo, taille...
 - Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
-- Tester diffents format et taille d'image
 - Carroussel
+- Limiter le nombre de photos sur la page, système de page + chargement.
 
 
 NOUS CONTACTER

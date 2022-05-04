@@ -1,5 +1,11 @@
 {% for actu in actus %}
-	
+
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class='row'>
+			<a class="btn btn-warning col-2 m-2" href="{{ path('actu_edit', {'id': actu.id}) }}">Modifier</a>
+		</div>
+	{% endif %}
+
 	{% include 'actu/_actu.html.twig' with {'actu': actu } %}
 
 	{# BARRE DE SÉPARATION #}
