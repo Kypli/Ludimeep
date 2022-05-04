@@ -2,19 +2,19 @@
 	<div class="row form_login">
 
 		{# Mail #}
-		<div class="col-4 alignRight">
-			<label for="username">Pseudo :</label>
+		<div class="offset-lg-0 col-lg-4 offset-md-3 col-md-2 alignLeft">
+			<label for="username">Pseudo</span></label>
 		</div>
-		<div class="col-7">
-			<input type="text" id="username" name="_username" value="{{ last_username }}" required="required"/>
+		<div class="col-md-4 col-lg-8 col-8">
+			<input class="col-12" type="text" id="username" name="_username" value="{{ last_username }}" required="required"/>
 		</div>
 
 		{# MDP #}
-		<div class="col-4 alignRight">
-			<label for="password" title="Mot de passe">MdP :</label>
+		<div class="offset-lg-0 col-lg-4 offset-md-3 col-md-2 mt-3 mb-3 alignLeft">
+			<label for="password" title="Mot de passe">MdP</label>
 		</div>
-		<div class="col-7">
-			<input type="password" id="password" name="_password" required="required"/>
+		<div class="col-md-4 col-lg-8 col-8 mt-3 mb-3">
+			<input class="col-12" type="password" id="password" name="_password" required="required"/>
 		</div>
 
 		{# If you want to control the URL the user is redirected to on success #}
