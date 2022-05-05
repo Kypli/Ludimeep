@@ -16,61 +16,46 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ActuRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Actu::class);
-    }
+	public function __construct(ManagerRegistry $registry)
+	{
+		parent::__construct($registry, Actu::class);
+	}
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function add(Actu $entity, bool $flush = true): void
-    {
-        $this->_em->persist($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
+	/**
+	 * @throws ORMException
+	 * @throws OptimisticLockException
+	 */
+	public function add(Actu $entity, bool $flush = true): void
+	{
+		$this->_em->persist($entity);
+		if ($flush) {
+			$this->_em->flush();
+		}
+	}
 
-    /**
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
-    public function remove(Actu $entity, bool $flush = true): void
-    {
-        $this->_em->remove($entity);
-        if ($flush) {
-            $this->_em->flush();
-        }
-    }
+	/**
+	 * @throws ORMException
+	 * @throws OptimisticLockException
+	 */
+	public function remove(Actu $entity, bool $flush = true): void
+	{
+		$this->_em->remove($entity);
+		if ($flush) {
+			$this->_em->flush();
+		}
+	}
 
-    // /**
-    //  * @return Actu[] Returns an array of Actu objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Actu
-    {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+	/**
+	 * @return User[] Returns an array of User objects
+	 */
+	public function getPhotosName()
+	{
+		return $this->createQueryBuilder('a')
+			->select('a.photo1')
+			->AddSelect('a.photo2')
+			->AddSelect('a.photo3')
+			->getQuery()
+			->getArrayResult()
+		;
+	}
 }

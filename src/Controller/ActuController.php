@@ -7,8 +7,6 @@ use App\Form\ActuType;
 use App\Service\FileUploader;
 use App\Repository\ActuRepository;
 
-
-
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -133,6 +131,7 @@ class ActuController extends AbstractController
 		if ($this->isCsrfTokenValid('delete'.$actu->getId(), $request->request->get('_token'))){
 			$this->addFlash('success', "L'actualité a bien été supprimée.");
 			$actuRepository->remove($actu);
+			$this->file_uploader->cleanPhotosActu($actuRepository);
 		}
 
 		return $this->redirectToRoute('actu_index', [], Response::HTTP_SEE_OTHER);

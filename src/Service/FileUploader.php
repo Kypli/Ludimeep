@@ -48,4 +48,62 @@ class FileUploader
 	{
 		return $this->targetDirectory_photo;
 	}
+
+	/**
+	 * Supprime les photos du dossier qui ne sont plus associé à une actualité en db
+	 */
+	public function cleanPhotosActu($actuRepository){
+
+		// Get all photos name
+		$photosInDb = [];
+		$photosInDbByActu = $actuRepository->getPhotosName();
+
+		foreach($photosInDbByActu as $photoInDbByActu){
+			foreach($photoInDbByActu as $photoInDb){
+				$photoInDb != null
+					? $photosInDb[] = $photoInDb
+					: null
+				;
+			}
+		}
+
+		// Delete unlink photos
+		$photosInFolder = scandir($this->targetDirectory_actu(), 1);
+		foreach ($photosInFolder as $key => $photoInFolder){
+			if ($photoInFolder != '.' && $photoInFolder != '..' && !in_array($photoInFolder, $photosInDb)){
+				unlink($this->targetDirectory_actu().'/'.$photoInFolder);
+			}
+		}
+
+		return true;
+	}
+
+	/**
+	 * Supprime les photos du dossier qui ne sont plus associé à une photo en db
+	 */
+	public function cleanPhotos($photoRepository){
+
+		// Get all photos name
+		$photosInDb = [];
+		$photosInDbByPhoto = $photoRepository->getPhotosName();
+
+		foreach($photosInDbByPhoto as $photoInDbByPhoto){
+			foreach($photoInDbByPhoto as $photoInDb){
+				$photoInDb != null
+					? $photosInDb[] = $photoInDb
+					: null
+				;
+			}
+		}
+
+		// Delete unlink photos
+		$photosInFolder = scandir($this->targetDirectory_photo(), 1);
+		foreach ($photosInFolder as $key => $photoInFolder){
+			if ($photoInFolder != '.' && $photoInFolder != '..' && !in_array($photoInFolder, $photosInDb)){
+				unlink($this->targetDirectory_photo().'/'.$photoInFolder);
+			}
+		}
+
+		return true;
+	}
 }

@@ -20,7 +20,6 @@
 		<h2 class="radius-long offset-4 col-4">Liste des photos</h2>
 
 		{# ADD #}
-		{# {% if is_granted('ROLE_ADMIN') %} #}
 		{% if is_granted('ROLE_USER') and app.user.accesPhoto %}
 			<a href="{{ path('photo_add') }}">
 				<div class="btn btn-success mb-2">

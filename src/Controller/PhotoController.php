@@ -19,7 +19,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class PhotoController extends AbstractController
 {
-
 	private $file_uploader;
 
 	public function __construct(FileUploader $file_uploader)
@@ -162,6 +161,7 @@ class PhotoController extends AbstractController
 			)
 		){
 			$photoRepository->remove($photo);
+			$this->file_uploader->cleanPhotos($photoRepository);
 			$this->addFlash('success', "La photo a bien été supprimée.");
 		}
 
