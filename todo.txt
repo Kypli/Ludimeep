@@ -8,9 +8,7 @@ HOME
 
 
 ACTUALITÉS
-- Supprimer les photos lorsqu'on supprime une actualité
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
-- Controler l'ordre (doublon)
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
 - Réduire la section de la page actu/show
@@ -33,6 +31,7 @@ SESSION
 - Jeu mis à l'honneur
 - Soirée à thèmes
 - Évènements
+
 
 USER
 - Enregistrer la liste de jeux d'un utilisateur

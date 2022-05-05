@@ -19,8 +19,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class ActuController extends AbstractController
 {
-    public const NUMBER_ITEMS = 9;
-    public const NUMBER_ITEMS_TEXT = 6;
+	public const NUMBER_ITEMS = 9;
+	public const NUMBER_ITEMS_TEXT = 6;
 
 	private $file_uploader;
 
@@ -166,7 +166,7 @@ class ActuController extends AbstractController
 			if (null != $datas->$text()){
 
 				// Ordre text
-				$ordre[$request->request->get('ordre_t'.$i)] = 't'.$i;
+				$ordre[$this->ordreValide($ordre, $request->request->get('ordre_t'.$i))] = 't'.$i;
 
 				// TextClass
 				$textClass = '';
@@ -212,7 +212,7 @@ class ActuController extends AbstractController
 			if (null !== $request->request->get('photo_keep_'.$i)){
 
 				// Ordre photo
-				$ordre[$request->request->get('ordre_p'.$i)] = 'p'.$i;
+				$ordre[$this->ordreValide($ordre, $request->request->get('ordre_p'.$i))] = 'p'.$i;
 
 			// Si nouvelle photo
 			} elseif (null != $form['photo'.$i]->getData()){
@@ -228,7 +228,7 @@ class ActuController extends AbstractController
 						$actu->$text($file_name);
 
 						// Ordre photo
-						$ordre[$request->request->get('ordre_p'.$i)] = 'p'.$i;
+						$ordre[$this->ordreValide($ordre, $request->request->get('ordre_p'.$i))] = 'p'.$i;
 
 					} else {
 						$this->addFlash('error', "Erreur d'upload de l'image ".$i.".");
@@ -329,5 +329,32 @@ class ActuController extends AbstractController
 		}
 
 		return $metaDatas_class;
+	}
+
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 * Controle et renvoie l'ordre d'un élément
+	 */
+	public function ordreValide($ordre, $req){
+
+		// Si doublon
+		if (array_key_exists($req, $ordre)){
+
+			// On prend le chiffre disponible suivant
+			for($i = $req + 1; $i <= self::NUMBER_ITEMS; $i++){
+				if (!array_key_exists($i, $ordre)){
+					return $i;
+				}
+			}
+
+			// Sinon retour à 1
+			for($i = 1; $i <= self::NUMBER_ITEMS; $i++){
+				if (!array_key_exists($i, $ordre)){
+					return $i;
+				}
+			}
+		}
+
+		return $req;
 	}
 }
