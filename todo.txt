@@ -51,8 +51,15 @@ NOUS CONTACTER
 - MESSAGE
 	- Tout le monde peut nous envoyer un message
 	- Système de sécurité pour les bots
-	- Afficher le login par défaut
 	- Lire les messages (admin only)
+	- Si membre
+		- Afficher le login
+		- Réponse sur site
+		- Réponse par mail possible si mail enregistré
+	- Si non membre
+		- Création d'un nouveau user avec userName temporaire (Visiteur X)
+		- Doit laisser une adresse mail
+		- Si possible, enregistrer IP
 
 
 NEWSLETTER

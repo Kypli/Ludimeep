@@ -1,0 +1,26 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-4">
+
+		{# LIBELLE #}
+		<div class="offset-2 col-3 mb-4 alignRight">
+			{{ form_label(form.libelle) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.libelle) }}
+		</div>
+
+		{# DESCRIPTION #}
+		<div class="offset-2 col-3 mb-4 alignRight">
+			{{ form_label(form.description) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.description) }}
+		</div>
+	</div>
+
+	<button class="btn btn-success">
+		{{ button_label|default('Enregistrer') }}
+	</button>
+
+{{ form_end(form) }}
