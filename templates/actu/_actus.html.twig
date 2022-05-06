@@ -1,4 +1,7 @@
+{% set i = 0 %}
 {% for actu in actus %}
+	{% set i = i + 1 %}
+		{% set bck_alter = i is divisible by(2) ? 'bck_alter' : '' %}
 
 	{% if is_granted('ROLE_ADMIN') %}
 		<div class='row'>
@@ -6,7 +9,7 @@
 		</div>
 	{% endif %}
 
-	{% include 'actu/_actu.html.twig' with {'actu': actu } %}
+	{% include 'actu/_actu.html.twig' with {'actu': actu, 'bck_alter': bck_alter  } %}
 
 	{# BARRE DE SÉPARATION #}
 	{{  loop.last ? '' : '<hr>' }}
