@@ -422,7 +422,7 @@ class Actu
 		return $this->comments;
 	}
 
-	public function addComment(Comment $comment): self
+	public function addComment(CommentActu $comment): self
 	{
 		if (!$this->comments->contains($comment)) {
 			$this->comments[] = $comment;
@@ -432,7 +432,7 @@ class Actu
 		return $this;
 	}
 
-	public function removeComment(Comment $comment): self
+	public function removeComment(CommentActu $comment): self
 	{
 		if ($this->comments->removeElement($comment)) {
 			// set the owning side to null (unless already changed)
