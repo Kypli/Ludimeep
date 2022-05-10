@@ -45,32 +45,107 @@ class MessageRepository extends ServiceEntityRepository
 		}
 	}
 
-	// /**
-	//  * @return Message[] Returns an array of Message objects
-	//  */
-	/*
-	public function findByExampleField($value)
+	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function messageNonLue($user)
 	{
 		return $this->createQueryBuilder('m')
-			->andWhere('m.exampleField = :val')
-			->setParameter('val', $value)
-			->orderBy('m.id', 'ASC')
-			->setMaxResults(10)
+			->where('m.lu = false')
+			->andWhere('m.destinataire = :user')
+			->setParameter('user', $user)
+			->select('COUNT(m.id)')
+			->getQuery()
+			->getSingleScalarResult()
+		;
+	}
+
+	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function messageAdminNonLue()
+	{
+		return $this->createQueryBuilder('m')
+			->where('m.lu = false')
+			->select('COUNT(m.id)')
+			->getQuery()
+			->getSingleScalarResult()
+		;
+	}
+
+	/**
+	 * @return Renvoie les discussions d'un user
+	 */
+	public function mesDiscussions($user)
+	{
+		return $this->createQueryBuilder('m')
+			->leftJoin('m.user', 'u')
+			->leftJoin('m.destinataire', 'd')
+			->where('m.user = :user')
+			->setParameter('user', $user)
+			->orWhere('m.destinataire = :user')
+			->setParameter('user', $user)
+			->groupBy('m.discussion')
+			->select([
+				'm.id',
+				'm.libelle',
+				'm.discussion',
+				'm.date',
+				'm.lu as message_lu',
+				'd.id as destinataire_id',
+				'u.id as user_id',
+			])
 			->getQuery()
 			->getResult()
 		;
 	}
-	*/
 
-	/*
-	public function findOneBySomeField($value): ?Message
+	/**
+	 * @return Renvoie une discussion d'un user
+	 */
+	public function maDiscussion($user, $discussion)
 	{
 		return $this->createQueryBuilder('m')
-			->andWhere('m.exampleField = :val')
-			->setParameter('val', $value)
+			->join('m.user', 'u')
+			->join('m.destinataire', 'd')
+			->where('m.user = :user or m.destinataire = :user')
+			->setParameter('user', $user)
+			->andWhere('m.discussion = :discussion')
+			->setParameter('discussion', $discussion)
+			->orderBy('m.date', 'DESC')
 			->getQuery()
-			->getOneOrNullResult()
+			->getResult()
 		;
 	}
-	*/
+
+	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function countMessagesInDiscussion($discussion_id)
+	{
+		return $this->createQueryBuilder('m')
+			->where('m.discussion = :discussion')
+			->setParameter('discussion', $discussion_id)
+			->select('COUNT(m)')
+			->getQuery()
+			->getSingleScalarResult()
+		;
+	}
+
+	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function discussionLu($discussion_id, $user_id)
+	{
+		return $this->createQueryBuilder('m')
+			->where('m.discussion = :discussion')
+			->setParameter('discussion', $discussion_id)
+			->andWhere('m.destinataire = :user_id')
+			->setParameter('user_id', $user_id)
+			->andWhere('m.lu = false')
+			->select('COUNT(m.lu)')
+			->getQuery()
+			->getSingleScalarResult()
+		;
+	}
 }

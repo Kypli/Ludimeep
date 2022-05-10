@@ -65,10 +65,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 		}
 	}
 
-	// /**
-	//  * @return User[] Returns an array of User objects
-	//  */
-	public function myFindCountAdmin()
+	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function countAdmin()
 	{
 		return $this->createQueryBuilder('u')
 			->where('u.roles LIKE :role')
@@ -78,17 +78,18 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			->getSingleScalarResult()
 		;
 	}
-	
 
-	/*
-	public function findOneBySomeField($value): ?User
+	/**
+	 * @return Renvoie le nombre d'anonyme
+	 */
+	public function countAnonymous()
 	{
 		return $this->createQueryBuilder('u')
-			->andWhere('u.exampleField = :val')
-			->setParameter('val', $value)
+			->where('u.anonyme =  :anonyme')
+			->setParameter('anonyme', true)
+			->select('COUNT(u.id)')
 			->getQuery()
-			->getOneOrNullResult()
+			->getSingleScalarResult()
 		;
 	}
-	*/
 }

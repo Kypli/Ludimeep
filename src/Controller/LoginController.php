@@ -18,10 +18,10 @@ class LoginController extends AbstractController
 		// get the login error if there is one
 		$error = $authenticationUtils->getLastAuthenticationError();
 
-		if ($error == null || $error){
+		if ($error != null){
 			$this->addFlash('login_error', 'Email ou Mot de passe incorrect !');
 		} else {
-			$this->addFlash('login_success', 'Connexion réussie !');
+			$this->addFlash('login_info', 'Déconnexion effectuée !');
 		}
 
 		// last username entered by the user

@@ -1,43 +1,74 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Message index{% endblock %}
+{% block title %}Mes discussions{% endblock %}
 
 {% block body %}
-	<h1>Message index</h1>
 
-	<table class="table">
-		<thead>
-			<tr>
-				<th>Id</th>
-				<th>Ip</th>
-				<th>Libelle</th>
-				<th>Description</th>
-				<th>Lu</th>
-				<th>Date</th>
-				<th>actions</th>
-			</tr>
-		</thead>
-		<tbody>
-		{% for message in messages %}
-			<tr>
-				<td>{{ message.id }}</td>
-				<td>{{ message.ip }}</td>
-				<td>{{ message.libelle }}</td>
-				<td>{{ message.description }}</td>
-				<td>{{ message.lu ? 'Yes' : 'No' }}</td>
-				<td>{{ message.date ? message.date|date('Y-m-d H:i:s') : '' }}</td>
-				<td>
-					<a href="{{ path('message_show', {'id': message.id}) }}">show</a>
-					<a href="{{ path('message_edit', {'id': message.id}) }}">edit</a>
-				</td>
-			</tr>
-		{% else %}
-			<tr>
-				<td colspan="7">no records found</td>
-			</tr>
-		{% endfor %}
-		</tbody>
-	</table>
+	<div class="container">
+		<div class='row mb-3'>
 
-	<a href="{{ path('message_add') }}">Create new</a>
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Mes discussions</h2>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3'>
+				{% if discussions is not empty %}
+					<table class="table">
+						<thead>
+							<tr class="left">
+								<th width="10%" class="center">Voir</th>
+								<th width="30%">Libellé</th>
+								<th width="20%">Correspondant</th>
+								<th width="15%">Nombre de message</th>
+								<th width="10%" class="center">
+									<span title="Date du dernier message">Date</span>
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% for m in discussions %}
+								<tr class="{{ m.lu != true ? 'gras' }}">
+									<td>
+										<div class='row'>
+											<div class='offset-4 col-4 centrer'>
+												<a href="{{ path('message_show', {'id': m.id}) }}">
+													{% set pluriel2 = m.pluriel == 's' ? ', contient au moins un message non lu' : ' non lu' %}
+													<i 
+														class="fa{{ m.lu ? 'r' }} fa-comment"
+														title="{{
+															m.lu
+																? 'Voir le' ~ m.pluriel ~ ' message' ~ m.pluriel
+																: 'Voir le' ~ m.pluriel ~ ' message' ~ m.pluriel ~ pluriel2
+														}}"
+													></i>
+												</a>
+											</div>
+										</div>
+									</td>
+									<td>{{ m.libelle }}</td>
+									<td>
+										{% for correspondant in m.correspondants %}
+												<div>
+													{% if correspondant == null %}
+														ADMIN
+													{% elseif correspondant.prenom != null and correspondant.nom != null %}
+														{{ correspondant.prenom|capitalize }} {{ correspondant.nom|upper }}
+													{% else %}
+														{{ correspondant.userName|capitalize }}
+													{% endif %}
+												</div>
+										{% endfor %}
+									</td>
+									<td class="center">{{ m.nombre }}</td>
+									<td class="center">{{ m.date|date('d/m/Y') }}</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				{% else %}
+					Pas de message
+				{% endif %}
+			</section>
+		</div>
+	</div>
 {% endblock %}

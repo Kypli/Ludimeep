@@ -17,6 +17,17 @@
 		<div class="col-4 mb-4">
 			{{ form_widget(form.description) }}
 		</div>
+
+		{% if app.user is null %}
+
+			{# MAIL #}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.mail) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.mail) }}
+			</div>
+		{% endif %}
 	</div>
 
 	<button class="btn btn-success">

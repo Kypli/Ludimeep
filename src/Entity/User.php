@@ -45,6 +45,16 @@ class User implements UserInterface
 	private $roles = [];
 
 	/**
+	 * @ORM\Column(type="string", length=50, nullable=true)
+	 */
+	private $ip;
+
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	private $anonyme = false;
+
+	/**
 	 * @ORM\Column(type="boolean", nullable=true)
 	 */
 	private $droitImage;
@@ -157,7 +167,12 @@ class User implements UserInterface
 	/**
 	 * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
 	 */
-	private $messages;
+	private $messagesDestinateur;
+
+	/**
+	 * @ORM\OneToMany(targetEntity=Message::class, mappedBy="destinataire")
+	 */
+	private $messagesDestinataire;
 
 	public function __construct()
 	{
@@ -166,7 +181,8 @@ class User implements UserInterface
 		$this->actus = new ArrayCollection();
 		$this->photos = new ArrayCollection();
 		$this->photosLanceurAlerte = new ArrayCollection();
-		$this->messages = new ArrayCollection();
+		$this->messagesDestinateur = new ArrayCollection();
+		$this->messagesDestinataire = new ArrayCollection();
 	}
 
 	public function getId(): ?int
@@ -241,6 +257,30 @@ class User implements UserInterface
 	public function setRoles(array $roles): self
 	{
 		$this->roles = $roles;
+
+		return $this;
+	}
+
+	public function getIp(): ?string
+	{
+		return $this->ip;
+	}
+
+	public function setIp(string $ip): self
+	{
+		$this->ip = $ip;
+
+		return $this;
+	}
+
+	public function getAnonyme(): ?bool
+	{
+		return $this->anonyme;
+	}
+
+	public function setAnonyme(bool $anonyme): self
+	{
+		$this->anonyme = $anonyme;
 
 		return $this;
 	}
@@ -602,27 +642,57 @@ class User implements UserInterface
 	/**
 	 * @return Collection<int, Message>
 	 */
-	public function getMessages(): Collection
+	public function getMessagesDestinateur(): Collection
 	{
-		return $this->messages;
+		return $this->messagesDestinateur;
 	}
 
-	public function addMessage(Message $message): self
+	public function addMessageDestinateur(Message $messageDestinateur): self
 	{
-		if (!$this->messages->contains($message)) {
-			$this->messages[] = $message;
-			$message->setUser($this);
+		if (!$this->messagesDestinateur->contains($messageDestinateur)) {
+			$this->messagesDestinateur[] = $messageDestinateur;
+			$messageDestinateur->setUser($this);
 		}
 
 		return $this;
 	}
 
-	public function removeMessage(Message $message): self
+	public function removeMessageDestinateur(Message $messageDestinateur): self
 	{
-		if ($this->messages->removeElement($message)) {
+		if ($this->messagesDestinateur->removeElement($messageDestinateur)) {
 			// set the owning side to null (unless already changed)
-			if ($message->getUser() === $this) {
-				$message->setUser(null);
+			if ($messageDestinateur->getUser() === $this) {
+				$messageDestinateur->setUser(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, Message>
+	 */
+	public function getMessagesDestinataire(): Collection
+	{
+		return $this->messagesDestinataire;
+	}
+
+	public function addMessageDestinataire(Message $messageDestinataire): self
+	{
+		if (!$this->messagesDestinataire->contains($messageDestinataire)) {
+			$this->messagesDestinataire[] = $messageDestinataire;
+			$messageDestinataire->setUser($this);
+		}
+
+		return $this;
+	}
+
+	public function removeMessageDestinataire(Message $messageDestinataire): self
+	{
+		if ($this->messagesDestinataire->removeElement($messageDestinataire)) {
+			// set the owning side to null (unless already changed)
+			if ($messageDestinataire->getUser() === $this) {
+				$messageDestinataire->setUser(null);
 			}
 		}
 

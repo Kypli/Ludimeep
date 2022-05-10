@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 /**
  * @Route("/user", name="user")
  */
@@ -49,6 +50,8 @@ class UserController extends AbstractController
 		$form = $this->createForm(UserType::class, $user);
 		$form
 			->remove('admin')
+			->remove('anonyme')
+			->remove('ip')
 			->remove('accesPhoto')
 			->remove('accesPhotoLanceurAlerte')
 			->remove('droitImage')
@@ -112,6 +115,50 @@ class UserController extends AbstractController
 	}
 
 	/**
+	 * Ajoute un utilisateur anonyme
+	 */
+	public function addAnonyme($mail, $ip)
+	{
+		$user = new User();
+		$userRepository = $this->getDoctrine()->getRepository(User::class);
+
+		// Nombre anonyme
+		$count = (int) $userRepository->countAnonymous();
+		$count++;
+
+		// Login + mdp
+		$login = 'Visiteur'.$count;
+		$mdp = $this->randMdp();
+
+		// User datas
+		$user
+			->setUserName($login)
+			->setMail($mail)
+			->setDroitImage(false)
+			->setNewsletter(false)
+			->setMembreHonneur(false)
+			->setRoles(["ROLE_USER"])
+			->setAnonyme(true)
+			->setIp($ip)
+		;
+
+		// Encrypt password
+		$user->setPassword($this->passwordHasher->hashPassword(
+				$user,
+				$mdp,
+			))
+		;
+
+		$userRepository->add($user);
+
+		return [
+			'user' => $user,
+			'login' => $login,
+			'mdp' => $mdp,
+		];
+	}
+
+	/**
 	 * @Route("/{id}", name="_show", methods={"GET"})
 	 */
 	public function show(User $user): Response
@@ -138,14 +185,18 @@ class UserController extends AbstractController
 
 		$form = $this->createForm(UserType::class, $user);
 
-		$form->remove('password');
+		// Champs exclusif à l'user
+		if (null == $this->getUser() or $this->getUser()->getId() != $user->getId()){
+			$form->remove('password');
+		}
 
-		// Champs exclus si non-admin
+		// Champs exclusif à l'admin
 		if (!$this->isGranted('ROLE_ADMIN')){
 			$form
 				->remove('userName')
-				->remove('password')
 				->remove('admin')
+				->remove('anonyme')
+				->remove('ip')
 				->remove('accesPhoto')
 				->remove('accesPhotoLanceurAlerte')
 				->remove('adherant')
@@ -177,7 +228,7 @@ class UserController extends AbstractController
 					$user->setRoles(["ROLE_ADMIN"]);
 
 				// False
-				} elseif($userRepository->myFindCountAdmin() > 1){
+				} elseif($userRepository->countAdmin() > 1){
 					$user->setRoles(["ROLE_USER"]);
 
 				// Null
@@ -258,5 +309,19 @@ class UserController extends AbstractController
 		}
 
 		return true;
+	}
+
+	public function randMdp()
+	{
+		$comb = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+		$pass = array();
+		$combLen = strlen($comb) - 1;
+
+		for ($i = 0; $i < 8; $i++){
+			$n = rand(0, $combLen);
+			$pass[] = $comb[$n];
+		}
+
+		return implode($pass);
 	}
 }

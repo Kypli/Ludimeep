@@ -38,16 +38,19 @@ Encore
     .addEntry('app', './assets/app.js')
 
     // Home
-    .addStyleEntry('home', './assets/styles/home/page.css')
+    .addStyleEntry('home', './assets/styles/home/style.css')
 
     // User
-    .addStyleEntry('user_fiche', './assets/styles/user/fiche.css')
+    .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
     // Actu
-    .addStyleEntry('actu_show', './assets/styles/actu/show.css')
+    .addStyleEntry('actu_show', './assets/styles/actu/style.css')
 
     // Photo
-    .addStyleEntry('photo_index', './assets/styles/photo/index.css')
+    .addStyleEntry('photo_index', './assets/styles/photo/style.css')
+
+    // Photo
+    .addStyleEntry('message_index', './assets/styles/message/style.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')

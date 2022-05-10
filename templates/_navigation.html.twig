@@ -81,7 +81,7 @@
 						Nous contacter
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="{{ path('message_add') }}">Laisser un message</a></li>
+						<li><a class="dropdown-item" href="{{ path('message_add') }}">Écrire un message</a></li>
 						<li><a class="dropdown-item" href="{{ path('appel') }}">Nous appeller</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li>ludimeep@protonmail.com</li>
@@ -94,6 +94,21 @@
 						<a class="hoverable nav-link {{ route == 'user_add' ? 'active'}}" href="{{ path('user_add') }}">
 							<i class="fa-solid fa-file-contract" title='Inscription'></i>
 							Inscription
+						</a>
+					</li>
+				{% endif %}
+
+				{# INSCRIPTION #}
+				{% if app.user is not null %}
+					<li class="nav-item">
+						<a class="hoverable nav-link {{ route == 'message_index' ? 'active'}}" href="{{ path('message_index') }}">
+							<i class="far fa-comment" title='Mes messages'></i>
+							{% set message_perso = app.session.get('message_perso') != null ? app.session.get('message_perso') : '0' %}
+							{% set pluriel = message_perso > 1 ? 's' : '' %}
+							Mes discussions
+							{% if message_perso > 0 %}
+								<span title="{{ message_perso }} message{{ pluriel }} non lu{{ pluriel }}">({{ message_perso }})</span> 
+							{% endif %}
 						</a>
 					</li>
 				{% endif %}

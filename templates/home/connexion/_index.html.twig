@@ -9,17 +9,24 @@
 		</div>
 	{% endfor %}
 
-	{# ESPACE MEMBRE - FORM LOGIN #}
-	{% if app.user is not null %}
-		{% include 'home/connexion/espace_membre.html.twig' %}
-	{% else %}
-		{% include 'home/connexion/form_login.html.twig' %}
-	{% endif %}
-
 	{# MESSAGES FLASH LOGIN ERROR #}
 	{% for message in app.flashes('login_error') %}
 		<div class="flash-notice mt-3 mb-3 bg-danger text-center">
 			Erreur : {{ message }}
 		</div>
 	{% endfor %}
+
+	{# MESSAGES FLASH LOGIN INFOS #}
+	{% for message in app.flashes('login_info') %}
+		<div class="flash-notice mt-3 mb-3 bg-info text-center">
+			{{ message }}
+		</div>
+	{% endfor %}
+
+	{# ESPACE MEMBRE - FORM LOGIN #}
+	{% if app.user is not null %}
+		{% include 'home/connexion/_espace_membre.html.twig' %}
+	{% else %}
+		{% include 'home/connexion/_form_login.html.twig' %}
+	{% endif %}
 </section>

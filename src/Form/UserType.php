@@ -117,6 +117,28 @@ class UserType extends AbstractType
 				]
 			)
 			->add(
+				'anonyme',
+				CheckboxType::class,
+				[
+					'label' => 'Anonyme',
+					'required' => false,
+					'attr' => [
+						'class' => 'checkType',
+					],
+				]
+			)
+			->add(
+				'ip',
+				TextType::class,
+				[
+					'label' => 'Adresse IP',
+					'required' => false,
+					'attr' => [
+						'class' => 'form-control',
+					],
+				]
+			)
+			->add(
 				'accesPhoto',
 				CheckboxType::class,
 				[

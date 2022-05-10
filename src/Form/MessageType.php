@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Message;
 
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 use Symfony\Component\Form\AbstractType;
@@ -33,6 +34,18 @@ class MessageType extends AbstractType
 				[
 					'required' => true,
 					'label' => 'Contenu',
+					'attr' => [
+						'class' => 'form-control',
+					],
+				]
+			)
+			->add(
+				'mail',
+				EmailType::class,
+				[
+					'required' => true,
+					'mapped' => false,
+					'label' => 'Votre adresse mail',
 					'attr' => [
 						'class' => 'form-control',
 					],

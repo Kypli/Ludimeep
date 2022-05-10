@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Message{% endblock %}
+{% block title %}Modifier mon message{% endblock %}
 
 {% block body %}
-	<h1>Edit Message</h1>
 
-	{{ include('message/_form.html.twig', {'button_label': 'Update'}) }}
+	<div class="container">
+		<div class='row mb-3'>
 
-	<a href="{{ path('message_index') }}">back to list</a>
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Modifier mon message</h2>
 
-	{{ include('message/_delete_form.html.twig') }}
+			{# MODIFIER USER #}
+			<section class='form'>
+				{{ include('contact/message/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+				<div class="col-3 offset-9 center mb-2">
+					{{ include('contact/message/_delete_form.html.twig') }}
+				</div>
+			</section>
+		</div>
+	</div>
 {% endblock %}

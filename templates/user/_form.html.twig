@@ -1,5 +1,8 @@
 {{ form_start(form) }}
 
+	{% set label = 'col-5 offset-1 mb-4 alignRight' %}
+	{% set widget = 'col-3 mb-4' %}
+
 	{# PROFIL #}
 	{% if edit %}
 		<div class="row center mt-4">
@@ -11,31 +14,31 @@
 		<div class="row center mt-4">
 
 			{# NOM #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.nom) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.nom) }}
 			</div>
 
 			{# PRENOM #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.prenom) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.prenom) }}
 			</div>
 
 			{# MAIL #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.mail) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.mail) }}
 			</div>
 
 			{# ADRESSE #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.adresse) }}
 			</div>
 			<div class="col-5 mb-4">
@@ -43,10 +46,10 @@
 			</div>
 
 			{# TÉLÉPHONE #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.telephone) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.telephone) }}
 			</div>
 		</div>
@@ -65,20 +68,20 @@
 
 		{# LOGIN #}
 		{% if edit == false or is_granted('ROLE_ADMIN') %}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.userName) }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.userName) }}
 			</div>
 		{% endif %}
 
 		{# MOT DE PASSE #}
-		{% if edit == false %}
-			<div class="col-3 offset-3 mb-4 alignRight">
-				{{ form_label(form.password) }}
+		{% if edit == false or user.id == app.user.id %}
+			<div class="{{ label }}">
+				{{ edit == false ? form_label(form.password) : 'Nouveau mot de passe' }}
 			</div>
-			<div class="col-3 mb-4">
+			<div class="{{ widget }}">
 				{{ form_widget(form.password) }}
 			</div>
 		{% endif %}
@@ -87,31 +90,43 @@
 
 			{# ADMIN #}
 			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.admin) }}
 				</div>
-				<div class="col-3 mb-4 pt-2">
+				<div class="{{ widget }} pt-2">
 					{{ form_widget(form.admin) }}
 				</div>
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
+					{{ form_label(form.anonyme) }}
+				</div>
+				<div class="{{ widget }} pt-2">
+					{{ form_widget(form.anonyme) }}
+				</div>
+				<div class="{{ label }}">
+					{{ form_label(form.ip) }}
+				</div>
+				<div class="{{ widget }}">
+					{{ form_widget(form.ip) }}
+				</div>
+				<div class="{{ label }}">
 					{{ form_label(form.accesPhoto) }}
 				</div>
-				<div class="col-3 mb-4 pt-2">
+				<div class="{{ widget }} pt-2">
 					{{ form_widget(form.accesPhoto) }}
 				</div>
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.accesPhotoLanceurAlerte) }}
 				</div>
-				<div class="col-3 mb-4 pt-2">
+				<div class="{{ widget }} pt-2">
 					{{ form_widget(form.accesPhotoLanceurAlerte) }}
 				</div>
 			{% endif %}
 
 			{# NEWSLETTER #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.newsletter) }}
 			</div>
-			<div class="col-3 mb-4 pt-2">
+			<div class="{{ widget }} pt-2">
 				{{ form_widget(form.newsletter) }}
 			</div>
 		{% endif %}
@@ -129,74 +144,74 @@
 
 			{# ADHERANT #}
 			{% if is_granted('ROLE_ADMIN') %}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.adherant) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="{{ widget }}">
 					{{ form_widget(form.adherant) }}
 				</div>
 
 				{# DATE INSCRIPTION #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.dateInscription) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="{{ widget }}">
 					{{ form_widget(form.dateInscription) }}
 				</div>
 
 				{# DATE FIN ADHÉSION #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.dateFinAdhesion) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="{{ widget }}">
 					{{ form_widget(form.dateFinAdhesion) }}
 				</div>
 			{% endif %}
 
 			{# DROIT IMAGE #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.droitImage) }}
 			</div>
-			<div class="col-3 mb-4 pt-2">
+			<div class="{{ widget }} pt-2">
 				{{ form_widget(form.droitImage) }}
 			</div>
 
 			{# NOTORIETE #}
-			<div class="col-3 offset-3 mb-4 alignRight">
+			<div class="{{ label }}">
 				{{ form_label(form.notoriete) }}
 			</div>
-			<div class="col-4 mb-4 pt-3">
+			<div class="col-4 mb-4">
 				{{ form_widget(form.notoriete) }}
 			</div>
 
 			{% if is_granted('ROLE_ADMIN') %}
 
 				{# ROLE CA #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.roleCa) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="{{ widget }}">
 					{{ form_widget(form.roleCa) }}
 				</div>
 
 				{# DATE FIN MANDAT #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.dateFinMandat) }}
 				</div>
-				<div class="col-3 mb-4">
+				<div class="{{ widget }}">
 					{{ form_widget(form.dateFinMandat) }}
 				</div>
 
 				{# MEMBRE D'HONNEUR #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.membreHonneur) }}
 				</div>
-				<div class="col-3 mb-4 pt-2">
+				<div class="{{ widget }} pt-2">
 					{{ form_widget(form.membreHonneur) }}
 				</div>
 
 				{# COMMENTAIRE #}
-				<div class="col-3 offset-3 mb-4 alignRight">
+				<div class="{{ label }}">
 					{{ form_label(form.commentaire) }}
 				</div>
 				<div class="col-5 mb-4">

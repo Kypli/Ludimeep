@@ -2,41 +2,86 @@
 
 {% block title %}Message{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('message_index') }}
+{% endblock %}
+
 {% block body %}
-	<h1>Message</h1>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ message.id }}</td>
-			</tr>
-			<tr>
-				<th>Ip</th>
-				<td>{{ message.ip }}</td>
-			</tr>
-			<tr>
-				<th>Libelle</th>
-				<td>{{ message.libelle }}</td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ message.description }}</td>
-			</tr>
-			<tr>
-				<th>Lu</th>
-				<td>{{ message.lu ? 'Yes' : 'No' }}</td>
-			</tr>
-			<tr>
-				<th>Date</th>
-				<td>{{ message.date ? message.date|date('Y-m-d H:i:s') : '' }}</td>
-			</tr>
-		</tbody>
-	</table>
+	<div class="container">
+		<div class='row mb-3'>
 
-	<a href="{{ path('message_index') }}">back to list</a>
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">{{ libelle }}</h2>
 
-	<a href="{{ path('message_edit', {'id': message.id}) }}">edit</a>
+			{# FICHE #}
+			<section>
 
-	{{ include('message/_delete_form.html.twig') }}
+				<a href="{{ path('message_index') }}">Retour</a>
+
+				{% for message in discussion %}
+
+					<div class='row'>
+						<div class="{{ message.user.id == app.user.id ? 'offset-1 col-7 destinateur' : 'offset-4 col-7 destinataire' }}  mb-4">
+
+							{# BOUTONS + LU ? #}
+							<div class='row mb-2'>
+
+								{# LU ? #}
+								{% if message.user.id == app.user.id %}
+									<div class='col-1'>
+										<i
+											class="pointeur_help fas fa-eye{{ message.lu ? '' : '-slash' }}"
+											title="{{ message.lu ? 'Ce message a été lu par le destinataire' : 'Ce message n\'a pas été lu par le destinataire' }}"
+										></i>
+									</div>
+								{% endif %}
+
+								{# BOUTONS #}
+								{# {% if message.user.id == app.user.id %} #}
+								{% if is_granted('ROLE_ADMIN') %}
+									<div class='offset-{{ message.user.id == app.user.id ? '5' : '6' }} col-3'>
+										<a class="btn btn-warning" href="{{ path('message_edit', {'id': message.id}) }}">Modifier</a>
+									</div>
+
+									<div class='col-3'>
+										{{ include('contact/message/_delete_form.html.twig') }}
+									</div>
+								{% endif %}
+							</div>
+
+							{# CONTENU #}
+							<div class='row mb-4'>
+								<div class='offset-1 col-10'>
+									{{ message.description }}
+								</div>
+							</div>
+
+							{# DESTINATAIRE + DATE#}
+							<div class='row taille12'>
+
+								{# USER #}
+								{% if message.user.id != app.user.id %}
+									<div class='offset-1 col-3 alignLeft'>
+										par 
+										{% if message.user.prenom != null and message.user.nom != null %}
+											{{ message.user.prenom|capitalize }} {{ message.user.nom|upper }}
+										{% else %}
+											{{ message.user.userName|capitalize }}
+										{% endif %}
+									</div>
+								{% endif %}
+
+								{# DATE #}
+								<div class='offset-{{ message.user.id != app.user.id ? '3' : '7' }} col-4 alignRight'>
+									{{ message.date ? message.date|date('d/m/Y à H:i:s') : '' }}
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</section>
+		</div>
+	</div>
 {% endblock %}

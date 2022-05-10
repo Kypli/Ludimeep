@@ -17,9 +17,9 @@
 
 	{# NAVBAR ADMIN #}
 	{% if is_granted('ROLE_ADMIN') %}
-		{% include 'navigation_admin.html.twig' %}
+		{% include '_navigation_admin.html.twig' %}
 	{% endif %}
 
 	{# NAVBAR #}
-	{% include 'navigation.html.twig' %}
+	{% include '_navigation.html.twig' %}
 </header>

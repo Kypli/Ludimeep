@@ -18,19 +18,19 @@ class Message
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
+	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagesDestinateur")
 	 */
 	private $user;
 
 	/**
-	 * @ORM\OneToOne(targetEntity=Message::class, cascade={"persist", "remove"})
+	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagesDestinataire")
 	 */
-	private $parent;
+	private $destinataire;
 
 	/**
-	 * @ORM\Column(type="string", length=50, nullable=true)
+	 * @ORM\Column(type="integer", nullable=true)
 	 */
-	private $ip;
+	private $discussion;
 
 	/**
 	 * @ORM\Column(type="string", length=255, nullable=true)
@@ -69,26 +69,26 @@ class Message
 		return $this;
 	}
 
-	public function getParent(): ?self
+	public function getDestinataire(): ?User
 	{
-		return $this->parent;
+		return $this->destinataire;
 	}
 
-	public function setParent(?self $parent): self
+	public function setDestinataire(?User $destinataire): self
 	{
-		$this->parent = $parent;
+		$this->destinataire = $destinataire;
 
 		return $this;
 	}
 
-	public function getIp(): ?string
+	public function getDiscussion(): ?bool
 	{
-		return $this->ip;
+		return $this->discussion;
 	}
 
-	public function setIp(?string $ip): self
+	public function setDiscussion(?bool $discussion): self
 	{
-		$this->ip = $ip;
+		$this->discussion = $discussion;
 
 		return $this;
 	}

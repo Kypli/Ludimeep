@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Service\Discussions;
+
 use App\Repository\ActuRepository;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -15,8 +17,10 @@ class HomeController extends AbstractController
 	/**
 	 * @Route("/", name="home")
 	 */
-	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository)
+	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository, Discussions $discussions)
 	{
+		$discussions->update();
+
 		return $this->render('home/index.html.twig',[
 			'user' => $this->getUser(),
 			'actus' => $actuRepository->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),

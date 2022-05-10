@@ -49,9 +49,15 @@ NOUS CONTACTER
 	- Afficher nos numéros de téléphone, avec des horaires d'appels
 	- En cas de soucis, retirer les numéros.
 - MESSAGE
+	- Système de discussion
+	- Message lu si vu par le destinataire
+	- Si supprimer dans une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
+	- Si modifier libelle dans une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
 	- Tout le monde peut nous envoyer un message
+		- Par défaut aux admins
 	- Système de sécurité pour les bots
 	- Lire les messages (admin only)
+	- Pouvoir répondre dans une discussion
 	- Si membre
 		- Afficher le login
 		- Réponse sur site

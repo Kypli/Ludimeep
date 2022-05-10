@@ -4,5 +4,5 @@
 	onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible !');
 ">
 	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
-	<button class="btn btn-danger">Delete</button>
+	<button class="btn btn-danger">Supprimer</button>
 </form>
