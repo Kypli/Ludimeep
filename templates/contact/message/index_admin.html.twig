@@ -35,11 +35,13 @@
 							</td>
 							<td>{{ m.id }}</td>
 							<td>
-								{{
-									m.user.prenom != null and m.user.nom != null
-										? m.user.prenom|capitalize ~ ' ' ~ m.user.nom|upper
-										: m.user.userName|capitalize
-								}}
+								<a href="{{ path('user_show', {'id': m.user.id}) }}">
+									{{
+										m.user.prenom != null and m.user.nom != null
+											? m.user.prenom|capitalize ~ ' ' ~ m.user.nom|upper
+											: m.user.userName|capitalize
+									}}
+								</a>
 							</td>
 							<td>
 								{{
@@ -55,15 +57,15 @@
 							<td class="center">{{ m.date|date('d/m/Y') }}</td>
 							<td style='min-width:100px;'>
 								<div class='row'>
-									<div class='offset-3 col-3'>
-										<a href="{{ path('message_edit', {'id': m.id}) }}">
-											<i class="fas fa-edit" title="Modifier le message"></i>
-										</a>
+									<div class='offset-2 col-5 p-0' style="max-height: 30px">
+										<button class="btn pt-0">
+											<a href="{{ path('message_edit', {'id': m.id}) }}">
+												<i class="fas fa-edit" title="Modifier le message"></i>
+											</a>
+										</button>
 									</div>
-									<div class='col-3 red'>
-										<a href="{{ path('message_delete', {'id': m.id}) }}">
-											<i class="fa fa-times"title="Supprimer le message"></i>
-										</a>
+									<div class='col-5 p-0' style="max-height: 30px">
+										{% include('contact/message/_delete_form.html.twig') with {'message': m, 'btn': false} %}
 									</div>
 								</div>
 							</td>

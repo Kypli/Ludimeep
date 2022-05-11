@@ -40,6 +40,11 @@ class User implements UserInterface
 	private $password;
 
 	/**
+	 * @ORM\Column(type="string", length=50, nullable=true)
+	 */
+	private $passwordTempo;
+
+	/**
 	 * @ORM\Column(type="json", nullable=true)
 	 */
 	private $roles = [];
@@ -240,6 +245,18 @@ class User implements UserInterface
 	{
 		// If you store any temporary, sensitive data on the user, clear it here
 		// $this->plainPassword = null;
+	}
+
+	public function getPasswordTempo(): ?string
+	{
+		return $this->passwordTempo;
+	}
+
+	public function setPasswordTempo(string $passwordTempo): self
+	{
+		$this->passwordTempo = $passwordTempo;
+
+		return $this;
 	}
 
 	/**

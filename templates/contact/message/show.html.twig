@@ -18,11 +18,14 @@
 			{# FICHE #}
 			<section>
 
-				<a href="{{ path('message_index') }}">Retour</a>
+				<a class="btn btn-info" href="{{ path('message_index') }}">Retour</a>
+				{% if is_granted('ROLE_ADMIN') %}
+					<a class="btn btn-info" href="{{ path('message_index_admin') }}">Retour liste Admin</a>
+				{% endif %}
 
 				{% for message in discussion %}
 
-					<div class='row'>
+					<div class='row mt-2'>
 						<div class="{{ message.user.id == app.user.id ? 'offset-1 col-7 destinateur' : 'offset-4 col-7 destinataire' }}  mb-4">
 
 							{# BOUTONS + LU ? #}

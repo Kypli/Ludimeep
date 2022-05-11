@@ -17,7 +17,14 @@
 
 			{# FICHE #}
 			<section class='row'>
-				<div class="center offset-9 col-3"><a href="{{ path('user_edit', {'id': user.id}) }}">Modifier mes informations</a></div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="center col-3">
+						<a href="{{ path('user_index', {'id': user.id}) }}" class="btn btn-info">Retour</a>
+					</div>
+				{% endif %}
+				<div class="center offset-{{ is_granted('ROLE_ADMIN') ? '6' : '9' }} col-3">
+					<a href="{{ path('user_edit', {'id': user.id}) }}" class="btn btn-warning">Modifier mes informations</a>
+				</div>
 
 				{% if not is_granted('ROLE_ADMIN') %}
 					<h5 class="center gras offset-4 col-4">
@@ -69,6 +76,16 @@
 									<th>Mot de passe</th>
 									<td>*****</td>
 								</tr>
+								<tr>
+									<th>Anonyme</th>
+									<td>{{ user.anonyme ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+								</tr>
+								{% if user.anonyme %}
+									<tr>
+										<th>Mot de passe temporaire</th>
+										<td>{{ user.passwordTempo }}</td>
+									</tr>
+								{% endif %}
 								<tr>
 									<th>Admin</th>
 									<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>

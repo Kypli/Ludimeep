@@ -49,23 +49,15 @@ NOUS CONTACTER
 	- Afficher nos numéros de téléphone, avec des horaires d'appels
 	- En cas de soucis, retirer les numéros.
 - MESSAGE
-	- Système de discussion
-	- Message lu si vu par le destinataire
-	- Si supprimer dans une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
-	- Si modifier libelle dans une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
-	- Tout le monde peut nous envoyer un message
-		- Par défaut aux admins
-	- Système de sécurité pour les bots
-	- Lire les messages (admin only)
-	- Pouvoir répondre dans une discussion
-	- Si membre
-		- Afficher le login
-		- Réponse sur site
+	- Admin
+		- Si supprimer message d'une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
+		- Si supprimer tout les messages d'une discussion, delete discussion
+		- Si modifier libelle dans une discussion, remplacer tout les libelle des messages
+	- Membre
 		- Réponse par mail possible si mail enregistré
-	- Si non membre
-		- Création d'un nouveau user avec userName temporaire (Visiteur X)
-		- Doit laisser une adresse mail
-		- Si possible, enregistrer IP
+		- Répondre à un message
+		- Envoyer un message à un membre
+	- Système de sécurité pour les bots
 
 
 NEWSLETTER

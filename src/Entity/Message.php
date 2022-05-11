@@ -28,7 +28,7 @@ class Message
 	private $destinataire;
 
 	/**
-	 * @ORM\Column(type="integer", nullable=true)
+	 * @ORM\Column(type="integer")
 	 */
 	private $discussion;
 
@@ -81,12 +81,12 @@ class Message
 		return $this;
 	}
 
-	public function getDiscussion(): ?bool
+	public function getDiscussion(): ?int
 	{
 		return $this->discussion;
 	}
 
-	public function setDiscussion(?bool $discussion): self
+	public function setDiscussion(?int $discussion): self
 	{
 		$this->discussion = $discussion;
 

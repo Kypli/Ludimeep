@@ -80,6 +80,23 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 	}
 
 	/**
+	 * @return Renvoie le nombre d'admin
+	 */
+	public function getAdminsId()
+	{
+		$q = $this->createQueryBuilder('u')
+			->where('u.roles LIKE :role')
+			->setParameter('role', '%ROLE_ADMIN%')
+			->select('u.id')
+			->groupBy('u.id')
+			->getQuery()
+			->getResult()
+		;
+
+		return array_map('current', $q);
+	}
+
+	/**
 	 * @return Renvoie le nombre d'anonyme
 	 */
 	public function countAnonymous()

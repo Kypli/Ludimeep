@@ -12,6 +12,10 @@
 
 			{# MODIFIER USER #}
 			<section class='form'>
+				<div class="col-3">
+					<a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info">Retour</a>
+				</div>
+
 				{% set edit = {'edit': true, 'button_label': 'Modifier'} %}
 				{% include 'user/_form.html.twig' with edit %}
 

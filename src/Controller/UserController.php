@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\MessageRepository;
+
+use App\Form\UserType;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -133,6 +135,7 @@ class UserController extends AbstractController
 		// User datas
 		$user
 			->setUserName($login)
+			->setPasswordTempo($mdp)
 			->setMail($mail)
 			->setDroitImage(false)
 			->setNewsletter(false)
@@ -174,7 +177,7 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/{id}/edit", name="_edit", methods={"GET", "POST"})
+	 * @Route("/edit/{id}", name="_edit", methods={"GET", "POST"})
 	 */
 	public function edit(Request $request, User $user, UserRepository $userRepository): Response
 	{
@@ -237,6 +240,14 @@ class UserController extends AbstractController
 				}
 			}
 
+			// Si plus anonyme, retrait du mdp temporaire + ip
+			if (!$user->getAnonyme()){
+				$user
+					->setPasswordTempo(null)
+					->setIp(null)
+				;
+			}
+
 			$userRepository->add($user);
 			$this->addFlash('success', 'Vos modifications ont bien été prise en compte.');
 			return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
@@ -249,23 +260,43 @@ class UserController extends AbstractController
 	}
 
 	/**
-	 * @Route("/{id}", name="_delete", methods={"POST"})
+	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
-	public function delete(Request $request, User $user, UserRepository $userRepository): Response
+	public function delete(Request $request, User $user, UserRepository $ur, MessageRepository $mr): Response
 	{
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
-		// TODO
-			// Il doit rester au moins un admin
+		// Doit rester 1 admin
+		$countAdmin = $ur->countAdmin();
+		if (
+			$countAdmin > 1 ||
+			(
+				$countAdmin == 1 &&
+				!in_array($user->getId(), $ur->getAdminsId())
+			)
+		){
+			if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
 
-		if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
-			$userRepository->remove($user);
+				// Delete messages
+				foreach ($user->getMessagesDestinateur() as $message){
+					$mr->remove($message);
+				}
+				foreach ($user->getMessagesDestinataire() as $message){
+					$mr->remove($message);
+				}
+
+				// Delete
+				$ur->remove($user);
+			}	
+
+		} else {
+			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
 		}
 
-		return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
 	}
 
 	public function accesControl($user_id)

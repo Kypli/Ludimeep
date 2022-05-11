@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Message;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
+
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Message|null find($id, $lockMode = null, $lockVersion = null)
@@ -46,7 +47,7 @@ class MessageRepository extends ServiceEntityRepository
 	}
 
 	/**
-	 * @return Renvoie le nombre d'admin
+	 * @return Renvoie le nombre de message non lu d'un user
 	 */
 	public function messageNonLue($user)
 	{
@@ -61,7 +62,7 @@ class MessageRepository extends ServiceEntityRepository
 	}
 
 	/**
-	 * @return Renvoie le nombre d'admin
+	 * @return Renvoie le nombre de message admin non lu
 	 */
 	public function messageAdminNonLue()
 	{
@@ -101,25 +102,33 @@ class MessageRepository extends ServiceEntityRepository
 	}
 
 	/**
-	 * @return Renvoie une discussion d'un user
+	 * @return Renvoie une discussion d'un user, nécessite d'être dans la discussion si non admin
 	 */
-	public function maDiscussion($user, $discussion)
+	public function maDiscussion($user, $admin, $discussion)
 	{
-		return $this->createQueryBuilder('m')
-			->join('m.user', 'u')
-			->join('m.destinataire', 'd')
-			->where('m.user = :user or m.destinataire = :user')
-			->setParameter('user', $user)
+		$q = $this->createQueryBuilder('m');
+
+		if (!$admin){
+			$q
+				->where('m.user = :user or m.destinataire = :user')
+				->setParameter('user', $user->getId())
+			;
+		}
+
+		$q
 			->andWhere('m.discussion = :discussion')
 			->setParameter('discussion', $discussion)
-			->orderBy('m.date', 'DESC')
+			->orderBy('m.date', 'DESC')			
+		;
+
+		return $q
 			->getQuery()
 			->getResult()
 		;
 	}
 
 	/**
-	 * @return Renvoie le nombre d'admin
+	 * @return Renvoie le nombre de message dans une discussion
 	 */
 	public function countMessagesInDiscussion($discussion_id)
 	{
@@ -133,7 +142,7 @@ class MessageRepository extends ServiceEntityRepository
 	}
 
 	/**
-	 * @return Renvoie le nombre d'admin
+	 * @return Renvoie le nombre message non lu d'une discussion
 	 */
 	public function discussionLu($discussion_id, $user_id)
 	{
@@ -146,6 +155,20 @@ class MessageRepository extends ServiceEntityRepository
 			->select('COUNT(m.lu)')
 			->getQuery()
 			->getSingleScalarResult()
+		;
+	}
+
+	/**
+	 * @return Renvoie le numéro de la dernière discussion
+	 */
+	public function getLastDiscussion()
+	{
+		return $this->createQueryBuilder('m')
+			->select('m.discussion')
+			->orderBy('m.discussion', 'DESC')
+			->setMaxResults(1)
+			->getQuery()
+			->getScalarResult()
 		;
 	}
 }
