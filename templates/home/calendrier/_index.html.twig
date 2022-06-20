@@ -1,28 +1,26 @@
-<section class='col-xs-12 col-sm-12 col-md-12 col-lg-3'>
-	<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Calendrier</h4>
-	<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Calendrier</h4>
+<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Calendrier</h4>
+<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Calendrier</h4>
 
-	<div class='mb-2'>Nous somme le {{ dateJour }}</div>
-	<iframe
-		src="https://calendar.google.com/calendar/embed?height=300&wkst=2&bgcolor=%23dc81f3&ctz=Europe%2FParis&mode=AGENDA&title=S%C3%A9ances%20Ludi-Meep'&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=azlqajNrcGw5b29xNWxlbG9kdTdvcDBxYzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%239E69AF" style="border:solid 1px #777"
-		width="300"
-		height="300"
-		frameborder="0"
-		scrolling="no"
-		class="col-12 col-sm-5 col-lg-12"
-	></iframe>
-	<div class='mb-5'>
-		{% if 'now'|date('l') == 'Tuesday' and 'now'|date('H') >= 18 and 'now'|date('H') <= 23 %}
-			<div class='entoure seance-actif'>Séance en cours !</div>
-		{% else %}
-			Prochaine séance dans :
-			<span id="timer"></span>
-			<div id="countdown">
-				<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
-				<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
-				<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
-				<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
-			</div>
-		{% endif %}
-	</div>
-</section>
+<div class='mb-2'>Nous somme le {{ dateJour }}</div>
+<iframe
+	src="https://calendar.google.com/calendar/embed?height=300&wkst=2&bgcolor=%23dc81f3&ctz=Europe%2FParis&mode=AGENDA&title=S%C3%A9ances%20Ludi-Meep'&showNav=0&showDate=0&showPrint=0&showTabs=0&showCalendars=0&showTz=0&src=azlqajNrcGw5b29xNWxlbG9kdTdvcDBxYzRAZ3JvdXAuY2FsZW5kYXIuZ29vZ2xlLmNvbQ&color=%239E69AF" style="border:solid 1px #777"
+	width="300"
+	height="300"
+	frameborder="0"
+	scrolling="no"
+	class="col-12 col-sm-5 col-lg-12"
+></iframe>
+<div class='mb-5'>
+	{% if 'now'|date('l') == 'Tuesday' and 'now'|date('H') >= 18 and 'now'|date('H') <= 23 %}
+		<div class='entoure seance-actif'>Séance en cours !</div>
+	{% else %}
+		Prochaine séance dans :
+		<span id="timer"></span>
+		<div id="countdown">
+			<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
+			<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
+			<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
+			<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
+		</div>
+	{% endif %}
+</div>
