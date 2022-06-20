@@ -178,7 +178,14 @@ class DiscussionController extends AbstractController
 
 		// Lecture des messages
 		foreach($discussion->getMessages() as $message){
-			if ($message->getUser()->getId() != $user_id){
+			if (
+				$message->getUser()->getId() != $user_id ||
+				(
+					$this->isGranted('ROLE_ADMIN') &&
+					$discussion->getAuteur()->getId() == $user_id &&
+					$message->getUser()->getId() == $user_id
+				)
+			){
 				$message->setLu(true);
 				$mr->add($message);
 			}

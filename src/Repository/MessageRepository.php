@@ -71,7 +71,7 @@ class MessageRepository extends ServiceEntityRepository
 		return $this->createQueryBuilder('m')
 			->leftJoin('m.discussion', 'd')
 			->where('d.destinataire is null')
-			->andWhere('m.user != :user')
+			->andWhere('m.user != :user or (m.user = :user and d.auteur = :user)')
 			->setParameter('user', $user)
 			->andWhere('m.lu = false')
 			->select('COUNT(m.id)')
