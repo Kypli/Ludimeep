@@ -18,29 +18,14 @@ class Message
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagesDestinateur")
+	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
 	 */
 	private $user;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messagesDestinataire")
-	 */
-	private $destinataire;
-
-	/**
-	 * @ORM\Column(type="integer")
-	 */
-	private $discussion;
-
-	/**
-	 * @ORM\Column(type="string", length=255, nullable=true)
-	 */
-	private $libelle;
-
-	/**
 	 * @ORM\Column(type="string", length=255)
 	 */
-	private $description;
+	private $contenu;
 
 	/**
 	 * @ORM\Column(type="boolean")
@@ -51,6 +36,12 @@ class Message
 	 * @ORM\Column(type="datetime")
 	 */
 	private $date;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Discussion::class, inversedBy="messages")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $discussion;
 
 	public function getId(): ?int
 	{
@@ -69,50 +60,14 @@ class Message
 		return $this;
 	}
 
-	public function getDestinataire(): ?User
+	public function getContenu(): ?string
 	{
-		return $this->destinataire;
+		return $this->contenu;
 	}
 
-	public function setDestinataire(?User $destinataire): self
+	public function setContenu(string $contenu): self
 	{
-		$this->destinataire = $destinataire;
-
-		return $this;
-	}
-
-	public function getDiscussion(): ?int
-	{
-		return $this->discussion;
-	}
-
-	public function setDiscussion(?int $discussion): self
-	{
-		$this->discussion = $discussion;
-
-		return $this;
-	}
-
-	public function getLibelle(): ?string
-	{
-		return $this->libelle;
-	}
-
-	public function setLibelle(?string $libelle): self
-	{
-		$this->libelle = $libelle;
-
-		return $this;
-	}
-
-	public function getDescription(): ?string
-	{
-		return $this->description;
-	}
-
-	public function setDescription(string $description): self
-	{
-		$this->description = $description;
+		$this->contenu = $contenu;
 
 		return $this;
 	}
@@ -123,21 +78,33 @@ class Message
 	}
 
 	public function setLu(bool $lu): self
-	{
-		$this->lu = $lu;
-
-		return $this;
-	}
+ 	{
+ 		$this->lu = $lu;
+ 
+ 		return $this;
+ 	}
 
 	public function getDate(): ?\DateTimeInterface
-	{
-		return $this->date;
-	}
+ 	{
+ 		return $this->date;
+ 	}
 
 	public function setDate(\DateTimeInterface $date): self
-	{
-		$this->date = $date;
+ 	{
+ 		$this->date = $date;
+ 
+ 		return $this;
+ 	}
 
-		return $this;
-	}
+    public function getDiscussion(): ?Discussion
+    {
+        return $this->discussion;
+    }
+
+    public function setDiscussion(?Discussion $discussion): self
+    {
+        $this->discussion = $discussion;
+
+        return $this;
+    }
 }

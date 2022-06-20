@@ -28,6 +28,7 @@ class UserType extends AbstractType
 				[
 					'required' => false,
 					'label' => 'Nom',
+					'empty_data' => '',
 					'attr' => [
 						'class' => 'form-control',
 					],
@@ -39,6 +40,7 @@ class UserType extends AbstractType
 				[
 					'required' => false,
 					'label' => 'Prénom',
+					'empty_data' => '',
 					'attr' => [
 						'class' => 'form-control',
 					],
@@ -133,6 +135,7 @@ class UserType extends AbstractType
 				[
 					'label' => 'Adresse IP',
 					'required' => false,
+					'empty_data' => '',
 					'attr' => [
 						'class' => 'form-control',
 					],

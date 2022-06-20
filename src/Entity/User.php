@@ -170,14 +170,19 @@ class User implements UserInterface
 	private $photosLanceurAlerte;
 
 	/**
-	 * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user")
+	 * @ORM\OneToMany(targetEntity=Discussion::class, mappedBy="auteur", orphanRemoval=true)
 	 */
-	private $messagesDestinateur;
+	private $discussionsAuteur;
 
 	/**
-	 * @ORM\OneToMany(targetEntity=Message::class, mappedBy="destinataire")
+	 * @ORM\OneToMany(targetEntity=Discussion::class, mappedBy="destinataire", orphanRemoval=true)
 	 */
-	private $messagesDestinataire;
+	private $discussionsDestinataire;
+
+	/**
+	 * @ORM\OneToMany(targetEntity=Message::class, mappedBy="user", orphanRemoval=true)
+	 */
+	private $messages;
 
 	public function __construct()
 	{
@@ -186,8 +191,9 @@ class User implements UserInterface
 		$this->actus = new ArrayCollection();
 		$this->photos = new ArrayCollection();
 		$this->photosLanceurAlerte = new ArrayCollection();
-		$this->messagesDestinateur = new ArrayCollection();
-		$this->messagesDestinataire = new ArrayCollection();
+		$this->discussionsAuteur = new ArrayCollection();
+		$this->discussionsDestinataire = new ArrayCollection();
+		$this->messages = new ArrayCollection();
 	}
 
 	public function getId(): ?int
@@ -657,29 +663,59 @@ class User implements UserInterface
 	}
 
 	/**
-	 * @return Collection<int, Message>
+	 * @return Collection<int, Discussion>
 	 */
-	public function getMessagesDestinateur(): Collection
+	public function getDiscussionsAuteur(): Collection
 	{
-		return $this->messagesDestinateur;
+		return $this->discussionsAuteur;
 	}
 
-	public function addMessageDestinateur(Message $messageDestinateur): self
+	public function addDiscussionAuteur(Discussion $discussion): self
 	{
-		if (!$this->messagesDestinateur->contains($messageDestinateur)) {
-			$this->messagesDestinateur[] = $messageDestinateur;
-			$messageDestinateur->setUser($this);
+		if (!$this->discussionsAuteur->contains($discussion)) {
+			$this->discussionsAuteur[] = $discussion;
+			$discussion->setAuteur($this);
 		}
 
 		return $this;
 	}
 
-	public function removeMessageDestinateur(Message $messageDestinateur): self
+	public function removeDiscussionAuteur(Discussion $discussion): self
 	{
-		if ($this->messagesDestinateur->removeElement($messageDestinateur)) {
+		if ($this->discussionsAuteur->removeElement($discussion)) {
 			// set the owning side to null (unless already changed)
-			if ($messageDestinateur->getUser() === $this) {
-				$messageDestinateur->setUser(null);
+			if ($discussion->getAuteur() === $this) {
+				$discussion->setAuteur(null);
+			}
+		}
+
+		return $this;
+	}
+
+	/**
+	 * @return Collection<int, Discussion>
+	 */
+	public function getDiscussionsDestinataire(): Collection
+	{
+		return $this->discussionsDestinataire;
+	}
+
+	public function addDiscussionDestinataire(Discussion $discussion): self
+	{
+		if (!$this->discussionsDestinataire->contains($discussion)) {
+			$this->discussionsDestinataire[] = $discussion;
+			$discussion->setAuteur($this);
+		}
+
+		return $this;
+	}
+
+	public function removeDiscussionDestinataire(Discussion $discussion): self
+	{
+		if ($this->discussionsDestinataire->removeElement($discussion)) {
+			// set the owning side to null (unless already changed)
+			if ($discussion->getAuteur() === $this) {
+				$discussion->setAuteur(null);
 			}
 		}
 
@@ -689,27 +725,27 @@ class User implements UserInterface
 	/**
 	 * @return Collection<int, Message>
 	 */
-	public function getMessagesDestinataire(): Collection
+	public function getMessages(): Collection
 	{
-		return $this->messagesDestinataire;
+		return $this->messages;
 	}
 
-	public function addMessageDestinataire(Message $messageDestinataire): self
+	public function addMessage(Message $message): self
 	{
-		if (!$this->messagesDestinataire->contains($messageDestinataire)) {
-			$this->messagesDestinataire[] = $messageDestinataire;
-			$messageDestinataire->setUser($this);
+		if (!$this->messages->contains($message)) {
+			$this->messages[] = $message;
+			$message->setUser($this);
 		}
 
 		return $this;
 	}
 
-	public function removeMessageDestinataire(Message $messageDestinataire): self
+	public function removeMessage(Message $message): self
 	{
-		if ($this->messagesDestinataire->removeElement($messageDestinataire)) {
+		if ($this->messages->removeElement($message)) {
 			// set the owning side to null (unless already changed)
-			if ($messageDestinataire->getUser() === $this) {
-				$messageDestinataire->setUser(null);
+			if ($message->getUser() === $this) {
+				$message->setUser(null);
 			}
 		}
 

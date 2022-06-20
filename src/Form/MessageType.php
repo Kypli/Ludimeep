@@ -21,7 +21,8 @@ class MessageType extends AbstractType
 				'libelle',
 				TextType::class,
 				[
-					'required' => false,
+					'required' => true,
+					'mapped' => false,
 					'label' => 'Titre',
 					'attr' => [
 						'class' => 'form-control',
@@ -29,7 +30,7 @@ class MessageType extends AbstractType
 				]
 			)
 			->add(
-				'description',
+				'contenu',
 				TextareaType::class,
 				[
 					'required' => true,

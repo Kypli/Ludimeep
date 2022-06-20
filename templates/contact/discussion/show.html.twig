@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Message{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('discussion_index') }}
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		{# TITRE #}
+		<div class='row mb-3'>
+			<h2 class="radius-long offset-4 col-4">{{ d.libelle }}</h2>
+		</div>
+
+		{# DISCUSSION #}
+		<section>
+			<div class="row">
+				<div class="col-1 m-1">
+					<a class="btn btn-info" href="{{ path('discussion_index') }}">Retour</a>
+				</div>
+				{% if is_granted('ROLE_ADMIN') %}
+					<div class="col-2 m-1">
+						<a class="btn btn-info" href="{{ path('discussion_index_admin') }}">Retour liste Admin</a>
+					</div>
+				{% endif %}
+			</div>
+
+			{% for m in d.messages %}
+				<div class='row mt-2'>
+					<div class="{{ m.user.id == app.user.id ? 'offset-1 col-7 destinateur' : 'offset-4 col-7 destinataire' }}  mb-4">
+
+						{# BOUTONS + LU ? #}
+						<div class='row mb-2'>
+
+							{# LU ? #}
+							{% if m.user.id == app.user.id %}
+								<div class='col-1'>
+									<i
+										class="pointeur_help fas fa-eye{{ m.lu ? '' : '-slash' }}"
+										title="{{ m.lu ? 'Ce message a été lu par le destinataire' : 'Ce message n\'a pas été lu par le destinataire' }}"
+									></i>
+								</div>
+							{% endif %}
+
+							{# BOUTONS #}
+							{% if is_granted('ROLE_ADMIN') %}
+								<div class='offset-{{ m.user.id == app.user.id ? '5' : '6' }} col-3'>
+									<a class="btn btn-warning" href="{{ path('discussion_message_edit', {'id': m.id}) }}">Modifier</a>
+								</div>
+
+								<div class='col-3'>
+									{{ include('contact/discussion/_form_message_delete.html.twig') }}
+								</div>
+							{% endif %}
+						</div>
+
+						{# CONTENU #}
+						<div class='row mb-4'>
+							<div class='offset-1 col-10'>
+								{{ m.contenu }}
+							</div>
+						</div>
+
+						{# DESTINATAIRE + DATE#}
+						<div class='row taille12'>
+
+							{# USER #}
+							{% if m.user.id != app.user.id %}
+								<div class='offset-1 col-3 alignLeft'>
+									par 
+									{% if m.user.prenom != null and m.user.nom != null %}
+										{{ m.user.prenom|capitalize }} {{ m.user.nom|upper }}
+									{% else %}
+										{{ m.user.userName|capitalize }}
+									{% endif %}
+								</div>
+							{% endif %}
+
+							{# DATE #}
+							<div class='offset-{{ m.user.id != app.user.id ? '3' : '7' }} col-4 alignRight'>
+								{{ m.date ? m.date|date('d/m/Y à H:i:s') : '' }}
+							</div>
+						</div>
+					</div>
+				</div>
+			{% endfor %}
+		</section>
+
+		{# RÉPONDRE #}
+		<section>
+			{{ include('contact/discussion/_form_message_short.html.twig') }}
+		</section>
+	</div>
+{% endblock %}

@@ -81,7 +81,7 @@
 						Nous contacter
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="{{ path('message_add') }}">Écrire un message</a></li>
+						<li><a class="dropdown-item" href="{{ path('discussion_add') }}">Écrire un message</a></li>
 						<li><a class="dropdown-item" href="{{ path('appel') }}">Nous appeller</a></li>
 						<li><hr class="dropdown-divider"></li>
 						<li>ludimeep@protonmail.com</li>
@@ -101,7 +101,10 @@
 				{# INSCRIPTION #}
 				{% if app.user is not null %}
 					<li class="nav-item">
-						<a class="hoverable nav-link {{ route == 'message_index' ? 'active'}}" href="{{ path('message_index') }}">
+						<a
+							class="hoverable nav-link {{ route == 'discussion_index' ? 'active'}}"
+							href="{{ path('discussion_index') }}"
+						>
 							<i class="far fa-comment" title='Mes messages'></i>
 							{% set message_perso = app.session.get('message_perso') != null ? app.session.get('message_perso') : '0' %}
 							{% set pluriel = message_perso > 1 ? 's' : '' %}

@@ -1,9 +1,9 @@
 <form
 	method="post"
-	action="{{ path('message_delete', {'id': message.id}) }}"
+	action="{{ path('discussion_message_delete', {'id': m.id}) }}"
 	onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce message ? Cette action est irréversible !');
 ">
-	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ message.id) }}">
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ m.id) }}">
 	<button class="btn {{ btn is defined and btn == false ? 'pt-0' : 'btn-danger' }}">
 		{% if btn is defined and btn == false %}
 			<i class="fa fa-times red" title="Supprimer le message"></i>

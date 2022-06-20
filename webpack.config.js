@@ -50,7 +50,7 @@ Encore
     .addStyleEntry('photo_index', './assets/styles/photo/style.css')
 
     // Photo
-    .addStyleEntry('message_index', './assets/styles/message/style.css')
+    .addStyleEntry('discussion_index', './assets/styles/discussion/style.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')

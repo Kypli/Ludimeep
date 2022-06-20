@@ -38,7 +38,11 @@
 
 				{# VOIR MESSAGE #}
 				<li class="nav-item">
-					<a class="admin-li hoverable nav-link {{ route == 'message_index_admin' ? 'active'}}" aria-current="page" href="{{ path('message_index_admin') }}">
+					<a
+						class="admin-li hoverable nav-link {{ route == 'message_index_admin' ? 'active'}}"
+						aria-current="page"
+						href="{{ path('discussion_index_admin') }}"
+					>
 						<i class="fas fa-comment"  title='Voir les messages'></i>
 						Voir les discussions
 						{% set message_admin = app.session.get('message_admin') != null ? app.session.get('message_admin') : '0' %}

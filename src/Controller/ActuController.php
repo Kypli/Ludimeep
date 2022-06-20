@@ -70,14 +70,13 @@ class ActuController extends AbstractController
 			}
 		}
 
-		// Méta-datas
-		$metaDatas['ordre'] = $this->getMetaDatas_ordre($actu->getOrdre());
-		$metaDatas['class'] = $this->getMetaDatas_class($actu);
-
 		return $this->renderForm('actu/add.html.twig', [
 			'actu' => $actu,
 			'form' => $form,
-			'metaDatas' => $metaDatas,
+			'metaDatas' => [
+				'ordre' => $this->getMetaDatas_ordre($actu->getOrdre()),
+				'class' => $this->getMetaDatas_class($actu),
+			],
 		]);
 	}
 

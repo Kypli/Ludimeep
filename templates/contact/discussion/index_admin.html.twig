@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des messages{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Discussions pour admins</h2>
+
+			{# TABLEAU ADMIN LISTE #}
+			<section class='col-12 mb-3'>
+				<table class="table">
+					<thead>
+						<tr class="left">
+							<th width="4%">Voir</th>
+							<th width="4%">id</th>
+							<th width="13%">Destinateur</th>
+							<th width="13%">Destinataire</th>
+							<th width="18%">Libellé</th>
+							<th width="10%" class="center">Date</th>
+							<th width="8%" class="center">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for key,d in discussions_admin %}
+						<tr class="{{ datas_admin[key].nonLu > 0 ? 'gras' }}">
+							<td>
+								<a href="{{ path('discussion_show', {'id': d.id}) }}">
+									{% set pluriel = d.messages|length > 1 ? 's' : '' %}
+									<i 
+										class="fa{{ datas_admin[key].nonLu == 0 ? 'r' }} fa-comment"
+										title="Voir le{{ pluriel }} message{{ pluriel }}"
+									></i>
+								</a>
+							</td>
+							<td>{{ d.id }}</td>
+							<td>
+								<a href="{{ path('user_show', {'id': d.auteur.id}) }}">
+									{{
+										d.auteur.prenom != null and d.auteur.nom != null
+											? d.auteur.prenom|capitalize ~ ' ' ~ d.auteur.nom|upper
+											: d.auteur.userName|capitalize
+									}}
+								</a>
+							</td>
+							<td>
+								{{
+									d.destinataire != null
+										? d.destinataire.prenom != null and d.destinataire.nom != null
+											? d.destinataire.prenom|capitalize ~ ' ' ~ d.destinataire.nom|upper
+											: d.destinataire.userName|capitalize
+										: 'Admin'
+								}}
+							</td>
+							<td>{{ d.libelle }}</td>
+							<td class="center">{{ d.date|date('d/m/Y') }}</td>
+							<td style='min-width:100px;'>
+								<div class='row'>
+									<div class='offset-2 col-5 p-0' style="max-height: 30px">
+										<button class="btn pt-0">
+											<a href="{{ path('discussion_edit', {'id': d.id}) }}">
+												<i class="fas fa-edit" title="Modifier la discussion"></i>
+											</a>
+										</button>
+									</div>
+									<div class='col-5 p-0' style="max-height: 30px">
+										{% include('contact/discussion/_form_delete.html.twig') with {'d': d, 'btn': false} %}
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">Pas de message</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Liste des discussions</h2>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3'>
+				<table class="table">
+					<thead>
+						<tr class="left">
+							<th width="4%">Voir</th>
+							<th width="4%">id</th>
+							<th width="13%">Destinateur</th>
+							<th width="13%">Destinataire</th>
+							<th width="18%">Libellé</th>
+							<th width="10%" class="center">Date</th>
+							<th width="8%" class="center">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for key,d in discussions %}
+						<tr class="{{ datas[key].nonLu > 0 ? 'gras' }}">
+							<td>
+								<a href="{{ path('discussion_show', {'id': d.id}) }}">
+									{% set pluriel = datas[key].nonLu > 1 ? 's' : '' %}
+									<i 
+										class="fa{{ datas[key].nonLu == 0 ? 'r' }} fa-comment"
+										title="Voir le{{ pluriel }} message{{ pluriel }} non lu{{ pluriel }}"
+									></i>
+								</a>
+							</td>
+							<td>{{ d.id }}</td>
+							<td>
+								<a href="{{ path('user_show', {'id': d.auteur.id}) }}">
+									{{
+										d.auteur.prenom != null and d.auteur.nom != null
+											? d.auteur.prenom|capitalize ~ ' ' ~ d.auteur.nom|upper
+											: d.auteur.userName|capitalize
+									}}
+								</a>
+							</td>
+							<td>
+								{{
+									d.destinataire != null
+										? d.destinataire.prenom != null and d.destinataire.nom != null
+											? d.destinataire.prenom|capitalize ~ ' ' ~ d.destinataire.nom|upper
+											: d.destinataire.userName|capitalize
+										: 'Admin'
+								}}
+							</td>
+							<td>{{ d.libelle }}</td>
+							<td class="center">{{ d.date|date('d/m/Y') }}</td>
+							<td style='min-width:100px;'>
+								<div class='row'>
+									<div class='offset-2 col-5 p-0' style="max-height: 30px">
+										<button class="btn pt-0">
+											<a href="{{ path('discussion_edit', {'id': d.id}) }}">
+												<i class="fas fa-edit" title="Modifier le message"></i>
+											</a>
+										</button>
+									</div>
+									<div class='col-5 p-0' style="max-height: 30px">
+										{% include('contact/discussion/_form_delete.html.twig') with {'m': d, 'btn': false} %}
+									</div>
+								</div>
+							</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="11">Pas de message</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

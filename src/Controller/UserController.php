@@ -243,8 +243,8 @@ class UserController extends AbstractController
 			// Si plus anonyme, retrait du mdp temporaire + ip
 			if (!$user->getAnonyme()){
 				$user
-					->setPasswordTempo(null)
-					->setIp(null)
+					->setPasswordTempo('')
+					->setIp('')
 				;
 			}
 

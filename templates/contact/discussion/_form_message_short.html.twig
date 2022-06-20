@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-4">
+
+		{# CONTENU #}
+		<div class="offset-2 col-5 mb-4">
+			{{ form_widget(form.contenu) }}
+		</div>
+		<div class="col-1 mb-4">
+			<button class="btn btn-success">
+				{{ button_label|default('Répondre') }}
+			</button>
+		</div>
+	</div>
+
+{{ form_end(form) }}

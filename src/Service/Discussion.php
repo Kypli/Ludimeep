@@ -6,7 +6,7 @@ use App\Repository\MessageRepository;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class Discussions extends AbstractController
+class Discussion extends AbstractController
 {
 	private $mr;
 
@@ -16,7 +16,7 @@ class Discussions extends AbstractController
 	}
 
 	/**
-	 *Met à jour les messages non lues en session
+	 * Met à jour les messages non lues en session
 	 */
 	public function update()
 	{
@@ -28,7 +28,7 @@ class Discussions extends AbstractController
 
 		// Messages non lues pour admin (SESSION)
 		$this->isGranted('ROLE_ADMIN')
-			? $this->get('session')->set('message_admin', $this->mr->messageAdminNonLue())
+			? $this->get('session')->set('message_admin', $this->mr->messageAdminNonLue($this->getUser()))
 			: $this->get('session')->set('message_admin', null)
 		;
 

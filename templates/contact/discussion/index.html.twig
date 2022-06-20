@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mes discussions{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Mes discussions</h2>
+
+			{# ADD #}
+			<a href="{{ path('discussion_add') }}">
+				<div class="btn btn-success mb-2">
+					Écrire un message aux admins
+				</div>
+			</a>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3'>
+				<table class="table">
+					<thead>
+						<tr class="left">
+							<th width="10%" class="center">Voir</th>
+							<th width="30%">Libellé</th>
+							<th width="20%">Correspondant</th>
+							<th width="15%">Nombre de message</th>
+							<th width="10%" class="center">
+								<span title="Date du dernier message">Date</span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for key,d in discussions %}
+
+							<tr class="{{ datas[key].nonLu > 0 ? 'gras' }}">
+								<td>
+									<div class='row'>
+										<div class='offset-4 col-4 centrer'>
+											<a href="{{ path('discussion_show', {'id': d.id}) }}">
+												{% set pluriel = d.messages|length > 1 ? 's' : '' %}
+												<i 
+													class="fa{{ datas[key].nonLu == 0 ? 'r' }} fa-comment"
+													title="Voir le{{ pluriel }} message{{ pluriel }}"
+												></i>
+											</a>
+										</div>
+									</div>
+								</td>
+								<td>{{ d.libelle }}</td>
+								<td>
+									<div>
+										{% if d.destinataire == null %}
+											ADMIN
+										{% elseif d.destinataire.prenom != null and d.destinataire.nom != null %}
+											{{ d.destinataire.prenom|capitalize }} {{ d.destinataire.nom|upper }}
+										{% else %}
+											{{ d.destinataire.userName|capitalize }}
+										{% endif %}
+									</div>
+								</td>
+								<td class="center">{{ d.messages|length }}</td>
+								<td class="center">{{ d.date|date('d/m/Y') }}</td>
+							</tr>
+						{% endfor %}
+						{% if discussions is empty %}
+							<tr>
+								<td colspan="5">
+									Pas de message
+								</td>
+							</tr>
+						{% endif %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

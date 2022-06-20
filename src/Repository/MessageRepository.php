@@ -52,8 +52,10 @@ class MessageRepository extends ServiceEntityRepository
 	public function messageNonLue($user)
 	{
 		return $this->createQueryBuilder('m')
-			->where('m.lu = false')
-			->andWhere('m.destinataire = :user')
+			->leftJoin('m.discussion', 'd')
+			->where('d.auteur = :user or d.destinataire = :user ')
+			->andWhere('m.user != :user')
+			->andWhere('m.lu = false')
 			->setParameter('user', $user)
 			->select('COUNT(m.id)')
 			->getQuery()
@@ -64,10 +66,14 @@ class MessageRepository extends ServiceEntityRepository
 	/**
 	 * @return Renvoie le nombre de message admin non lu
 	 */
-	public function messageAdminNonLue()
+	public function messageAdminNonLue($user)
 	{
 		return $this->createQueryBuilder('m')
-			->where('m.lu = false')
+			->leftJoin('m.discussion', 'd')
+			->where('d.destinataire is null')
+			->andWhere('m.user != :user')
+			->setParameter('user', $user)
+			->andWhere('m.lu = false')
 			->select('COUNT(m.id)')
 			->getQuery()
 			->getSingleScalarResult()
@@ -75,66 +81,13 @@ class MessageRepository extends ServiceEntityRepository
 	}
 
 	/**
-	 * @return Renvoie les discussions d'un user
-	 */
-	public function mesDiscussions($user)
-	{
-		return $this->createQueryBuilder('m')
-			->leftJoin('m.user', 'u')
-			->leftJoin('m.destinataire', 'd')
-			->where('m.user = :user')
-			->setParameter('user', $user)
-			->orWhere('m.destinataire = :user')
-			->setParameter('user', $user)
-			->groupBy('m.discussion')
-			->select([
-				'm.id',
-				'm.libelle',
-				'm.discussion',
-				'm.date',
-				'm.lu as message_lu',
-				'd.id as destinataire_id',
-				'u.id as user_id',
-			])
-			->getQuery()
-			->getResult()
-		;
-	}
-
-	/**
-	 * @return Renvoie une discussion d'un user, nécessite d'être dans la discussion si non admin
-	 */
-	public function maDiscussion($user, $admin, $discussion)
-	{
-		$q = $this->createQueryBuilder('m');
-
-		if (!$admin){
-			$q
-				->where('m.user = :user or m.destinataire = :user')
-				->setParameter('user', $user->getId())
-			;
-		}
-
-		$q
-			->andWhere('m.discussion = :discussion')
-			->setParameter('discussion', $discussion)
-			->orderBy('m.date', 'DESC')			
-		;
-
-		return $q
-			->getQuery()
-			->getResult()
-		;
-	}
-
-	/**
 	 * @return Renvoie le nombre de message dans une discussion
 	 */
-	public function countMessagesInDiscussion($discussion_id)
+	public function countMessagesInDiscussion($discussion)
 	{
 		return $this->createQueryBuilder('m')
 			->where('m.discussion = :discussion')
-			->setParameter('discussion', $discussion_id)
+			->setParameter('discussion', $discussion)
 			->select('COUNT(m)')
 			->getQuery()
 			->getSingleScalarResult()
@@ -144,31 +97,35 @@ class MessageRepository extends ServiceEntityRepository
 	/**
 	 * @return Renvoie le nombre message non lu d'une discussion
 	 */
-	public function discussionLu($discussion_id, $user_id)
+	public function getMessagesNonLu($discussion, $user)
 	{
 		return $this->createQueryBuilder('m')
+			->leftJoin('m.user', 'u')
 			->where('m.discussion = :discussion')
-			->setParameter('discussion', $discussion_id)
-			->andWhere('m.destinataire = :user_id')
-			->setParameter('user_id', $user_id)
+			->setParameter('discussion', $discussion)
+			->andWhere('m.user != :user')
+			->setParameter('user', $user)
 			->andWhere('m.lu = false')
-			->select('COUNT(m.lu)')
+			->select('COUNT(m)')
 			->getQuery()
 			->getSingleScalarResult()
 		;
 	}
 
 	/**
-	 * @return Renvoie le numéro de la dernière discussion
+	 * @return Renvoie le nombre message non lu d'une discussion pour les admins
 	 */
-	public function getLastDiscussion()
+	public function getMessagesNonLuAdmin($discussion)
 	{
 		return $this->createQueryBuilder('m')
-			->select('m.discussion')
-			->orderBy('m.discussion', 'DESC')
-			->setMaxResults(1)
+			->leftJoin('m.discussion', 'd')
+			->where('m.discussion = :discussion')
+			->setParameter('discussion', $discussion)
+			->andWhere('d.auteur = m.user')
+			->andWhere('m.lu = false')
+			->select('COUNT(m)')
 			->getQuery()
-			->getScalarResult()
+			->getSingleScalarResult()
 		;
 	}
 }

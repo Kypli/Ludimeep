@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\Discussions;
+use App\Service\Discussion;
 
 use App\Repository\ActuRepository;
 
@@ -17,9 +17,9 @@ class HomeController extends AbstractController
 	/**
 	 * @Route("/", name="home")
 	 */
-	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository, Discussions $discussions)
+	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository, Discussion $discussionSer)
 	{
-		$discussions->update();
+		$discussionSer->update();
 
 		return $this->render('home/index.html.twig',[
 			'user' => $this->getUser(),

@@ -5,6 +5,8 @@ HOME
 	- Message de nouvel actualité / update / photo / newsletter ...
 - Message pour les visiteurs sur ce qu'ils pourront faire en tant que membre
 	- Lien ajout photo
+- Jeux mis à l'honneur, qui sera préparé en avance
+	- Décidé par vote
 
 
 ACTUALITÉS
