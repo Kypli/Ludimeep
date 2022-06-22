@@ -1,7 +1,16 @@
+
+/* BROUILLON */
 .brouillon {
 	border: 1px solid yellow;
 }
 
 .brouillon_text {
 	color: yellow;
+}
+
+
+/* ACTU */
+.actu ul {
+	text-align: left;
+	margin-left: 15%;
 }
