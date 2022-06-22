@@ -50,8 +50,24 @@
 							<td>{{ user.nom }}</td>
 							<td>{{ user.prenom }}</td>
 							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
-							<td>{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
-							<td>{{ user.newsletter is null ? 'Sans réponse' : user.newsletter ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+							<td>
+								{{ 
+									user.droitImage is null
+										? 'Sans réponse'
+										: user.droitImage
+											? '<i class="fas fa-check green"></i>'
+											: '<i class="fas fa-times red"></i>'
+								}}
+							</td>
+							<td>
+								{{
+									user.newsletter is null
+										? 'Sans réponse'
+										: user.newsletter
+											? '<i class="fas fa-check green"></i>'
+											: '<i class="fas fa-times red"></i>'
+								}}
+							</td>
 							<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
 							<td>{{ user.roleCa is null ? '' : user.roleCa }}</td>
 							<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>

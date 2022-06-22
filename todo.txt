@@ -65,6 +65,7 @@ NOUS CONTACTER
 NEWSLETTER
 - S'inscrire
 - Envoyer des newsletters aux mails
+- Lien de désabonnement avec id en algorythme
 
 
 L'ASSO
