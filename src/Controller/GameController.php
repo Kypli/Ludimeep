@@ -52,34 +52,30 @@ class GameController extends AbstractController
 	}
 
 	/**
-	 * @Route("/add", name="_add", methods={"GET", "POST"})
+	 * @Route("/add", name="_add", methods={"GET", "POST"}, options={"expose"=true})
 	 */
 	public function add(Request $request, GameRepository $gameRepository): Response
 	{
+		// Control request
+		if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
+
+		$datas = $request->query->all()['datas'];
+
 		$game = new Game();
-		$form = $this->createForm(GameType::class, $game);
-		$form->handleRequest($request);
+		$game
+			->setName($datas['name'])
+			->setOwner($this->getUser())
+			->setNbPlayers($datas['nbPlayers'])
+			->setDifficult($datas['difficult'])
+			->setVersion($datas['version'])
+			->setMinAge($datas['minAge'])
+			->setTime($datas['time'])
+		;
 
-		if ($form->isSubmitted() && $form->isValid()){
-			$game->setOwner($this->getUser());
-			$gameRepository->add($game);
-			return $this->redirectToRoute('game', [], Response::HTTP_SEE_OTHER);
-		}
+		$gameRepository->add($game);
 
-		return $this->renderForm('game/new.html.twig', [
-			'game' => $game,
-			'form' => $form,
-		]);
-	}
 
-	/**
-	 * @Route("/{id}", name="_show", methods={"GET"})
-	 */
-	public function show(Game $game): Response
-	{
-		return $this->render('game/show.html.twig', [
-			'game' => $game,
-		]);
+		return new JsonResponse(['save' => true]);
 	}
 
 	/**
@@ -102,7 +98,7 @@ class GameController extends AbstractController
 	}
 
 	/**
-	 * @Route("/{id}", name="_delete", methods={"POST"})
+	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
 	public function delete(Request $request, Game $game, GameRepository $gameRepository): Response
 	{
