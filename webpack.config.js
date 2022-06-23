@@ -47,13 +47,17 @@ Encore
     .addStyleEntry('actu_show', './assets/styles/actu/style.css')
 
     // Photo
-    .addStyleEntry('photo_index', './assets/styles/photo/style.css')
+    .addStyleEntry('photo', './assets/styles/photo/style.css')
 
-    // Photo
-    .addStyleEntry('discussion_index', './assets/styles/discussion/style.css')
+    // Jeu
+    .addEntry('game', './assets/js/game/game.js')
+
+    // Dicussion
+    .addStyleEntry('discussion', './assets/styles/discussion/style.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
+    .addEntry('shieldui', './assets/js/service/shieldui.js')
     .addEntry('modal_photo', './assets/js/service/modal_photo.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

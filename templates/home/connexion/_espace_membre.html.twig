@@ -1,11 +1,14 @@
-<div class='row mt-2'>
-	<div class='col-5 alignRight'>{{ app.user.userName|capitalize }}</div>
-	{% if app.user.adherant %}
-		<div class='col-1'>
-			<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.adherant }}">
-		</div>
-	{% endif %}
-	<div class='col-6'><a href="{{ path('user_show', { 'id':app.user.id} ) }}" class='lien_profil'>Mon profil</a></div>
+<div class='row'>
+	<div class='col-4 alignRight'>
+		{{ app.user.userName|capitalize }}
+		{% if app.user.adherant %}
+			<div class='col-12'>
+				<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.adherant }}">
+			</div>
+		{% endif %}
+	</div>
+	<div class='col-4'><a href="{{ path('game') }}" class='lien_profil'>Mes jeux</a></div>
+	<div class='col-4'><a href="{{ path('user_show', { 'id':app.user.id} ) }}" class='lien_profil'>Mon profil</a></div>
 </div>
 <div class='row mt-2'>
 	<div class='col-12 mt-4'>

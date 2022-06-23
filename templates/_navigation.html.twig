@@ -20,6 +20,14 @@
 					</a>
 				</li>
 
+				{# JEUX #}
+				<li class="nav-item">
+					<a class="hoverable nav-link {{ route == 'game' ? 'active'}}" aria-current="page" href="{{ path('game') }}">
+						<i class="fa-solid fa-chess-board" title='Jeux'></i>
+						Jeux
+					</a>
+				</li>
+
 				{# NEWLETTER #}
 				<li class="nav-item">
 					<a class="hoverable nav-link {{ route == 'newsletter' ? 'active'}}" href="{{ path('newsletter') }}">
@@ -48,7 +56,7 @@
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
 					>
-						<i class="fa-solid fa-chess-board" title='Asso'></i>
+						<i class="fas fa-building" title='Asso'></i>
 						L'asso
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -77,7 +85,7 @@
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
 					>
-						<i class="fa-solid fa-envelope"title='Contact'></i>
+						<i class="far fa-comment-alt" title='Contact'></i>
 						Nous contacter
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -98,14 +106,14 @@
 					</li>
 				{% endif %}
 
-				{# INSCRIPTION #}
+				{# DISCUSSION #}
 				{% if app.user is not null %}
 					<li class="nav-item">
 						<a
 							class="hoverable nav-link {{ route == 'discussion_index' ? 'active'}}"
 							href="{{ path('discussion_index') }}"
 						>
-							<i class="far fa-comment" title='Mes messages'></i>
+							<i class="far fa-comments" title='Mes messages'></i>
 							{% set message_perso = app.session.get('message_perso') != null ? app.session.get('message_perso') : '0' %}
 							{% set pluriel = message_perso > 1 ? 's' : '' %}
 							Mes discussions

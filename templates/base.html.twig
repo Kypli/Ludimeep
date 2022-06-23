@@ -6,11 +6,30 @@
 		<title>Ludi-Meep' - {% block title %}Bienvenue{% endblock %}</title>
 
 		{% block stylesheets %}
+
+			{# SHIELDUI #}
+			<link rel="stylesheet" href="{{ asset('shieldui/shieldui-lite/dist/css/light-bootstrap/all.min.css') }}">
+
 			{{ encore_entry_link_tags('app') }}
 		{% endblock %}
 
 		{% block javascripts %}
+
+			{# JQUERY #}
 			<script type="text/javascript" src="{{ asset('/jquery/jquery_3.6.0_min.js') }}"></script>
+
+			{# FOSJsRouting #}
+			<script src="{{ asset('bundles/fosjsrouting/js/router.min.js') }}"></script>
+			<script src="{{ path('fos_js_routing_js', { callback: 'fos.Router.setData' }) }}"></script>
+
+			{# SHIELDUI #}
+			{# <script src="{{ asset('shieldui/shieldui-all.min.js') }}"></script> #} {# SHIELD UI FULL #}
+			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-all.min.js') }}"></script> {# SHIELD UI LITE #}
+			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-latestjszip.min.js') }}"></script> {# EXPORT EXCEL #}
+			<script id="noRecordsTemplate" type="text/x-shield-template">{% include 'shieldui/_noRecordsTemplate.html.twig' %}</script>
+			<script id="loading" type="text/x-shield-template">{% include 'shieldui/_loading.html.twig' %}</script>
+
+			{# WEBPACK #}
 			{{ encore_entry_script_tags('app') }}
 		{% endblock %}
 	</head>

@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('game') }}
+	{{ encore_entry_link_tags('photo') }}
+	{{ encore_entry_link_tags('shieldui') }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('game') }}
+	{{ encore_entry_script_tags('shieldui') }}
+	{{ encore_entry_script_tags('modal_photo') }}
+{% endblock %}
+
+{% block title %}Ludothèque{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		{# TITRE #}
+		<h2 class="radius-long offset-4 col-4">Ludothèque</h2>
+
+		{# LISTE #}
+		<section class='row mb-3'>
+			{% include 'shieldui/_grid.html.twig' %}
+		</section>
+	</div>
+
+	{# MODAL PHOTOS #}
+	{% include 'home/_modal.html.twig' %}
+
+	{# MODAL FORM ADD #}
+	<div id="modal" class="hide">
+		<div class='container'>
+
+			{# LOADING #}
+			<div class="text-center hide loading">
+				<div class="spinner-border text-primary" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+
+			{# INFOS GÉNÉRALES #}
+			<div class="row mt-3 mb-3">
+				<h5 class="offset-3 col-4 left">Infos générales</h5>
+			</div>
+
+			{{ form_start(form) }}
+				<div class='row'>
+
+					{# LIBELLE #}
+					<div class="offset-1 col-2 pt-3 right">
+						{{ form_label(form.name) }}
+					</div>
+					<div class="col-3 pt-1">
+						{{ form_widget(form.name) }}
+					</div>
+
+					{# FABRIQUANT #}
+					<div class="col-2 pt-3 right">
+						{{ form_label(form.nbPlayers) }}
+					</div>
+					<div class="col-3 pt-1 right">
+						{{ form_widget(form.nbPlayers) }}
+					</div>
+
+					{# TYPE #}
+					<div class="col-2 offset-1 pt-3 right">
+						<span>{{ form_label(form.difficult) }}</span>
+					</div>
+					<div class="col-3 pt-1 right">
+						{{ form_widget(form.difficult) }}
+					</div>
+
+					{# IMMOBILISATION #}
+					<div class="col-2 pt-3 right">
+						<span>{{ form_label(form.version) }}</span>
+					</div>
+					<div class="col-3 pt-1 right">
+						{{ form_widget(form.version) }}
+					</div>
+
+					{# TYPE SUPERVISION #}
+					<div class="offset-1 col-2 pt-3 right">
+						<span>{{ form_label(form.minAge) }}</span>
+					</div>
+					<div class="col-3 pt-1 right">
+						{{ form_widget(form.minAge) }}
+					</div>
+
+					{# DUREÉ #}
+					 <div class="col-2 offset-1 pt-3 right">
+						<span>{{ form_label(form.time) }}</span>
+					</div>
+					<div class="col-3 pt-1 right">
+						{{ form_widget(form.time) }}
+					</div>
+				</div>
+
+				{{ include('shieldui/_modal_ending.html.twig') }}
+
+			{{ form_end(form) }}
+
+		</div>
+	</div>
+
+{% endblock %}

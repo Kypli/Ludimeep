@@ -1,0 +1,16 @@
+{# TABLEAU #}
+<div class='row mb-1'>
+	<div class='col-12'>
+		<span id='closeFiltres' class='hide' title="Retirer le filtre"><i class="fas fa-times"></i></span>
+		<span id='filtreActif' class='hide'>Filtre actif : </span>
+		<span id='filtreActifType' class='hide'></span>
+		<div
+			id="grid"
+			data-user="{{ user is defined ? user : '' }}"
+			data-admin="{{ admin is defined ? admin : '' }}"
+		></div>
+	</div>
+</div>
+
+{# CHARGEMENT #}
+<div id="chargementGrid"></div>

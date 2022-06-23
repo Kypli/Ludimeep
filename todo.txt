@@ -4,10 +4,8 @@ HOME
 - Tchat pour membre
 	- Message de nouvel actualité / update / photo / newsletter ...
 - Message pour les visiteurs sur ce qu'ils pourront faire en tant que membre
-	- Lien ajout photo
 - Jeux mis à l'honneur, qui sera préparé en avance
 	- Décidé par vote
-
 
 ACTUALITÉS
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)

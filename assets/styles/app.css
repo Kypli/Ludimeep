@@ -85,6 +85,7 @@ h4 {
 
 .conteneur			{	display: flex;					}
 .hidden				{	display: none;					}
+.hide				{	display: none;					}
 
 .taille8 			{	font-size: 8px;					}
 .taille9 			{	font-size: 9px;					}
