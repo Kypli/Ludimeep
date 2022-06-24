@@ -14,11 +14,11 @@ $(document).ready(function(){
 	var
 		indexSeleted = null,
 		action = 'add',
+		user_id = $("#grid").data('userid'),
 		user = $("#grid").data('user') == 1 ? true : false,
 		admin = $("#grid").data('admin') == 1 ? true : false
 	;
 	buildGrid()
-
 
 	////////////
 	// ON EVENTS
@@ -28,8 +28,7 @@ $(document).ready(function(){
 	$("body").on("click", "#valider", function(e){
 		event.preventDefault()
 		$('.loading').show()
-		var datas = getFormDatas()
-		sendForm(datas)
+		sendForm(getFormDatas())
 	})
 
 
@@ -45,31 +44,6 @@ $(document).ready(function(){
 					read: {
 						url: Routing.generate('game_games'),
 					},
-					// modify: {
-					// 	remove: {
-					// 		url: Routing.generate('game_delete'),
-					// 		type: "POST",
-					// 		data: function(item) {
-
-					// 			return {
-					// 				datas: item[0].data,
-					// 			}
-					// 		},
-					// 		success: function(response){
-
-					// 			if (response.save === true){
-					// 				toaster("Le jeu a été supprimé.")
-
-					// 			} else {
-					// 				toaster(response.raison)
-					// 			}
-					// 		},
-					// 		error: function(error){
-					// 			toaster("Formulaire incorrect.")
-					// 			console.log('Erreur ajax: ' + error)
-					// 		},
-					// 	}
-					// },
 				},
 				schema:
 				{
@@ -83,6 +57,11 @@ $(document).ready(function(){
 						name: {
 							path: "name",
 							type: String,
+							nullable: false,
+						},
+						user_id: {
+							path: "user_id",
+							type: Number,
 							nullable: false,
 						},
 						userName: {
@@ -120,8 +99,13 @@ $(document).ready(function(){
 							type: String,
 							nullable: true,
 						},
-						time: {
-							path: "time",
+						time_hour: {
+							path: "time_hour",
+							type: String,
+							nullable: true,
+						},
+						time_minute: {
+							path: "time_minute",
 							type: String,
 							nullable: true,
 						},
@@ -139,7 +123,7 @@ $(document).ready(function(){
 				allowUnsort : false
 			},
 			paging: {
-				pageSize: 100,
+				pageSize: 30,
 				pageLinksCount: 10,
 				messages: {
 					pageLabelTemplate: "{0}",
@@ -154,19 +138,8 @@ $(document).ready(function(){
 				enabled: true
 			},
 			minWidth: 3000,
-			maxHeight: 600,
-			editing: {
-				enabled: true,
-				type: "row",
-				confirmation: {
-					"delete": {
-						enabled: true,
-						template: function (item) {
-							return "Supprimer ce jeu ? Attention cette action est définitive !";
-						}
-					}
-				},
-			},
+			maxHeight: 500,
+			editing: true,
 			scrolling: true,
 			resizing: true,
 			columnReorder: true,
@@ -182,7 +155,7 @@ $(document).ready(function(){
 						myCustomFilter(cell, 'id', 'Id', 'number', 50)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.id == undefined ? '' : item.id
+						let text = item.id == undefined ? '' : item.id
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
@@ -204,7 +177,7 @@ $(document).ready(function(){
 						myCustomFilter(cell, 'owner', 'Propriétaire', 'text', 80)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.nom == null || item.prenom == null ? item.userName : ucFirst(item.nom) + ' ' + ucFirst(item.prenom)
+						let text = item.nom == null || item.prenom == null ? item.userName : ucFirst(item.nom) + ' ' + ucFirst(item.prenom)
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
@@ -217,20 +190,20 @@ $(document).ready(function(){
 						myCustomFilter(cell, 'nbPlayers', 'Nombre de joueurs', 'text', 70)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.nbPlayers == null ? '' : item.nbPlayers
+						let text = item.nbPlayers == null ? '' : item.nbPlayers
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
 				{
 					field: "difficult",
 					title: "Difficulté",
-					width: 60,
-					minWidth: 60,
+					width: 50,
+					minWidth: 50,
 					customFilter: function(cell, item, index){
-						myCustomFilter(cell, 'difficult', 'Difficulté', 'text', 70)
+						myCustomFilter(cell, 'difficult', 'Difficulté', 'text', 60)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.difficult == null ? '' : item.difficult
+						let text = item.difficult == null ? '' : item.difficult
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
@@ -243,59 +216,121 @@ $(document).ready(function(){
 						myCustomFilter(cell, 'version', 'Version', 'text', 70)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.version == null ? '' : item.version
+						let text = item.version == null ? '' : item.version
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
 				{
 					field: "minAge",
 					title: "Age minimum",
-					width: 60,
-					minWidth: 60,
+					width: 50,
+					minWidth: 50,
 					customFilter: function(cell, item, index){
-						myCustomFilter(cell, 'minAge', 'Age minimum', 'text', 70)
+						myCustomFilter(cell, 'minAge', 'Age minimum', 'text', 50)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.minAge == null ? '' : item.minAge
+						let text = item.minAge == null ? '' : item.minAge
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
 				{
 					field: "time",
 					title: "Durée",
-					width: 60,
-					minWidth: 60,
+					width: 80,
+					minWidth: 80,
 					customFilter: function(cell, item, index){
-						myCustomFilter(cell, 'time', 'Durée', 'text', 70)
+						myCustomFilter(cell, 'time', 'Durée', 'text', 80)
 					},
 					columnTemplate: function(cell, item, index){
-						var text = item.nbPlayers == null ? '' : item.nbPlayers
-						$("<div>" + text + "</div>").appendTo(cell)
+
+						let hour = item.time_hour
+						let minute = item.time_minute
+
+						hour = 
+							hour == null ||
+							hour == '0' ||
+							hour == '00'
+								? 0
+								: hour
+
+						minute = 
+							minute == null ||
+							minute == '0' ||
+							minute == '00'
+								? 0
+								: minute
+
+						let pluriel_hour = hour > 1 ? 's' : ''
+						let pluriel_minute = minute > 1 ? 's' : ''
+						let jonction = hour > 0 && minute > 0 ? ' et ' : ''
+
+						let text_hour = hour == 0
+							? ''
+							: parseInt(hour, 10) + ' heure' + pluriel_hour
+
+						let text_minute = minute == 0
+							? ''
+							: parseInt(minute, 10) + ' minute' + pluriel_minute
+
+						$("<div>" + text_hour + jonction + text_minute + "</div>").appendTo(cell)
 					},
 				},
 				{
-					field: "actions",
 					title: "Actions",
+					filterable: false,
 					width: 60,
 					minWidth: 60,
-					visible: admin,
-					buttons: [
-						{
-							caption: "<i class='far fa-edit' title='Modifier'></i>",
-							click: function (e){
-								setAction('edit')
-								setIndexSelected(e)
-								var id = $("#grid").swidget().dataItem(e).id
-								$('#valider').data('id', id)
-								modalAdd()
-								getEntity(id)
-							},
-						},
-						{ 
-							commandName: "delete",
-							caption: "<i class='far fa-trash-alt' title='Supprimer'></i>"
+					visible: user,
+					columnTemplate: function(cell, item, index){
+
+						let id = item.id
+						let user_id_bis = item.user_id
+
+						// return "Supprimer ce jeu ? Attention cette action est définitive !";
+
+						if (admin || user_id_bis == user_id){
+
+							$(
+								"<div class='icon'>" +
+									"<button id='but_edit_"+item.id+"'><i class='far fa-edit' title='Modifier'></i></button>" +
+									"<button id='but_delete_"+item.id+"'><i class='far fa-trash-alt' title='Supprimer'></i>" +
+								"</div>"
+							).appendTo(cell)
+
+							$("#but_edit_"+item.id).shieldButton({
+								events: {
+									click: function (e){
+										setAction('edit')
+										setIndexSelected(index)
+
+										if (admin || user_id_bis == user_id){
+											$('#valider').data('id', id)
+											modalAdd()
+											getEntity(id)
+										} else {
+											toaster("Vous n'êtes pas propriétaire de ce jeu.")
+										}
+									}
+								}
+							});
+
+							$("#but_delete_"+item.id).shieldButton({
+								events: {
+									click: function (e){
+										if (confirm("Supprimer ce jeu ? Attention cette action est définitive !")){
+											setAction('delete')
+											setIndexSelected(index)
+											let datas = {id: item.id}
+											sendForm(datas)
+										}
+									}
+								}
+							});
+
+						} else {
+							$("<div></div>").appendTo(cell)
 						}
-					]
+					},
 				},
 			],
 			toolbar: !user ? false : [
@@ -364,19 +399,23 @@ $(document).ready(function(){
 			difficult: $("#game_difficult").val(),
 			version: $("#game_version").val(),
 			minAge: $("#game_minAge").val(),
-			time: $("#game_time").val(),
+			time_hour: $("#game_time_hour").val(),
+			time_minute: $("#game_time_minute").val(),
+			owner: $("#game_owner").val(),
 		}
 	}
 
 	// Set form datas
 	function setFormDatas(datas){
 		$("#valider").data('id', datas.id)
-		$("#game_name").val(datas.libelle)
-		$("#game_nbPlayers").val(datas.fabriquant)
-		$("#game_difficult").val(datas.type)
-		$("#game_version").val(datas.immobilisation)
-		$("#game_minAge").val(datas.type_supervision)
-		$("#game_time").val(datas.prog)
+		$("#game_name").val(datas.name)
+		$("#game_nbPlayers").val(datas.nbPlayers)
+		$("#game_difficult").val(datas.difficult)
+		$("#game_version").val(datas.version)
+		$("#game_minAge").val(datas.minAge)
+		$("#game_time_hour").val(parseInt(datas.time_hour, 10))
+		$("#game_time_minute").val(parseInt(datas.time_minute, 10))
+		$("#game_owner").val(datas.user_id)
 	}
 
 	// Modal Add
@@ -387,7 +426,7 @@ $(document).ready(function(){
 	// AJAX - Send form
 	function sendForm(datas){
 
-		var action = getAction()
+		let action = getAction()
 
 		$.ajax({
 			type: "POST",
@@ -396,10 +435,22 @@ $(document).ready(function(){
 			success: function(response){
 
 				if (response.save == 'true' || response.save == true){
-					$("#modal").swidget().close()
+
+					action == 'delete'
+						? deleteItem(getIndexSelected())
+						: $("#modal").swidget().close()					
+
+					// Get owner
+					datas.userName = response.userName
+					datas.nom = response.nom
+					datas.prenom = response.prenom
+					datas.user_id = response.user_id
+
 					action == 'edit'
 						? toaster("Le jeu à bien été modifié")
-						: toaster("Le jeu à bien été enregistré")
+						: action == 'add'
+							? toaster("Le jeu à bien été enregistré")
+							: toaster("Le jeu à bien été supprimé")
 					action == 'edit'
 						? editItem(datas, getIndexSelected())
 						: addItem(datas, response.id)
@@ -417,7 +468,7 @@ $(document).ready(function(){
 	// Add Grid item
 	function addItem(datas, id){
 		datas.id = id
-		var grid = $("#grid").swidget();
+		let grid = $("#grid").swidget();
 		grid.insertRow(0, datas)
 		grid.saveChanges()
 	}
@@ -425,20 +476,29 @@ $(document).ready(function(){
 	// Edit Grid item
 	function editItem(datas, index){
 
-		var
+		let
 			grid = $("#grid").swidget(),
 			item = $("#grid").swidget().dataItem(index)
 		;
 
-		item.libelle = datas.libelle
-		item.fabriquant = datas.fabriquant
-		item.type = datas.type
-		item.immobilisation = datas.immobilisation
-		item.type_supervision = datas.type_supervision
-		item.prog = datas.prog
-		item.zone_usine = datas.zone_usine
+		item.name = datas.name
+		item.nbPlayers = datas.nbPlayers
+		item.difficult = datas.difficult
+		item.version = datas.version
+		item.minAge = datas.minAge
+		item.time_hour = datas.time_hour
+		item.time_minute = datas.time_minute
+		item.user_id = datas.user_id
+		item.userName = datas.userName
+		item.nom = datas.nom
+		item.prenom = datas.prenom
 
 		grid.dataSource.edit(index).item
 		grid.saveChanges()
+	}
+
+	// Edit Grid item
+	function deleteItem(index){
+		$("#grid").swidget().deleteRow(index).saveChanges()
 	}
 })

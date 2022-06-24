@@ -101,7 +101,7 @@ h4 {
 
 .barre 				{	text-decoration: line-through;	}
 .souligne			{	text-decoration: underline;		}
-.gras						{	font-weight: bold;		}
+.gras				{	font-weight: bold;				}
 .italique			{	font-style : italic;			}
 
 .pointeur 			{	cursor: pointer;				}

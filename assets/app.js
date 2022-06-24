@@ -2,7 +2,7 @@
 import './modules/modules.js';
 
 // JS
-import './js/navigation.js';
+import './js/navigation/navigation.js';
 import './js/service/toaster.js';
 import './js/service/service.js';
 

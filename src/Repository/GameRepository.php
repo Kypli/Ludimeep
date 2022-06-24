@@ -54,15 +54,16 @@ class GameRepository extends ServiceEntityRepository
             ->join('x.owner', 'u')
             ->select(
                 'x.id',
-                'u.userName',
-                'u.nom',
-                'u.prenom',
                 'x.name',
                 'x.nbPlayers',
                 'x.difficult',
                 'x.version',
                 'x.minAge',
                 'x.time',
+                'u.id as user_id',
+                'u.userName',
+                'u.nom',
+                'u.prenom',
             )
             ->orderBy('x.id', 'DESC')
             ->getQuery()

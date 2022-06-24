@@ -57,5 +57,8 @@
 
 		{# FOOTER #}
 		{% block footer %}{% include '_footer.html.twig' %}{% endblock %}
+
+		{# TOASTER #}
+		<div id="toaster" class="pointer" data-toaster="{{ message_toaster is defined ? message_toaster : 'Action inconnue !' }}"></div>
 	</body>
 </html>
