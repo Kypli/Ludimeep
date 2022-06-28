@@ -421,6 +421,7 @@ $(document).ready(function(){
 	// Modal Add
 	function modalAdd(){
 		modal(null, null, "d'un jeu", false, 1100, 400)
+		$('#game_name').focus()
 	}
 
 	// AJAX - Send form

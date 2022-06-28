@@ -11,9 +11,9 @@ d_nextTuesday.setHours(18, 30, 0, 0);
 
 // TODO Date sans séance
 // Prochain mardi suivant 
-// if (d_nextTuesday <= new Date('2022-04-26T18:30:00')){
-// 	d_nextTuesday.setDate(d_nextTuesday.getDate() + 7);
-// }
+if (d_nextTuesday <= new Date('2022-06-28T18:30:00')){
+	d_nextTuesday.setDate(d_nextTuesday.getDate() + 7);
+}
 
 // Jour avec zéros
 var twoDigitDay = ((d_nextTuesday.getDate().length) === 1)

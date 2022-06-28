@@ -65,7 +65,7 @@ class GameRepository extends ServiceEntityRepository
                 'u.nom',
                 'u.prenom',
             )
-            ->orderBy('x.id', 'DESC')
+            ->orderBy('x.name', 'ASC')
             ->getQuery()
             ->getArrayResult()
         ;
