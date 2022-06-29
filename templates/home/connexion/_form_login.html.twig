@@ -23,8 +23,13 @@
 		<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 		{# VALID #}
-		<div class="col-4 offset-4 mt-1">
-			<button type="submit">Go</button>
+		<div class="col-5 offset-1 mt-1">
+			<button class='p-1' type="submit">Se connecter</button>
+		</div>
+
+		{# INSCRIPTION #}
+		<div class="col-4 offset-1 mt-2">
+			<a href="{{ path('user_add')}}" class='p-1'>S'inscrire</a>
 		</div>
 	</div>
 </form>

@@ -139,7 +139,7 @@ $(document).ready(function(){
 			},
 			minWidth: 3000,
 			maxHeight: 500,
-			editing: true,
+			editing: user,
 			scrolling: true,
 			resizing: true,
 			columnReorder: true,
@@ -177,7 +177,9 @@ $(document).ready(function(){
 						myCustomFilter(cell, 'owner', 'Propriétaire', 'text', 80)
 					},
 					columnTemplate: function(cell, item, index){
-						let text = item.nom == null || item.prenom == null ? item.userName : ucFirst(item.nom) + ' ' + ucFirst(item.prenom)
+						let text = !item.nom || !item.prenom
+							? item.userName
+							: ucFirst(item.nom) + ' ' + ucFirst(item.prenom)
 						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
@@ -276,6 +278,7 @@ $(document).ready(function(){
 					},
 				},
 				{
+					field: "action",
 					title: "Actions",
 					filterable: false,
 					width: 60,
@@ -437,10 +440,6 @@ $(document).ready(function(){
 
 				if (response.save == 'true' || response.save == true){
 
-					action == 'delete'
-						? deleteItem(getIndexSelected())
-						: $("#modal").swidget().close()					
-
 					// Get owner
 					datas.userName = response.userName
 					datas.nom = response.nom
@@ -448,13 +447,17 @@ $(document).ready(function(){
 					datas.user_id = response.user_id
 
 					action == 'edit'
-						? toaster("Le jeu à bien été modifié")
-						: action == 'add'
-							? toaster("Le jeu à bien été enregistré")
-							: toaster("Le jeu à bien été supprimé")
-					action == 'edit'
-						? editItem(datas, getIndexSelected())
-						: addItem(datas, response.id)
+						? toaster("Le jeu à bien été modifié") + editItem(datas, getIndexSelected())
+						: null
+
+					action == 'add'
+						? toaster("Le jeu à bien été enregistré") + addItem(datas, response.id)
+						: null
+
+					action == 'delete'
+						? toaster("Le jeu à bien été supprimé") + deleteItem(getIndexSelected())
+						: $("#modal").swidget().close()
+
 				} else {
 					toaster(response.raison)
 				}
@@ -500,6 +503,6 @@ $(document).ready(function(){
 
 	// Edit Grid item
 	function deleteItem(index){
-		$("#grid").swidget().deleteRow(index).saveChanges()
+		$("#grid").swidget().deleteRow(index)
 	}
 })
