@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sondage{% endblock %}
+
+{% block body %}
+    <h1>Sondage</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sondage.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ sondage.title }}</td>
+            </tr>
+            <tr>
+                <th>Line1</th>
+                <td>{{ sondage.line1 }}</td>
+            </tr>
+            <tr>
+                <th>Line2</th>
+                <td>{{ sondage.line2 }}</td>
+            </tr>
+            <tr>
+                <th>Line3</th>
+                <td>{{ sondage.line3 }}</td>
+            </tr>
+            <tr>
+                <th>Line4</th>
+                <td>{{ sondage.line4 }}</td>
+            </tr>
+            <tr>
+                <th>Line5</th>
+                <td>{{ sondage.line5 }}</td>
+            </tr>
+            <tr>
+                <th>Line6</th>
+                <td>{{ sondage.line6 }}</td>
+            </tr>
+            <tr>
+                <th>Line7</th>
+                <td>{{ sondage.line7 }}</td>
+            </tr>
+            <tr>
+                <th>Line8</th>
+                <td>{{ sondage.line8 }}</td>
+            </tr>
+            <tr>
+                <th>Result1</th>
+                <td>{{ sondage.result1 }}</td>
+            </tr>
+            <tr>
+                <th>Result2</th>
+                <td>{{ sondage.result2 }}</td>
+            </tr>
+            <tr>
+                <th>Result3</th>
+                <td>{{ sondage.result3 }}</td>
+            </tr>
+            <tr>
+                <th>Result4</th>
+                <td>{{ sondage.result4 }}</td>
+            </tr>
+            <tr>
+                <th>Result5</th>
+                <td>{{ sondage.result5 }}</td>
+            </tr>
+            <tr>
+                <th>Result6</th>
+                <td>{{ sondage.result6 }}</td>
+            </tr>
+            <tr>
+                <th>Result7</th>
+                <td>{{ sondage.result7 }}</td>
+            </tr>
+            <tr>
+                <th>Result8</th>
+                <td>{{ sondage.result8 }}</td>
+            </tr>
+            <tr>
+                <th>Date_debut</th>
+                <td>{{ sondage.dateDebut ? sondage.dateDebut|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date_fin</th>
+                <td>{{ sondage.dateFin ? sondage.dateFin|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sondage') }}">back to list</a>
+
+    <a href="{{ path('sondage_edit', {'id': sondage.id}) }}">edit</a>
+
+    {{ include('sondage/_delete_form.html.twig') }}
+{% endblock %}

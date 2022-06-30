@@ -4,17 +4,10 @@
 		<div class="container-fluid">
 			<ul class="navbar-nav me-auto mb-2">
 
-				{# ACTU #}
-				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'actu_index' ? 'active'}}" aria-current="page" href="{{ path('actu_index') }}">
-						<i class="fa-solid fa-newspaper" title='Actualités'></i>
-						Actualités
-					</a>
-				</li>
 
 				{# PHOTO #}
 				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'photo_index' ? 'active'}}" aria-current="page" href="{{ path('photo_index') }}">
+					<a class="hoverable nav-link {{ route == 'photo' ? 'active'}}" aria-current="page" href="{{ path('photo') }}">
 						<i class="fa-solid fa-image" title='Photos'></i>
 						Photos
 					</a>
@@ -28,12 +21,54 @@
 					</a>
 				</li>
 
-				{# NEWLETTER #}
-				<li class="nav-item">
-					<a class="hoverable nav-link {{ route == 'newsletter' ? 'active'}}" href="{{ path('newsletter') }}">
-						<i class="fa-regular fa-envelope" title='Newsletters'></i>
-						Newletters
+				{# VIE DU SITE #}
+				{% 
+					set route_vieSite = 
+						route == 'actu' or
+						route == 'sondage' or
+						route == 'newsletter'
+							? true
+							: false
+				%}
+				<li class="nav-item dropdown">
+					<a
+						class="hoverable nav-link {{ route_vieSite ? 'active'}} dropdown-toggle"
+						href="#"
+						role="button"
+						id="navbarDropdown"
+						aria-expanded="false"
+						data-bs-toggle="dropdown"
+					>
+						{# <i class="far fa-heart-rate"></i> #}
+						<i class="fas fa-heartbeat"></i>
+						Vie du site
 					</a>
+					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+						{# ACTUS #}
+						<li>
+							<a class="dropdown-item" href="{{ path('actu') }}">
+								<i class="fa-solid fa-newspaper" title='Actualités'></i>
+								Actualités
+							</a>
+						</li>
+
+						{# SONDAGES #}
+						<li>
+							<a class="dropdown-item" href="{{ path('sondage') }}">
+								<i class="fas fa-poll" title="Sondages"></i>
+								Sondages
+							</a>
+						</li>
+
+						{# NEWLETTER #}
+						<li class="nav-item">
+							<a class="dropdown-item" href="{{ path('newsletter') }}">
+								<i class="fa-regular fa-envelope" title='Newsletters'></i>
+								Newletters
+							</a>
+						</li>
+					</ul>
 				</li>
 
 				{# ASSO #}
@@ -51,8 +86,8 @@
 					<a
 						class="hoverable nav-link {{ route_asso ? 'active'}} dropdown-toggle"
 						href="#"
-						id="navbarDropdown"
 						role="button"
+						id="navbarDropdown"
 						data-bs-toggle="dropdown"
 						aria-expanded="false"
 					>
@@ -60,11 +95,11 @@
 						L'asso
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="{{ path('infos') }}">Infos pratique</a></li>
-						<li><a class="dropdown-item" href="{{ path('faq') }}">Foire aux questions</a></li>
-						<li><a class="dropdown-item" href="{{ path('organigramme') }}">Organigramme</a></li>
-						<li><a class="dropdown-item" href="{{ path('reglement') }}">Réglement intérieur</a></li>
-						<li><a class="dropdown-item" href="{{ path('statuts') }}">Statuts</a></li>
+						<li><a class="dropdown-item" href="{{ path('infos') }}">&nbsp;<i class="fas fa-info"></i> &nbsp;&nbsp;&nbsp;Infos pratique</a></li>
+						<li><a class="dropdown-item" href="{{ path('faq') }}"><i class="fas fa-question"></i> &nbsp;&nbsp;&nbsp;Foire aux questions</a></li>
+						<li><a class="dropdown-item" href="{{ path('organigramme') }}"><i class="fas fa-sitemap"></i> &nbsp;Organigramme</a></li>
+						<li><a class="dropdown-item" href="{{ path('reglement') }}"><i class="fas fa-file"></i> &nbsp;&nbsp;&nbsp;Réglement intérieur</a></li>
+						<li><a class="dropdown-item" href="{{ path('statuts') }}"><i class="fas fa-file-alt"></i> &nbsp;&nbsp;&nbsp;Statuts</a></li>
 					</ul>
 				</li>
 
@@ -89,10 +124,10 @@
 						Nous contacter
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="{{ path('discussion_add') }}">Écrire un message</a></li>
-						<li><a class="dropdown-item" href="{{ path('appel') }}">Nous appeller</a></li>
+						<li><a class="dropdown-item" href="{{ path('discussion_add') }}"><i class="fas fa-pen-alt"></i> &nbsp;Écrire un message</a></li>
+						<li><a class="dropdown-item" href="{{ path('appel') }}"><i class="fas fa-phone"></i> &nbsp;Nous appeller</a></li>
 						<li><hr class="dropdown-divider"></li>
-						<li>ludimeep@protonmail.com</li>
+						<li>&nbsp;&nbsp;ludimeep@protonmail.com&nbsp;&nbsp;</li>
 					</ul>
 				</li>
 
@@ -110,8 +145,8 @@
 				{% if app.user is not null %}
 					<li class="nav-item">
 						<a
-							class="hoverable nav-link {{ route == 'discussion_index' ? 'active'}}"
-							href="{{ path('discussion_index') }}"
+							class="hoverable nav-link {{ route == 'discussion' ? 'active'}}"
+							href="{{ path('discussion') }}"
 						>
 							<i class="far fa-comments" title='Mes messages'></i>
 							{% set message_perso = app.session.get('message_perso') != null ? app.session.get('message_perso') : '0' %}

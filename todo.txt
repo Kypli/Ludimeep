@@ -1,18 +1,17 @@
 TO DO LIST
 
 HOME
-- Tchat pour membre
-	- Message de nouvel actualité / update / photo / newsletter ...
-- Message pour les visiteurs sur ce qu'ils pourront faire en tant que membre
-- Jeux mis à l'honneur, qui sera préparé en avance
-	- Décidé par vote
+- Mini-Tchat
+	- Membre uniquement
+	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...)
+- Message pour les visiteurs uniquement sur ce qu'ils pourront faire en tant que membre
+
 
 ACTUALITÉS
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
 - Réduire la section de la page actu/show
-- Alterner couleur de fond entre chaque actu
 
 
 CALENDRIER
@@ -20,21 +19,31 @@ CALENDRIER
 - Sinon faire une liste de date sans séance en js
 
 
-SESSION
-- Liste des jeux de l'association
-- S'inscrire pour une session
-	- Afficher les jeux des utilisateurs inscrit
-	- Demander à un user d'ammener un jeu
+PRESENCE A UNE SESSION
+- Membre uniquement
+- Confirmer sa présence
+- Demander à un user d'ammener un jeu
 - Réserver une table avec un jeux
 	- Limiter les abus de réservation
 	- S'inscrire à une table
-- Jeu mis à l'honneur
-- Soirée à thèmes
-- Évènements
 
 
-USER
-- Enregistrer la liste de jeux d'un utilisateur
+SONDAGE
+- Admin
+ 	- Gestion des sondages
+- Utilisateur
+ 	- Peut voter 1 fois
+- Visiteur
+ 	- Ne peut pas voter
+- Interface
+ 	- Affichage de deux sondages max sur la page d'accueil
+ 	- Page dédié aux résultat de sondages
+- Utilisation
+	- Jeux mis à l'honneur, qui sera préparé en avance
+
+
+JEUX
+	- Lien vers jeux avec que ses propres jeux
 
 
 PHOTOS
@@ -48,14 +57,14 @@ NOUS CONTACTER
 - NOUS APPELLER
 	- Afficher nos numéros de téléphone, avec des horaires d'appels
 	- En cas de soucis, retirer les numéros.
-- MESSAGE
-	- Admin
-		- Si supprimer message d'une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
-	- Membre
-		- Réponse par mail possible si mail enregistré
-		- Répondre à un message
-		- Envoyer un message à un membre
-	- Système de sécurité pour les bots
+
+
+CONVERSATION
+- Admin
+	- Si supprimer message d'une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
+- Membre
+	- Réponse par mail possible si mail enregistré
+	- Envoyer un message à un membre
 
 
 NEWSLETTER
@@ -69,3 +78,8 @@ L'ASSO
 - Organigramme à faire
 - Réglement intérieur à intégrer
 - Statuts à intégrer
+
+
+SITE
+- Référencer le site avec "jeux de société" + "loiret" + "baule" + "association"
+- Statistique de visites

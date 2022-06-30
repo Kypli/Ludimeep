@@ -27,7 +27,7 @@ class PhotoController extends AbstractController
 	}
 
 	/**
-	 * @Route("/", name="_index", methods={"GET"})
+	 * @Route("/", name="", methods={"GET"})
 	 */
 	public function index(PhotoRepository $photoRepository): Response
 	{
@@ -45,7 +45,7 @@ class PhotoController extends AbstractController
 		// User sans droit d'ajout d'image
 		if (!$this->getUser()->getAccesPhoto()){
 			$this->addFlash('error', "Vous n'avez pas les droits pour poster une image.");
-			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 		}
 
 		$photo = new Photo();
@@ -90,7 +90,7 @@ class PhotoController extends AbstractController
 				}
 
 				$photoRepository->add($photo);
-				return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+				return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 
 			// Pas de photo
 			} else {
@@ -113,13 +113,13 @@ class PhotoController extends AbstractController
 		// User sans droit d'ajout d'image
 		if (!$this->getUser()->getAccesPhoto()){
 			$this->addFlash('error', "Vous n'avez pas les droits pour poster une image.");
-			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 		}
 
 		// User non propriétaire
 		if (!$this->isGranted('ROLE_ADMIN') && $this->getUser()->getId() != $photo->getUser()->getId()){
 			$this->addFlash('error', "Vous n'avez pas les droits pour modifier cette image.");
-			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 		}
 
 		$form = $this->createForm(PhotoForm::class, $photo);
@@ -138,7 +138,7 @@ class PhotoController extends AbstractController
 
 		if ($form->isSubmitted() && $form->isValid()){
 			$photoRepository->add($photo);
-			return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 		}
 
 		return $this->renderForm('photo/edit.html.twig', [
@@ -165,7 +165,7 @@ class PhotoController extends AbstractController
 			$this->addFlash('success', "La photo a bien été supprimée.");
 		}
 
-		return $this->redirectToRoute('photo_index', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 	}
 
 	/**
@@ -188,7 +188,7 @@ class PhotoController extends AbstractController
 			$photoRepository->add($photo);
 		}
 
-		return $this->redirectToRoute('photo_index', ['id' => $photo->getId()], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('photo', ['id' => $photo->getId()], Response::HTTP_SEE_OTHER);
 	}
 
 	/**
@@ -210,6 +210,6 @@ class PhotoController extends AbstractController
 			$photoRepository->add($photo);
 		}
 
-		return $this->redirectToRoute('photo_index', ['id' => $photo->getId()], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('photo', ['id' => $photo->getId()], Response::HTTP_SEE_OTHER);
 	}
 }

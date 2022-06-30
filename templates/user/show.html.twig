@@ -19,7 +19,7 @@
 			<section class='row'>
 				{% if is_granted('ROLE_ADMIN') %}
 					<div class="center col-3">
-						<a href="{{ path('user_index', {'id': user.id}) }}" class="btn btn-info">Retour</a>
+						<a href="{{ path('user', {'id': user.id}) }}" class="btn btn-info">Retour</a>
 					</div>
 				{% endif %}
 				<div class="center offset-{{ is_granted('ROLE_ADMIN') ? '6' : '9' }} col-3">

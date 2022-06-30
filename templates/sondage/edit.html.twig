@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Sondage{% endblock %}
+
+{% block body %}
+    <h1>Edit Sondage</h1>
+
+    {{ include('sondage/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('sondage') }}">back to list</a>
+
+    {{ include('sondage/_delete_form.html.twig') }}
+{% endblock %}

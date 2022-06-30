@@ -28,7 +28,7 @@ class UserController extends AbstractController
 
 	/**
 	 * @IsGranted("ROLE_ADMIN")
-	 * @Route("/", name="_index", methods={"GET"})
+	 * @Route("/", name="", methods={"GET"})
 	 */
 	public function index(UserRepository $userRepository): Response
 	{
@@ -296,7 +296,7 @@ class UserController extends AbstractController
 			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
 		}
 
-		return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
 	}
 
 	public function accesControl($user_id)

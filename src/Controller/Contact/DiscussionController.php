@@ -29,7 +29,7 @@ class DiscussionController extends AbstractController
 {
 	/**
 	 * @IsGranted("ROLE_USER")
-	 * @Route("/", name="_index", methods={"GET"})
+	 * @Route("/", name="", methods={"GET"})
 	 */
 	public function index(DiscussionRepository $dr, MessageRepository $mr): Response
 	{
@@ -50,7 +50,7 @@ class DiscussionController extends AbstractController
 
 	/**
 	 * @IsGranted("ROLE_ADMIN")
-	 * @Route("/admin", name="_index_admin", methods={"GET"})
+	 * @Route("/admin", name="_admin", methods={"GET"})
 	 */
 	public function indexAdmin(DiscussionRepository $dr, MessageRepository $mr): Response
 	{
@@ -173,7 +173,7 @@ class DiscussionController extends AbstractController
 				)
 			)
 		){
-			return $this->redirectToRoute('discussion_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('discussion', [], Response::HTTP_SEE_OTHER);
 		}
 
 		// Lecture des messages
@@ -233,7 +233,7 @@ class DiscussionController extends AbstractController
 
 		if ($form->isSubmitted() && $form->isValid()){
 			$dr->add($discussion);
-			return $this->redirectToRoute('discussion_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('discussion', [], Response::HTTP_SEE_OTHER);
 		}
 
 		return $this->renderForm('contact/discussion/edit.html.twig', [
@@ -255,7 +255,7 @@ class DiscussionController extends AbstractController
 
 		if ($form->isSubmitted() && $form->isValid()) {
 			$mr->add($message);
-			return $this->redirectToRoute('discussion_index', [], Response::HTTP_SEE_OTHER);
+			return $this->redirectToRoute('discussion', [], Response::HTTP_SEE_OTHER);
 		}
 
 		return $this->renderForm('contact/discussion/edit_message.html.twig', [
@@ -275,7 +275,7 @@ class DiscussionController extends AbstractController
 			$dr->remove($discussion);
 		}
 
-		return $this->redirectToRoute('discussion_index_admin', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('discussion_admin', [], Response::HTTP_SEE_OTHER);
 	}
 
 	/**
@@ -295,6 +295,6 @@ class DiscussionController extends AbstractController
 			}
 		}
 
-		return $this->redirectToRoute('discussion_index_admin', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('discussion_admin', [], Response::HTTP_SEE_OTHER);
 	}
 }

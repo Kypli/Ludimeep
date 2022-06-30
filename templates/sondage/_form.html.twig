@@ -1,0 +1,110 @@
+{{ form_start(form) }}
+
+	{# TITRE #}
+	<div class="row center">
+
+		<div class="offset-4 col-4 mb-2">
+			{{ form_label(form.title) }}
+		</div>
+		<div class="offset-4"></div>
+		<div class="offset-4 col-4 mb-5">
+			{{ form_widget(form.title) }}
+		</div>
+	</div>
+
+	{# LINES #}
+	<div class="row center">
+
+		{# LINE 1 #}
+		<div class="offset-1 col-2 mb-3">
+			{{ form_label(form.line1) }}
+		</div>
+		<div class="col-8 mb-3">
+			{{ form_widget(form.line1) }}
+		</div>
+
+		{# LINE 2 #}
+		<div class="offset-1 col-2 mb-4">
+			{{ form_label(form.line2) }}
+		</div>
+		<div class="col-8 mb-4">
+			{{ form_widget(form.line2) }}
+		</div>
+
+		{# LINE 3 #}
+		<div class="offset-1 col-2 mb-3">
+			{{ form_label(form.line3) }}
+		</div>
+		<div class="col-8 mb-3">
+			{{ form_widget(form.line3) }}
+		</div>
+
+		{# LINE 4 #}
+		<div class="offset-1 col-2 mb-4">
+			{{ form_label(form.line4) }}
+		</div>
+		<div class="col-8 mb-4">
+			{{ form_widget(form.line4) }}
+		</div>
+
+		{# LINE 5 #}
+		<div class="offset-1 col-2 mb-3">
+			{{ form_label(form.line5) }}
+		</div>
+		<div class="col-8 mb-3">
+			{{ form_widget(form.line5) }}
+		</div>
+
+		{# LINE 6 #}
+		<div class="offset-1 col-2 mb-4">
+			{{ form_label(form.line6) }}
+		</div>
+		<div class="col-8 mb-4">
+			{{ form_widget(form.line6) }}
+		</div>
+
+		{# LINE 7 #}
+		<div class="offset-1 col-2 mb-3">
+			{{ form_label(form.line7) }}
+		</div>
+		<div class="col-8 mb-3">
+			{{ form_widget(form.line7) }}
+		</div>
+
+		{# LINE 8 #}
+		<div class="offset-1 col-2 mb-4">
+			{{ form_label(form.line8) }}
+		</div>
+		<div class="col-8 mb-4">
+			{{ form_widget(form.line8) }}
+		</div>
+	</div>
+
+	{# DATES #}
+	<div class="row">
+
+		{# DEBUT #}
+		<div class="offset-1 col-2 mb-3 center">
+			{{ form_label(form.date_debut) }}
+		</div>
+		<div class="col-3 mb-3">
+			{{ form_widget(form.date_debut) }}
+		</div>
+
+		{# FIN #}
+		<div class="col-2 mb-4 center">
+			{{ form_label(form.date_fin) }}
+		</div>
+		<div class="col-3 mb-4">
+			{{ form_widget(form.date_fin) }}
+		</div>
+	</div>
+
+	{# VALIDER #}
+	<div class="row center mt-4 mb-3">
+		<div class="offset-4 col-4">
+			<button class="btn btn-success">{{ button_label|default("Enregistrer") }}</button>
+		</div>
+	</div>
+	</div>
+{{ form_end(form) }}

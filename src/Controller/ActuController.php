@@ -30,7 +30,7 @@ class ActuController extends AbstractController
 	}
 
 	/**
-	 * @Route("/", name="_index", methods={"GET"})
+	 * @Route("/", name="", methods={"GET"})
 	 */
 	public function index(ActuRepository $actuRepository): Response
 	{
@@ -133,7 +133,7 @@ class ActuController extends AbstractController
 			$this->file_uploader->cleanPhotosActu($actuRepository);
 		}
 
-		return $this->redirectToRoute('actu_index', [], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('actu', [], Response::HTTP_SEE_OTHER);
 	}
 
 	/**

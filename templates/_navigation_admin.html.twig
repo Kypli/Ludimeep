@@ -12,19 +12,19 @@
 					ADMIN
 				</li>
 
-				{# MEMBRES #}
-				<li class="nav-item">
-					<a class="admin-li hoverable nav-link {{ route == 'user_index' ? 'active'}}" aria-current="page" href="{{ path('user_index') }}">
-						<i class="fas fa-user" title='Liste des membres'></i>
-						Membres
-					</a>
-				</li>
-
 				{# ADD ACTU #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'actu_add' ? 'active'}}" aria-current="page" href="{{ path('actu_add') }}">
 						<i class="fa-solid fa-newspaper" title="Ajout d'actualités"></i>
 						Ajout Actu
+					</a>
+				</li>
+
+				{# ADD SONDAGE #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'sondage_add' ? 'active'}}" aria-current="page" href="{{ path('sondage_add') }}">
+						<i class="fas fa-poll" title="Ajout d'un sondage"></i>
+						Ajout Sondage
 					</a>
 				</li>
 
@@ -36,12 +36,20 @@
 					</a>
 				</li>
 
+				{# MEMBRES #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'user' ? 'active'}}" aria-current="page" href="{{ path('user') }}">
+						<i class="fas fa-user" title='Liste des membres'></i>
+						Membres
+					</a>
+				</li>
+
 				{# VOIR MESSAGE #}
 				<li class="nav-item">
 					<a
-						class="admin-li hoverable nav-link {{ route == 'message_index_admin' ? 'active'}}"
+						class="admin-li hoverable nav-link {{ route == 'message_admin' ? 'active'}}"
 						aria-current="page"
-						href="{{ path('discussion_index_admin') }}"
+						href="{{ path('discussion_admin') }}"
 					>
 						<i class="fas fa-comment"  title='Voir les messages'></i>
 						Voir les discussions
