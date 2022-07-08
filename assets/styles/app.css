@@ -25,14 +25,15 @@ section {
 }
 
 h2 {
-	text-align: center;
 	padding: 4px;
 	margin-top: 8px!important;
 	margin-bottom: 15px;
+	text-align: center;
 	display: block;
-	color: #DA70D6;
-	text-decoration: underline wavy #DA70D6;
+	color:#DA70D6;
 	text-shadow: 2px 1px grey;
+	text-decoration: underline wavy 2px #DA70D6;
+	text-underline-offset: 2px;
 }
 
 h4 {
@@ -41,22 +42,14 @@ h4 {
 	padding-bottom: 5px;
 	padding-top: 5px;
 	margin-bottom: 12px;
-	border: 1px solid #BBADC1;
 	display: block;
+	border: 1px solid #BBADC1;
 	color:#A48DC8;
-	background-color: #DA70D6;
+	background-color:#ab6bc9;
 	text-shadow:
-		-1px -1px 0 #7218FC,
-		1px -1px 0 #7218FC,
-		-1px 1px 0 #7218FC,
-		1px 1px 0 #7218FC,
-		1px 1px 2px grey,
-		1px 1px 3px grey,
-		1px 1px 5px grey,
-		1px 1px 7px grey,
-		1px 1px 10px grey,
-		1px 1px 12px grey,
-		1px 1px 18px grey;
+		#e7f6ff 0 -1px 0,
+		#8345a1 3px 3px 0,
+		#333 5px 5px 10px;
 }
 
 /* Section variante */
