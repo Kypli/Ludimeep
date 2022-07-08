@@ -57,6 +57,7 @@ Encore
 
     // Sondage
     .addEntry('sondage_index', './assets/js/sondage/index.js')
+    .addStyleEntry('sondage_show', './assets/styles/sondage/style.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')

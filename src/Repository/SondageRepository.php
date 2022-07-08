@@ -51,6 +51,18 @@ class SondageRepository extends ServiceEntityRepository
         ;
     }
 
+    public function getSondageRunning(): Array
+    {
+        return $this->createQueryBuilder('x')
+            ->select('x')
+            ->where('x.start <= :now')
+            ->andWhere('x.end > :now')
+            ->setParameter(':now', new \Datetime('now'))
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     public function getVotantsBySondageId($id): Array
     {
         return $this->createQueryBuilder('x')

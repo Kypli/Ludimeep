@@ -1,6 +1,41 @@
-<div class="row">
-	<div class="offset-4 col-4">
-		yy
-		<canvas id="pie_{{ s.id }}" class="pie" width="400" height="400"></canvas>
+<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
+<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
+
+{% for s in sondages %}
+	<div class='row mb-2'>
+		<div class='col-12 gras'>
+			{{ s.title|capitalize }}
+		</div>
+
+		{% if is_granted('ROLE_USER') %}
+			<div class='col-12 actu'>
+				{# FORM #}
+			</div>
+		{% else %}
+			<div class='col-12 actu'>
+				<ul>
+					<li>{{ s.line1 }}</li>
+					<li>{{ s.line2 }}</li>
+					{% if s.line3 is not empty %}
+						<li>{{ s.line3 }}</li>
+					{% endif %}
+					{% if s.line4 is not empty %}
+						<li>{{ s.line4 }}</li>
+					{% endif %}
+					{% if s.line5 is not empty %}
+						<li>{{ s.line5 }}</li>
+					{% endif %}
+					{% if s.line6 is not empty %}
+						<li>{{ s.line6 }}</li>
+					{% endif %}
+					{% if s.line7 is not empty %}
+						<li>{{ s.line7 }}</li>
+					{% endif %}
+					{% if s.line8 is not empty %}
+						<li>{{ s.line8 }}</li>
+					{% endif %}
+				</ul>
+			</div>
+		{% endif %}
 	</div>
-</div>
+{% endfor %}

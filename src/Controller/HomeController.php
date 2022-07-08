@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\Discussion;
 
 use App\Repository\ActuRepository;
+use App\Repository\SondageRepository;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -17,13 +18,19 @@ class HomeController extends AbstractController
 	/**
 	 * @Route("/", name="home")
 	 */
-	public function index(AuthenticationUtils $authenticationUtils, Request $request, ActuRepository $actuRepository, Discussion $discussionSer)
-	{
+	public function index(
+		AuthenticationUtils $authenticationUtils,
+		Request $request,
+		ActuRepository $ar,
+		Discussion $discussionSer,
+		SondageRepository $sr
+	){
 		$discussionSer->update();
 
 		return $this->render('home/index.html.twig',[
 			'user' => $this->getUser(),
-			'actus' => $actuRepository->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
+			'sondages' => $sr->getSondageRunning(),
+			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
 			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
