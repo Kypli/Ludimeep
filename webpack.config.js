@@ -55,6 +55,9 @@ Encore
     // Dicussion
     .addStyleEntry('discussion', './assets/styles/discussion/style.css')
 
+    // Sondage
+    .addEntry('sondage_index', './assets/js/sondage/index.js')
+
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
     .addEntry('shieldui', './assets/js/service/shieldui.js')

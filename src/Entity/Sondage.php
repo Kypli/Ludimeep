@@ -105,14 +105,14 @@ class Sondage
     private $result8;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="datetime")
      */
-    private $date_debut;
+    private $start;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $date_fin;
+    private $end;
 
     /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sondages")
@@ -333,26 +333,26 @@ class Sondage
         return $this;
     }
 
-    public function getDateDebut(): ?\DateTimeInterface
+    public function getStart(): ?\DateTimeInterface
     {
-        return $this->date_debut;
+        return $this->start;
     }
 
-    public function setDateDebut(?\DateTimeInterface $date_debut): self
+    public function setStart(?\DateTimeInterface $start): self
     {
-        $this->date_debut = $date_debut;
+        $this->start = $start;
 
         return $this;
     }
 
-    public function getDateFin(): ?\DateTimeInterface
+    public function getEnd(): ?\DateTimeInterface
     {
-        return $this->date_fin;
+        return $this->end;
     }
 
-    public function setDateFin(\DateTimeInterface $date_fin): self
+    public function setEnd(\DateTimeInterface $end): self
     {
-        $this->date_fin = $date_fin;
+        $this->end = $end;
 
         return $this;
     }

@@ -39,28 +39,35 @@ class SondageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Sondage[] Returns an array of Sondage objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function countSondageRunning(): int
+    {
+        return $this->createQueryBuilder('x')
+            ->select('COUNT(x)')
+            ->where('x.start <= :now')
+            ->andWhere('x.end > :now')
+            ->setParameter(':now', new \Datetime('now'))
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
 
-//    public function findOneBySomeField($value): ?Sondage
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getVotantsBySondageId($id): Array
+    {
+        return $this->createQueryBuilder('x')
+            ->select([
+                'SUM(x.result1)',
+                'SUM(x.result2)',
+                'SUM(x.result3)',
+                'SUM(x.result4)',
+                'SUM(x.result5)',
+                'SUM(x.result6)',
+                'SUM(x.result7)',
+                'SUM(x.result8)',
+            ])
+            ->where('x.id = :id')
+            ->setParameter(':id', $id)
+            ->getQuery()
+            ->getScalarResult()
+        ;
+    }
 }

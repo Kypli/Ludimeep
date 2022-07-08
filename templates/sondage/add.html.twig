@@ -11,11 +11,17 @@
             <h2 class="radius-long offset-4 col-4">Ajout d'un sondage</h2>
 
             {# INSCRIPTION #}
-            <section class='form mb-3'>
+            <section class='row form mb-3'>
 
                 <div class='col-2 mb-3'>
                     <a href="{{ path('sondage') }}">Retour à la liste</a>
                 </div>
+
+                {% if limiteMax %}
+                    <div class='offset-2 col-4 mb-3 red'>
+                        Attention, limite de deux sondages en cours atteintes !
+                    </div>
+                {% endif %}
 
                 {% include 'sondage/_form.html.twig' with {'edit': false} %}
             </section>

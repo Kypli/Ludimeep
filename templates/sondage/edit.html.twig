@@ -1,13 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Sondage{% endblock %}
+{% block title %}Modification d'un sondage{% endblock %}
 
 {% block body %}
-    <h1>Edit Sondage</h1>
 
-    {{ include('sondage/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="container">
+        <div class='row mb-3'>
 
-    <a href="{{ path('sondage') }}">back to list</a>
+            {# TITRE #}
+            <h2 class="radius-long offset-4 col-4">Modification d'un sondage</h2>
 
-    {{ include('sondage/_delete_form.html.twig') }}
+            {# INSCRIPTION #}
+            <section class='form mb-3'>
+
+                <div class='row'>
+                    <div class='col-2 mb-3'>
+                        <a href="{{ path('sondage') }}">Retour à la liste</a>
+                    </div>
+                    <div class='offset-8 col-2 mb-3'>
+                        {{ include('sondage/_delete_form.html.twig') }}
+                    </div>
+                </div>
+
+                {% include 'sondage/_form.html.twig' with {'edit': true, 'button_label': 'Mise à jour'} %}
+            </section>
+        </div>
+    </div>
 {% endblock %}

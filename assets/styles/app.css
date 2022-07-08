@@ -111,14 +111,17 @@ h4 {
 .block				{	display: block;					}
 
 .red				{	color: red;						}
-.green				{	color: green;					}
 .blue				{	color: blue;					}
+.green				{	color: green;					}
 .yellow				{	color: yellow;					}
 .purple				{	color: purple;					}
 .pink				{	color: pink;					}
 .maroon				{	color: maroon;					}
 .white				{	color: white;					}
 .orange				{	color: orange;					}
+.grey				{	color: grey;					}
+
+.bck_gainsboro		{	background-color: #DCDCDC;		}
 
 
 /* Bordure */

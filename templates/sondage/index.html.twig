@@ -2,18 +2,97 @@
 
 {% block title %}Sondages{% endblock %}
 
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('sondage_index') }}
+{% endblock %}
+
 {% block body %}
+	<div class="container">
+		<div class='row mb-3'>
 
-    <div class="container">
-        <div class='row mb-3'>
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Sondages</h2>
 
-            {# TITRE #}
-            <h2 class="radius-long offset-4 col-4">Sondages</h2>
-
-            {# ... #}
-            <section class='prochainement'>
-                Prochainement
-            </section>
-        </div>
-    </div>
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3 {# overflow-scroll #}'>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							<th>Titre</th>
+							<th>État</th>
+							<th>Votants</th>
+							<th>Date de début</th>
+							<th>Date de fin</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for s in sondages %}
+						{% if
+							is_granted('ROLE_ADMIN') or
+							date("now") > s.start
+						%}
+							<tr>
+								<td style='min-width:100px ; max-width:80px'>
+									<div class='row'>
+										<div class='col-2 offset-1 test' data-id="{{ s.id }}">
+											<i class="fas fa-poll pointeur blue" title="Sondages"></i>
+										</div>
+										{% if is_granted('ROLE_ADMIN') %}
+											<div class='col-4'>
+												<a href="{{ path('sondage_edit', {'id': s.id}) }}">
+													<i class="fas fa-edit" title="Modifier"></i>
+												</a>
+											</div>
+										{% endif %}
+									</div>
+								</td>
+								<td>{{ s.title|capitalize }} {{ s.id }}</td>
+								<td>
+									{{
+										date("now") < s.start
+											? 'En attente'
+											: date("now") < s.end
+												? "<span class='green'>En cours</span>"
+												: "<span class='grey'>Terminée</span>"
+									}}
+								</td>
+								<td>
+									{{ 
+										render(controller(
+											'App\\Controller\\SondageController::getVotantsBySondageId',
+											{ 'id': s.id }
+										))
+									}}
+								</td>
+								<td>{{ s.start|date('d/m/Y à H:i') }}</td>
+								<td>{{ s.end|date('d/m/Y à H:i') }}</td>
+							</tr>
+							<tr id="tr_{{ s.id }}" class="hide">
+								<td colspan="6">
+									<div class="row">
+										<div class="offset-6 col-1 centrer mt-3 loading_{{ s.id }}">
+											<div class="spinner-border text-primary" role="status">
+												<span class="sr-only">Chargement en cours...</span>
+											</div>
+										</div>
+										<div class="offset-4 col-4 bck_gainsboro">
+											<canvas id="pie_{{ s.id }}" class="pie" width="400" height="400"></canvas>
+										</div>
+									</div>
+								</td>
+							</tr>
+						{% endif %}
+					{% else %}
+						<tr>
+							<td colspan="{{ is_granted('ROLE_ADMIN') ? '7' : '5' }}">Pas d'actualités</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
 {% endblock %}

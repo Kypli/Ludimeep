@@ -15,6 +15,10 @@ class SondageType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $date = new \Datetime('+1 week');
+        $date = $date->format('Y/m/d');
+        $date_fin = new \Datetime($date.' 17:00:00');
+
         $builder
             ->add(
                 'title',
@@ -116,22 +120,26 @@ class SondageType extends AbstractType
                 ]
             )
             ->add(
-                'date_debut',
+                'start',
                 DateTimeType::class,
                 [
-                    'required' => false,
-                    'label' => 'Date début',
+                    'required' => true,
+                    'data' => new \Datetime('now'),
+                    'widget' => 'single_text',
+                    'label' => 'Date de début',
                     'attr' => [
                         'class' => 'form-control',
                     ],
                 ]
             )
             ->add(
-                'date_fin',
+                'end',
                 DateTimeType::class,
                 [
                     'required' => true,
-                    'label' => 'Date fin',
+                    'data' => $date_fin,
+                    'widget' => 'single_text',
+                    'label' => 'Date de fin',
                     'attr' => [
                         'class' => 'form-control',
                     ],
