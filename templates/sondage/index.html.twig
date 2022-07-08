@@ -49,7 +49,7 @@
 										{% endif %}
 									</div>
 								</td>
-								<td>{{ s.title|capitalize }} {{ s.id }}</td>
+								<td>{{ s.title|capitalize }}</td>
 								<td>
 									{{
 										date("now") < s.start
@@ -87,7 +87,7 @@
 						{% endif %}
 					{% else %}
 						<tr>
-							<td colspan="{{ is_granted('ROLE_ADMIN') ? '7' : '5' }}">Pas d'actualités</td>
+							<td colspan="{{ is_granted('ROLE_ADMIN') ? '7' : '5' }}">Pas de sondages</td>
 						</tr>
 					{% endfor %}
 					</tbody>
