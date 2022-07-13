@@ -77,7 +77,7 @@
 		{% endif %}
 
 		{# MOT DE PASSE #}
-		{% if edit == false or user.id == app.user.id %}
+		{% if edit == false or is_granted('ROLE_ADMIN') or user.id == app.user.id %}
 			<div class="{{ label }}">
 				{{ edit == false ? form_label(form.password) : 'Nouveau mot de passe' }}
 			</div>

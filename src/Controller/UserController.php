@@ -189,7 +189,7 @@ class UserController extends AbstractController
 		$form = $this->createForm(UserType::class, $user);
 
 		// Champs exclusif à l'user
-		if (null == $this->getUser() or $this->getUser()->getId() != $user->getId()){
+		if (null == $this->getUser()){
 			$form->remove('password');
 		}
 
