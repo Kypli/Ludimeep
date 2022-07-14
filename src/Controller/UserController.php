@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Repository\MessageRepository;
+use App\Repository\DiscussionRepository;
 
 use App\Form\UserType;
 
@@ -271,7 +271,7 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
-	public function delete(Request $request, User $user, UserRepository $ur, MessageRepository $mr): Response
+	public function delete(Request $request, User $user, UserRepository $ur, DiscussionRepository $dr): Response
 	{
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -290,11 +290,11 @@ class UserController extends AbstractController
 			if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
 
 				// Delete messages
-				foreach ($user->getMessagesDestinateur() as $message){
-					$mr->remove($message);
+				foreach ($user->getDiscussionsAuteur() as $discussion){
+					$dr->remove($discussion);
 				}
-				foreach ($user->getMessagesDestinataire() as $message){
-					$mr->remove($message);
+				foreach ($user->getDiscussionsDestinataire() as $discussion){
+					$dr->remove($discussion);
 				}
 
 				// Delete
