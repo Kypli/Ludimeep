@@ -74,14 +74,11 @@ class UserController extends AbstractController
 		;
 		$form->handleRequest($request);
 
-		// Datas
-		$req_user = $form->getData();
-
 		// Valid form
 		if ($form->isSubmitted() && $form->isValid()){
 
 			// Duplicate control
-			if (!empty($userRepository->findByUserName($req_user->getUserName()))){
+			if (!empty($userRepository->findByUserName($form->getData()->getUserName()))){
 				$this->addFlash('error', "Ce login est déjà pris. Merci d'en sélectionner un autre.");
 
 			// Save
@@ -187,11 +184,7 @@ class UserController extends AbstractController
 		}
 
 		$form = $this->createForm(UserType::class, $user);
-
-		// Champs exclusif à l'user
-		if (null == $this->getUser()){
-			$form->remove('password');
-		}
+		$req_user = $request->request->get('user');
 
 		// Champs exclusif à l'admin
 		if (!$this->isGranted('ROLE_ADMIN')){
@@ -212,6 +205,14 @@ class UserController extends AbstractController
 			;
 		}
 
+		// Alimenter dans le request le champ password si inutilisé
+		if (null !== $request->request->get('user') && $request->request->get('user')['password'] == ''){
+			$noEditPassword = true;
+			$requestArray = $request->request->all();
+			$requestArray['user']['password'] = $form->getData()->getPassword();
+			$request->request->replace($requestArray);
+		}
+
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $this->formControl($user)){
@@ -226,7 +227,6 @@ class UserController extends AbstractController
 			if ($this->isGranted('ROLE_ADMIN')){
 
 				// True
-				$req_user = $request->request->get('user');
 				if (isset($req_user['admin']) && $req_user['admin'] == 1){
 					$user->setRoles(["ROLE_ADMIN"]);
 
@@ -245,6 +245,15 @@ class UserController extends AbstractController
 				$user
 					->setPasswordTempo('')
 					->setIp('')
+				;
+			}
+
+			// Encrypt password
+			if (!isset($noEditPassword)){
+				$user->setPassword($this->passwordHasher->hashPassword(
+						$user,
+						$form->getData()->getPassword(),
+					))
 				;
 			}
 

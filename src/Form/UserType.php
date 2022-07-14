@@ -98,7 +98,7 @@ class UserType extends AbstractType
 				'password',
 				PasswordType::class,
 				[
-					'required' => true,
+					'required' => $options['data']->getId() == null ? true : false,
 					'label' => 'Mot de passe',
 					'attr' => [
 						'class' => 'form-control',
