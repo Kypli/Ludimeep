@@ -231,7 +231,7 @@ class UserController extends AbstractController
 					$user->setRoles(["ROLE_ADMIN"]);
 
 				// False
-				} elseif($userRepository->countAdmin() > 1){
+				} elseif(!$user->isAdmin() || ($user->isAdmin() && $userRepository->countAdmin() > 1)){
 					$user->setRoles(["ROLE_USER"]);
 
 				// Null
