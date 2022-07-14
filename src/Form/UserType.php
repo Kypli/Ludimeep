@@ -111,7 +111,7 @@ class UserType extends AbstractType
 				[
 					'label' => 'Admin',
 					'required' => false,
-					'data'   => in_array('ROLE_ADMIN', $options['data']->getRoles()) ? true : false,
+					'data'   => $options['data']->isAdmin(),
 					'attr' => [
 						'class' => 'checkType',
 					],
