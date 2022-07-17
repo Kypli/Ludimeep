@@ -98,7 +98,7 @@ class UserType extends AbstractType
 				'password',
 				PasswordType::class,
 				[
-					'required' => true,
+					'required' => $options['data']->getId() == null ? true : false,
 					'label' => 'Mot de passe',
 					'attr' => [
 						'class' => 'form-control',
@@ -111,7 +111,7 @@ class UserType extends AbstractType
 				[
 					'label' => 'Admin',
 					'required' => false,
-					'data'   => in_array('ROLE_ADMIN', $options['data']->getRoles()) ? true : false,
+					'data'   => $options['data']->isAdmin(),
 					'attr' => [
 						'class' => 'checkType',
 					],

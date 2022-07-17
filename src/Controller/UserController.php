@@ -4,7 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Repository\UserRepository;
-use App\Repository\MessageRepository;
+use App\Repository\DiscussionRepository;
 
 use App\Form\UserType;
 
@@ -74,14 +74,11 @@ class UserController extends AbstractController
 		;
 		$form->handleRequest($request);
 
-		// Datas
-		$req_user = $form->getData();
-
 		// Valid form
 		if ($form->isSubmitted() && $form->isValid()){
 
 			// Duplicate control
-			if (!empty($userRepository->findByUserName($req_user->getUserName()))){
+			if (!empty($userRepository->findByUserName($form->getData()->getUserName()))){
 				$this->addFlash('error', "Ce login est déjà pris. Merci d'en sélectionner un autre.");
 
 			// Save
@@ -187,11 +184,7 @@ class UserController extends AbstractController
 		}
 
 		$form = $this->createForm(UserType::class, $user);
-
-		// Champs exclusif à l'user
-		if (null == $this->getUser() or $this->getUser()->getId() != $user->getId()){
-			$form->remove('password');
-		}
+		$req_user = $request->request->get('user');
 
 		// Champs exclusif à l'admin
 		if (!$this->isGranted('ROLE_ADMIN')){
@@ -212,6 +205,14 @@ class UserController extends AbstractController
 			;
 		}
 
+		// Alimenter dans le request le champ password si inutilisé
+		if (null !== $request->request->get('user') && $request->request->get('user')['password'] == ''){
+			$noEditPassword = true;
+			$requestArray = $request->request->all();
+			$requestArray['user']['password'] = $form->getData()->getPassword();
+			$request->request->replace($requestArray);
+		}
+
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $this->formControl($user)){
@@ -226,12 +227,11 @@ class UserController extends AbstractController
 			if ($this->isGranted('ROLE_ADMIN')){
 
 				// True
-				$req_user = $request->request->get('user');
 				if (isset($req_user['admin']) && $req_user['admin'] == 1){
 					$user->setRoles(["ROLE_ADMIN"]);
 
 				// False
-				} elseif($userRepository->countAdmin() > 1){
+				} elseif(!$user->isAdmin() || ($user->isAdmin() && $userRepository->countAdmin() > 1)){
 					$user->setRoles(["ROLE_USER"]);
 
 				// Null
@@ -245,6 +245,15 @@ class UserController extends AbstractController
 				$user
 					->setPasswordTempo('')
 					->setIp('')
+				;
+			}
+
+			// Encrypt password
+			if (!isset($noEditPassword)){
+				$user->setPassword($this->passwordHasher->hashPassword(
+						$user,
+						$form->getData()->getPassword(),
+					))
 				;
 			}
 
@@ -262,7 +271,7 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
-	public function delete(Request $request, User $user, UserRepository $ur, MessageRepository $mr): Response
+	public function delete(Request $request, User $user, UserRepository $ur, DiscussionRepository $dr): Response
 	{
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -281,11 +290,11 @@ class UserController extends AbstractController
 			if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
 
 				// Delete messages
-				foreach ($user->getMessagesDestinateur() as $message){
-					$mr->remove($message);
+				foreach ($user->getDiscussionsAuteur() as $discussion){
+					$dr->remove($discussion);
 				}
-				foreach ($user->getMessagesDestinataire() as $message){
-					$mr->remove($message);
+				foreach ($user->getDiscussionsDestinataire() as $discussion){
+					$dr->remove($discussion);
 				}
 
 				// Delete

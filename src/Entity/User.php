@@ -226,7 +226,7 @@ class User implements UserInterface
     public function setUserName(string $userName): self
     {
         $this->userName = $userName;
-   
+
         return $this;
     }
 
@@ -273,7 +273,7 @@ class User implements UserInterface
     public function setPasswordTempo(string $passwordTempo): self
     {
         $this->passwordTempo = $passwordTempo;
-   
+
         return $this;
     }
 
@@ -285,15 +285,23 @@ class User implements UserInterface
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
         $roles[] = 'ROLE_USER';
-   
+
         return array_unique($roles);
     }
 
     public function setRoles(array $roles): self
     {
         $this->roles = $roles;
-   
+
         return $this;
+    }
+
+    public function isAdmin(): ?bool
+    {
+        return in_array('ROLE_ADMIN', $this->roles)
+            ? true
+            : false
+        ;
     }
 
     public function getIp(): ?string
@@ -304,7 +312,7 @@ class User implements UserInterface
     public function setIp(string $ip): self
     {
         $this->ip = $ip;
-   
+
         return $this;
     }
 
@@ -316,7 +324,7 @@ class User implements UserInterface
     public function setAnonyme(bool $anonyme): self
     {
         $this->anonyme = $anonyme;
-   
+
         return $this;
     }
 
@@ -328,7 +336,7 @@ class User implements UserInterface
     public function setDroitImage(bool $droitImage): self
     {
         $this->droitImage = $droitImage;
-   
+
         return $this;
     }
 
@@ -340,7 +348,7 @@ class User implements UserInterface
     public function setNewsletter(bool $newsletter): self
     {
         $this->newsletter = $newsletter;
-   
+
         return $this;
     }
 
@@ -352,7 +360,7 @@ class User implements UserInterface
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-   
+
         return $this;
     }
 
@@ -364,7 +372,7 @@ class User implements UserInterface
     public function setPrenom(string $prenom): self
     {
         $this->prenom = $prenom;
-   
+
         return $this;
     }
 
@@ -376,7 +384,7 @@ class User implements UserInterface
     public function setMail(string $mail): self
     {
         $this->mail = $mail;
-   
+
         return $this;
     }
 
@@ -388,7 +396,7 @@ class User implements UserInterface
     public function setAdresse(?string $adresse): self
     {
         $this->adresse = $adresse;
-   
+
         return $this;
     }
 
@@ -400,7 +408,7 @@ class User implements UserInterface
     public function setTelephone(?string $telephone): self
     {
         $this->telephone = $telephone;
-   
+
         return $this;
     }
 
@@ -412,7 +420,7 @@ class User implements UserInterface
     public function setAdherant(int $adherant): self
     {
         $this->adherant = $adherant;
-   
+
         return $this;
     }
 
@@ -424,7 +432,7 @@ class User implements UserInterface
     public function setDateInscription(?\DateTimeInterface $dateInscription): self
     {
         $this->dateInscription = $dateInscription;
-   
+
         return $this;
     }
 
@@ -436,7 +444,7 @@ class User implements UserInterface
     public function setDateFinAdhesion(?\DateTimeInterface $dateFinAdhesion): self
     {
         $this->dateFinAdhesion = $dateFinAdhesion;
-   
+
         return $this;
     }
 
@@ -448,7 +456,7 @@ class User implements UserInterface
     public function setNotoriete(?string $notoriete): self
     {
         $this->notoriete = $notoriete;
-   
+
         return $this;
     }
 
@@ -460,7 +468,7 @@ class User implements UserInterface
     public function setRoleCa(?string $roleCa): self
     {
         $this->roleCa = $roleCa;
-   
+
         return $this;
     }
 
@@ -472,7 +480,7 @@ class User implements UserInterface
     public function setDateFinMandat(?\DateTimeInterface $dateFinMandat): self
     {
         $this->dateFinMandat = $dateFinMandat;
-   
+
         return $this;
     }
 
@@ -484,7 +492,7 @@ class User implements UserInterface
     public function setMembreHonneur(bool $membreHonneur): self
     {
         $this->membreHonneur = $membreHonneur;
-   
+
         return $this;
     }
 
@@ -496,7 +504,7 @@ class User implements UserInterface
     public function setCommentaire(string $commentaire): self
     {
         $this->commentaire = $commentaire;
-   
+
         return $this;
     }
 
@@ -508,7 +516,7 @@ class User implements UserInterface
     public function setAccesPhoto(bool $accesPhoto): self
     {
         $this->accesPhoto = $accesPhoto;
-   
+
         return $this;
     }
 
@@ -520,7 +528,7 @@ class User implements UserInterface
     public function setAccesPhotoLanceurAlerte(bool $accesPhotoLanceurAlerte): self
     {
         $this->accesPhotoLanceurAlerte = $accesPhotoLanceurAlerte;
-   
+
         return $this;
     }
 
@@ -538,7 +546,7 @@ class User implements UserInterface
             $this->commentsActu[] = $commentActu;
             $commentActu->setAuteur($this);
         }
-   
+
         return $this;
     }
 
@@ -550,7 +558,7 @@ class User implements UserInterface
                 $commentActu->setUser(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -568,7 +576,7 @@ class User implements UserInterface
             $this->commentsPhoto[] = $commentPhoto;
             $commentPhoto->setAuteur($this);
         }
-   
+
         return $this;
     }
 
@@ -580,7 +588,7 @@ class User implements UserInterface
                 $commentPhoto->setUser(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -598,7 +606,7 @@ class User implements UserInterface
             $this->actus[] = $actu;
             $actu->setAuteur($this);
         }
-   
+
         return $this;
     }
 
@@ -610,7 +618,7 @@ class User implements UserInterface
                 $actu->setAuteur(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -628,7 +636,7 @@ class User implements UserInterface
             $this->photos[] = $photo;
             $photo->setUser($this);
         }
-   
+
         return $this;
     }
 
@@ -640,7 +648,7 @@ class User implements UserInterface
                 $photo->setUser(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -658,7 +666,7 @@ class User implements UserInterface
             $this->photosLanceurAlerte[] = $photo;
             $photo->setLanceurAlerte($this);
         }
-   
+
         return $this;
     }
 
@@ -670,7 +678,7 @@ class User implements UserInterface
                 $photo->setLanceurAlerte(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -688,7 +696,7 @@ class User implements UserInterface
             $this->discussionsAuteur[] = $discussion;
             $discussion->setAuteur($this);
         }
-   
+
         return $this;
     }
 
@@ -700,7 +708,7 @@ class User implements UserInterface
                 $discussion->setAuteur(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -718,7 +726,7 @@ class User implements UserInterface
             $this->discussionsDestinataire[] = $discussion;
             $discussion->setAuteur($this);
         }
-   
+
         return $this;
     }
 
@@ -730,7 +738,7 @@ class User implements UserInterface
                 $discussion->setAuteur(null);
             }
         }
-   
+
         return $this;
     }
 
@@ -748,7 +756,7 @@ class User implements UserInterface
             $this->messages[] = $message;
             $message->setUser($this);
         }
-   
+
         return $this;
     }
 
@@ -760,7 +768,7 @@ class User implements UserInterface
                 $message->setUser(null);
             }
         }
-   
+
         return $this;
     }
 

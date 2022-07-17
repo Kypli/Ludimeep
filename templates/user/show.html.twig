@@ -121,6 +121,26 @@
 									<th>Date de fin d'adhésion</th>
 									<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
+								<tr>
+									<th>Membre du CA ?</th>
+									<td>
+										{{ user.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+									</td>
+								</tr>
+								{% if user.roleCa is not null %}
+									<tr>
+										<th>Rôle du CA</th>
+										<td>{{ user.roleCa }}</td>
+									</tr>
+									<tr>
+										<th>Date de fin de mandat</th>
+										<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>
+									</tr>
+								{% endif %}
+								<tr>
+									<th>Membre d'honneur ?</th>
+									<td>{{ user.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+								</tr>
 							{% endif %}
 							<tr>
 								<th>J'autorise l'utilisation de mon image ?</th>
@@ -131,24 +151,6 @@
 							<tr>
 								<th>Vous avez connu Ludi-Meep' gràce à</th>
 								<td>{{ user.notoriete }}</td>
-							</tr>
-							<tr>
-								<th>Membre du CA ?</th>
-								<td>{{  user.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
-							</tr>
-							{% if user.roleCa is not null %}
-								<tr>
-									<th>Rôle du CA</th>
-									<td>{{ user.roleCa }}</td>
-								</tr>
-								<tr>
-									<th>Date de fin de mandat</th>
-									<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>
-								</tr>
-							{% endif %}
-							<tr>
-								<th>Membre d'honneur ?</th>
-								<td>{{ user.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							</tr>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>
