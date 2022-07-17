@@ -1,0 +1,20 @@
+<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
+<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
+
+{% for s in sondages %}
+
+	{% set voted = app.user is not null ? s.voted(app.user.id) : false %}
+
+	<div class='row mb-2'>
+		<div class='col-12 gras'>
+			{{ s.title|capitalize }}
+		</div>
+
+		{% if is_granted('ROLE_USER') and voted == false %}
+			{{ render(controller('App\\Controller\\SondageController::vote', { 'id': s.id, 'request': request, 'form_number': loop.first ? '1' : '2' } )) }}
+		{% else %}
+			{% set vote = render(controller('App\\Controller\\SondageController::myvote', { 'id': s.id })) %}
+			{% include 'sondage/_show.html.twig' with { 's': s, 'vote': vote } %}
+		{% endif %}
+	</div>
+{% endfor %}

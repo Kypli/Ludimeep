@@ -28,6 +28,7 @@ class HomeController extends AbstractController
 		$discussionSer->update();
 
 		return $this->render('home/index.html.twig',[
+			'request' => $request,
 			'user' => $this->getUser(),
 			'sondages' => $sr->getSondageRunning(),
 			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),

@@ -17,12 +17,6 @@
                     <a href="{{ path('sondage') }}">Retour à la liste</a>
                 </div>
 
-                {% if limiteMax %}
-                    <div class='offset-2 col-4 mb-3 red'>
-                        Attention, limite de deux sondages en cours atteintes !
-                    </div>
-                {% endif %}
-
                 {% include 'sondage/_form.html.twig' with {'edit': false} %}
             </section>
         </div>

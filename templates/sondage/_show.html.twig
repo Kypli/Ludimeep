@@ -1,41 +1,26 @@
-<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
-<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Sondage{{ sondages|length > 1 ? "s"}}</h4>
+{% set vote = vote is defined ? vote : 0 %}
 
-{% for s in sondages %}
-	<div class='row mb-2'>
-		<div class='col-12 gras'>
-			{{ s.title|capitalize }}
-		</div>
-
-		{% if is_granted('ROLE_USER') %}
-			<div class='col-12 actu'>
-				{# FORM #}
-			</div>
-		{% else %}
-			<div class='col-12 actu'>
-				<ul>
-					<li>{{ s.line1 }}</li>
-					<li>{{ s.line2 }}</li>
-					{% if s.line3 is not empty %}
-						<li>{{ s.line3 }}</li>
-					{% endif %}
-					{% if s.line4 is not empty %}
-						<li>{{ s.line4 }}</li>
-					{% endif %}
-					{% if s.line5 is not empty %}
-						<li>{{ s.line5 }}</li>
-					{% endif %}
-					{% if s.line6 is not empty %}
-						<li>{{ s.line6 }}</li>
-					{% endif %}
-					{% if s.line7 is not empty %}
-						<li>{{ s.line7 }}</li>
-					{% endif %}
-					{% if s.line8 is not empty %}
-						<li>{{ s.line8 }}</li>
-					{% endif %}
-				</ul>
-			</div>
+<div class='col-12 actu'>
+	<ul>
+		<li {{ vote == 1 ? "class='gras'" }}>{{ s.line1 }}</li>
+		<li {{ vote == 2 ? "class='gras'" }}>{{ s.line2 }}</li>
+		{% if s.line3 is not empty %}
+			<li {{ vote == 3 ? "class='gras'" }}>{{ s.line3 }}</li>
 		{% endif %}
-	</div>
-{% endfor %}
+		{% if s.line4 is not empty %}
+			<li {{ vote == 4 ? "class='gras'" }}>{{ s.line4 }}</li>
+		{% endif %}
+		{% if s.line5 is not empty %}
+			<li {{ vote == 5 ? "class='gras'" }}>{{ s.line5 }}</li>
+		{% endif %}
+		{% if s.line6 is not empty %}
+			<li {{ vote == 6 ? "class='gras'" }}>{{ s.line6 }}</li>
+		{% endif %}
+		{% if s.line7 is not empty %}
+			<li {{ vote == 7 ? "class='gras'" }}>{{ s.line7 }}</li>
+		{% endif %}
+		{% if s.line8 is not empty %}
+			<li {{ vote == 8 ? "class='gras'" }}>{{ s.line8 }}</li>
+		{% endif %}
+	</ul>
+</div>

@@ -1,0 +1,23 @@
+<div class='col-12 sondage'>
+	{{ form_start(form) }}
+
+		<ul>
+			<li>{{ form_widget(form.vote.0) }} {{ form_label(form.vote.0) }}</li>
+			<li>{{ form_widget(form.vote.1) }} {{ form_label(form.vote.1) }}</li>
+			{% if s.line3 is not null %}<li>{{ form_widget(form.vote.2) }} {{ form_label(form.vote.2) }}</li>{% endif %}
+			{% if s.line4 is not null %}<li>{{ form_widget(form.vote.3) }} {{ form_label(form.vote.3) }}</li>{% endif %}
+			{% if s.line5 is not null %}<li>{{ form_widget(form.vote.4) }} {{ form_label(form.vote.4) }}</li>{% endif %}
+			{% if s.line6 is not null %}<li>{{ form_widget(form.vote.5) }} {{ form_label(form.vote.5) }}</li>{% endif %}
+			{% if s.line7 is not null %}<li>{{ form_widget(form.vote.6) }} {{ form_label(form.vote.6) }}</li>{% endif %}
+			{% if s.line8 is not null %}<li>{{ form_widget(form.vote.7) }} {{ form_label(form.vote.7) }}</li>{% endif %}
+		</ul>
+
+		{# VALIDER #}
+		<div class="row center mt-4 mb-3">
+			<div class="offset-4 col-4">
+				<button class="btn btn-success">{{ button_label|default("Voter") }}</button>
+			</div>
+		</div>
+
+	{{ form_end(form) }}
+</div>

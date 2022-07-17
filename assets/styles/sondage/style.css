@@ -1,6 +1,12 @@
 
-/* UL */
 .sondage ul {
 	text-align: left;
-	margin-left: 8%;
+	margin-left: 1%;
+	list-style-type: none;
+}
+.sondage li {
+	margin-bottom: 8px;
+}
+.sondage input {
+	margin-right: 8px;
 }

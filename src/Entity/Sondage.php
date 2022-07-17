@@ -2,10 +2,15 @@
 
 namespace App\Entity;
 
+use App\Entity\User;
+use App\Entity\SondageUser;
+
+use Doctrine\ORM\Mapping as ORM;
+
 use App\Repository\SondageRepository;
+
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=SondageRepository::class)
@@ -65,46 +70,6 @@ class Sondage
     private $line8;
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $result1 = 0;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $result2 = 0;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result3;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result4;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result5;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result6;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result7;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $result8;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $start;
@@ -115,7 +80,7 @@ class Sondage
     private $end;
 
     /**
-     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="sondages")
+     * @ORM\OneToMany(targetEntity=SondageUser::class, mappedBy="sondage")
      */
     private $votants;
 
@@ -237,102 +202,6 @@ class Sondage
         return $this;
     }
 
-    public function getResult1(): ?int
-    {
-        return $this->result1;
-    }
-
-    public function setResult1(int $result1): self
-    {
-        $this->result1 = $result1;
-
-        return $this;
-    }
-
-    public function getResult2(): ?int
-    {
-        return $this->result2;
-    }
-
-    public function setResult2(int $result2): self
-    {
-        $this->result2 = $result2;
-
-        return $this;
-    }
-
-    public function getResult3(): ?int
-    {
-        return $this->result3;
-    }
-
-    public function setResult3(?int $result3): self
-    {
-        $this->result3 = $result3;
-
-        return $this;
-    }
-
-    public function getResult4(): ?int
-    {
-        return $this->result4;
-    }
-
-    public function setResult4(?int $result4): self
-    {
-        $this->result4 = $result4;
-
-        return $this;
-    }
-
-    public function getResult5(): ?int
-    {
-        return $this->result5;
-    }
-
-    public function setResult5(?int $result5): self
-    {
-        $this->result5 = $result5;
-
-        return $this;
-    }
-
-    public function getResult6(): ?int
-    {
-        return $this->result6;
-    }
-
-    public function setResult6(?int $result6): self
-    {
-        $this->result6 = $result6;
-
-        return $this;
-    }
-
-    public function getResult7(): ?int
-    {
-        return $this->result7;
-    }
-
-    public function setResult7(?int $result7): self
-    {
-        $this->result7 = $result7;
-
-        return $this;
-    }
-
-    public function getResult8(): ?int
-    {
-        return $this->result8;
-    }
-
-    public function setResult8(?int $result8): self
-    {
-        $this->result8 = $result8;
-
-        return $this;
-    }
-
     public function getStart(): ?\DateTimeInterface
     {
         return $this->start;
@@ -367,7 +236,7 @@ class Sondage
 
     public function addVotant(User $votant): self
     {
-        if (!$this->votants->contains($votant)) {
+        if (!$this->votants->contains($votant)){
             $this->votants[] = $votant;
         }
 
@@ -379,5 +248,16 @@ class Sondage
         $this->votants->removeElement($votant);
 
         return $this;
+    }
+
+    public function voted($user_id): bool
+    {
+        foreach($this->votants as $value){
+            if ($value->getVotant()->getId() == $user_id){
+                return true;
+            }
+        }
+
+        return false;
     }
 }

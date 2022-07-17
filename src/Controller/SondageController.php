@@ -3,8 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Sondage;
-use App\Form\SondageType;
+use App\Entity\SondageUser;
+
 use App\Repository\SondageRepository;
+use App\Repository\SondageUserRepository;
+
+use App\Form\SondageType;
+use App\Form\SondageVote1Type;
+use App\Form\SondageVote2Type;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -21,150 +27,240 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class SondageController extends AbstractController
 {
-    /**
-     * @Route("/", name="", methods={"GET"})
-     */
-    public function index(SondageRepository $sondageRepository): Response
-    {
-        return $this->render('sondage/index.html.twig', [
-            'sondages' => $sondageRepository->findAll(),
-        ]);
-    }
+	/**
+	 * @Route("/", name="", methods={"GET"})
+	 */
+	public function index(SondageRepository $sr): Response
+	{
+		return $this->render('sondage/index.html.twig', [
+			'sondages' => $sr->findAll(),
+		]);
+	}
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     * @Route("/add", name="_add", methods={"GET", "POST"})
-     */
-    public function add(Request $request, SondageRepository $sr): Response
-    {
-        $sondage = new Sondage();
-        $form = $this->createForm(SondageType::class, $sondage);
-        $form->handleRequest($request);
-        $sondage = $form->getData();
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 * @Route("/add", name="_add", methods={"GET", "POST"})
+	 */
+	public function add(Request $request, SondageRepository $sr): Response
+	{
+		$sondage = new Sondage();
+		$form = $this->createForm(SondageType::class, $sondage);
+		$form->handleRequest($request);
+		$sondage = $form->getData();
 
-        $limiteMax = $sr->countSondageRunning() >= 2
-            ? true
-            : false
-        ;
+		if ($form->isSubmitted() && $form->isValid()){
 
-        if ($form->isSubmitted() && $form->isValid()){
+			$control = $this->controlForm($sondage, $sr);
 
-            // Start < End
-            if ($sondage->getStart() >= $sondage->getEnd()){
-                $this->addFlash('error', "La date de départ doit être inférieur à la date de fin.");
-                return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
-            }
+			$control !== true
+				? $this->addFlash('error', $control)
+				: $sr->add($sondage, true)
+			;
 
-            // 2 sondages en cours max
-            if ($limiteMax){
-                $this->addFlash('error', "Il ne peut y avoir que 2 sondages en cours maximum.");
-                return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
-            }
+			return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
+		}
 
-            $sr->add($sondage, true);
+		return $this->renderForm('sondage/add.html.twig', [
+			'form' => $form,
+			'sondage' => $sondage,
+		]);
+	}
 
-            return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
-        }
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 * @Route("/{id}/edit", name="_edit", methods={"GET", "POST"})
+	 */
+	public function edit(Request $request, Sondage $sondage, SondageRepository $sr): Response
+	{
+		$form = $this->createForm(SondageType::class, $sondage);
+		$form->handleRequest($request);
 
-        return $this->renderForm('sondage/add.html.twig', [
-            'form' => $form,
-            'sondage' => $sondage,
-            'limiteMax' => $limiteMax,
-        ]);
-    }
+		if ($form->isSubmitted() && $form->isValid()){
 
-    /**
-     * Affiche un sondage
-     */
-    public function show(Sondage $sondage): Response
-    {
-        return true;
-    }
+			$control = $this->controlForm($sondage, $sr);
 
-    /**
-     * @Route("/result/{id}", name="_result", options={"expose"=true})
-     * Envoie les datas d'un sondage
-     */
-    public function result(Sondage $sondage, SondageRepository $sr, Request $request): Response
-    {
-        // Control request
-        if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
+			$control !== true
+				? $this->addFlash('error', $control)
+				: $sr->add($sondage, true)
+			;
 
-        // Couleur ['Rouge', 'Bleu', 'Yellow', 'Turquoise', 'Purple', 'Orange', 'Vert', 'Rose'];
-        $datas = [];
-        $labels = [];
+			return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
+		}
 
-        for($i = 1; $i <= 8; $i++){
+		return $this->renderForm('sondage/edit.html.twig', [
+			'form' => $form,
+			'sondage' => $sondage,
+		]);
+	}
 
-            $label = 'getLine'.$i;
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 * @Route("/{id}", name="_delete", methods={"POST"})
+	 */
+	public function delete(Request $request, Sondage $sondage, SondageRepository $sr, SondageUserRepository $sur): Response
+	{
+		if ($this->isCsrfTokenValid('delete'.$sondage->getId(), $request->request->get('_token'))){
+			
+			$votants = $sondage->getVotants();
 
-            if (!empty($sondage->$label())){
-                $labels[] = $sondage->$label();
-                $data = 'getResult'.$i;
-                $datas[] = $sondage->$data();
-            }
-        }
+			foreach($votants as $votant){
+				$sur->remove($votant, true);
+			}
 
-        return new JsonResponse([
-            'datas' => $datas,
-            'labels' => $labels,
-        ]);
-    }
+			$sr->remove($sondage, true);
+		}
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     * @Route("/{id}/edit", name="_edit", methods={"GET", "POST"})
-     */
-    public function edit(Request $request, Sondage $sondage, SondageRepository $sondageRepository): Response
-    {
-        $form = $this->createForm(SondageType::class, $sondage);
-        $form->handleRequest($request);
+		return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
+	}
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $sondageRepository->add($sondage, true);
+	/**
+	 * @IsGranted("ROLE_ADMIN")
+	 */
+	public function controlForm(Sondage $sondage, SondageRepository $sr, $limiteMax)
+	{
+		// Start < End
+		if ($sondage->getStart() >= $sondage->getEnd()){
+			return "La date de départ doit être inférieur à la date de fin.";
+		}
 
-            return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
-        }
+		// Pas de doublons
+		$lines = [];
+		for ($i=1; $i <= 8; $i++){
+			$line = 'getLine'.$i;
+			$line = $sondage->$line();
 
-        return $this->renderForm('sondage/edit.html.twig', [
-            'form' => $form,
-            'sondage' => $sondage,
-        ]);
-    }
+			if ($line != null){
 
-    /**
-     * @IsGranted("ROLE_ADMIN")
-     * @Route("/{id}", name="_delete", methods={"POST"})
-     */
-    public function delete(Request $request, Sondage $sondage, SondageRepository $sondageRepository): Response
-    {
-        if ($this->isCsrfTokenValid('delete'.$sondage->getId(), $request->request->get('_token'))) {
-            $sondageRepository->remove($sondage, true);
-        }
+				if (in_array($line, $lines)){
+					return "Une ligne ne peut être identique à une autre.";
+				} else {
+					$lines[] = $line;
+				}
+			}
+		}
 
-        return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
-    }
+		return true;
+	}
 
-    /**
-     * @Route("/getVotantsBySondageId/{id}", name="_getVotantsBySondageId")
-     */
-    public function getVotantsBySondageId(Sondage $sondage, SondageRepository $sr)
-    {
-        if (empty($sondage)){
-            return new Response(0);
-        }
+	/**
+	 * @Route("/result/{id}", name="_result", options={"expose"=true})
+	 * Envoie les datas d'un sondage
+	 */
+	public function result(Sondage $sondage, SondageRepository $sr, Request $request): Response
+	{
+		// Control request
+		if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
 
-        $result = 0;
-        $array = $sr->getVotantsBySondageId($sondage->getId());
+		// Couleur ['Rouge', 'Bleu', 'Yellow', 'Turquoise', 'Purple', 'Orange', 'Vert', 'Rose'];
+		$datas = [];
+		$labels = [];
 
-        if (isset($array[0])){
-            foreach($array[0] as $value){
-                if (!empty($value)){
-                    $result += (int) $value;
-                }
-            }
-        }
+		$votants = $sondage->getVotants();
 
-        return new Response($result);
-    }
+		// Get labels and initialise Results
+		for($i = 1; $i <= 8; $i++){
+
+			$label = 'getLine'.$i;
+
+			if (!empty($sondage->$label())){
+				$results[$i] = 0;
+				$labels[] = $sondage->$label();
+			}
+		}
+
+		// Get Results
+		foreach($votants as $votant){
+			$results[$votant->getVote()]++;
+		}
+
+		// Convert Result to datas
+		foreach($results as $data){
+			$datas[] = $data;
+		}
+
+		return new JsonResponse([
+			'datas' => $datas,
+			'labels' => $labels,
+		]);
+	}
+
+	/**
+	 * @Route("/getVotantsBySondageId/{id}", name="_getVotantsBySondageId")
+	 * Retoune le nombre de votants pour un sondage
+	 */
+	public function getVotantsBySondageId(Sondage $sondage, SondageUserRepository $sur)
+	{
+		if (empty($sondage)){
+			return new Response(0);
+		}
+
+		return new Response($sur->getVotantsBySondageId($sondage->getId()));
+	}
+
+	/**
+	 * @Route("/vote/{id}", name="_vote")
+	 * Retoune le formulaire d'un sondage ou le résultat si le user à déja voté
+	 */
+	public function vote(Sondage $sondage, Request $request, $form_number, SondageUserRepository $sur)
+	{
+		// Sondage questions
+		$sondage_questions = [];
+		for ($i=1; $i <= 8; $i++){
+
+			$line = 'getLine'.$i;
+			if (null !== $sondage->$line()){
+				$sondage_questions[$sondage->$line()] = $i;
+			}
+		}
+
+		$form = $form_number == '1'
+			? $this->createForm(SondageVote1Type::class, [], ['lines' => $sondage_questions])
+			: $this->createForm(SondageVote2Type::class, [], ['lines' => $sondage_questions])
+		;
+
+		$form->handleRequest($request);
+		$sondage_datas = $form->getData();
+		$user = $this->getUSer();
+
+		if ($form->isSubmitted() && $form->isValid() && !$sondage->voted($user)){
+
+			$vote_result = $sondage_datas['vote'];
+
+			$vote = new SondageUser();
+
+			$vote
+				->setSondage($sondage)
+				->setVotant($user)
+				->setVote($vote_result)
+				->setDate(new \Datetime('now'))
+			;
+
+			$sur->add($vote, true);
+
+			return $this->render('sondage/_show.html.twig', [
+				's' => $sondage,
+				'vote' => $vote_result,
+			]);
+		}
+
+		return $this->renderForm('sondage/_vote.html.twig', [
+			's' => $sondage,
+			'form' => $form,
+		]);
+	}
+
+	/**
+	 * @Route("/my_vote/{id}", name="_my_vote")
+	 * Renvoie le vote d'un
+	 */
+	public function myVote(Sondage $sondage): Response
+	{
+		$user = $this->getUSer();
+
+		if (null == $user){
+			return new JsonResponse(0);
+		}
+
+		return new JsonResponse((int) $this->getDoctrine()->getRepository(SondageUser::class)->myVote($sondage->getId(), $user->getId()));
+	}
 }

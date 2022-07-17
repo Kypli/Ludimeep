@@ -39,13 +39,19 @@ class SondageRepository extends ServiceEntityRepository
         }
     }
 
-    public function countSondageRunning(): int
+    public function countSondageRunning($sondage_id = 0): int
     {
+
         return $this->createQueryBuilder('x')
             ->select('COUNT(x)')
+
             ->where('x.start <= :now')
             ->andWhere('x.end > :now')
             ->setParameter(':now', new \Datetime('now'))
+
+            ->andWhere('x.id != :sondage_id')
+            ->setParameter(':sondage_id', $sondage_id)
+
             ->getQuery()
             ->getSingleScalarResult()
         ;
@@ -60,26 +66,6 @@ class SondageRepository extends ServiceEntityRepository
             ->setParameter(':now', new \Datetime('now'))
             ->getQuery()
             ->getResult()
-        ;
-    }
-
-    public function getVotantsBySondageId($id): Array
-    {
-        return $this->createQueryBuilder('x')
-            ->select([
-                'SUM(x.result1)',
-                'SUM(x.result2)',
-                'SUM(x.result3)',
-                'SUM(x.result4)',
-                'SUM(x.result5)',
-                'SUM(x.result6)',
-                'SUM(x.result7)',
-                'SUM(x.result8)',
-            ])
-            ->where('x.id = :id')
-            ->setParameter(':id', $id)
-            ->getQuery()
-            ->getScalarResult()
         ;
     }
 }

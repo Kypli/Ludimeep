@@ -21,7 +21,6 @@ $(document).ready(function(){
 	// FONCTIONS
 	////////////
 
-	// Construit le tableau shiel-ui
 	function getdatas(entity_id){
 
 		$.ajax({

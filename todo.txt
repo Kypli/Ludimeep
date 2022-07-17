@@ -28,20 +28,6 @@ PRESENCE A UNE SESSION
 	- S'inscrire à une table
 
 
-SONDAGE
-- Admin
- 	- Gestion des sondages
-- Utilisateur
- 	- Peut voter 1 fois
-- Visiteur
- 	- Ne peut pas voter
-- Interface
- 	- Affichage de deux sondages max sur la page d'accueil
- 	- Page dédié aux résultat de sondages
-- Utilisation
-	- Jeux mis à l'honneur, qui sera préparé en avance
-
-
 JEUX
 	- Lien vers jeux avec que ses propres jeux
 
