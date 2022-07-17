@@ -31,14 +31,16 @@
 					<tbody>
 					{% set i = 0 %}
 					{% for s in sondages %}
-						{% if is_granted('ROLE_ADMIN') or date("now") > s.end %}
+						{% if is_granted('ROLE_ADMIN') or date("now") > s.start %}
 							{% set i = i + 1 %}
 							<tr>
 								<td style='min-width:100px ; max-width:80px'>
 									<div class='row'>
-										<div class='col-2 offset-1 test' data-id="{{ s.id }}">
-											<i class="fas fa-poll pointeur blue" title="Sondages"></i>
-										</div>
+										{% if is_granted('ROLE_ADMIN') or date("now") > s.end %}
+											<div class='col-2 offset-1 test' data-id="{{ s.id }}">
+												<i class="fas fa-poll pointeur blue" title="Sondages"></i>
+											</div>
+										{% endif %}
 										{% if is_granted('ROLE_ADMIN') %}
 											<div class='col-4'>
 												<a href="{{ path('sondage_edit', {'id': s.id}) }}">
