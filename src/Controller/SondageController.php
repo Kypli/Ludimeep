@@ -116,7 +116,7 @@ class SondageController extends AbstractController
 	/**
 	 * @IsGranted("ROLE_ADMIN")
 	 */
-	public function controlForm(Sondage $sondage, SondageRepository $sr, $limiteMax)
+	public function controlForm(Sondage $sondage, SondageRepository $sr)
 	{
 		// Start < End
 		if ($sondage->getStart() >= $sondage->getEnd()){

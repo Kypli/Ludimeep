@@ -17,6 +17,10 @@
 			<div class="offset-4 col-4">
 				<button class="btn btn-success">{{ button_label|default("Voter") }}</button>
 			</div>
+			<div class="col-4"></div>
+			<div class="offset-1 col-10 taille14 mt-2">
+				Se termine le {{ s.end|date('d/m/Y à H:i') }}
+			</div>
 		</div>
 
 	{{ form_end(form) }}
