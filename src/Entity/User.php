@@ -190,7 +190,7 @@ class User implements UserInterface
     private $games;
 
     /**
-     * @ORM\OneToMany(targetEntity=Sondage::class, mappedBy="votant")
+     * @ORM\OneToMany(targetEntity=SondageUser::class, mappedBy="votant")
      */
     private $sondages;
 
