@@ -69,6 +69,11 @@ $(document).ready(function(){
 							type: String,
 							nullable: false,
 						},
+						owner: {
+							path: "owner",
+							type: String,
+							nullable: false,
+						},
 						nom: {
 							path: "nom",
 							type: String,
@@ -175,12 +180,6 @@ $(document).ready(function(){
 					minWidth: 70,
 					customFilter: function(cell, item, index){
 						myCustomFilter(cell, 'owner', 'Propriétaire', 'text', 80)
-					},
-					columnTemplate: function(cell, item, index){
-						let text = !item.nom || !item.prenom
-							? item.userName
-							: ucFirst(item.nom) + ' ' + ucFirst(item.prenom)
-						$("<div>" + text + "</div>").appendTo(cell)
 					},
 				},
 				{
