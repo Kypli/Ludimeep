@@ -220,9 +220,9 @@ class SondageController extends AbstractController
 
 		$form->handleRequest($request);
 		$sondage_datas = $form->getData();
-		$user = $this->getUSer();
+		$user = $this->getUser();
 
-		if ($form->isSubmitted() && $form->isValid() && !$sondage->voted($user)){
+		if ($form->isSubmitted() && $form->isValid() && !$sondage->voted($user->getId())){
 
 			$vote_result = $sondage_datas['vote'];
 

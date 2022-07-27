@@ -13,7 +13,14 @@
 		</div>
 
 		{% if is_granted('ROLE_USER') and voted == false %}
-			{{ render(controller('App\\Controller\\SondageController::vote', { 'id': s.id, 'request': request, 'form_number': loop.first ? '1' : '2' } )) }}
+			{{ 
+				render(
+					controller(
+						'App\\Controller\\SondageController::vote',
+						{ 'id': s.id, 'request': request, 'form_number': loop.first ? '1' : '2' }
+					)
+				)
+			}}
 		{% else %}
 			{% set vote = render(controller('App\\Controller\\SondageController::myvote', { 'id': s.id })) %}
 			{% include 'sondage/_show.html.twig' with { 's': s, 'vote': vote } %}
