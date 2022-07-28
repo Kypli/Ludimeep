@@ -21,7 +21,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class PhotoController extends AbstractController
 {
-	const AFFICHAGE_MAX_PHOTOS = 4;
+	const AFFICHAGE_MAX_PHOTOS = 9;
 
 	private $file_uploader;
 
