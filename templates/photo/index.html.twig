@@ -8,6 +8,7 @@
 
 {% block javascripts %}
 	{{ parent() }}
+	{{ encore_entry_script_tags('photo') }}
 	{{ encore_entry_script_tags('modal_photo') }}
 {% endblock %}
 
@@ -29,8 +30,21 @@
 		{% endif %}
 
 		{# LISTE #}
-		<section class='row mb-3'>
-			{% include 'photo/_photos.html.twig' %}
+		<section class='row mb-5'>
+
+			{# PHOTOS #}
+			<div id='show_photos' class='row'>
+				{% include 'photo/_photos.html.twig' %}
+			</div>
+
+			{# SPINNER #}
+			<div id="loading" class="row mt-4 mb-4">
+				<div class="offset-6 col-1">
+					<div class="spinner-border text-primary hide" role="status">
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
 		</section>
 	</div>
 

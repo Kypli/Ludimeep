@@ -15,8 +15,7 @@ ACTUALITÉS
 
 
 CALENDRIER
-- Associer le timer avec le calendrier google
-- Sinon faire une liste de date sans séance en js
+- Créer ses dates de séances et events
 
 
 PRESENCE A UNE SESSION
@@ -29,14 +28,13 @@ PRESENCE A UNE SESSION
 
 
 JEUX
-	- Lien vers jeux avec que ses propres jeux
+- Lien vers jeux avec que ses propres jeux
 
 
 PHOTOS
 - Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
 - Carroussel
-- Limiter le nombre de photos sur la page, système de page + chargement.
 
 
 NOUS CONTACTER

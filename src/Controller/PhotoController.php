@@ -14,11 +14,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 /**
  * @Route("/photo", name="photo")
  */
 class PhotoController extends AbstractController
 {
+	const AFFICHAGE_MAX_PHOTOS = 4;
+
 	private $file_uploader;
 
 	public function __construct(FileUploader $file_uploader)
@@ -29,11 +33,65 @@ class PhotoController extends AbstractController
 	/**
 	 * @Route("/", name="", methods={"GET"})
 	 */
-	public function index(PhotoRepository $photoRepository): Response
+	public function index(): Response
 	{
 		return $this->render('photo/index.html.twig', [
-			'photos' => $photoRepository->findBy([], ['id' => 'DESC']),
+			'photos' => $this->photos(),
+			'u' => $this->getUser(),
 		]);
+	}
+
+	/**
+	 * Ajax - Récupère les photos suivantes
+	 * @Route("/next_images/{idLastImage}", name="_next_images")
+	 */
+	public function getNextPhotos($idLastImage, Request $request)
+	{
+		// Control request
+		if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
+
+		$images = $this->photos($idLastImage);
+		$countImages = count($images);
+
+		// Reste-t-il d'autres images à charger ?
+		$reste = $countImages < SELF::AFFICHAGE_MAX_PHOTOS
+			? false
+			: true
+		;
+
+		// Présence de photos dans la requete ?
+		$presencePhotos = $countImages == 0
+			? false
+			: true
+		;
+
+		$render = $this->render('photo/_photos.html.twig', [
+			'photos' => $images,
+			'u' => $this->getUser(),
+		])->getContent();
+
+		return new JsonResponse([
+			'reste' => $reste,
+			'render' => $render,
+			'presencePhotos' => $presencePhotos,
+		]);
+	}
+
+	/**
+	 * Récupère les photos selon les droits de l'utilisateur
+	 */
+	public function photos($idLastImage = null)
+	{
+		$user_id = $this->getUser() != null
+			? $this->getUser()->getId()
+			: 0
+		;
+
+		return $this
+			->getDoctrine()
+			->getRepository(Photo::class)
+			->getPhotos($user_id, $this->isGranted('ROLE_ADMIN'), $idLastImage, SELF::AFFICHAGE_MAX_PHOTOS);
+		;
 	}
 
 	/**

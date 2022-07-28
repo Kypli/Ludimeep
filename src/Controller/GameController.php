@@ -41,7 +41,7 @@ class GameController extends AbstractController
 	}
 
 	/**
-	 * @Route("/games", name="_games", options={"expose"=true})
+	 * @Route("/games", name="_games")
 	 * Récupère les jeux
 	 * Pour requête ajax seulement
 	 */

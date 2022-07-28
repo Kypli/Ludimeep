@@ -1,6 +1,5 @@
 {# INITIALISE #}
 {% set p_user = photo.user %}
-{% set u = app.user %}
 
 {# ETAT #}
 {% set etat =
@@ -16,6 +15,7 @@
 
 {# CARD #}
 <div class="card {{ etat }}" style="width: 19rem;">
+	<span class='photo_id' data-id='{{ photo.id }}'></span>
 
 	{# PHOTO SIGNALÉE #}
 	{% if photo.valid != true %}

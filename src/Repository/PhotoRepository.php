@@ -50,6 +50,48 @@ class PhotoRepository extends ServiceEntityRepository
 	/**
 	 * @return User[] Returns an array of User objects
 	 */
+	public function getPhotos($user_id, $admin, $idLastImage, $maxResult)
+	{		
+		$q = $this->createQueryBuilder('x');
+
+		if (!$admin){
+
+			// PHOTOS VALIDES
+			$q->where('x.valid = true');
+
+			// USER EXISTANT
+			if ($user_id != 0){
+				$q
+					// LANCEUR D'ALERTES
+					->orWhere('x.lanceurAlerte is not null and x.lanceurAlerte = :user_id')
+					->setParameter('user_id', $user_id)
+			
+					// PROPRIETAIRE
+					->orWhere('x.user = :user_id')
+					->setParameter('user_id', $user_id)
+				;
+			}
+		}
+
+		// FILTRE START
+		if ($idLastImage != null){
+			$q
+				->andWhere('x.id < :idLastImage')
+				->setParameter('idLastImage', $idLastImage)
+			;
+		}
+
+		return $q
+			->setMaxResults($maxResult)
+			->orderBy('x.id', 'DESC')
+			->getQuery()
+			->getResult()
+		;
+	}
+
+	/**
+	 * @return User[] Returns an array of User objects
+	 */
 	public function getPhotosName()
 	{
 		return $this->createQueryBuilder('p')

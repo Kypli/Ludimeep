@@ -143,7 +143,7 @@ class SondageController extends AbstractController
 	}
 
 	/**
-	 * @Route("/result/{id}", name="_result", options={"expose"=true})
+	 * @Route("/result/{id}", name="_result")
 	 * Envoie les datas d'un sondage
 	 */
 	public function result(Sondage $sondage, SondageRepository $sr, Request $request): Response

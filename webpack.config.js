@@ -47,7 +47,7 @@ Encore
     .addStyleEntry('actu_show', './assets/styles/actu/style.css')
 
     // Photo
-    .addStyleEntry('photo', './assets/styles/photo/style.css')
+    .addEntry('photo', './assets/js/photo/photo.js')
 
     // Jeu
     .addEntry('game', './assets/js/game/game.js')
