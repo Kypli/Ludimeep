@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une séance{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <div class='row mb-3'>
+
+            {# TITRE #}
+            <h2 class="radius-long offset-4 col-4">Ajouter une séance</h2>
+
+            {# TABLEAU LISTE #}
+            <section class='col-12 mb-3'>
+
+                {{ include('seance/_form.html.twig') }}
+
+                <a href="{{ path('seance') }}">Retour à la liste</a>
+            </section>
+        </div>
+    </div>
+{% endblock %}

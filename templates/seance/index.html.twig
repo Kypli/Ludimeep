@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Séances{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Séances</h2>
+
+			{# BUTTONS #}
+			<div class='row'>
+
+				{# ADD #}
+				<div class='col-2'>
+					<a href="{{ path('seance_add') }}">
+						<div class="btn btn-success mb-2">
+							Ajouter une séance
+						</div>
+					</a>
+				</div>
+
+				{# ADD #}
+				<div class='col-4'>
+					<a href="{{ path('seance_add') }}">
+						<div class="btn btn-success mb-2">
+							Gérer les types de séances
+						</div>
+					</a>
+				</div>
+			</div>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3'>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>actions</th>
+							<th>Id</th>
+							<th>Type</th>
+							<th>Date</th>
+							<th>Durée</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for seance in seances %}
+						<tr>
+							<td>
+								<a href="{{ path('seance_show', {'id': seance.id}) }}">Montrer</a>
+								<a href="{{ path('seance_edit', {'id': seance.id}) }}">Modifier</a>
+							</td>
+							<td>{{ seance.id }}</td>
+							<td>{{ seance.type.name }}</td>
+							<td>{{ seance.date ? seance.date|date('Y-m-d H:i:s') : '' }}</td>
+							<td>{{ seance.duree ? seance.duree|date('H:i:s') : '' }}</td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="4">Aucune séances trouvées</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

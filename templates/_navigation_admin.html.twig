@@ -28,6 +28,14 @@
 					</a>
 				</li>
 
+				{# SÉANCE #}
+				<li class="nav-item">
+					<a class="admin-li hoverable nav-link {{ route == 'seance' ? 'active'}}" aria-current="page" href="{{ path('seance') }}">
+						<i class="far fa-calendar-alt" title='Gérer les séances'></i>
+						Séances
+					</a>
+				</li>
+
 				{# ADD NEWSLETTER #}
 				<li class="nav-item">
 					<a class="admin-li hoverable nav-link {{ route == 'newsletter_add' ? 'active'}}" aria-current="page" href="{{ path('newsletter_add') }}">

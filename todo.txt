@@ -15,7 +15,12 @@ ACTUALITÉS
 
 
 CALENDRIER
-- Créer ses dates de séances et events
+- Créer ses dates de séances et events pour le timer
+
+
+SONDAGE
+- Limiter à deux sondages en cours maximum
+- Débug création date_début 
 
 
 PRESENCE A UNE SESSION
@@ -35,6 +40,7 @@ PHOTOS
 - Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
 - Carroussel
+- Uniformiser la taille des cards
 
 
 NOUS CONTACTER

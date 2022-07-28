@@ -1,0 +1,34 @@
+{{ form_start(form) }}
+
+    <div class="row center mt-4">
+
+        {# DATE #}
+        <div class="offset-2 col-3 mb-4 alignRight">
+            {{ form_label(form.date) }}
+        </div>
+        <div class="col-4 mb-4">
+            {{ form_widget(form.date) }}
+        </div>
+
+        {# DURÉE #}
+        <div class="offset-2 col-3 mb-4 alignRight">
+            {{ form_label(form.duree) }}
+        </div>
+        <div class="col-4 mb-4">
+            {{ form_widget(form.duree) }}
+        </div>
+
+        {# TYPE #}
+        <div class="offset-2 col-3 mb-3 alignRight">
+            {{ form_label(form.type) }}
+        </div>
+        <div class="col-4 mb-3">
+            {{ form_widget(form.type) }}
+        </div>
+    </div>
+
+    <button class="btn btn-success">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+
+{{ form_end(form) }}

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier une séance{% endblock %}
+
+{% block body %}
+    <h1>Modifier une séance</h1>
+
+    {{ include('seance/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('seance') }}">back to list</a>
+
+    {{ include('seance/_delete_form.html.twig') }}
+{% endblock %}

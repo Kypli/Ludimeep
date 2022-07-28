@@ -194,6 +194,11 @@ class User implements UserInterface
      */
     private $sondages;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Seance::class, mappedBy="presents")
+     */
+    private $seances;
+
     public function __construct()
     {
         $this->commentsActu = new ArrayCollection();
@@ -206,6 +211,7 @@ class User implements UserInterface
         $this->messages = new ArrayCollection();
         $this->games = new ArrayCollection();
         $this->sondages = new ArrayCollection();
+        $this->seances = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -824,6 +830,33 @@ class User implements UserInterface
     {
         if ($this->sondages->removeElement($sondage)) {
             $sondage->removeVotant($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Seance>
+     */
+    public function getSeances(): Collection
+    {
+        return $this->seances;
+    }
+
+    public function addSeance(Seance $seance): self
+    {
+        if (!$this->seances->contains($seance)) {
+            $this->seances[] = $seance;
+            $seance->addPresent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSeance(Seance $seance): self
+    {
+        if ($this->seances->removeElement($seance)) {
+            $seance->removePresent($this);
         }
 
         return $this;
