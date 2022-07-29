@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Types de séance{% endblock %}
+
+{% block body %}
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Types de séance</h2>
+
+			{# BUTTONS #}
+			<div class='row'>
+
+				{# RETOUR #}
+				<div class='col-2'>
+					<a href="{{ path('seance') }}">
+						<div class="btn btn-info mb-2">
+							Retour aux séances
+						</div>
+					</a>
+				</div>
+
+				{# ADD #}
+				<div class='col-2'>
+					<a href="{{ path('seance_type_add') }}">
+						<div class="btn btn-success mb-2">
+							Ajouter un type
+						</div>
+					</a>
+				</div>
+			</div>
+
+			{# TABLEAU LISTE #}
+			<section class='col-12 mb-3'>
+
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							<th>Nom</th>
+							<th>Id</th>
+						</tr>
+					</thead>
+					<tbody>
+					{% for type in types %}
+						<tr>
+							<td style='min-width:20px;'>
+								<div class='row'>
+									<div class='offset-1 col-1'>
+										<a class='btn btn-warning' href="{{ path('seance_type_edit', {'id': type.id}) }}">
+											<i class="fas fa-edit" title="Modifier"></i>
+										</a>
+									</div>
+									<div class='offset-1 col-1'>
+										{{ include('seance/type/_delete_form.html.twig') }}
+									</div>
+								</div>
+							</td>
+							<td><div class="pt-2">{{ type.name }}</div></td>
+							<td><div class="pt-2">{{ type.id }}</div></td>
+						</tr>
+					{% else %}
+						<tr>
+							<td colspan="4">Aucun type trouvé</td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

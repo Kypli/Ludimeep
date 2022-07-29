@@ -59,6 +59,9 @@ Encore
     .addEntry('sondage_index', './assets/js/sondage/index.js')
     .addStyleEntry('sondage_show', './assets/styles/sondage/style.css')
 
+    // Séance
+    .addStyleEntry('seance_index', './assets/styles/seance/seance.css')
+
     // Service
     .addEntry('timer', './assets/js/service/timer.js')
     .addEntry('shieldui', './assets/js/service/shieldui.js')

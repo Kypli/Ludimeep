@@ -2,6 +2,12 @@
 
 {% block title %}Séances{% endblock %}
 
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('seance_index') }}
+{% endblock %}
+
 {% block body %}
 	<div class="container">
 		<div class='row mb-3'>
@@ -21,9 +27,9 @@
 					</a>
 				</div>
 
-				{# ADD #}
+				{# GESTION TYPE #}
 				<div class='col-4'>
-					<a href="{{ path('seance_add') }}">
+					<a href="{{ path('seance_type') }}">
 						<div class="btn btn-success mb-2">
 							Gérer les types de séances
 						</div>
@@ -38,29 +44,51 @@
 					<thead>
 						<tr>
 							<th>actions</th>
-							<th>Id</th>
 							<th>Type</th>
 							<th>Date</th>
 							<th>Durée</th>
+							<th>Commentaire</th>
+							<th>Id</th>
 						</tr>
 					</thead>
 					<tbody>
-					{% for seance in seances %}
+					{% for seance in seances_running %}
 						<tr>
-							<td>
-								<a href="{{ path('seance_show', {'id': seance.id}) }}">Montrer</a>
-								<a href="{{ path('seance_edit', {'id': seance.id}) }}">Modifier</a>
+							<td style='min-width:20px;'>
+								<div class='row'>
+									<div class='offset-1 col-1'>
+										<a href="{{ path('seance_edit', {'id': seance.id}) }}"><i class="fas fa-edit" title="Modifier"></i></a>
+									</div>
+								</div>
 							</td>
-							<td>{{ seance.id }}</td>
 							<td>{{ seance.type.name }}</td>
-							<td>{{ seance.date ? seance.date|date('Y-m-d H:i:s') : '' }}</td>
-							<td>{{ seance.duree ? seance.duree|date('H:i:s') : '' }}</td>
+							<td>{{ seance.date ? seance.date|date('d-m-Y H:i:s') : '' }}</td>
+							<td>{{ seance.duree ? seance.duree|date('H:i') : '' }}</td>
+							<td>{{ seance.comment }}</td>
+							<td>{{ seance.id }}</td>
 						</tr>
-					{% else %}
+					{% endfor %}
+					{% for seance in seances_over %}
+						<tr class="grey {{ seances_running|length > 0 and seances_over|length > 0  and loop.first ? 'limite_over' }}">
+							<td style='min-width:20px;'>
+								<div class='row'>
+									<div class='offset-1 col-1'>
+										<a href="{{ path('seance_edit', {'id': seance.id}) }}"><i class="fas fa-edit" title="Modifier"></i></a>
+									</div>
+								</div>
+							</td>
+							<td>{{ seance.type.name }}</td>
+							<td>{{ seance.date ? seance.date|date('d-m-Y H:i:s') : '' }}</td>
+							<td>{{ seance.duree ? seance.duree|date('H:i') : '' }}</td>
+							<td>{{ seance.comment }}</td>
+							<td>{{ seance.id }}</td>
+						</tr>
+					{% endfor %}
+					{% if seances_running|length == 0 and seances_over|length == 0 %}
 						<tr>
 							<td colspan="4">Aucune séances trouvées</td>
 						</tr>
-					{% endfor %}
+					{% endif %}
 					</tbody>
 				</table>
 			</section>

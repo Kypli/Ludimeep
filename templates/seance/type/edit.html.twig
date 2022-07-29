@@ -14,16 +14,10 @@
 
 				{# RETOUR #}
 				<div class="col-3">
-					<a href="{{ path('seance') }}" class="btn btn-info">Retour</a>
+					<a href="{{ path('seance_type') }}" class="btn btn-info">Retour</a>
 				</div>
 
-				{# FORM #}
-				{{ include('seance/_form.html.twig', {'button_label': 'Modifier'}) }}
-
-				{# DELETE #}
-				<div class="col-3 offset-9 center mb-2">
-					{{ include('seance/_delete_form.html.twig') }}
-				</div>
+				{{ include('seance/type/_form.html.twig', {'button_label': 'Modifier'}) }}
 			</section>
 		</div>
 	</div>

@@ -1,8 +1,12 @@
 <form
-    method="post"
-    action="{{ path('seance_delete', {'id': seance.id}) }}"
-    onsubmit="return confirm('Étes-vous sûr de supprimer cette séance ?');"
+	method="post"
+	action="{{ path('seance_delete', {'id': seance.id}) }}"
+	onsubmit="return confirm('Étes-vous sûr de supprimer cette séance ?');"
 >
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ seance.id) }}">
-    <button class="btn">Delete</button>
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ seance.id) }}">
+
+	<button class="btn btn-danger">
+		<i class="fa fa-times"></i>
+		Supprimer définitivement cette séance
+	</button>
 </form>

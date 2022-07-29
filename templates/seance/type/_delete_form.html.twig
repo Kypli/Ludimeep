@@ -1,0 +1,11 @@
+<form
+	method="post"
+	action="{{ path('seance_type_delete', {'id': type.id}) }}"
+	onsubmit="return confirm('Étes-vous sûr de supprimer ce type de séance ?');"
+>
+	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ type.id) }}">
+
+	<button class="btn btn-danger">
+		<i class="fas fa-trash" title="Supprimer"></i>
+	</button>
+</form>

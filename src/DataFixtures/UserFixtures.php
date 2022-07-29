@@ -55,7 +55,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 		// Sandrine
 		$entity = new Entity();
 		$entity
-			->setUserName('duchon.sandrine@protonmail.com')
+			->setUserName('sandrine')
 			->setPassword($this->passwordHasher->hashPassword(
 				$entity,
 				'mdp'
@@ -80,7 +80,7 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 		// Estelle
 		$entity = new Entity();
 		$entity
-			->setUserName('Estelle Ridel')
+			->setUserName('estelle')
 			->setPassword($this->passwordHasher->hashPassword(
 				$entity,
 				'mdp'

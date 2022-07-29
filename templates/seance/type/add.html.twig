@@ -1,23 +1,23 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Ajouter une séance{% endblock %}
+{% block title %}Ajouter un type de séance{% endblock %}
 
 {% block body %}
 	<div class="container">
 		<div class='row mb-3'>
 
 			{# TITRE #}
-			<h2 class="radius-long offset-4 col-4">Ajouter une séance</h2>
+			<h2 class="radius-long offset-4 col-4">Ajouter un type de séance</h2>
 
 			{# TABLEAU LISTE #}
 			<section class='col-12 mb-3'>
 
 				{# RETOUR #}
 				<div class="col-3">
-					<a href="{{ path('seance') }}" class="btn btn-info">Retour</a>
+					<a href="{{ path('seance_type') }}" class="btn btn-info">Retour</a>
 				</div>
 
-				{{ include('seance/_form.html.twig') }}
+				{{ include('seance/type/_form.html.twig') }}
 			</section>
 		</div>
 	</div>

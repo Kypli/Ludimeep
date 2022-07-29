@@ -30,6 +30,11 @@ class Seance
     private $duree;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $comment;
+
+    /**
      * @ORM\ManyToOne(targetEntity=SeanceType::class, inversedBy="seances")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -70,6 +75,18 @@ class Seance
     public function setDuree(?\DateTimeInterface $duree): self
     {
         $this->duree = $duree;
+
+        return $this;
+    }
+
+    public function getComment(): ?string
+    {
+        return $this->comment;
+    }
+
+    public function setComment(string $comment): self
+    {
+        $this->comment = $comment;
 
         return $this;
     }
