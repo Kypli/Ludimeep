@@ -15,11 +15,37 @@
 			{# SÉANCE #}
 			<div class='row mt-3 mb-3'>
 
-				<div class='col-12 mb-2 '>
+				<div class='col-12 mb-1 '>
+
+					{# TYPE #}
 					<span class='taille15 gras'>{{ seance.type.name }}</span>
-					&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
-					<span class='taille14 italique'>{{ seance.date|date('d/m/Y H:i') }}</span>
+					<br/>
+
+					{# DATE #}
+					<span class='taille14 italique'>
+						le {{ seance.date|date('d/m/Y') }} à partir de
+						{% set hours = '0' in seance.date|date('H') ? seance.date|date('H')|slice(1, 1) : seance.date|date('H') %}
+						{% set minutes = seance.date|date('i') != '00' ? seance.date|date('i') %}
+						{{ hours ~ 'h' ~ minutes }}
+					</span>
+					<br/>
+
+					{# DURÉE #}
+					{% if seance.duree %}
+						<span class='taille14'>
+							Durée ~
+							{{ '0' in seance.duree|date('H') ? seance.duree|date('H')|slice(1, 1) : seance.duree|date('H') }}h
+							{{ seance.duree|date('i') != '00' ? seance.duree|date('i') ~ 'mn' }}
+						</span>
+					{% endif %}
 				</div>
+
+				{# COMMENT #}
+				{% if seance.comment %}
+					<div class='col-12 mb-3 '>
+						<span class='taille15'>{{ seance.comment }}</span>
+					</div>
+				{% endif %}
 
 				{# EN COURS #}
 				{% if seance.date <= date %}
