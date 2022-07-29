@@ -66,4 +66,34 @@ class SeanceRepository extends ServiceEntityRepository
 			->getResult()
 		;
 	}
+
+	public function getOldSeance($number)
+	{
+		return $this->createQueryBuilder('x')
+
+			->where('x.date <= :now')
+			->setParameter(':now', new \Datetime('now'))
+
+			->orderBy('x.date', 'DESC')
+			->setMaxResults($number)
+			
+			->getQuery()
+			->getResult()
+		;
+	}
+
+	public function getNextSeance($number)
+	{
+		return $this->createQueryBuilder('x')
+
+			->where('x.date > :now')
+			->setParameter(':now', new \Datetime('now'))
+
+			->orderBy('x.date', 'ASC')
+			->setMaxResults($number)
+
+			->getQuery()
+			->getResult()
+		;
+	}
 }

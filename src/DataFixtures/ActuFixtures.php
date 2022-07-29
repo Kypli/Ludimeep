@@ -35,7 +35,7 @@ class ActuFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 
 	public static function getGroups(): array
 	{
-		return ['start'];
+		return ['test'];
 	}
 
 	public function getDependencies()

@@ -1,0 +1,47 @@
+<div class='row'>
+
+	<h4 class="radius-short offset-1 col-10 d-none d-lg-block d-xl-block">Prochaines date</h4>
+	<h4 class="radius-long offset-1 col-10 d-none d-lg-none d-xl-none d-sm-block d-md-block">Prochaines date</h4>
+
+	<div class='mb-5'>
+
+		{% for seance in seances %}
+
+			{# HR #}
+			{% if not loop.first %}
+				<hr>
+			{% endif %}
+
+			{# SÉANCE #}
+			<div class='row mt-3 mb-3'>
+
+				<div class='col-12 mb-2 '>
+					<span class='taille15 gras'>{{ seance.type.name }}</span>
+					&nbsp;&nbsp;&nbsp;-&nbsp;&nbsp;&nbsp;
+					<span class='taille14 italique'>{{ seance.date|date('d/m/Y H:i') }}</span>
+				</div>
+
+				{# EN COURS #}
+				{% if seance.date <= date %}
+					<div class='entoure seance-actif'>En cours !</div>
+
+				{# A VENIR #}
+				{% else %}
+					<span class="timer"></span>
+					<div
+						id="countdown{{ loop.index }}"
+						class="countdown mb-3"
+						data-date='{{ seance.date|date('Y-m-d') }}'
+						data-hour='{{ seance.date|date('H') }}'
+						data-minute='{{ seance.date|date('i') }}'
+					>
+						<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
+						<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
+						<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
+						<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
+					</div>
+				{% endif %}
+			</div>
+		{% endfor %}
+	</div>
+</div>

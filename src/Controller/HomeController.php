@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Service\Discussion;
 
 use App\Repository\ActuRepository;
+use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -15,6 +16,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
+	const AFFICHAGE_MAX_SEANCE = 2;
+
 	/**
 	 * @Route("/", name="home")
 	 */
@@ -23,7 +26,8 @@ class HomeController extends AbstractController
 		Request $request,
 		ActuRepository $ar,
 		Discussion $discussionSer,
-		SondageRepository $sr
+		SondageRepository $sr,
+		SeanceRepository $ser
 	){
 		$discussionSer->update();
 
@@ -32,7 +36,9 @@ class HomeController extends AbstractController
 			'user' => $this->getUser(),
 			'sondages' => $sr->getSondageRunning(),
 			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
+			'date' => new \Datetime(),
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
+			'seances' => $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(self::AFFICHAGE_MAX_SEANCE)),
 			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
@@ -58,5 +64,28 @@ class HomeController extends AbstractController
 				date($format, strtotime($date))
 			)
 		);
+	}
+
+	/**
+	 * Récupère les dates des prochaines séances
+	 */
+	public static function seances($olds, $nexts) 
+	{
+		foreach($olds as $key => $old){
+
+			unset($dateTempo);
+			$dateTempo = clone $old->getDate();
+
+			$date_time = $old->getDate()->modify("+".$old->getDuree()->format('H').' hour +'.$old->getDuree()->format('i').'minute');
+
+			if ($date_time <= new \Datetime('now')){
+				unset($olds[$key]);
+			} else {
+				unset($nexts[array_key_last($nexts)]);
+				$old->setDate($dateTempo);
+			}
+		}
+
+		return array_merge($olds, $nexts);
 	}
 }
