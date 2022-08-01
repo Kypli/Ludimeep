@@ -861,4 +861,13 @@ class User implements UserInterface
 
         return $this;
     }
+
+    public function inSeance(Seance $seance): bool
+    {
+        if ($this->seances->contains($seance)) {
+            return true;
+        }
+
+        return false;
+    }
 }

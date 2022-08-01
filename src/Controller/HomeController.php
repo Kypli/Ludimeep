@@ -8,9 +8,13 @@ use App\Repository\ActuRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
 
+use App\Form\SeancePresence1Type as SeancePresenceForm1;
+use App\Form\SeancePresence2Type as SeancePresenceForm2;
+
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -29,17 +33,62 @@ class HomeController extends AbstractController
 		SondageRepository $sr,
 		SeanceRepository $ser
 	){
+		$user = $this->getUser();
 		$discussionSer->update();
 
+		// Séances
+		$seances = $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(self::AFFICHAGE_MAX_SEANCE));
+
+		// Présence
+
+		/* -- Form 1 -- */
+		$seance = $seances[array_key_first($seances)];
+		$form1 = $this->createForm(SeancePresenceForm1::class, $seance);
+		$form1->handleRequest($request);
+
+		if ($form1->isSubmitted() && $form1->isValid()){
+			$user->inSeance($seance)
+				? $seance->removePresent($user)
+				: $seance->addPresent($user)
+			;
+			$ser->add($seance, true);
+
+			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+		}
+
+		/* -- Form 2 -- */
+		$seance = $seances[array_key_last($seances)];
+		$form2 = $this->createForm(SeancePresenceForm2::class, $seance);
+		$form2->handleRequest($request);
+
+		if ($form2->isSubmitted() && $form2->isValid()){
+			$user->inSeance($seance)
+				? $seance->removePresent($user)
+				: $seance->addPresent($user)
+			;
+			$ser->add($seance, true);
+
+			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+		}
+
 		return $this->render('home/index.html.twig',[
-			'request' => $request,
-			'user' => $this->getUser(),
-			'sondages' => $sr->getSondageRunning(),
+
+			// Séances
+			'seances' => $seances,
+			'form1' => $form1->createView(),
+			'form2' => $form2->createView(),
+
+			// Actus
 			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
-			'date' => new \Datetime(),
+
+			// Sondage
+			'request' => $request,
+			'sondages' => $sr->getSondageRunning(),
+
+			// Calendrier
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
-			'seances' => $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(self::AFFICHAGE_MAX_SEANCE)),
-			'titre_connexion' => null !== $this->getUser() ? 'Mon espace' : 'Connexion',
+
+			// Authentification
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 		]);

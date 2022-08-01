@@ -1,0 +1,12 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-2">
+
+		<div class="offset-2 col-8">
+			<button class="btn btn-{{ presence ? 'danger' : 'success' }}">
+				{{ button_label|default(presence_text) }}
+			</button>
+		</div>
+	</div>
+
+{{ form_end(form) }}

@@ -7,26 +7,20 @@
 
 		{% for seance in seances %}
 
-			{# HR #}
-			{% if not loop.first %}
-				<hr>
-			{% endif %}
-
 			{# SÉANCE #}
-			<div class='row mt-3 mb-3'>
+			<div class='row m-1 mb-3 pb-2 seances'>
 
 				<div class='col-12 mb-1 '>
 
 					{# TYPE #}
-					<span class='taille15 gras'>{{ seance.type.name }}</span>
-					<br/>
+					<div class='taille17 gras souligne mb-2 mt-1'>{{ seance.type.name }}</div>
 
 					{# DATE #}
-					<span class='taille14 italique'>
-						le {{ seance.date|date('d/m/Y') }} à partir de
+					<span class='taille15'>
+						le <span class='italique'>{{ seance.date|date('d/m/Y') }}</span> à partir de
 						{% set hours = '0' in seance.date|date('H') ? seance.date|date('H')|slice(1, 1) : seance.date|date('H') %}
 						{% set minutes = seance.date|date('i') != '00' ? seance.date|date('i') %}
-						{{ hours ~ 'h' ~ minutes }}
+						<span class='italique'>{{ hours ~ 'h' ~ minutes }}</span>
 					</span>
 					<br/>
 
@@ -34,8 +28,10 @@
 					{% if seance.duree %}
 						<span class='taille14'>
 							Durée ~
-							{{ '0' in seance.duree|date('H') ? seance.duree|date('H')|slice(1, 1) : seance.duree|date('H') }}h
-							{{ seance.duree|date('i') != '00' ? seance.duree|date('i') ~ 'mn' }}
+							<span class='italique'>
+								{{ '0' in seance.duree|date('H') ? seance.duree|date('H')|slice(1, 1) : seance.duree|date('H') }}h
+								{{ seance.duree|date('i') != '00' ? seance.duree|date('i') ~ 'mn' }}
+							</span>
 						</span>
 					{% endif %}
 				</div>
@@ -47,11 +43,27 @@
 					</div>
 				{% endif %}
 
+				{# INSCRIT #}
+				{% set user_presence = app.user is not null ? app.user.inSeance(seance) : false %}
+				{% for present in seance.presents %}
+					{% if loop.first %}
+						<div class='col-12'>
+							Personnes inscrites
+						</div>
+					{% endif %}
+					<div class='col-12 center present{{ loop.index is odd ? '-odd' }} {{ loop.last ? 'mb-3' }}'>
+						<span class='taille15'>{{ present.userName|capitalize }}</span>
+						{% if present.prenom != null %}
+							<span class='taille14'>({{ present.prenom|capitalize }})</span>
+						{% endif %}
+					</div>
+				{% endfor %}
+
 				{# EN COURS #}
-				{% if seance.date <= date %}
+				{% if seance.date <= date('now') %}
 					<div class='entoure seance-actif'>En cours !</div>
 
-				{# A VENIR #}
+				{# TIMER #}
 				{% else %}
 					<span class="timer"></span>
 					<div
@@ -66,6 +78,29 @@
 						<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
 						<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
 					</div>
+				{% endif %}
+
+				{# PRÉSENCE #}
+				{% if is_granted('ROLE_USER') %}
+					<div class="row center mt-2">
+
+						<div class="col-12">
+							{{
+								user_presence
+									? "<i class='fas fa-check green'></i> J'ai confirmé ma présence"
+									: "<i class='fas fa-times red'></i> Je n'ai pas confirmé ma présence"
+							}}
+						</div>
+					</div>
+
+					{# FORM #}
+					{% set form = loop.index == 1 ? form1 : form2 %}
+					{% include('seance/_form_presence.html.twig')  with {
+							'form': form,
+							'presence': user_presence,
+							'presence_text': user_presence ? "J'ai changé d'avis" : 'Je serai présent',
+						}
+					%}
 				{% endif %}
 			</div>
 		{% endfor %}

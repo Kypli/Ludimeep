@@ -1,5 +1,5 @@
-<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">{{ titre_connexion }}</h4>
-<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">{{ titre_connexion }}</h4>
+<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">{{ app.user != null ? 'Mon espace' : 'Connexion' }}</h4>
+<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">{{ app.user != null ? 'Mon espace' : 'Connexion' }}</h4>
 
 {# MESSAGES FLASH SUCCESS #}
 {% for message in app.flashes('login_success') %}
