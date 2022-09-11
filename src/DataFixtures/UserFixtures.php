@@ -12,8 +12,8 @@ use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 
 class UserFixtures extends Fixture implements FixtureGroupInterface
 {
-    public const USER_PIERRE = 'user-pierre';
-    public const USER_USER = 'user-user';
+    public const USER_ADMIN = 'admin';
+    public const USER_USER = 'user';
 
 	private $passwordHasher;
 
@@ -24,31 +24,17 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 
 	public function load(ObjectManager $manager)
 	{
-		// Pierre
+		// Admin
 		$entity = new Entity();
 		$entity
-			->setUserName('kyp')
+			->setUserName('admin')
 			->setPassword($this->passwordHasher->hashPassword(
 				$entity,
-				'mdp'
+				'admin'
 			))
 			->setRoles(["ROLE_ADMIN"])
-			->setDroitImage(true)
-			->setNewsletter(true)
-			->setNom('amboise')
-			->setPrenom('pierre')
-			->setMail('pierre.amboise@yahoo.fr')
-			->setAdresse('10 rue du clos drouard, 45740 lailly-en-val')
-			->setTelephone('06 27 95 04 89')
-			->setAdherant('1')
-			->setDateInscription(new \Datetime('2022-04-19'))
-			->setDateFinAdhesion(new \Datetime('2023-07-01'))
-			->setNotoriete('Membre fondateur')
-			->setRoleCa('Président')
-			->setDateFinMandat(new \Datetime('2025-07-01'))
-			->setMembreHonneur(false)
 		;
-		$this->addReference(self::USER_PIERRE, $entity);
+		$this->addReference(self::USER_ADMIN, $entity);
 		$manager->persist($entity);
 
 		// User
@@ -57,22 +43,14 @@ class UserFixtures extends Fixture implements FixtureGroupInterface
 			->setUserName('user')
 			->setPassword($this->passwordHasher->hashPassword(
 				$entity,
-				'mdp'
+				'user'
 			))
 			->setRoles(["ROLE_USER"])
-			->setDroitImage(false)
-			->setNewsletter(false)
-			->setNom('nom')
-			->setPrenom('prenom')
-			->setMail('user@user.com')
-			->setAdherant('2')
-			->setDateInscription(new \Datetime('2022-04-19'))
-			->setDateFinAdhesion(new \Datetime('2023-07-01'))
-			->setNotoriete('Coucou')
-			->setMembreHonneur(false)
 		;
 		$this->addReference(self::USER_USER, $entity);
 		$manager->persist($entity);
+
+		$manager->flush();
 	}
 
 	public static function getGroups(): array

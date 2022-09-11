@@ -60,9 +60,74 @@ class User implements UserInterface
     private $anonyme = false;
 
     /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $droitImage;
+
+    /**
      * @ORM\Column(type="boolean")
      */
     private $newsletter = false;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $prenom;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mail;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="string", length=25, nullable=true)
+     */
+    private $telephone;
+
+    /**
+     * @ORM\Column(type="integer", length=20, nullable=true)
+     */
+    private $adherant;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateInscription;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateFinAdhesion;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $notoriete;
+
+    /**
+     * @ORM\Column(type="string", length=150, nullable=true)
+     */
+    private $roleCa;
+
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $dateFinMandat;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $membreHonneur;
 
     /**
      * @ORM\Column(type="string", length=150, nullable=true)
@@ -290,6 +355,18 @@ class User implements UserInterface
         return $this;
     }
 
+    public function getDroitImage(): ?bool
+    {
+        return $this->droitImage;
+    }
+
+    public function setDroitImage(bool $droitImage): self
+    {
+        $this->droitImage = $droitImage;
+
+        return $this;
+    }
+
     public function isNewsletter(): ?bool
     {
         return $this->newsletter;
@@ -298,6 +375,150 @@ class User implements UserInterface
     public function setNewsletter(?bool $newsletter): self
     {
         $this->newsletter = $newsletter;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
+
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
+
+    public function getPrenom(): ?string
+    {
+        return $this->prenom;
+    }
+
+    public function setPrenom(string $prenom): self
+    {
+        $this->prenom = $prenom;
+
+        return $this;
+    }
+
+    public function getMail(): ?string
+    {
+        return $this->mail;
+    }
+
+    public function setMail(string $mail): self
+    {
+        $this->mail = $mail;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(?string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getTelephone(): ?string
+    {
+        return $this->telephone;
+    }
+
+    public function setTelephone(?string $telephone): self
+    {
+        $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getAdherant(): ?int
+    {
+        return $this->adherant;
+    }
+
+    public function setAdherant(int $adherant): self
+    {
+        $this->adherant = $adherant;
+
+        return $this;
+    }
+
+    public function getDateInscription(): ?\DateTimeInterface
+    {
+        return $this->dateInscription;
+    }
+
+    public function setDateInscription(?\DateTimeInterface $dateInscription): self
+    {
+        $this->dateInscription = $dateInscription;
+
+        return $this;
+    }
+
+    public function getDateFinAdhesion(): ?\DateTimeInterface
+    {
+        return $this->dateFinAdhesion;
+    }
+
+    public function setDateFinAdhesion(?\DateTimeInterface $dateFinAdhesion): self
+    {
+        $this->dateFinAdhesion = $dateFinAdhesion;
+
+        return $this;
+    }
+
+    public function getNotoriete(): ?string
+    {
+        return $this->notoriete;
+    }
+
+    public function setNotoriete(?string $notoriete): self
+    {
+        $this->notoriete = $notoriete;
+
+        return $this;
+    }
+
+    public function getRoleCa(): ?string
+    {
+        return $this->roleCa;
+    }
+
+    public function setRoleCa(?string $roleCa): self
+    {
+        $this->roleCa = $roleCa;
+
+        return $this;
+    }
+
+    public function getDateFinMandat(): ?\DateTimeInterface
+    {
+        return $this->dateFinMandat;
+    }
+
+    public function setDateFinMandat(?\DateTimeInterface $dateFinMandat): self
+    {
+        $this->dateFinMandat = $dateFinMandat;
+
+        return $this;
+    }
+
+    public function getMembreHonneur(): ?bool
+    {
+        return $this->membreHonneur;
+    }
+
+    public function setMembreHonneur(bool $membreHonneur): self
+    {
+        $this->membreHonneur = $membreHonneur;
 
         return $this;
     }

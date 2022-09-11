@@ -40,9 +40,9 @@
 	{% if photo.valid != true and is_granted('ROLE_ADMIN') %}
 		<div class='orange souligne taille20 pointeur_help' title="Les photos signalées ne sont plus visible par le public">
 			par
-			{% if photo.lanceurAlerte.prenom is not empty and photo.lanceurAlerte.nom is not empty %}
-				{{ photo.lanceurAlerte.prenom|capitalize }}
-				{{ photo.lanceurAlerte.nom|upper }}
+			{% if photo.lanceurAlerte.userProfil.prenom is not empty and photo.lanceurAlerte.userProfil.nom is not empty %}
+				{{ photo.lanceurAlerte.userProfil.prenom|capitalize }}
+				{{ photo.lanceurAlerte.userProfil.nom|upper }}
 			{% else %}
 				{{ photo.lanceurAlerte.userName|capitalize }}
 			{% endif %}
@@ -67,9 +67,9 @@
 
 		{# AUTEUR #}
 		<div class='taille11 alignRight italique'>
-			{% set auteur = p_user.prenom is not empty and p_user.nom is not empty
-				? p_user.prenom|capitalize ~ ' ' ~ p_user.nom|upper
-				: p_user.userName|capitalize
+			{% set auteur = p_user.userProfil.prenom is not empty and p_user.userProfil.nom is not empty
+				? p_user.userProfil.prenom|capitalize ~ ' ' ~ p_user.userProfil.nom|upper
+				: p_user.userProfil.userName|capitalize
 			%}
 
 			Par 

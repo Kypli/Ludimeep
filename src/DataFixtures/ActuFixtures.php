@@ -16,7 +16,7 @@ class ActuFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 		$entity = new Entity();
 		$entity
 			->setTitre("Ouverture de l'association")
-			->setAuteur($this->getReference(UserFixtures::USER_PIERRE))
+			->setAuteur($this->getReference(UserFixtures::USER_ADMIN))
 			->setDate(new \Datetime('2022-03-20 10:30:00'))
 			->setText1("Bonjour et bienvenue sur le site de l'association de jeux de société : Ludi-Meep'")
 			->setText2("Nous serons ravis de vous accueillir pour notre ouverture prochaine.")

@@ -1,0 +1,11 @@
+.tchat {
+	max-height: 300px!important;
+	overflow-x: hidden;
+	overflow-y: scroll;
+	background-color: #F5F5C5;
+}
+
+.tchat ul {
+	list-style-type: none;
+	text-align: left;
+}

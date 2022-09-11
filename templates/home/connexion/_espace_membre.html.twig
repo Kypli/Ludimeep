@@ -1,9 +1,9 @@
 <div class='row'>
 	<div class='col-4 alignRight'>
 		{{ app.user.userName|capitalize }}
-		{% if app.user.adherant %}
+		{% if app.user.userAsso.adherant %}
 			<div class='col-12'>
-				<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.adherant }}">
+				<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.userAsso.adherant }}">
 			</div>
 		{% endif %}
 	</div>

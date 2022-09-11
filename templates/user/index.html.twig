@@ -47,14 +47,14 @@
 									{{ user.userName }}
 								</span>
 							</td>
-							<td>{{ user.nom }}</td>
-							<td>{{ user.prenom }}</td>
+							<td>{{ user.userProfil.nom }}</td>
+							<td>{{ user.userProfil.prenom }}</td>
 							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							<td>
 								{{ 
-									user.droitImage is null
+									user.userAsso.droitImage is null
 										? 'Sans réponse'
-										: user.droitImage
+										: user.userAsso.droitImage
 											? '<i class="fas fa-check green"></i>'
 											: '<i class="fas fa-times red"></i>'
 								}}
@@ -68,9 +68,9 @@
 											: '<i class="fas fa-times red"></i>'
 								}}
 							</td>
-							<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
-							<td>{{ user.roleCa is null ? '' : user.roleCa }}</td>
-							<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>
+							<td>{{ user.userAsso.dateFinAdhesion is null ? '' : user.userAsso.dateFinAdhesion|date('d/m/Y') }}</td>
+							<td>{{ user.userAsso.roleCa is null ? '' : user.userAsso.roleCa }}</td>
+							<td>{{ user.userAsso.dateFinMandat is null ? '' : user.userAsso.dateFinMandat|date('d/m/Y') }}</td>
 						</tr>
 					{% else %}
 						<tr>

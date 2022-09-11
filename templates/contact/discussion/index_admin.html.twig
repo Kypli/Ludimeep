@@ -40,9 +40,9 @@
 							<td>
 								<a href="{{ path('user_show', {'id': d.auteur.id}) }}">
 									{{
-										d.auteur.prenom != null and d.auteur.nom != null
-											? d.auteur.prenom|capitalize ~ ' ' ~ d.auteur.nom|upper
-											: d.auteur.userName|capitalize
+										d.auteur.userProfil.prenom != null and d.auteur.userProfil.nom != null
+											? d.auteur.userProfil.prenom|capitalize ~ ' ' ~ d.auteur.userProfil.nom|upper
+											: d.auteur.userProfil.userName|capitalize
 									}}
 								</a>
 							</td>

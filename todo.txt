@@ -14,10 +14,6 @@ ACTUALITÉS
 - Réduire la section de la page actu/show
 
 
-CALENDRIER
-- Créer ses dates de séances et events pour le timer
-
-
 SONDAGE
 - Limiter à deux sondages en cours maximum
 - Débug création date_début 

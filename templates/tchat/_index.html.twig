@@ -1,0 +1,57 @@
+<div class='col-12'>
+	<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">Mini-tchat</h4>
+	<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">Mini-tchat</h4>
+
+	<div class='card tchat mb-4'>
+		<div class="row">
+			{% if tchats is not empty %}
+				<ul>
+					{% for t in tchats %}
+						<li>
+							<div class="row">
+								<div class="offset-1 col-3">
+									<span
+										class=""
+										title="{{ t.nom is not empty and t.prenom is not empty ? t.nom ~  ' ' ~  t.prenom ~  ' : ' : '' }}{{ t.date|date('d/m/Y H:i:s') }}"
+									>
+										{{ t.login }}:
+									</span>
+								</div>
+								<div class="col-7">
+									<span class='tchat-content'>
+										{{ t.content }}
+									</span>
+								</div>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			{% else %}
+				<div class="row">
+					<div class="offset-1 col-10">
+						Pas de messages
+					</div>
+				</div>
+			{% endif %}
+
+			{# FORM #}
+			{% if is_granted('ROLE_USER') %}
+				{{ form_start(form_tchat) }}
+
+					<div class="row">
+
+						<div class="col-8">
+							{{ form_widget(form_tchat.content) }}
+						</div>
+						<div class="col-1">
+							<button class="btn btn-success">
+								{{ button_label|default('Écrire') }}
+							</button>
+						</div>
+					</div>
+
+				{{ form_end(form_tchat) }}
+			{% endif %}
+		</div>
+	</div>
+</div>

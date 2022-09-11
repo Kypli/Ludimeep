@@ -50,28 +50,19 @@ class UserController extends AbstractController
 
 		$user = new User();
 		$form = $this->createForm(UserType::class, $user);
+
 		$form
 			->remove('admin')
 			->remove('anonyme')
 			->remove('ip')
 			->remove('accesPhoto')
 			->remove('accesPhotoLanceurAlerte')
-			->remove('droitImage')
 			->remove('newsletter')
-			->remove('nom')
-			->remove('prenom')
-			->remove('mail')
-			->remove('adresse')
-			->remove('telephone')
-			->remove('adherant')
-			->remove('dateInscription')
-			->remove('notoriete')
-			->remove('roleCa')
-			->remove('dateFinAdhesion')
-			->remove('dateFinMandat')
-			->remove('membreHonneur')
 			->remove('commentaire')
+			->remove('userProfil')
+			->remove('userAsso')
 		;
+
 		$form->handleRequest($request);
 
 		// Valid form

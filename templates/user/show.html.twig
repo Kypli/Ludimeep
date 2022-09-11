@@ -38,23 +38,35 @@
 						<tbody>
 							<tr>
 								<th>Nom</th>
-								<td class="smallbox">{{ user.nom }}</td>
+								<td class="smallbox">{{ user.userProfil.nom }}</td>
 							</tr>
 							<tr>
 								<th>Prénom</th>
-								<td>{{ user.prenom }}</td>
+								<td>{{ user.userProfil.prenom }}</td>
 							</tr>
 							<tr>
 								<th>Courriel</th>
-								<td>{{ user.mail }}</td>
+								<td>{{ user.userProfil.mail }}</td>
 							</tr>
 							<tr>
 								<th>Adresse</th>
-								<td>{{ user.adresse }}</td>
+								<td>{{ user.userProfil.adresse }}</td>
+							</tr>
+							<tr>
+								<th>Ville</th>
+								<td>{{ user.userProfil.ville }}</td>
+							</tr>
+							<tr>
+								<th>Code postal</th>
+								<td>{{ user.userProfil.codePostal }}</td>
+							</tr>
+							<tr>
+								<th>Pays</th>
+								<td>{{ user.userProfil.pays }}</td>
 							</tr>
 							<tr>
 								<th>Téléphone</th>
-								<td>{{ user.telephone }}</td>
+								<td>{{ user.userProfil.telephone }}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -106,51 +118,51 @@
 						<tbody>
 							<tr>
 								<th>Adhérant ?</th>
-								<td>{{ user.adherant is not null  ? 'Oui' : 'Non' }}</td>
+								<td>{{ user.userAsso.adherant is not null  ? 'Oui' : 'Non' }}</td>
 							</tr>
-							{% if user.adherant %}
+							{% if user.userAsso.adherant %}
 								<tr>
 									<th>N° adhérant</th>
-									<td>{{ user.adherant }}</td>
+									<td>{{ user.userAsso.adherant }}</td>
 								</tr>
 								<tr>
 									<th>Date d'inscription</th>
-									<td>{{ user.dateInscription is null ? '' : user.dateInscription|date('d/m/Y') }}</td>
+									<td>{{ user.userAsso.dateInscription is null ? '' : user.userAsso.dateInscription|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Date de fin d'adhésion</th>
-									<td>{{ user.dateFinAdhesion is null ? '' : user.dateFinAdhesion|date('d/m/Y') }}</td>
+									<td>{{ user.userAsso.dateFinAdhesion is null ? '' : user.userAsso.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Membre du CA ?</th>
 									<td>
-										{{ user.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+										{{ user.userAsso.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
 									</td>
 								</tr>
-								{% if user.roleCa is not null %}
+								{% if user.userAsso.roleCa is not null %}
 									<tr>
 										<th>Rôle du CA</th>
-										<td>{{ user.roleCa }}</td>
+										<td>{{ user.userAsso.roleCa }}</td>
 									</tr>
 									<tr>
 										<th>Date de fin de mandat</th>
-										<td>{{ user.dateFinMandat is null ? '' : user.dateFinMandat|date('d/m/Y') }}</td>
+										<td>{{ user.userAsso.dateFinMandat is null ? '' : user.userAsso.dateFinMandat|date('d/m/Y') }}</td>
 									</tr>
 								{% endif %}
 								<tr>
 									<th>Membre d'honneur ?</th>
-									<td>{{ user.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+									<td>{{ user.userAsso.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 								</tr>
 							{% endif %}
 							<tr>
 								<th>J'autorise l'utilisation de mon image ?</th>
 								<td>
-									{{ user.droitImage is null ? 'Sans réponse' : user.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+									{{ user.userAsso.droitImage is null ? 'Sans réponse' : user.userAsso.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
 								</td>
 							</tr>
 							<tr>
 								<th>Vous avez connu Ludi-Meep' gràce à</th>
-								<td>{{ user.notoriete }}</td>
+								<td>{{ user.userAsso.notoriete }}</td>
 							</tr>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>

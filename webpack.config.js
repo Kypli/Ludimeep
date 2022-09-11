@@ -40,6 +40,13 @@ Encore
     // Home
     .addStyleEntry('home', './assets/styles/home/style.css')
 
+    // Sondage
+    .addEntry('sondage_index', './assets/js/sondage/sondage.js')
+    .addStyleEntry('sondage_show', './assets/styles/sondage/sondage.css')
+
+    // Tchat
+    .addEntry('tchat', './assets/js/tchat/tchat.js')
+
     // User
     .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
@@ -55,12 +62,9 @@ Encore
     // Dicussion
     .addStyleEntry('discussion', './assets/styles/discussion/style.css')
 
-    // Sondage
-    .addEntry('sondage_index', './assets/js/sondage/index.js')
-    .addStyleEntry('sondage_show', './assets/styles/sondage/style.css')
-
     // Séance
-    .addStyleEntry('seance_index', './assets/styles/seance/seance.css')
+    .addStyleEntry('seance_show', './assets/styles/seance/show.css')
+    .addStyleEntry('seance_index', './assets/styles/seance/index.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')

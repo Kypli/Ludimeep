@@ -1,0 +1,21 @@
+
+/* Séance en cours */
+.seance-actif {
+	font-size: 25px;
+	padding: 15px;
+	font-weight: bold;
+}
+
+/* Séance à venir */
+.seances {
+	border: 1px solid #ab6bc9;
+	background-color: rgb(211, 197, 217);
+}
+.present {
+	color: rgb(120, 13, 117);
+	/*background-color: orange;*/
+}
+.present-odd {
+	color: rgb(200, 26, 195);
+	/*background-color: orange;*/
+}

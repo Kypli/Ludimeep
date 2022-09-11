@@ -116,8 +116,8 @@ class GameController extends AbstractController
 			'id' => $game->getId(),
 			'user_id' => $owner->getId(),
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getNom(),
-			'prenom' => $owner->getPrenom(),
+			'nom' => $owner->getUserProfil()->getNom(),
+			'prenom' => $owner->getUserProfil()->getPrenom(),
 		]);
 	}
 
@@ -177,8 +177,8 @@ class GameController extends AbstractController
 			'save' => true,
 			'user_id' => $owner->getId(),
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getNom(),
-			'prenom' => $owner->getPrenom(),
+			'nom' => $owner->getUserProfil()->getNom(),
+			'prenom' => $owner->getUserProfil()->getPrenom(),
 		]);
 	}
 
@@ -248,8 +248,8 @@ class GameController extends AbstractController
 			'time_hour' => $time_hour,
 			'time_minute' => $time_minute,
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getNom(),
-			'prenom' => $owner->getPrenom(),
+			'nom' => $owner->getUserProfil()->getNom(),
+			'prenom' => $owner->getUserProfil()->getPrenom(),
 			'user_id' => $owner->getId(),
 		]);
 	}

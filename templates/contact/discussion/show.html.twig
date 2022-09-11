@@ -71,8 +71,8 @@
 							{% if m.user.id != app.user.id %}
 								<div class='offset-1 col-3 alignLeft'>
 									par 
-									{% if m.user.prenom != null and m.user.nom != null %}
-										{{ m.user.prenom|capitalize }} {{ m.user.nom|upper }}
+									{% if m.user.userProfil.prenom != null and m.user.userProfil.nom != null %}
+										{{ m.user.userProfil.prenom|capitalize }} {{ m.user.userProfil.nom|upper }}
 									{% else %}
 										{{ m.user.userName|capitalize }}
 									{% endif %}
