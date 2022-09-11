@@ -42,7 +42,7 @@ class HomeController extends AbstractController
 		// Présence
 
 		/* -- Form 1 -- */
-		$seance = $seances[array_key_first($seances)];
+		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
 		$form1 = $this->createForm(SeancePresenceForm1::class, $seance);
 		$form1->handleRequest($request);
 
@@ -57,7 +57,8 @@ class HomeController extends AbstractController
 		}
 
 		/* -- Form 2 -- */
-		$seance = $seances[array_key_last($seances)];
+		$seance = !empty($seances) ? $seances[array_key_last($seances)] : null;
+
 		$form2 = $this->createForm(SeancePresenceForm2::class, $seance);
 		$form2->handleRequest($request);
 

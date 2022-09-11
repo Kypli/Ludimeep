@@ -24,12 +24,15 @@ SONDAGE
 
 
 PRESENCE A UNE SESSION
-- Membre uniquement
-- Confirmer sa présence
 - Demander à un user d'ammener un jeu
 - Réserver une table avec un jeux
 	- Limiter les abus de réservation
 	- S'inscrire à une table
+
+TABLE
+- Réserver une table avec un jeux (perso / joueur présent / joueur absent / libre)
+- S'inscrire à une table
+- Limiter le nombre de tables maximum réservable
 
 
 JEUX

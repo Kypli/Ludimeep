@@ -21,7 +21,7 @@ class Actu
 	private $id;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="actus")
+	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="actus", cascade={"persist"})
 	 */
 	private $auteur;
 
