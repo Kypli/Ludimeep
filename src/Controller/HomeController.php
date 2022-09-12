@@ -12,8 +12,6 @@ use App\Repository\UserRepository;
 use App\Repository\UserProfilRepository;
 use App\Repository\UserAssoRepository;
 
-
-
 use App\Repository\ActuRepository;
 use App\Repository\TchatRepository;
 use App\Repository\SeanceRepository;
@@ -199,47 +197,5 @@ class HomeController extends AbstractController
 		}
 
 		return $form;
-	}
-
-	/**
-	 * @Route("/newuser", name="_newuser")
-	 */
-	public function newuser(
-		UserRepository $ur,
-		UserProfilRepository $up,
-		UserAssoRepository $ua
-	){
-		$users = $ur->findAll();
-
-		foreach ($users as $user){
-
-			$userProfil = new UserProfil();
-			$userProfil
-				->setNom($user->getNom())
-				->setPrenom($user->getPrenom())
-				->setMail($user->getMail())
-				->setAdresse($user->getAdresse())
-				->setTelephone($user->getTelephone())
-				->setUser($user)
-			;
-			$up->add($userProfil, true);
-
-			$userAsso = new UserAsso();
-			$userAsso
-				->setDroitImage($user->getDroitImage())
-				->setAdherant((int) $user->getAdherant())
-				->setDateInscription($user->getDateInscription())
-				->setDateFinAdhesion($user->getDateFinAdhesion())
-				->setNotoriete($user->getNotoriete())
-				->setRoleCa($user->getRoleCa())
-				->setDateFinMandat($user->getDateFinMandat())
-				->setMembreHonneur($user->getMembreHonneur() == null ? false : $user->getMembreHonneur())
-				->setUser($user)
-			;
-			$ua->add($userAsso, true);
-		}
-
-		dump('ok');
-		die;
 	}
 }
