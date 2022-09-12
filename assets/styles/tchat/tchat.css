@@ -1,11 +1,29 @@
 .tchat {
 	max-height: 300px!important;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	background-color: #F5F5C5;
 }
 
 .tchat ul {
 	list-style-type: none;
 	text-align: left;
+}
+
+.tchat-auteur {
+	font-size: 12px;
+	text-align: right!important;
+	padding: 1px;
+}
+
+.tchat-content {
+	line-height: 110%;
+	background-color: #D3C5D9;
+	font-size: 12px;
+	margin: 0!important;
+	padding: 3px;
+	border-radius: 6px;
+	word-wrap: break-word;
+	display: table;
+	color: #800000;
 }

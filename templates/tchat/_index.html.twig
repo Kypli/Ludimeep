@@ -7,17 +7,30 @@
 			{% if tchats is not empty %}
 				<ul>
 					{% for t in tchats %}
-						<li>
+
+					<li>
 							<div class="row">
-								<div class="offset-1 col-3">
+
+								{# SIZE #}
+								{% set lengthLog = t.login|length  %}
+								{% set sizeAuteur = lengthLog >= 12 ? '5' : lengthLog >= 8 ? '4' : lengthLog >= 4 ? '3' : '2' %}
+								{% set sizeContent = lengthLog >= 12 ? '6' : lengthLog >= 8 ? '7' : lengthLog >= 4 ? '8' : '9' %}
+
+								{# AUTEUR #}
+								<div class="col-{{ sizeAuteur }} pl-1">
 									<span
-										class=""
-										title="{{ t.nom is not empty and t.prenom is not empty ? t.nom ~  ' ' ~  t.prenom ~  ' : ' : '' }}{{ t.date|date('d/m/Y H:i:s') }}"
+										class="tchat-auteur"
+										title="{{ t.nom is not empty and t.prenom is not empty
+											? t.nom|upper ~  ' ' ~  t.prenom|capitalize ~  ' : '
+											: '' 
+										}}{{ t.date|date('d/m/Y H:i:s') }}"
 									>
-										{{ t.login }}:
+										{{ t.login|capitalize }}:
 									</span>
 								</div>
-								<div class="col-7">
+
+								{# CONTENT #}
+								<div class="col-{{ sizeContent }} p-0 pt-1">
 									<span class='tchat-content'>
 										{{ t.content }}
 									</span>
@@ -40,12 +53,13 @@
 
 					<div class="row">
 
-						<div class="col-8">
+						<div class="offset-1 col-8 p-0">
 							{{ form_widget(form_tchat.content) }}
 						</div>
 						<div class="col-1">
-							<button class="btn btn-success">
-								{{ button_label|default('Écrire') }}
+							<button class="btn btn-success input-valid">
+								<i class="far fa-comment-dots"></i>
+								{{ button_label|default('') }}
 							</button>
 						</div>
 					</div>

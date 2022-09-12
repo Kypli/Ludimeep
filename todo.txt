@@ -1,5 +1,10 @@
 TO DO LIST
 
+USER
+- Désactivation pourt user
+- Désactivation / Suppression pour admin
+- Control connection si user actif
+
 HOME
 - Mini-Tchat
 	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
