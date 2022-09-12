@@ -205,7 +205,6 @@ class HomeController extends AbstractController
 	 * @Route("/newuser", name="_newuser")
 	 */
 	public function newuser(
-
 		UserRepository $ur,
 		UserProfilRepository $up,
 		UserAssoRepository $ua
@@ -213,7 +212,6 @@ class HomeController extends AbstractController
 		$users = $ur->findAll();
 
 		foreach ($users as $user){
-		
 
 			$userProfil = new UserProfil();
 			$userProfil
@@ -225,7 +223,6 @@ class HomeController extends AbstractController
 				->setUser($user)
 			;
 			$up->add($userProfil, true);
-			
 
 			$userAsso = new UserAsso();
 			$userAsso
@@ -241,7 +238,6 @@ class HomeController extends AbstractController
 			;
 			$ua->add($userAsso, true);
 		}
-
 
 		dump('ok');
 		die;

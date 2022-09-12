@@ -3,7 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserAsso;
+use App\Entity\UserProfil;
+
 use App\Repository\UserRepository;
+use App\Repository\UserAssoRepository;
+use App\Repository\UserProfilRepository;
 use App\Repository\DiscussionRepository;
 
 use App\Form\UserType;
@@ -30,17 +35,17 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/", name="", methods={"GET"})
 	 */
-	public function index(UserRepository $userRepository): Response
+	public function index(UserRepository $ur): Response
 	{
 		return $this->render('user/index.html.twig', [
-			'users' => $userRepository->findAll(),
+			'users' => $ur->findAll(),
 		]);
 	}
 
 	/**
 	 * @Route("/inscription", name="_add", methods={"GET", "POST"})
 	 */
-	public function add(Request $request, UserRepository $userRepository)
+	public function add(Request $request, UserRepository $ur, UserProfilRepository $upr, UserAssoRepository $uar)
 	{
 		// Ne doit pas être membre ou être admin
 		if (null !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
@@ -69,7 +74,7 @@ class UserController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()){
 
 			// Duplicate control
-			if (!empty($userRepository->findByUserName($form->getData()->getUserName()))){
+			if (!empty($ur->findByUserName($form->getData()->getUserName()))){
 				$this->addFlash('error', "Ce login est déjà pris. Merci d'en sélectionner un autre.");
 
 			// Save
@@ -77,23 +82,32 @@ class UserController extends AbstractController
 
 				// Default datas
 				$user
-					->setNom(strtolower($user->getNom()))
-					->setPrenom(strtolower($user->getPrenom()))
-					->setDroitImage(false)
 					->setNewsletter(false)
-					->setMembreHonneur(false)
-					->setRoles(["ROLE_USER"]);
-				;
-
-				// Encrypt password
-				$user->setPassword($this->passwordHasher->hashPassword(
+					->setRoles(["ROLE_USER"])
+					->setPassword($this->passwordHasher->hashPassword(
 						$user,
 						$request->request->get('user')['password'],
 					))
 				;
 
-				$userRepository->add($user);
+				$userProfil = new UserProfil();
+				$userProfil
+					->setUser($user)
+				;
+
+				$userAsso = new UserAsso();
+				$userAsso
+					->setDroitImage(false)
+					->setMembreHonneur(false)
+					->setUser($user)
+				;
+
+				$ur->add($user);
+				$upr->add($userProfil);
+				$uar->add($userAsso);
+
 				$this->addFlash('success', 'Félicitations, vous inscription est prise en compte, vous pouvez maintenant vous connecter.');
+
 				return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 			}
 		}
@@ -110,10 +124,12 @@ class UserController extends AbstractController
 	public function addAnonyme($mail, $ip)
 	{
 		$user = new User();
-		$userRepository = $this->getDoctrine()->getRepository(User::class);
+		$ur = $this->getDoctrine()->getRepository(User::class);
+		$upr = $this->getDoctrine()->getRepository(UserProfil::class);
+		$uar = $this->getDoctrine()->getRepository(UserAsso::class);
 
 		// Nombre anonyme
-		$count = (int) $userRepository->countAnonymous();
+		$count = (int) $ur->countAnonymous();
 		$count++;
 
 		// Login + mdp
@@ -123,24 +139,31 @@ class UserController extends AbstractController
 		// User datas
 		$user
 			->setUserName($login)
-			->setPasswordTempo($mdp)
-			->setMail($mail)
-			->setDroitImage(false)
-			->setNewsletter(false)
-			->setMembreHonneur(false)
-			->setRoles(["ROLE_USER"])
-			->setAnonyme(true)
-			->setIp($ip)
-		;
-
-		// Encrypt password
-		$user->setPassword($this->passwordHasher->hashPassword(
+			->setPassword($this->passwordHasher->hashPassword(
 				$user,
 				$mdp,
 			))
+			->setRoles(["ROLE_USER"])
+			->setAnonyme(true)
+			->setIp($ip)
+			->setPasswordTempo($mdp)
+
 		;
 
-		$userRepository->add($user);
+		$userProfil = new UserProfil();
+		$userProfil
+			->setMail($mail)
+			->setUser($user)
+		;
+
+		$userAsso = new UserAsso();
+		$userAsso
+			->setUser($user)
+		;
+
+		$ur->add($user);
+		$upr->add($userProfil);
+		$uar->add($userAsso);
 
 		return [
 			'user' => $user,

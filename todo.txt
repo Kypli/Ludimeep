@@ -2,8 +2,9 @@ TO DO LIST
 
 HOME
 - Mini-Tchat
-	- Membre uniquement
-	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...)
+	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
+	- Form par ajax
+	- Meilleur design
 - Message pour les visiteurs uniquement sur ce qu'ils pourront faire en tant que membre
 
 
@@ -16,7 +17,7 @@ ACTUALITÉS
 
 SONDAGE
 - Limiter à deux sondages en cours maximum
-- Débug création date_début 
+- Débug création date_début
 
 
 PRESENCE A UNE SESSION
@@ -33,6 +34,10 @@ TABLE
 
 JEUX
 - Lien vers jeux avec que ses propres jeux
+
+
+PROCHAINE DATES
+- Rajouter le lieu
 
 
 PHOTOS
