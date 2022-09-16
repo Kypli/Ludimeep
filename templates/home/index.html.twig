@@ -4,7 +4,9 @@
 	{{ parent() }}
 	{{ encore_entry_link_tags('home') }}
 	{{ encore_entry_link_tags('timer') }}
+	{{ encore_entry_link_tags('table') }}
 	{{ encore_entry_link_tags('tchat') }}
+	{{ encore_entry_link_tags('shieldui') }}
 	{{ encore_entry_link_tags('actu_show') }}
 	{{ encore_entry_link_tags('seance_show') }}
 	{{ encore_entry_link_tags('sondage_show') }}
@@ -14,7 +16,9 @@
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('timer') }}
+	{{ encore_entry_script_tags('table') }}
 	{{ encore_entry_script_tags('tchat') }}
+	{{ encore_entry_script_tags('shieldui') }}
 	{{ encore_entry_script_tags('modal_photo') }}
 {% endblock %}
 
@@ -26,17 +30,39 @@
 		<div class='row center mb-3'>
 
 			{# CONNEXION (GAUCHE) #}
-			{% include 'home/section_gauche/_index.html.twig' %}
+			{% include 'home/section/_gauche.html.twig' %}
 
 			{# ACTUS (CENTRE) #}
-			{% include 'home/section_centre/_index.html.twig' %}
+			{% include 'home/section/_centre.html.twig' %}
 
 			{# CALENDRIER + WHAPSAPP (DROITE) #}
-			{% include 'home/section_droite/_index.html.twig' %}
+			{% include 'home/section/_droite.html.twig' %}
 		</div>
 	</div>
 
-	{# MODAL #}
-	{% include 'home/_modal.html.twig' %}
+	{# MODAL PHOTOS #}
+	{% include 'photo/_modal.html.twig' %}
+
+	{# MODAL TABLE ADD #}
+	<div id="modal" class="hide">
+		<div class='container'>
+
+			{# LOADING #}
+			<div class="text-center hide loading">
+				<div class="spinner-border text-primary" role="status">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+
+			{# INFOS GÉNÉRALES #}
+			<div class="row mt-3 mb-3">
+				<h5 class="offset-3 col-4 left">Infos générales</h5>
+			</div>
+
+			{# FORM #}
+			{% include('table/_form.html.twig') with { 'form': form_table } %}
+
+		</div>
+	</div>
 
 {% endblock %}

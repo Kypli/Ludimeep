@@ -1,0 +1,19 @@
+<div class='row mb-4'>
+	<h4 class="radius-short offset-1 col-10 d-none d-lg-block d-xl-block">Tables</h4>
+	<h4 class="radius-long offset-1 col-10 d-none d-lg-none d-xl-none d-sm-block d-md-block">Tables</h4>
+
+	<div>
+		{# TABLES #}
+		{% for table in tables %}
+			{% include 'table/_table.html.twig' %}
+		{% endfor %}
+	</div>
+
+	<div class="row">
+		<div class="col-12">
+			<div class='btn btn-success openTable'>
+				Ouvrir une table
+			</div>
+		</div>
+	</div>
+</div>

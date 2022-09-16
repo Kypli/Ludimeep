@@ -45,9 +45,15 @@ class Seance
      */
     private $presents;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Table::class, mappedBy="seance", orphanRemoval=true)
+     */
+    private $tables;
+
     public function __construct()
     {
         $this->presents = new ArrayCollection();
+        $this->tables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -123,6 +129,36 @@ class Seance
     public function removePresent(User $present): self
     {
         $this->presents->removeElement($present);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getTables(): Collection
+    {
+        return $this->tables;
+    }
+
+    public function addTable(Table $table): self
+    {
+        if (!$this->tables->contains($table)) {
+            $this->tables[] = $table;
+            $table->setSeance($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTable(Table $table): self
+    {
+        if ($this->tables->removeElement($table)) {
+            // set the owning side to null (unless already changed)
+            if ($table->getSeance() === $this) {
+                $table->setSeance(null);
+            }
+        }
 
         return $this;
     }

@@ -1,15 +1,14 @@
 {% if seances is not empty %}
-	<div class='row'>
+	<div class='row mb-4'>
 
 		<h4 class="radius-short offset-1 col-10 d-none d-lg-block d-xl-block">Prochaines date</h4>
 		<h4 class="radius-long offset-1 col-10 d-none d-lg-none d-xl-none d-sm-block d-md-block">Prochaines date</h4>
 
-		<div class='mb-5'>
-
+		<div>
 			{% for seance in seances %}
 
 				{# SÉANCE #}
-				<div class='row m-1 mb-3 pb-2 seances'>
+				<div class='row m-1 {{ loop.last != true ? 'mb-2 pb-2' }} seances'>
 
 					<div class='col-12 mb-1 '>
 

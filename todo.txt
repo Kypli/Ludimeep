@@ -1,15 +1,17 @@
 TO DO LIST
 
 USER
-- Désactivation pourt user
+- Désactivation pour user au lieu de delete
 - Désactivation / Suppression pour admin
-- Control connection si user actif
+- Control connection si user actif = false
+
+
+MINI-TCHAT
+- Form par ajax
+- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
+
 
 HOME
-- Mini-Tchat
-	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
-	- Form par ajax
-	- Meilleur design
 - Message pour les visiteurs uniquement sur ce qu'ils pourront faire en tant que membre
 
 
@@ -64,6 +66,7 @@ CONVERSATION
 - Membre
 	- Réponse par mail possible si mail enregistré
 	- Envoyer un message à un membre
+	- Réponse par mail auto si user anonyme
 
 
 NEWSLETTER

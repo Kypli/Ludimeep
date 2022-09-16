@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Table index{% endblock %}
+
+{% block body %}
+    <h1>Table index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>GameFree</th>
+                <th>MaxPlayer</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for table in tables %}
+            <tr>
+                <td>{{ table.id }}</td>
+                <td>{{ table.gameFree }}</td>
+                <td>{{ table.maxPlayer }}</td>
+                <td>
+                    <a href="{{ path('table_show', {'id': table.id}) }}">show</a>
+                    <a href="{{ path('table_edit', {'id': table.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('table_add') }}">Nouveau</a>
+{% endblock %}

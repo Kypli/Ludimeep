@@ -13,6 +13,14 @@
 					</a>
 				</li>
 
+				{# TABLES #}
+				<li class="nav-item">
+					<a class="hoverable nav-link {{ route == 'table' ? 'active'}}" aria-current="page" href="{{ path('table') }}">
+						<i class="fas fa-border-all" title='Tables'></i>
+						Tables
+					</a>
+				</li>
+
 				{# JEUX #}
 				<li class="nav-item">
 					<a class="hoverable nav-link {{ route == 'game' ? 'active'}}" aria-current="page" href="{{ path('game') }}">

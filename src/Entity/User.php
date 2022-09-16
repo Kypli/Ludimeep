@@ -154,6 +154,16 @@ class User implements UserInterface
      */
     private $tchats;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Table::class, mappedBy="gerant", orphanRemoval=true)
+     */
+    private $gerantTables;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Table::class, mappedBy="players")
+     */
+    private $tables;
+
     public function __construct()
     {
         $this->actus = new ArrayCollection();
@@ -168,6 +178,8 @@ class User implements UserInterface
         $this->sondages = new ArrayCollection();
         $this->seances = new ArrayCollection();
         $this->tchats = new ArrayCollection();
+        $this->gerantTables = new ArrayCollection();
+        $this->tables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -742,6 +754,63 @@ class User implements UserInterface
             if ($tchat->getUser() === $this) {
                 $tchat->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getGerantTables(): Collection
+    {
+        return $this->gerantTables;
+    }
+
+    public function addGerantTable(Table $gerantTable): self
+    {
+        if (!$this->gerantTables->contains($gerantTable)) {
+            $this->gerantTables[] = $gerantTable;
+            $gerantTable->setGerant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGerantTable(Table $gerantTable): self
+    {
+        if ($this->gerantTables->removeElement($gerantTable)) {
+            // set the owning side to null (unless already changed)
+            if ($gerantTable->getGerant() === $this) {
+                $gerantTable->setGerant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getTables(): Collection
+    {
+        return $this->tables;
+    }
+
+    public function addTable(Table $table): self
+    {
+        if (!$this->tables->contains($table)) {
+            $this->tables[] = $table;
+            $table->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTable(Table $table): self
+    {
+        if ($this->tables->removeElement($table)) {
+            $table->removeUser($this);
         }
 
         return $this;

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tchat;
+use App\Entity\Table;
 use App\Entity\UserAsso;
 use App\Entity\UserProfil;
 
@@ -14,10 +15,12 @@ use App\Repository\UserAssoRepository;
 
 use App\Repository\ActuRepository;
 use App\Repository\TchatRepository;
+use App\Repository\TableRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
 
 use App\Form\TchatType as TchatForm;
+use App\Form\TableType as TableForm;
 use App\Form\SeancePresence1Type as SeancePresenceForm1;
 use App\Form\SeancePresence2Type as SeancePresenceForm2;
 
@@ -41,6 +44,7 @@ class HomeController extends AbstractController
 	public function index(
 		Request $request,
 		ActuRepository $ar,
+		TableRepository $tar,
 		TchatRepository $tr,
 		SeanceRepository $ser,
 		SondageRepository $sr,
@@ -57,33 +61,44 @@ class HomeController extends AbstractController
 		// Tchat
 		$form_tchat = $this->tchatForm($tr, $request);
 
+		// Table
+		$form_table = $this->tableForm($tar, $request);
+
 		// Form valid
-		if ($forms_seances === false || $form_tchat === false){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
+		if (
+			$forms_seances === false ||
+			$form_tchat === false ||
+			$form_table === false
+		){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
 
 		return $this->render('home/index.html.twig',[
+
+			// Authentification
+			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
+			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 
 			// Tchat
 			'tchats' => $tr->getLastTchats(),
 			'form_tchat' => $form_tchat->createView(),
+
+			// Tables
+			'tables' => $tar->getCurrentTables(),
+			'form_table' => $form_table->createView(),
+
+			// Sondage
+			'request' => $request,
+			'sondages' => $sr->getSondageRunning(),
+
+			// Actus
+			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
 
 			// Séances
 			'seances' => $seances,
 			'form1' => $forms_seances[0]->createView(),
 			'form2' => $forms_seances[1]->createView(),
 
-			// Actus
-			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
-
-			// Sondage
-			'request' => $request,
-			'sondages' => $sr->getSondageRunning(),
-
 			// Calendrier
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
-
-			// Authentification
-			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
-			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 		]);
 	}
 
@@ -182,6 +197,37 @@ class HomeController extends AbstractController
 
 
 		$form = $this->createForm(TchatForm::class, $tchat);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid() && $user != null){
+
+			$tchat
+				->setDate(new \Datetime('now'))
+				->setUser($user)
+			;
+
+			$tr->add($tchat, true);
+
+			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Mini-tchat Ajout de contenu
+	 */
+	public function tableForm($tr, $request) 
+	{
+
+		$table = new Table();
+		$user = $this->getUser();
+
+		// Next séances
+		// TODO
+
+
+		$form = $this->createForm(TableForm::class, $table, ['user_id' => !empty($user) ? $user->getId() : 0]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $user != null){
