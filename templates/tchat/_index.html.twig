@@ -46,8 +46,12 @@
 					</div>
 				</div>
 			{% endif %}
+		</div>
+	</div>
 
-			{# FORM #}
+	{# FORM #}
+	<div class="row mt-2">
+		<div class="offset-1 col-10">
 			{% if is_granted('ROLE_USER') %}
 				{{ form_start(form_tchat) }}
 
