@@ -41,6 +41,11 @@ class Seance
     private $type;
 
     /**
+     * @ORM\ManyToOne(targetEntity=SeanceLieu::class, inversedBy="seances")
+     */
+    private $lieu;
+
+    /**
      * @ORM\ManyToMany(targetEntity=User::class, inversedBy="seances")
      */
     private $presents;
@@ -105,6 +110,18 @@ class Seance
     public function setType(?SeanceType $type): self
     {
         $this->type = $type;
+
+        return $this;
+    }
+
+    public function getLieu(): ?SeanceLieu
+    {
+        return $this->lieu;
+    }
+
+    public function setLieu(?SeanceLieu $lieu): self
+    {
+        $this->lieu = $lieu;
 
         return $this;
     }

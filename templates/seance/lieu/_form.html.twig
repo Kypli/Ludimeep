@@ -1,0 +1,50 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-4">
+
+		{# NAME #}
+		<div class="offset-2 col-3 mb-3 pt-1 alignRight">
+			{{ form_label(form.name) }}
+		</div>
+		<div class="col-4 mb-3">
+			{{ form_widget(form.name) }}
+		</div>
+
+		{# ADRESSE #}
+		<div class="offset-2 col-3 mb-3 pt-1 alignRight">
+			{{ form_label(form.adresse) }}
+		</div>
+		<div class="col-4 mb-3">
+			{{ form_widget(form.adresse) }}
+		</div>
+
+		{# CODEPOSTAL #}
+		<div class="offset-2 col-3 mb-3 pt-1 alignRight">
+			{{ form_label(form.codePostal) }}
+		</div>
+		<div class="col-4 mb-3">
+			{{ form_widget(form.codePostal) }}
+		</div>
+
+		{# VILLE #}
+		<div class="offset-2 col-3 mb-3 pt-1 alignRight">
+			{{ form_label(form.ville) }}
+		</div>
+		<div class="col-4 mb-3">
+			{{ form_widget(form.ville) }}
+		</div>
+
+		{# DEFAUT #}
+		<div class="offset-2 col-3 mb-3 pt-1 alignRight">
+			{{ form_label(form.defaut) }}
+		</div>
+		<div class="col-4 mb-3 pt-2">
+			{{ form_widget(form.defaut) }}
+		</div>
+	</div>
+
+	<div class="offset-6 col-2 mt-4 mb-4">
+		<button class="btn btn-success">{{ button_label|default("Enregistrer") }}</button>
+	</div>
+
+{{ form_end(form) }}

@@ -18,6 +18,7 @@ use App\Repository\TchatRepository;
 use App\Repository\TableRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
+use App\Repository\SeanceLieuRepository;
 
 use App\Form\TchatType as TchatForm;
 use App\Form\TableType as TableForm;
@@ -47,6 +48,7 @@ class HomeController extends AbstractController
 		TableRepository $tar,
 		TchatRepository $tr,
 		SeanceRepository $ser,
+		SeanceLieuRepository $slr,
 		SondageRepository $sr,
 		DiscussionSer $discussionSer,
 		AuthenticationUtils $authenticationUtils
@@ -94,6 +96,7 @@ class HomeController extends AbstractController
 
 			// Séances
 			'seances' => $seances,
+			'lieu_defaut' => $slr->findOneByDefaut(true),
 			'form1' => $forms_seances[0]->createView(),
 			'form2' => $forms_seances[1]->createView(),
 
