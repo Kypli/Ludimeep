@@ -1,32 +1,56 @@
 {{ form_start(form) }}
 
-    <div class="row center mt-4">
+	<div class="row center mt-4">
 
-        {# JEUX USER #}
-        <div class="offset-2 col-3 mb-4 alignRight">
-            {{ form_label(form.gameOwner) }}
-        </div>
-        <div class="col-4 mb-4">
-            {{ form_widget(form.gameOwner) }}
-        </div>
+		{# JEUX USER #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.gameOwner) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.gameOwner) }}
+		</div>
 
-        {# JEUX PRESENT #}
-        <div class="offset-2 col-3 mb-4 alignRight">
-            {{ form_label(form.gamePresent) }}
-        </div>
-        <div class="col-4 mb-4">
-            {{ form_widget(form.gamePresent) }}
-        </div>
+		{# JEUX PRESENT #}
+		<div class="offset-2 col-3 mb-4 pt-0 alignRight">
+			{{ form_label(form.gamePresent) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.gamePresent) }}
+		</div>
 
-        {# JEUX ADHERANT #}
-        <div class="offset-2 col-3 mb-4 alignRight">
-            {{ form_label(form.gameAdherant) }}
-        </div>
-        <div class="col-4 mb-4">
-            {{ form_widget(form.gameAdherant) }}
-        </div>
-    </div>
+		{# JEUX ADHERANT #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.gameAdherant) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.gameAdherant) }}
+		</div>
 
-    <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+		{# JEUX LIBRE #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.gameFree) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.gameFree) }}
+		</div>
+
+		{# SÉANCE #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.seance) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.seance) }}
+		</div>
+
+		{# MAXPLAYER #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.maxPlayer) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.maxPlayer) }}
+		</div>
+	</div>
+
+	<button class="btn">{{ button_label|default('Sauvegarder') }}</button>
 
 {{ form_end(form) }}

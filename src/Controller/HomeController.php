@@ -53,18 +53,22 @@ class HomeController extends AbstractController
 		DiscussionSer $discussionSer,
 		AuthenticationUtils $authenticationUtils
 	){
+		// User
+		$user = $this->getUser();
+
 		// Discussions
 		$discussionSer->update();
 
 		// Séances
-		$seances = $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(self::AFFICHAGE_MAX_SEANCE));
-		$forms_seances = $this->seancesForm($seances, $ser, $request);
+		$seances = $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(SELF::AFFICHAGE_MAX_SEANCE));
+		$forms_seances = $this->seancesForm($seances, $ser, $request, $user);
 
 		// Tchat
-		$form_tchat = $this->tchatForm($tr, $request);
+		$form_tchat = $this->tchatForm($tr, $request, $user);
 
 		// Table
-		$form_table = $this->tableForm($tar, $request);
+		$seances_table = $this->seancesTable($ser, $user);
+		$form_table = $this->tableForm($tar, $seances[0], $seances_table, $request, $user);
 
 		// Form valid
 		if (
@@ -152,10 +156,8 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux séances
 	 */
-	public function seancesForm($seances, $ser, $request) 
+	public function seancesForm($seances, $ser, $request, $user) 
 	{
-		$user = $this->getUser();
-
 		/* -- Form 1 -- */
 		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
 		$form1 = $this->createForm(SeancePresenceForm1::class, $seance);
@@ -191,13 +193,27 @@ class HomeController extends AbstractController
 	}
 
 	/**
+	 * Renvoie les 3 prochaines séances pour le formulaire de table
+	 */
+	public function seancesTable($ser, $user) 
+	{
+		$seances = $ser->getNextSeance(3);
+
+		$result = [];
+		foreach ($seances as $seance){
+			$titre = ucfirst($this->dateToFrench($seance->getDate()->format('Y/m/d'), 'l d/m/Y'))." - ".$seance->getType()->getName();
+			$result[$titre] = $seance->getId();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Mini-tchat Ajout de contenu
 	 */
-	public function tchatForm($tr, $request) 
+	public function tchatForm($tr, $request, $user)
 	{
 		$tchat = new Tchat();
-		$user = $this->getUser();
-
 
 		$form = $this->createForm(TchatForm::class, $tchat);
 		$form->handleRequest($request);
@@ -220,17 +236,16 @@ class HomeController extends AbstractController
 	/**
 	 * Mini-tchat Ajout de contenu
 	 */
-	public function tableForm($tr, $request) 
+	public function tableForm($tr, $seance, $seances_table, $request, $user) 
 	{
-
 		$table = new Table();
-		$user = $this->getUser();
 
-		// Next séances
-		// TODO
+		$form = $this->createForm(TableForm::class, $table, [
+			'user_id' => !empty($user) ? $user->getId() : 0,
+			'seance_id' => !empty($seance) ? $seance->getId() : 0,
+			'seances_table' => $seances_table,
+		]);
 
-
-		$form = $this->createForm(TableForm::class, $table, ['user_id' => !empty($user) ? $user->getId() : 0]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $user != null){
