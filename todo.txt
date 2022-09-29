@@ -20,6 +20,7 @@ ACTUALITÉS
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
 - Réduire la section de la page actu/show
+- Vérifier si pas de bug pour les photos
 
 
 SONDAGE
@@ -33,6 +34,7 @@ PRESENCE A UNE SESSION
 	- Limiter les abus de réservation
 	- S'inscrire à une table
 
+
 TABLE
 - Réserver une table avec un jeux (perso / joueur présent / joueur absent / libre)
 - S'inscrire à une table
@@ -41,10 +43,6 @@ TABLE
 
 JEUX
 - Lien vers jeux avec que ses propres jeux
-
-
-PROCHAINE DATES
-- Rajouter le lieu
 
 
 PHOTOS
