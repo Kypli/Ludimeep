@@ -1,6 +1,7 @@
-<div class='row m-1 p-2 {{ loop.last != true ? 'mb-2 pb-2' }} seances'>
+<div class='row m-1 p-2 {{ loop.last != true ? 'mb-2' }} seances'>
 
-	<div class='col-12 mb-1 '>
+	{# INFOS #}
+	<div class='col-12'>
 
 		{# TYPE #}
 		<div class='taille17 gras souligne mb-2 mt-1'>{{ seance.type.name }}</div>
@@ -27,7 +28,7 @@
 
 		{# LIEU #}
 		{% set lieu = null != seance.lieu ? seance.lieu : lieu_defaut %}
-		<div class='taille14 mt-1'>
+		<div class='taille14 mt-1 mb-2'>
 			Lieu - 
 			<a
 				href='http://www.google.com/search?q={{ lieu.adresse }}+{{ lieu.codePostal }}+{{ lieu.ville }}'
@@ -37,22 +38,43 @@
 				{{ lieu.name }}
 			</a>
 		</div>
+
+		{# COMMENT #}
+		{% if seance.comment %}
+			<div class='mb-3'>
+				<span class='taille15'>{{ seance.comment }}</span>
+			</div>
+		{% endif %}
 	</div>
 
-	{# COMMENT #}
-	{% if seance.comment %}
-		<div class='col-12 mb-3 '>
-			<span class='taille15'>{{ seance.comment }}</span>
+	{# EN COURS #}
+	{% if seance.date <= date('now') %}
+		<div class='entoure seance-actif'>En cours !</div>
+
+	{# TIMER #}
+	{% else %}
+		<span class="timer"></span>
+		<div
+			id="countdown{{ loop.index }}"
+			class="countdown mb-3"
+			data-date='{{ seance.date|date('Y-m-d') }}'
+			data-hour='{{ seance.date|date('H') }}'
+			data-minute='{{ seance.date|date('i') }}'
+		>
+			<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
+			<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
+			<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
+			<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
 		</div>
 	{% endif %}
 
-	{# INSCRIT #}
-	{% set user_presence = app.user is not null ? app.user.inSeance(seance) : false %}
+	{# PERSONNES PRESENTES #}
+	{% set user_presence = app.user != null ? app.user.inSeance(seance) : false %}
 	{% for present in seance.presents %}
 		{% if loop.first %}
-			<hr class="mt-1">
+			<hr class="mt-2">
 			<div class='col-12'>
-				Personnes inscrites
+				Personnes présentes
 			</div>
 		{% endif %}
 		<div class='col-12 center present{{ loop.index is odd ? '-odd' }} {{ loop.last ? 'mb-3' }}'>
@@ -63,7 +85,61 @@
 		</div>
 	{% endfor %}
 
-	{# PRÉSENCE #}
+	{# TABLE #}
+	{% for table in seance.tables %}
+
+		{# USER INSCRIT #}
+		{% set inscrit = app.user != null
+			? app.user.isInscrit(app.user, table)
+				? true : false
+			: false
+		%}
+
+		{# LOOP FIRST #}
+		{% if loop.first %}
+			<hr class="">
+			<div class='col-12 mb-2'>
+				Table ouverte
+			</div>
+		{% endif %}
+
+		{# JEU #}
+		<div class='col-12 mb-2 taille15 gras souligne'>
+			{{ null != table.gameFree ? table.gameFree : table.game.name }}
+		</div>
+
+		{# PLAYERS #}
+		{% set nbPlace = table.maxPlayer %}
+		{% for player in table.players %}
+			{% set nbPlace = nbPlace - 1 %}
+			{% set name = null != player.userProfil.nom and null != player.userProfil.prenom
+				? ' (' ~ player.userProfil.prenom|capitalize ~ ' ' ~ player.userProfil.nom|capitalize ~ ')'
+				: ''
+			%}
+			{% set gerant = null != player.userProfil.nom and null != player.userProfil.prenom
+				? 'gerant'
+				: ''
+			%}
+			<div class='col-12 table-player taille15 {{ gerant }}'>
+				{{ player.userName|capitalize }}{{ name }}
+				{% if app.user != null and player.id == app.user.id ? true : false %}
+					<span class='table_form taille14 pointeur_help' title="Se désinscrire de cette table">non</span>
+				{% endif %}
+			</div>
+		{% endfor %}
+
+		{# PLACE LIBRE #}
+		{% for i in 1..nbPlace %}
+			<div class='col-12 {{ loop.last ? 'mb-2' }} table-free italique taille15'>
+				Place libre {{ i }}
+				{% if loop.first and app.user is defined and inscrit == false %}
+					<span class='table_form taille14 pointeur_help' title="S'inscrire à cette table">oui</span>
+				{% endif %}
+			</div>
+		{% endfor %}
+	{% endfor %}
+
+	{# PRÉSENCE INSCRIPTION #}
 	{% if is_granted('ROLE_USER') %}
 		<hr class="mt-1">
 		<div class="row center">
@@ -72,7 +148,7 @@
 				{{
 					user_presence
 						? "<i class='fas fa-check green'></i> J'ai confirmé ma présence"
-						: "<i class='fas fa-times red'></i> Je n'ai pas confirmé ma présence"
+						: "<i class='fas fa-times red'></i> <span class='taille14'>Je n'ai pas confirmé ma présence</span>"
 				}}
 			</div>
 		</div>
@@ -86,29 +162,6 @@
 					'presence_text': user_presence ? "J'ai changé d'avis" : 'Je serai présent',
 				}
 			%}
-		</div>
-	{% endif %}
-
-	{# EN COURS #}
-	{% if seance.date <= date('now') %}
-		<hr class="mt-2">
-		<div class='entoure seance-actif'>En cours !</div>
-
-	{# TIMER #}
-	{% else %}
-		<hr class="mt-2">
-		<span class="timer"></span>
-		<div
-			id="countdown{{ loop.index }}"
-			class="countdown mb-3"
-			data-date='{{ seance.date|date('Y-m-d') }}'
-			data-hour='{{ seance.date|date('H') }}'
-			data-minute='{{ seance.date|date('i') }}'
-		>
-			<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
-			<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
-			<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
-			<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
 		</div>
 	{% endif %}
 </div>

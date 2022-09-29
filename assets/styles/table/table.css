@@ -1,0 +1,17 @@
+.table-player {
+	border-left: 2px solid purple;
+}
+
+.table-free {
+	border-left: 2px solid grey;
+	color: grey;
+}
+
+.gerant {
+
+}
+
+.table_form {
+	float: right;
+	z-index: 10;
+}

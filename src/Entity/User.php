@@ -815,4 +815,14 @@ class User implements UserInterface
 
         return $this;
     }
+
+
+    public function isInscrit(User $user, Table $table): Bool
+    {
+        if ($table->getPlayers()->contains($user)){
+            return true;
+        }
+
+        return false;
+    }
 }
