@@ -53,22 +53,7 @@
 	<div class="row mt-2">
 		<div class="offset-1 col-10">
 			{% if is_granted('ROLE_USER') %}
-				{{ form_start(form_tchat) }}
-
-					<div class="row">
-
-						<div class="offset-1 col-8 p-0">
-							{{ form_widget(form_tchat.content) }}
-						</div>
-						<div class="col-1">
-							<button class="btn btn-success input-valid">
-								<i class="far fa-comment-dots"></i>
-								{{ button_label|default('') }}
-							</button>
-						</div>
-					</div>
-
-				{{ form_end(form_tchat) }}
+				{% include 'tchat/_form.html.twig' %}
 			{% endif %}
 		</div>
 	</div>

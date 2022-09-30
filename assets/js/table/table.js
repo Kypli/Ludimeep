@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 	function modalAdd(){
 		console.log(1)
-		modal(null, null, "d'un jeu", false, 1100, 400)
+		modal(null, null, "d'une table", false, 625, 650)
 		$('#game_name').focus()
 	}
 

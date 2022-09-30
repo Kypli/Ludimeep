@@ -1,56 +1,66 @@
 {{ form_start(form) }}
 
-	<div class="row center mt-4">
+	<div class="row center mt-2">
+
+		{# SOUS-TITRE JEUX #}
+		<div class="row mt-1 mb-1">
+			<h5 class="offset-1 col-11 alignLeft">Choisissez un jeu</h5>
+		</div>
 
 		{# JEUX USER #}
-		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
-			{{ form_label(form.gameOwner) }}
-		</div>
-		<div class="col-4 mb-4">
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameOwner) }}</div>
 			{{ form_widget(form.gameOwner) }}
 		</div>
+		<div class="col-3"></div>
 
 		{# JEUX PRESENT #}
-		<div class="offset-2 col-3 mb-4 pt-0 alignRight">
-			{{ form_label(form.gamePresent) }}
-		</div>
-		<div class="col-4 mb-4">
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gamePresent) }}</div>
 			{{ form_widget(form.gamePresent) }}
 		</div>
+		<div class="col-3"></div>
 
 		{# JEUX ADHERANT #}
-		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
-			{{ form_label(form.gameAdherant) }}
-		</div>
-		<div class="col-4 mb-4">
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameAdherant) }}</div>
 			{{ form_widget(form.gameAdherant) }}
 		</div>
+		<div class="col-3"></div>
 
 		{# JEUX LIBRE #}
-		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
-			{{ form_label(form.gameFree) }}
-		</div>
-		<div class="col-4 mb-4">
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameFree) }}</div>
 			{{ form_widget(form.gameFree) }}
 		</div>
+		<div class="col-3"></div>
+
+		{# SOUS-TITRE SEANCE #}
+		{# <div class="row mt-3 mb-2">
+			<h5 class="offset-1 col-11 alignLeft">Séance</h5>
+		</div> #}
 
 		{# SÉANCE #}
-		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+		{# <div class="offset-2 col-3 mb-4 pt-2 alignRight">
 			{{ form_label(form.seance) }}
 		</div>
 		<div class="col-4 mb-4">
 			{{ form_widget(form.seance) }}
+		</div> #}
+
+		{# SOUS-TITRE  LIMITE PLAYERS #}
+		<div class="row mt-3 mb-1">
+			<h5 class="offset-1 col-11 alignLeft">Limite de joueurs</h5>
 		</div>
 
 		{# MAXPLAYER #}
-		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
-			{{ form_label(form.maxPlayer) }}
-		</div>
-		<div class="col-4 mb-4">
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.maxPlayer) }}</div>
 			{{ form_widget(form.maxPlayer) }}
 		</div>
+		<div class="col-3"></div>
 	</div>
 
-	<button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+	<button class="btn btn-success mt-3">{{ button_label|default('Sauvegarder') }}</button>
 
 {{ form_end(form) }}

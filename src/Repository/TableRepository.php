@@ -47,15 +47,13 @@ class TableRepository extends ServiceEntityRepository
 		return $this->createQueryBuilder('x')
 			->join('x.seance', 's')
 
-			->select('x')
-
-			->where('s.date < :date')
+			->where('s.date > :date')
 			->setParameters([
 				'date' => new \Datetime('now'),
 			])
 
 			->getQuery()
-			->getArrayResult()
+			->getResult()
 		;
 	}
 }

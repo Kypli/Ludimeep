@@ -11,10 +11,6 @@ MINI-TCHAT
 - Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
 
 
-HOME
-- Message pour les visiteurs uniquement sur ce qu'ils pourront faire en tant que membre
-
-
 ACTUALITÉS
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
 - Commenter une actu (membre only)
@@ -28,17 +24,9 @@ SONDAGE
 - Débug création date_début
 
 
-PRESENCE A UNE SESSION
-- Demander à un user d'ammener un jeu
-- Réserver une table avec un jeux
-	- Limiter les abus de réservation
-	- S'inscrire à une table
-
-
 TABLE
-- Réserver une table avec un jeux (perso / joueur présent / joueur absent / libre)
-- S'inscrire à une table
-- Limiter le nombre de tables maximum réservable
+- Demander à un user d'ammener un jeu
+- Si départ du gérant, supprimer la table
 
 
 JEUX

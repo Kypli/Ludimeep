@@ -22,8 +22,16 @@ use App\Repository\SeanceLieuRepository;
 
 use App\Form\TchatType as TchatForm;
 use App\Form\TableType as TableForm;
-use App\Form\SeancePresence1Type as SeancePresenceForm1;
-use App\Form\SeancePresence2Type as SeancePresenceForm2;
+use App\Form\SeancePresence1Type as SeancePresence1Form;
+use App\Form\SeancePresence2Type as SeancePresence2Form;
+use App\Form\tablePresence\TablePresence1Type as TablePresence1Form;
+use App\Form\tablePresence\TablePresence2Type as TablePresence2Form;
+use App\Form\tablePresence\TablePresence3Type as TablePresence3Form;
+use App\Form\tablePresence\TablePresence4Type as TablePresence4Form;
+use App\Form\tablePresence\TablePresence5Type as TablePresence5Form;
+use App\Form\tablePresence\TablePresence6Type as TablePresence6Form;
+use App\Form\tablePresence\TablePresence7Type as TablePresence7Form;
+use App\Form\tablePresence\TablePresence8Type as TablePresence8Form;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -37,7 +45,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class HomeController extends AbstractController
 {
-	const AFFICHAGE_MAX_SEANCE = 2;
+	const SEANCE_AFFICHAGE_MAX = 2;
+	const SEANCE_MAX_TABLE = 2;
+
+	const TABLE_MAX_PLAYERS = 12;
 
 	/**
 	 * @Route("/", name="")
@@ -60,21 +71,23 @@ class HomeController extends AbstractController
 		$discussionSer->update();
 
 		// Séances
-		$seances = $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(SELF::AFFICHAGE_MAX_SEANCE));
-		$forms_seances = $this->seancesForm($seances, $ser, $request, $user);
+		$seances_table = $this->seancesTable($ser, $user);
+		$seances = $this->seances($ser->getOldSeance(self::SEANCE_AFFICHAGE_MAX), $ser->getNextSeance(SELF::SEANCE_AFFICHAGE_MAX));
+		$seance_presence_forms = $this->seancesForm($seances, $ser, $tar, $request, $user);
 
 		// Tchat
-		$form_tchat = $this->tchatForm($tr, $request, $user);
+		$tchat_form = $this->tchatForm($tr, $request, $user);
 
 		// Table
-		$seances_table = $this->seancesTable($ser, $user);
-		$form_table = $this->tableForm($tar, $seances[0], $seances_table, $request, $user);
+		$table_form = $this->tableForm($tar, $seances[0], $seances_table, $request, $user);
+		$table_player_forms = $this->tablesForm($seances, $tar, $ser, $request, $user);
 
 		// Form valid
 		if (
-			$forms_seances === false ||
-			$form_tchat === false ||
-			$form_table === false
+			$seance_presence_forms === false ||
+			$table_player_forms === false ||
+			$tchat_form === false ||
+			$table_form === false
 		){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
 
 		return $this->render('home/index.html.twig',[
@@ -85,11 +98,19 @@ class HomeController extends AbstractController
 
 			// Tchat
 			'tchats' => $tr->getLastTchats(),
-			'form_tchat' => $form_tchat->createView(),
+			'tchat_form' => $tchat_form->createView(),
 
 			// Tables
-			'tables' => $tar->getCurrentTables(),
-			'form_table' => $form_table->createView(),
+			'table_form' => $table_form->createView(),
+			'table_max_players' => self::TABLE_MAX_PLAYERS,
+			'table_player_form_1' => isset($table_player_forms[0]) ? $table_player_forms[0]->createView() : null,
+			'table_player_form_2' => isset($table_player_forms[1]) ? $table_player_forms[1]->createView() : null,
+			'table_player_form_3' => isset($table_player_forms[2]) ? $table_player_forms[2]->createView() : null,
+			'table_player_form_4' => isset($table_player_forms[3]) ? $table_player_forms[3]->createView() : null,
+			'table_player_form_5' => isset($table_player_forms[4]) ? $table_player_forms[4]->createView() : null,
+			'table_player_form_6' => isset($table_player_forms[5]) ? $table_player_forms[5]->createView() : null,
+			'table_player_form_7' => isset($table_player_forms[6]) ? $table_player_forms[6]->createView() : null,
+			'table_player_form_8' => isset($table_player_forms[7]) ? $table_player_forms[7]->createView() : null,
 
 			// Sondage
 			'request' => $request,
@@ -100,9 +121,10 @@ class HomeController extends AbstractController
 
 			// Séances
 			'seances' => $seances,
-			'lieu_defaut' => $slr->findOneByDefaut(true),
-			'form1' => $forms_seances[0]->createView(),
-			'form2' => $forms_seances[1]->createView(),
+			'seance_max_table' => self::SEANCE_MAX_TABLE,
+			'seance_lieu_defaut' => $slr->findOneByDefaut(true),
+			'seance_presence_form_1' => $seance_presence_forms[0]->createView(),
+			'seance_presence_form_2' => $seance_presence_forms[1]->createView(),
 
 			// Calendrier
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
@@ -156,18 +178,28 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux séances
 	 */
-	public function seancesForm($seances, $ser, $request, $user) 
+	public function seancesForm($seances, $ser, $tar, $request, $user) 
 	{
 		/* -- Form 1 -- */
 		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
-		$form1 = $this->createForm(SeancePresenceForm1::class, $seance);
+		$form1 = $this->createForm(SeancePresence1Form::class, $seance);
 		$form1->handleRequest($request);
 
 		if ($form1->isSubmitted() && $form1->isValid()){
-			$user->inSeance($seance)
-				? $seance->removePresent($user)
-				: $seance->addPresent($user)
-			;
+			
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
+
+				// Retrait des tables
+				$tables = $seance->getTables();
+				foreach($tables as $table){
+					$table->removePlayer($user);
+					$tar->add($table, true);
+				}
+
+			} else {
+				$seance->addPresent($user);
+			}
 			$ser->add($seance, true);
 
 			return false;
@@ -176,7 +208,7 @@ class HomeController extends AbstractController
 		/* -- Form 2 -- */
 		$seance = !empty($seances) ? $seances[array_key_last($seances)] : null;
 
-		$form2 = $this->createForm(SeancePresenceForm2::class, $seance);
+		$form2 = $this->createForm(SeancePresence2Form::class, $seance);
 		$form2->handleRequest($request);
 
 		if ($form2->isSubmitted() && $form2->isValid()){
@@ -185,6 +217,7 @@ class HomeController extends AbstractController
 				: $seance->addPresent($user)
 			;
 			$ser->add($seance, true);
+			$tar->add($table, true);
 
 			return false;
 		}
@@ -258,6 +291,72 @@ class HomeController extends AbstractController
 			$tr->add($tchat, true);
 
 			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Gère les formulaires d'inscription aux tables
+	 */
+	public function tablesForm($seances, $tar, $ser, $request, $user) 
+	{
+		$ii = 1;
+		$form = [];
+
+		for ($i = 0; $i < self::SEANCE_AFFICHAGE_MAX; $i++){
+
+			$seance = $seances[$i];
+			$tables = $seance->getTables();
+
+			foreach($tables as $key => $table){
+
+				switch ($ii){
+					case 1:
+						$form_tempo = $this->createForm(TablePresence1Form::class, $table);
+						break;
+					case 2:
+						$form_tempo = $this->createForm(TablePresence2Form::class, $table);
+						break;
+					case 3:
+						$form_tempo = $this->createForm(TablePresence3Form::class, $table);
+						break;
+					case 4:
+						$form_tempo = $this->createForm(TablePresence4Form::class, $table);
+						break;
+					case 5:
+						$form_tempo = $this->createForm(TablePresence5Form::class, $table);
+						break;
+					case 6:
+						$form_tempo = $this->createForm(TablePresence6Form::class, $table);
+						break;
+					case 7:
+						$form_tempo = $this->createForm(TablePresence7Form::class, $table);
+						break;
+					case 8:
+						$form_tempo = $this->createForm(TablePresence8Form::class, $table);
+						break;
+					
+					default:
+						$form_tempo = $this->createForm(TablePresence1Form::class, $table);
+						break;
+				}
+				$form_tempo->handleRequest($request);
+
+				if ($form_tempo->isSubmitted() && $form_tempo->isValid()){
+					$user->isInscrit($user, $table)
+						? $table->removePlayer($user)
+						: $table->addPlayer($user) && $seance->addPresent($user)
+					;
+
+					$tar->add($table, true);
+					$ser->add($seance, true);
+
+					return false;
+				}
+
+				$form[] = $form_tempo;
+			}
 		}
 
 		return $form;

@@ -1,0 +1,15 @@
+<div id="modal" class="hide">
+	<div class='container'>
+
+		{# LOADING #}
+		<div class="text-center hide loading">
+			<div class="spinner-border text-primary" role="status">
+				<span class="sr-only">Loading...</span>
+			</div>
+		</div>
+
+		{# FORM #}
+		{% include('table/_form.html.twig') with { 'form': table_form } %}
+
+	</div>
+</div>

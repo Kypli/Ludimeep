@@ -27,7 +27,7 @@
 		{% endif %}
 
 		{# LIEU #}
-		{% set lieu = null != seance.lieu ? seance.lieu : lieu_defaut %}
+		{% set lieu = null != seance.lieu ? seance.lieu : seance_lieu_defaut %}
 		<div class='taille14 mt-1 mb-2'>
 			Lieu - 
 			<a
@@ -86,58 +86,7 @@
 	{% endfor %}
 
 	{# TABLE #}
-	{% for table in seance.tables %}
-
-		{# USER INSCRIT #}
-		{% set inscrit = app.user != null
-			? app.user.isInscrit(app.user, table)
-				? true : false
-			: false
-		%}
-
-		{# LOOP FIRST #}
-		{% if loop.first %}
-			<hr class="">
-			<div class='col-12 mb-2'>
-				Table ouverte
-			</div>
-		{% endif %}
-
-		{# JEU #}
-		<div class='col-12 mb-2 taille15 gras souligne'>
-			{{ null != table.gameFree ? table.gameFree : table.game.name }}
-		</div>
-
-		{# PLAYERS #}
-		{% set nbPlace = table.maxPlayer %}
-		{% for player in table.players %}
-			{% set nbPlace = nbPlace - 1 %}
-			{% set name = null != player.userProfil.nom and null != player.userProfil.prenom
-				? ' (' ~ player.userProfil.prenom|capitalize ~ ' ' ~ player.userProfil.nom|capitalize ~ ')'
-				: ''
-			%}
-			{% set gerant = null != player.userProfil.nom and null != player.userProfil.prenom
-				? 'gerant'
-				: ''
-			%}
-			<div class='col-12 table-player taille15 {{ gerant }}'>
-				{{ player.userName|capitalize }}{{ name }}
-				{% if app.user != null and player.id == app.user.id ? true : false %}
-					<span class='table_form taille14 pointeur_help' title="Se désinscrire de cette table">non</span>
-				{% endif %}
-			</div>
-		{% endfor %}
-
-		{# PLACE LIBRE #}
-		{% for i in 1..nbPlace %}
-			<div class='col-12 {{ loop.last ? 'mb-2' }} table-free italique taille15'>
-				Place libre {{ i }}
-				{% if loop.first and app.user is defined and inscrit == false %}
-					<span class='table_form taille14 pointeur_help' title="S'inscrire à cette table">oui</span>
-				{% endif %}
-			</div>
-		{% endfor %}
-	{% endfor %}
+	{% include 'table/_table.html.twig' %}
 
 	{# PRÉSENCE INSCRIPTION #}
 	{% if is_granted('ROLE_USER') %}
@@ -155,7 +104,7 @@
 
 		{# FORM #}
 		<div class="row center mt-2">
-			{% set form = loop.index == 1 ? form1 : form2 %}
+			{% set form = loop.index == 1 ? seance_presence_form_1 : seance_presence_form_2 %}
 			{% include('seance/_form_presence.html.twig')  with {
 					'form': form,
 					'presence': user_presence,

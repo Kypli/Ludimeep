@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+
+	{% if inscrit %}
+		<button class='btn-danger table_leave p-1' title="Se désinscrire de cette table">
+			<i class="fas fa-sign-out-alt"></i>
+		</button>
+	{% else %}
+		<button class='btn-success table_join p-1' title="S'inscrire à cette table">
+			<i class="fas fa-sign-in-alt"></i>
+		</button>
+	{% endif %}
+
+{{ form_end(form) }}
+
+

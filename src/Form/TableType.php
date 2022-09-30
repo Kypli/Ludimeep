@@ -113,18 +113,18 @@ class TableType extends AbstractType
 					],
 				]
 			)
-			->add(
-				'seance',
-				ChoiceType::class,
-				[
-					'required' => true,
-					'label' => "Séance",
-					'attr' => [
-						'class' => 'form-control',
-					],
-					'choices'  => $options['seances_table'],
-				]
-			)
+			// ->add(
+			// 	'seance',
+			// 	ChoiceType::class,
+			// 	[
+			// 		'required' => true,
+			// 		'label' => "Séance",
+			// 		'attr' => [
+			// 			'class' => 'form-control',
+			// 		],
+			// 		'choices'  => $options['seances_table'],
+			// 	]
+			// )
 			->add(
 				'maxPlayer',
 				IntegerType::class,
