@@ -34,7 +34,13 @@
 	<div class="table-bordure">
 
 		{# NOM DU JEU #}
-		<div class='col-12 mt-1 mb-2 taille15 gras souligne'>
+		<div 
+			class='col-12 mt-1 mb-2 taille15 gras souligne'
+			title='{{ null != table.game and null != table.game.time and table.game.time|date('H:i') != '00:00' 
+				? "Durée estimée : " ~ table.game.time|date('H') ~ "h" ~ table.game.time|date('i')
+				: 'Pas de durée estimée'
+			}}'
+		>
 			{{ null != table.gameFree ? table.gameFree|capitalize : table.game.name|capitalize }}
 		</div>
 
