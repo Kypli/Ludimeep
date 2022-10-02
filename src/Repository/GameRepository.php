@@ -71,4 +71,30 @@ class GameRepository extends ServiceEntityRepository
 			->getArrayResult()
 		;
 	}
+
+	/**
+	 * Renvoie les jeux des adhérants d'une séance sauf user
+	 */
+	public function getListeAdherant($seance_id, $user_id)
+	{
+		return $this->createQueryBuilder('x')
+			->join('x.owner', 'u')
+			->join('u.seances', 's')
+
+			->select(['x.id, x.name'])
+
+			->where('u.id != :user_id')
+			->setParameter(':user_id', $user_id)
+
+			->andWhere('s.id = :seance_id')
+			->setParameter(':seance_id', $seance_id)
+
+			->orderBy('x.name', 'ASC')
+
+			->groupBy('x.id')
+
+			->getQuery()
+			->getArrayResult()
+		;
+	}
 }

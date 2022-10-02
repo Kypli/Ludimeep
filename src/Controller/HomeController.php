@@ -14,6 +14,7 @@ use App\Repository\UserProfilRepository;
 use App\Repository\UserAssoRepository;
 
 use App\Repository\ActuRepository;
+use App\Repository\GameRepository;
 use App\Repository\TchatRepository;
 use App\Repository\TableRepository;
 use App\Repository\SeanceRepository;
@@ -48,7 +49,7 @@ class HomeController extends AbstractController
 	const SEANCE_AFFICHAGE_MAX = 2;
 	const SEANCE_MAX_TABLE = 2;
 
-	const TABLE_MAX_PLAYERS = 12;
+	const TABLE_PLAYERS_MAX = 12;
 
 	/**
 	 * @Route("/", name="")
@@ -61,6 +62,7 @@ class HomeController extends AbstractController
 		SeanceRepository $ser,
 		SeanceLieuRepository $slr,
 		SondageRepository $sr,
+		GameRepository $gr,
 		DiscussionSer $discussionSer,
 		AuthenticationUtils $authenticationUtils
 	){
@@ -79,13 +81,14 @@ class HomeController extends AbstractController
 		$tchat_form = $this->tchatForm($tr, $request, $user);
 
 		// Table
-		$table_form = $this->tableForm($tar, $seances[0], $seances_table, $request, $user);
-		$table_player_forms = $this->tablesForm($seances, $tar, $ser, $request, $user);
+		$this->get('session')->set('table_nb_presence_form', 1);
+		$table_form = $this->tableForm($tar, $ser, $gr, $request, $user);
+		$table_presence_forms = $this->tablesPresenceForm($seances, $tar, $ser, $request, $user);
 
 		// Form valid
 		if (
 			$seance_presence_forms === false ||
-			$table_player_forms === false ||
+			$table_presence_forms === false ||
 			$tchat_form === false ||
 			$table_form === false
 		){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
@@ -102,15 +105,15 @@ class HomeController extends AbstractController
 
 			// Tables
 			'table_form' => $table_form->createView(),
-			'table_max_players' => self::TABLE_MAX_PLAYERS,
-			'table_player_form_1' => isset($table_player_forms[0]) ? $table_player_forms[0]->createView() : null,
-			'table_player_form_2' => isset($table_player_forms[1]) ? $table_player_forms[1]->createView() : null,
-			'table_player_form_3' => isset($table_player_forms[2]) ? $table_player_forms[2]->createView() : null,
-			'table_player_form_4' => isset($table_player_forms[3]) ? $table_player_forms[3]->createView() : null,
-			'table_player_form_5' => isset($table_player_forms[4]) ? $table_player_forms[4]->createView() : null,
-			'table_player_form_6' => isset($table_player_forms[5]) ? $table_player_forms[5]->createView() : null,
-			'table_player_form_7' => isset($table_player_forms[6]) ? $table_player_forms[6]->createView() : null,
-			'table_player_form_8' => isset($table_player_forms[7]) ? $table_player_forms[7]->createView() : null,
+			'table_players_max' => self::TABLE_PLAYERS_MAX,
+			'table_presence_form_1' => isset($table_presence_forms[0]) ? $table_presence_forms[0]->createView() : null,
+			'table_presence_form_2' => isset($table_presence_forms[1]) ? $table_presence_forms[1]->createView() : null,
+			'table_presence_form_3' => isset($table_presence_forms[2]) ? $table_presence_forms[2]->createView() : null,
+			'table_presence_form_4' => isset($table_presence_forms[3]) ? $table_presence_forms[3]->createView() : null,
+			'table_presence_form_5' => isset($table_presence_forms[4]) ? $table_presence_forms[4]->createView() : null,
+			'table_presence_form_6' => isset($table_presence_forms[5]) ? $table_presence_forms[5]->createView() : null,
+			'table_presence_form_7' => isset($table_presence_forms[6]) ? $table_presence_forms[6]->createView() : null,
+			'table_presence_form_8' => isset($table_presence_forms[7]) ? $table_presence_forms[7]->createView() : null,
 
 			// Sondage
 			'request' => $request,
@@ -212,12 +215,20 @@ class HomeController extends AbstractController
 		$form2->handleRequest($request);
 
 		if ($form2->isSubmitted() && $form2->isValid()){
-			$user->inSeance($seance)
-				? $seance->removePresent($user)
-				: $seance->addPresent($user)
-			;
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
+
+				// Retrait des tables
+				$tables = $seance->getTables();
+				foreach($tables as $table){
+					$table->removePlayer($user);
+					$tar->add($table, true);
+				}
+
+			} else {
+				$seance->addPresent($user);
+			}
 			$ser->add($seance, true);
-			$tar->add($table, true);
 
 			return false;
 		}
@@ -269,26 +280,56 @@ class HomeController extends AbstractController
 	/**
 	 * Mini-tchat Ajout de contenu
 	 */
-	public function tableForm($tr, $seance, $seances_table, $request, $user) 
+	public function tableForm($tar, $ser, $gr, $request, $user)
 	{
 		$table = new Table();
 
 		$form = $this->createForm(TableForm::class, $table, [
 			'user_id' => !empty($user) ? $user->getId() : 0,
-			'seance_id' => !empty($seance) ? $seance->getId() : 0,
-			'seances_table' => $seances_table,
+			'seance_id' => 0,
+			'seances_table' => [],
 		]);
 
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $user != null){
 
-			$tchat
-				->setDate(new \Datetime('now'))
-				->setUser($user)
-			;
+			$table_req = $request->request->get('table');
 
-			$tr->add($tchat, true);
+			// Game
+			$game = null;
+			if (null == $table->getGameFree()){
+
+				if (null != $table_req['gameOwner']){
+					$game = $gr->find($table_req['gameOwner']);
+
+				} elseif(null != $table_req['gamePresent']){
+					$game = $gr->find($table_req['gamePresent']);
+
+				} elseif(null != $table_req['gameAdherant']){
+					$game = $gr->find($table_req['gameAdherant']);
+
+				} else {
+					$this->addFlash('error', "Aucun jeu sélectionné.");
+					return false;
+				}
+			}
+
+			// Seance
+			$seance = $ser->getOneSeanceByDate($table_req['date']);
+			$seance = $seance[0];
+
+			$seance->addPresent($user);
+			$ser->add($seance, true);
+
+			// Table
+			$table
+				->setGerant($user)
+				->setSeance($seance)
+				->setGame($game)
+				->addPlayer($user)
+			;
+			$tar->add($table, true);
 
 			return false;
 		}
@@ -299,7 +340,7 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux tables
 	 */
-	public function tablesForm($seances, $tar, $ser, $request, $user) 
+	public function tablesPresenceForm($seances, $tar, $ser, $request, $user) 
 	{
 		$ii = 1;
 		$form = [];
@@ -356,6 +397,7 @@ class HomeController extends AbstractController
 				}
 
 				$form[] = $form_tempo;
+				$ii++;
 			}
 		}
 

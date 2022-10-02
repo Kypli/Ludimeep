@@ -10,9 +10,26 @@ $(document).ready(function(){
 	// ON EVENTS
 	////////////
 
-	// Modal edit 
+	// Modal Table Form 
 	$("body").on("click", ".openTable", function(e){
 		modalAdd()
+		setDate($(this).data('seance'))
+		getGameAdherantInSeance($(this).data('seancebis'))
+	})
+
+	// Sélection d'un jeu
+	$("body").on("change, input", "#table_gameOwner, #table_gamePresent, #table_gameAdherant, #table_gameFree", function(e){
+
+		oneGame($(this))
+
+		$(this)[0].id == 'table_gameFree'
+			? $('#suggestMaxPlayer').hide()
+			: suggestMaxPlayer($(this).val())
+	})
+
+	// Control du formulaire
+	$("body").on("change, input", "#table_gameOwner, #table_gamePresent, #table_gameAdherant, #table_gameFree, #table_maxPlayer", function(e){
+		controlForm()
 	})
 
 
@@ -20,25 +37,101 @@ $(document).ready(function(){
 	// FONCTIONS
 	////////////
 
+	// Ouverture de la modal
 	function modalAdd(){
-		console.log(1)
-		modal(null, null, "d'une table", false, 625, 650)
-		$('#game_name').focus()
+		modal(null, null, "d'une table", false, 625, 750)
+		$('#table_gameOwner').focus()
 	}
 
-	// function getdatas(entity_id){
+	// Sélection d'un seul jeu à la fois
+	function oneGame(current){
 
-	// 	$.ajax({
-	// 		type: "POST",
-	// 		url: Routing.generate('sondage_result', { id: entity_id }),
-	// 		timeout: 15000,
-	// 		success: function(response){
-	// 			$('.loading_' + entity_id).hide()
-	// 			pie($('#pie_' + entity_id)[0].getContext('2d'), response.labels, response.datas);
-	// 		},
-	// 		error: function(error){
-	// 			console.log('Erreur ajax: ' + error)
-	// 		}
-	// 	})
-	// }
+		let input = $('.row-games').find('input, select').not(current)
+
+		input.each(function(index, item){
+			$(item).val('')
+		})
+	}
+
+	// Récupère la date de la séance
+	function setDate(date){
+		$('#table_date').val(date)
+	}
+
+	// Suggestion du nombre de joueurs maximum
+	function suggestMaxPlayer(game_id){
+
+		if ('' != game_id){
+
+			$.ajax({
+				type: "POST",
+				url: Routing.generate('game_game', { id: game_id }),
+				timeout: 15000,
+				success: function(response){
+					if (null != response && null != response['nbPlayers']){
+						
+						$('#suggestMaxPlayerNumber').text(response['nbPlayers'])
+						$('#suggestMaxPlayer').show()
+					}
+				},
+				error: function(error){
+					console.log('Erreur ajax: ' + error)
+				}
+			})
+
+		} else {
+			$('#suggestMaxPlayer').hide()
+		}
+	}
+
+	// Contrôl du formulaire
+	function controlForm(){
+
+		// Game
+		let game_valid = 0
+		let input_games = $('.row-games').find('input, select')
+		input_games.each(function(index, item){
+			game_valid = $(item).val() != ''
+				? game_valid + 1
+				: game_valid
+		})
+
+		// Players
+		let valid = true
+		if ($('#table_maxPlayer').val() == '' || $('#table_maxPlayer').val() < 2){
+			valid = false
+		}
+
+		valid && game_valid == 1
+			? $('#btn_submit').prop('disabled', false)
+			: $('#btn_submit').prop('disabled', true)
+	}
+
+	// Récupère la liste de jeux des adhérant de la séance
+	function getGameAdherantInSeance(date){
+
+			$.ajax({
+				type: "POST",
+				url: Routing.generate('game_liste_adherant', { date: date }),
+				timeout: 15000,
+				success: function(response){
+					setListAdherant(response)
+				},
+				error: function(error){
+					console.log('Erreur ajax: ' + error)
+				}
+			})
+	}
+
+	// Change le select game adherant
+	function setListAdherant(liste){
+
+		// Retire les jeux
+		$('#table_gamePresent option').not('#table_gamePresent option:first').remove()
+
+		// Rajoute les jeux de la liste
+		$.each(liste, function(index, item){
+			$('#table_gamePresent').append($('<option>', { value: item.id, text: item.name }));
+		})
+	}
 })

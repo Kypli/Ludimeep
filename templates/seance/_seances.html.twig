@@ -5,7 +5,7 @@
 		<h4 class="radius-long offset-1 col-10 d-none d-lg-none d-xl-none d-sm-block d-md-block">Prochaines date</h4>
 
 		<div>
-			{% for seance in seances %}
+			{% for seance_key, seance in seances %}
 
 				{# SÉANCE #}
 				{% include 'seance/_seance.html.twig' %}

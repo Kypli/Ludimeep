@@ -10,6 +10,7 @@ use App\Repository\GameRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 
 use Symfony\Component\Form\AbstractType;
@@ -107,9 +108,25 @@ class TableType extends AbstractType
 				[
 					'required' => false,
 					'label' => 'Jeux libre',
-					'mapped' => false,
 					'attr' => [
 						'class' => 'form-control',
+					],
+				]
+			)
+
+			->add(
+				'maxPlayer',
+				IntegerType::class,
+				[
+					'required' => true,
+					'empty_data' => null,
+					'data' => 2,
+					'label' => 'Nombre de joueurs maximum',
+					'attr' => [
+						'class' => 'form-control',
+						'min' => 2,
+						'max' => 12,
+						'step'=> 1,
 					],
 				]
 			)
@@ -126,17 +143,23 @@ class TableType extends AbstractType
 			// 	]
 			// )
 			->add(
-				'maxPlayer',
-				IntegerType::class,
+				'comment',
+				TextType::class,
 				[
-					'required' => true,
-					'empty_data' => null,
-					'label' => 'Nombre de joueurs maximum',
+					'required' => false,
+					'label' => 'Commentaire',
 					'attr' => [
 						'class' => 'form-control',
-						'min' => 0,
-						'step'=> 1,
 					],
+				]
+			)
+			->add(
+				'date',
+				HiddenType::class,
+				[
+					'required' => true,
+					'label' => false,
+					'mapped' => false,
 				]
 			)
 		;

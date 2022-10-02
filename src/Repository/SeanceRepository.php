@@ -96,4 +96,27 @@ class SeanceRepository extends ServiceEntityRepository
 			->getResult()
 		;
 	}
+
+	public function getOneSeanceByDate($date)
+	{
+		$date_start = new \Datetime($date." 00:00:00");
+		$date_end = new \Datetime($date." 23:59:59");
+
+		return $this->createQueryBuilder('x')
+
+			->select('x')
+
+			->where('x.date >= :date_start')
+			->setParameter(':date_start', $date_start)
+
+			->andWhere('x.date <= :date_end')
+			->setParameter(':date_end', $date_end)
+
+			->orderBy('x.date', 'ASC')
+			->setMaxResults(1)
+
+			->getQuery()
+			->getResult()
+		;
+	}
 }

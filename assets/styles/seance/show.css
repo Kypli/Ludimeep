@@ -9,6 +9,10 @@
 /* Séance à venir */
 .seances {
 	border: 1px solid #ab6bc9;
+	background-color: #E1CEE9;
+}
+.seances-odd {
+	border: 1px solid #ab6bc9;
 	background-color: rgb(211, 197, 217);
 }
 .present {

@@ -54,7 +54,7 @@ Encore
     .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
     // Actu
-    .addStyleEntry('actu_show', './assets/styles/actu/style.css')
+    .addStyleEntry('actu_show', './assets/styles/actu/actu.css')
 
     // Photo
     .addEntry('photo', './assets/js/photo/photo.js')

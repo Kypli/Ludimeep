@@ -22,7 +22,6 @@ class Table
 
     /**
      * @ORM\ManyToOne(targetEntity=Game::class, inversedBy="tables")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $game;
 

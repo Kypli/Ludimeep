@@ -1,25 +1,16 @@
 <h4 class="radius-long offset-2 col-8">Actualités</h4>
 
 {% set i = 0 %}
-{% for actu in actus %}
-	{% set i = i + 1 %}
-		{% set bck_alter = i is divisible by(2) ? 'bck_alter' : '' %}
+{% for actu_key, actu in actus %}
 
-	{% if is_granted('ROLE_ADMIN') %}
-		<div class='row {{ bck_alter }}'>
-			<a class="btn btn-warning col-2 m-2" href="{{ path('actu_edit', {'id': actu.id}) }}">Modifier</a>
-		</div>
-	{% endif %}
-
-	{% include 'actu/_actu.html.twig' with {'actu': actu, 'bck_alter': bck_alter } %}
-
-	{# BARRE DE SÉPARATION #}
-	{{  loop.last ? '' : '<hr>' }}
+	<div class="m-1 mt-2">
+		{% include 'actu/_actu.html.twig' %}
+	</div>
 
 {% endfor %}
 
 {# LIEN ACTU #}
-<div class="row mt-3 mb-2">
+<div class="row mt-3 mb-1">
 	<div class="offset-4 col-4 centrer">
 		<a href='{{ path('actu') }}'>Voir toutes les actualités</a>
 	</div>

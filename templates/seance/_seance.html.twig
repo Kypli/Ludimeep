@@ -1,4 +1,4 @@
-<div class='row m-1 p-2 {{ loop.last != true ? 'mb-2' }} seances'>
+<div class='row m-1 p-2 {{ loop.last != true ? 'mb-2' }} seances{{ seance_key is divisible by(2) ? '-odd' }}'>
 
 	{# INFOS #}
 	<div class='col-12'>
@@ -91,26 +91,22 @@
 	{# PRÉSENCE INSCRIPTION #}
 	{% if is_granted('ROLE_USER') %}
 		<hr class="mt-1">
-		<div class="row center">
-
-			<div class="col-12">
-				{{
-					user_presence
-						? "<i class='fas fa-check green'></i> J'ai confirmé ma présence"
-						: "<i class='fas fa-times red'></i> <span class='taille14'>Je n'ai pas confirmé ma présence</span>"
-				}}
-			</div>
+		<div class="col-12">
+			{{
+				user_presence
+					? "<i class='fas fa-check green'></i> J'ai confirmé ma présence"
+					: "<i class='fas fa-times red'></i> <span class='taille14'>Je n'ai pas confirmé ma présence</span>"
+			}}
 		</div>
 
 		{# FORM #}
-		<div class="row center mt-2">
-			{% set form = loop.index == 1 ? seance_presence_form_1 : seance_presence_form_2 %}
-			{% include('seance/_form_presence.html.twig')  with {
-					'form': form,
-					'presence': user_presence,
-					'presence_text': user_presence ? "J'ai changé d'avis" : 'Je serai présent',
-				}
-			%}
-		</div>
+		{% set form = loop.index == 1 ? seance_presence_form_1 : seance_presence_form_2 %}
+		{% include('seance/_form_presence.html.twig')  with {
+				'form': form,
+				'presence': user_presence,
+				'presence_text': user_presence ? "J'ai changé d'avis" : 'Je serai présent',
+			}
+		%}
+
 	{% endif %}
 </div>
