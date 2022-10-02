@@ -40,7 +40,7 @@ class Game
     private $difficult;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $version;
 
@@ -117,12 +117,12 @@ class Game
         return $this;
     }
 
-    public function getVersion(): ?float
+    public function getVersion(): ?string
     {
         return $this->version;
     }
 
-    public function setVersion(?float $version): self
+    public function setVersion(?string $version): self
     {
         $this->version = $version;
 
