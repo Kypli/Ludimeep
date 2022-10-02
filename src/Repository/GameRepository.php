@@ -52,7 +52,7 @@ class GameRepository extends ServiceEntityRepository
 	{
 		return $this->createQueryBuilder('x')
 			->join('x.owner', 'u')
-			->join('u.userProfil', 'up')
+			->join('u.profil', 'up')
 			->select(
 				'x.id',
 				'x.name',

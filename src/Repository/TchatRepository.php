@@ -46,7 +46,7 @@ class TchatRepository extends ServiceEntityRepository
 	{
 		return $this->createQueryBuilder('x')
 			->leftjoin('x.user', 'u')
-			->leftjoin('u.userProfil', 'up')
+			->leftjoin('u.profil', 'up')
 
 			->select([
 				'u.userName as login',

@@ -23,8 +23,12 @@ class UserType extends AbstractType
 	{
 		$builder
 			->add(
-				'userProfil',
+				'profil',
 				UserProfilType::class
+			)
+			->add(
+				'asso',
+				UserAssoType::class
 			)
 			->add(
 				'userName',
@@ -127,10 +131,6 @@ class UserType extends AbstractType
 						'class' => 'form-control',
 					],
 				]
-			)
-			->add(
-				'userAsso',
-				UserAssoType::class
 			)
 		;
 	}

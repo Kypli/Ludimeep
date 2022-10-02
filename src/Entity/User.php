@@ -77,12 +77,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity=UserProfil::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $userProfil;
+    private $profil;
 
     /**
      * @ORM\OneToOne(targetEntity=UserAsso::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $userAsso;
+    private $asso;
 
     /**
      * @ORM\OneToMany(targetEntity=Actu::class, mappedBy="auteur")
@@ -338,36 +338,36 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUserProfil(): ?UserProfil
+    public function getProfil(): ?UserProfil
     {
-        return $this->userProfil;
+        return $this->profil;
     }
 
-    public function setUserProfil(UserProfil $userProfil): self
+    public function setProfil(UserProfil $profil): self
     {
         // set the owning side of the relation if necessary
-        if ($userProfil->getUser() !== $this) {
-            $userProfil->setUser($this);
+        if ($profil->getUser() !== $this) {
+            $profil->setUser($this);
         }
 
-        $this->userProfil = $userProfil;
+        $this->profil = $profil;
 
         return $this;
     }
 
-    public function getUserAsso(): ?UserAsso
+    public function getAsso(): ?UserAsso
     {
-        return $this->userAsso;
+        return $this->asso;
     }
 
-    public function setUserAsso(UserAsso $userAsso): self
+    public function setAsso(UserAsso $asso): self
     {
         // set the owning side of the relation if necessary
-        if ($userAsso->getUser() !== $this) {
-            $userAsso->setUser($this);
+        if ($asso->getUser() !== $this) {
+            $asso->setUser($this);
         }
 
-        $this->userAsso = $userAsso;
+        $this->asso = $asso;
 
         return $this;
     }

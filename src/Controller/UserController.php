@@ -64,8 +64,8 @@ class UserController extends AbstractController
 			->remove('accesPhotoLanceurAlerte')
 			->remove('newsletter')
 			->remove('commentaire')
-			->remove('userProfil')
-			->remove('userAsso')
+			->remove('profil')
+			->remove('asso')
 		;
 
 		$form->handleRequest($request);
@@ -232,9 +232,9 @@ class UserController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid() && $this->formControl($user)){
 
 			// Lower Nom + Prenom
-			$user
-				->setNom(strtolower($user->getNom()))
-				->setPrenom(strtolower($user->getPrenom()))
+			$user->getProfil()
+				->setNom(strtolower($user->getProfil()->getNom()))
+				->setPrenom(strtolower($user->getProfil()->getPrenom()))
 			;
 
 			// Edit admin
@@ -345,19 +345,25 @@ class UserController extends AbstractController
 	public function formControl($user)
 	{
 		// Si adhérant, rajouter date inscription + date fin adhesion
-		if (null != $user->getAdherant() && (null == $user->getDateInscription() || null == $user->getDateFinAdhesion())){
+		if (
+			null != $user->getAsso()->isAdherant() &&
+			(
+				null == $user->getAsso()->getDateInscription() ||
+				null == $user->getAsso()->getDateFinAdhesion()
+			)
+		){
 			$this->addFlash('error', "Si l'utilisateur est un adhérant, il doit avoir une date d'inscription et de fin d'adhésion.");
 			return false;
 		}
 
 		// Courriel valide
-		if (!empty($user->getMail()) && !filter_var($user->getMail(), FILTER_VALIDATE_EMAIL)){
+		if (!empty($user->getProfil()->getMail()) && !filter_var($user->getProfil()->getMail(), FILTER_VALIDATE_EMAIL)){
 			$this->addFlash('error', "Le courriel n'est pas valide.");
 			return false;
 		}
 
 		// Si newsletter, doit avoir un mail
-		if (empty($user->getMail()) && $user->getNewsletter()){
+		if (empty($user->getProfil()->getMail()) && $user->getNewsletter()){
 			$this->addFlash('error', "Vous devez avoir un courriel pour être inscrit à la newsletter.");
 			return false;
 		}

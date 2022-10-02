@@ -90,7 +90,7 @@
 			{% set nbPlace = nbPlace - 1 %}
 			{% set playerUser = null != app.user and player.id == app.user.id ? true : false %}
 			{% set gerant = table.gerant == player ? true : false %}
-			{% set name = null != player.userProfil.prenom ? ' (' ~ player.userProfil.prenom|capitalize ~ ')' : '' %}
+			{% set name = null != player.profil.prenom ? ' (' ~ player.profil.prenom|capitalize ~ ')' : '' %}
 
 			{# PLAYERS #}
 			<div

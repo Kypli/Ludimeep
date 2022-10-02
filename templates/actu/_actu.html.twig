@@ -45,8 +45,8 @@
 	<div class='mb-3 taille11 alignRight italique'>
 		Par
 		{{ 
-			actu.auteur.userProfil.prenom != null and actu.auteur.userProfil.prenom != null
-				? actu.auteur.userProfil.prenom|capitalize ~ ' ' ~ actu.auteur.userProfil.nom|upper
+			actu.auteur.profil.prenom != null and actu.auteur.profil.prenom != null
+				? actu.auteur.profil.prenom|capitalize ~ ' ' ~ actu.auteur.profil.nom|upper
 				: actu.auteur.userName|capitalize
 		}}
 		- {{ actu.date|date('d/m/Y à H:i') }}

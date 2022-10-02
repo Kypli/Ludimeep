@@ -79,8 +79,8 @@
 		{% endif %}
 		<div class='col-12 center present{{ loop.index is odd ? '-odd' }} {{ loop.last ? 'mb-3' }}'>
 			<span class='taille15'>{{ present.userName|capitalize }}</span>
-			{% if present.userProfil.prenom != null %}
-				<span class='taille14'>({{ present.userProfil.prenom|capitalize }})</span>
+			{% if present.profil.prenom != null %}
+				<span class='taille14'>({{ present.profil.prenom|capitalize }})</span>
 			{% endif %}
 		</div>
 	{% endfor %}
