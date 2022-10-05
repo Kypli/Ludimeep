@@ -58,7 +58,7 @@ class UserProfil
     private $telephone;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="userProfil", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="profil", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

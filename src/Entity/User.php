@@ -77,12 +77,12 @@ class User implements UserInterface
     /**
      * @ORM\OneToOne(targetEntity=UserProfil::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $userProfil;
+    private $profil;
 
     /**
      * @ORM\OneToOne(targetEntity=UserAsso::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private $userAsso;
+    private $asso;
 
     /**
      * @ORM\OneToMany(targetEntity=Actu::class, mappedBy="auteur")
@@ -154,6 +154,16 @@ class User implements UserInterface
      */
     private $tchats;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Table::class, mappedBy="gerant", orphanRemoval=true)
+     */
+    private $gerantTables;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Table::class, mappedBy="players")
+     */
+    private $tables;
+
     public function __construct()
     {
         $this->actus = new ArrayCollection();
@@ -168,6 +178,8 @@ class User implements UserInterface
         $this->sondages = new ArrayCollection();
         $this->seances = new ArrayCollection();
         $this->tchats = new ArrayCollection();
+        $this->gerantTables = new ArrayCollection();
+        $this->tables = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -326,36 +338,36 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getUserProfil(): ?UserProfil
+    public function getProfil(): ?UserProfil
     {
-        return $this->userProfil;
+        return $this->profil;
     }
 
-    public function setUserProfil(UserProfil $userProfil): self
+    public function setProfil(UserProfil $profil): self
     {
         // set the owning side of the relation if necessary
-        if ($userProfil->getUser() !== $this) {
-            $userProfil->setUser($this);
+        if ($profil->getUser() !== $this) {
+            $profil->setUser($this);
         }
 
-        $this->userProfil = $userProfil;
+        $this->profil = $profil;
 
         return $this;
     }
 
-    public function getUserAsso(): ?UserAsso
+    public function getAsso(): ?UserAsso
     {
-        return $this->userAsso;
+        return $this->asso;
     }
 
-    public function setUserAsso(UserAsso $userAsso): self
+    public function setAsso(UserAsso $asso): self
     {
         // set the owning side of the relation if necessary
-        if ($userAsso->getUser() !== $this) {
-            $userAsso->setUser($this);
+        if ($asso->getUser() !== $this) {
+            $asso->setUser($this);
         }
 
-        $this->userAsso = $userAsso;
+        $this->asso = $asso;
 
         return $this;
     }
@@ -745,5 +757,72 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getGerantTables(): Collection
+    {
+        return $this->gerantTables;
+    }
+
+    public function addGerantTable(Table $gerantTable): self
+    {
+        if (!$this->gerantTables->contains($gerantTable)) {
+            $this->gerantTables[] = $gerantTable;
+            $gerantTable->setGerant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGerantTable(Table $gerantTable): self
+    {
+        if ($this->gerantTables->removeElement($gerantTable)) {
+            // set the owning side to null (unless already changed)
+            if ($gerantTable->getGerant() === $this) {
+                $gerantTable->setGerant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getTables(): Collection
+    {
+        return $this->tables;
+    }
+
+    public function addTable(Table $table): self
+    {
+        if (!$this->tables->contains($table)) {
+            $this->tables[] = $table;
+            $table->addUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTable(Table $table): self
+    {
+        if ($this->tables->removeElement($table)) {
+            $table->removeUser($this);
+        }
+
+        return $this;
+    }
+
+
+    public function isInscrit(User $user, Table $table): Bool
+    {
+        if ($table->getPlayers()->contains($user)){
+            return true;
+        }
+
+        return false;
     }
 }

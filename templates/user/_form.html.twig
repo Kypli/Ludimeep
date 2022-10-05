@@ -15,66 +15,66 @@
 
 			{# NOM #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.nom) }}
+				{{ form_label(form.profil.nom) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.nom) }}
+				{{ form_widget(form.profil.nom) }}
 			</div>
 
 			{# PRENOM #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.prenom) }}
+				{{ form_label(form.profil.prenom) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.prenom) }}
+				{{ form_widget(form.profil.prenom) }}
 			</div>
 
 			{# MAIL #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.mail) }}
+				{{ form_label(form.profil.mail) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.mail) }}
+				{{ form_widget(form.profil.mail) }}
 			</div>
 
 			{# ADRESSE #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.adresse) }}
+				{{ form_label(form.profil.adresse) }}
 			</div>
 			<div class="col-5 mb-4">
-				{{ form_widget(form.userProfil.adresse) }}
+				{{ form_widget(form.profil.adresse) }}
 			</div>
 
 			{# VILLE #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.ville) }}
+				{{ form_label(form.profil.ville) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.ville) }}
+				{{ form_widget(form.profil.ville) }}
 			</div>
 
 			{# CODE POSTAL #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.codePostal) }}
+				{{ form_label(form.profil.codePostal) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.codePostal) }}
+				{{ form_widget(form.profil.codePostal) }}
 			</div>
 
 			{# PAYS #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.pays) }}
+				{{ form_label(form.profil.pays) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.pays) }}
+				{{ form_widget(form.profil.pays) }}
 			</div>
 
 			{# TÉLÉPHONE #}
 			<div class="{{ label }}">
-				{{ form_label(form.userProfil.telephone) }}
+				{{ form_label(form.profil.telephone) }}
 			</div>
 			<div class="{{ widget }}">
-				{{ form_widget(form.userProfil.telephone) }}
+				{{ form_widget(form.profil.telephone) }}
 			</div>
 		</div>
 	{% endif %}
@@ -177,69 +177,69 @@
 			{# ADHERANT #}
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.adherant) }}
+					{{ form_label(form.asso.adherant) }}
 				</div>
 				<div class="{{ widget }}">
-					{{ form_widget(form.userAsso.adherant) }}
+					{{ form_widget(form.asso.adherant) }}
 				</div>
 
 				{# DATE INSCRIPTION #}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.dateInscription) }}
+					{{ form_label(form.asso.dateInscription) }}
 				</div>
 				<div class="{{ widget }}">
-					{{ form_widget(form.userAsso.dateInscription) }}
+					{{ form_widget(form.asso.dateInscription) }}
 				</div>
 
 				{# DATE FIN ADHÉSION #}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.dateFinAdhesion) }}
+					{{ form_label(form.asso.dateFinAdhesion) }}
 				</div>
 				<div class="{{ widget }}">
-					{{ form_widget(form.userAsso.dateFinAdhesion) }}
+					{{ form_widget(form.asso.dateFinAdhesion) }}
 				</div>
 			{% endif %}
 
 			{# DROIT IMAGE #}
 			<div class="{{ label }}">
-				{{ form_label(form.userAsso.droitImage) }}
+				{{ form_label(form.asso.droitImage) }}
 			</div>
 			<div class="{{ widget }} pt-2">
-				{{ form_widget(form.userAsso.droitImage) }}
+				{{ form_widget(form.asso.droitImage) }}
 			</div>
 
 			{# NOTORIETE #}
 			<div class="{{ label }}">
-				{{ form_label(form.userAsso.notoriete) }}
+				{{ form_label(form.asso.notoriete) }}
 			</div>
 			<div class="col-4 mb-4">
-				{{ form_widget(form.userAsso.notoriete) }}
+				{{ form_widget(form.asso.notoriete) }}
 			</div>
 
 			{% if is_granted('ROLE_ADMIN') %}
 
 				{# ROLE CA #}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.roleCa) }}
+					{{ form_label(form.asso.roleCa) }}
 				</div>
 				<div class="{{ widget }}">
-					{{ form_widget(form.userAsso.roleCa) }}
+					{{ form_widget(form.asso.roleCa) }}
 				</div>
 
 				{# DATE FIN MANDAT #}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.dateFinMandat) }}
+					{{ form_label(form.asso.dateFinMandat) }}
 				</div>
 				<div class="{{ widget }}">
-					{{ form_widget(form.userAsso.dateFinMandat) }}
+					{{ form_widget(form.asso.dateFinMandat) }}
 				</div>
 
 				{# MEMBRE D'HONNEUR #}
 				<div class="{{ label }}">
-					{{ form_label(form.userAsso.membreHonneur) }}
+					{{ form_label(form.asso.membreHonneur) }}
 				</div>
 				<div class="{{ widget }} pt-2">
-					{{ form_widget(form.userAsso.membreHonneur) }}
+					{{ form_widget(form.asso.membreHonneur) }}
 				</div>
 			{% endif %}
 		{% endif %}

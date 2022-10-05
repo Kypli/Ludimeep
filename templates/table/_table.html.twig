@@ -1,0 +1,126 @@
+{# OUVERTURE TABLE #}
+{% if null != app.user or (null == app.user and seance.tables|length > 0) %}
+	<hr>
+	<div class='offset-3 col-6 pt-2'>
+		<i class="fas fa-border-all" title='Tables'></i>
+		TABLE{{ seance.tables|length > 1 ? 'S' }}
+		<i class="fas fa-border-all" title='Tables'></i>
+	</div>
+{% endif %}
+
+{# OUVRIR UNE TABLE #}
+{% if null != app.user %}
+	{% set seance_tables_max = seance.tables|length >= seance_max_table ? true : false %}
+	<div
+		class="col-3 {{ seance_tables_max ? 'pointeur_help' }}"
+		title="{{ seance_tables_max ? 'Limite de tables atteinte pour cette séance' : 'Ouvrir une table' }}">
+		<div 
+			class="col-2 openTable btn btn-{{ seance_tables_max ? 'secondary disabled' : 'info' }}"
+			data-seance='{{ seance.date|date('Y/m/d') }}'
+			data-seancebis='{{ seance.date|date('Y_m_d') }}'
+		>
+			<i class="fas fa-plus"></i>
+		</div>
+	</div>
+{% endif %}
+
+{# TABLES #}
+{% for table in seance.tables %}
+
+	{# VARS #}
+	{% set nbPlace = table.maxPlayer <= table_players_max ? table.maxPlayer : table_players_max %}
+	{% set inscrit = null != app.user and app.user.isInscrit(app.user, table) ? true : false %}
+
+	<div class="table-bordure">
+
+		{# NOM DU JEU #}
+		<div 
+			class='col-12 mt-1 mb-2 taille15 gras souligne'
+			title='{{ null != table.game and null != table.game.time and table.game.time|date('H:i') != '00:00' 
+				? "Durée estimée : " ~ table.game.time|date('H') ~ "h" ~ table.game.time|date('i')
+				: 'Pas de durée estimée'
+			}}'
+		>
+			{{ null != table.gameFree ? table.gameFree|capitalize : table.game.name|capitalize }}
+		</div>
+
+		{# FORM INSCRIPTION #}
+		{% if null != app.user %}
+
+			{% set table_presence_form = null %}
+			{% set test = app.session.get('table_nb_presence_form') %}
+
+			{% if test == 1 %}
+				{% set table_presence_form = table_presence_form_1 %}
+
+			{% elseif test == 2 %}
+				{% set table_presence_form = table_presence_form_2 %}
+
+			{% elseif test == 3 %}
+				{% set table_presence_form = table_presence_form_3 %}
+
+			{% elseif test == 4 %}
+				{% set table_presence_form = table_presence_form_4 %}
+
+			{% elseif test == 5 %}
+				{% set table_presence_form = table_presence_form_5 %}
+
+			{% elseif test == 6 %}
+				{% set table_presence_form = table_presence_form_6 %}
+
+			{% elseif test == 7 %}
+				{% set table_presence_form = table_presence_form_7 %}
+
+			{% elseif test == 8 %}
+				{% set table_presence_form = table_presence_form_8 %}
+
+			{% else %}
+				{% set table_presence_form = table_presence_form_1 %}
+
+			{% endif %}
+
+			{{ app.session.set('table_nb_presence_form', app.session.get('table_nb_presence_form') + 1) }}
+
+
+			{% include('table/_form_presence.html.twig')  with {
+					'form': table_presence_form,
+					'inscrit': inscrit,
+				}
+			%}
+		{% endif %}
+
+		{# LOOP PLAYERS #}
+		{% for player in table.players %}
+
+			{# VARS #}
+			{% set nbPlace = nbPlace - 1 %}
+			{% set playerUser = null != app.user and player.id == app.user.id ? true : false %}
+			{% set gerant = table.gerant == player ? true : false %}
+			{% set name = null != player.profil.prenom ? ' (' ~ player.profil.prenom|capitalize ~ ')' : '' %}
+
+			{# PLAYERS #}
+			<div
+				class='col-12 table-player{{ playerUser ? '-user' : gerant ? '-gerant' }} {{ gerant ? 'pointeur_help' }} taille15'
+				title='{{ gerant ? 'Administrateur de la table'}}{{ playerUser ? gerant ? ' - Vous même' : 'Vous même' }}'
+			>
+				{{ gerant ? '*'}}
+				{{ player.userName|capitalize }}{{ name }}
+			</div>
+		{% endfor %}
+
+		{# PLACE LIBRE #}
+		{% for i in 1..nbPlace %}
+			<div class='col-12 {{ loop.first ? 'mt-1' }} {{ loop.last ? 'mb-2' }} table-free italique taille15'>
+				Place libre {{ i }}
+			</div>
+		{% endfor %}
+
+		{# COMMENT #}
+		{% if table.comment %}
+			<div class='col-12 mb-2 taille15'>
+				{{ table.comment }}
+			</div>
+		{% endif %}
+
+	</div>
+{% endfor %}

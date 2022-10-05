@@ -1,0 +1,16 @@
+{{ form_start(tchat_form) }}
+
+	<div class="row">
+
+		<div class="offset-1 col-8 p-0">
+			{{ form_widget(tchat_form.content) }}
+		</div>
+		<div class="col-1">
+			<button class="btn btn-success input-valid">
+				<i class="far fa-comment-dots"></i>
+				{{ button_label|default('') }}
+			</button>
+		</div>
+	</div>
+
+{{ form_end(tchat_form) }}

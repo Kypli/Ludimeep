@@ -1,16 +1,14 @@
 TO DO LIST
 
 USER
-- Désactivation pourt user
+- Désactivation pour user au lieu de delete
 - Désactivation / Suppression pour admin
-- Control connection si user actif
+- Control connection si user actif = false
 
-HOME
-- Mini-Tchat
-	- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
-	- Form par ajax
-	- Meilleur design
-- Message pour les visiteurs uniquement sur ce qu'ils pourront faire en tant que membre
+
+MINI-TCHAT
+- Form par ajax
+- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
 
 
 ACTUALITÉS
@@ -18,6 +16,7 @@ ACTUALITÉS
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
 - Réduire la section de la page actu/show
+- Vérifier si pas de bug pour les photos
 
 
 SONDAGE
@@ -25,24 +24,13 @@ SONDAGE
 - Débug création date_début
 
 
-PRESENCE A UNE SESSION
-- Demander à un user d'ammener un jeu
-- Réserver une table avec un jeux
-	- Limiter les abus de réservation
-	- S'inscrire à une table
-
 TABLE
-- Réserver une table avec un jeux (perso / joueur présent / joueur absent / libre)
-- S'inscrire à une table
-- Limiter le nombre de tables maximum réservable
+- Demander à un user d'ammener un jeu
+- Si départ du gérant, supprimer la table
 
 
 JEUX
 - Lien vers jeux avec que ses propres jeux
-
-
-PROCHAINE DATES
-- Rajouter le lieu
 
 
 PHOTOS
@@ -64,6 +52,7 @@ CONVERSATION
 - Membre
 	- Réponse par mail possible si mail enregistré
 	- Envoyer un message à un membre
+	- Réponse par mail auto si user anonyme
 
 
 NEWSLETTER

@@ -1,0 +1,92 @@
+{{ form_start(form) }}
+
+	{# JEU #}
+	<div class="row center mt-2 row-games">
+
+		{# SOUS-TITRE JEUX #}
+		<div class="row mt-1 mb-1">
+			<h5 class="offset-1 col-11 alignLeft">Choisissez un jeu</h5>
+		</div>
+
+		{# JEUX USER #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameOwner) }}</div>
+			{{ form_widget(form.gameOwner) }}
+		</div>
+		<div class="col-3"></div>
+
+		{# JEUX PRESENT #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gamePresent) }}</div>
+			{{ form_widget(form.gamePresent) }}
+		</div>
+		<div class="col-3"></div>
+
+		{# JEUX ADHERANT #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameAdherant) }}</div>
+			{{ form_widget(form.gameAdherant) }}
+		</div>
+		<div class="col-3"></div>
+
+		{# JEUX LIBRE #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.gameFree) }}</div>
+			{{ form_widget(form.gameFree) }}
+		</div>
+		<div class="col-3"></div>
+	</div>
+
+	{# SEANCE #}
+	{# <div class="row center mt-2 row-seance"> #}
+
+		{# SOUS-TITRE SEANCE #}
+		{# <div class="row mt-3 mb-2">
+			<h5 class="offset-1 col-11 alignLeft">Séance</h5>
+		</div> #}
+
+		{# SÉANCE #}
+		{# <div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.seance) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.seance) }}
+		</div> #}
+	{# </div> #}
+
+	{# PLAYERS #}
+	<div class="row center mt-2 row-players">
+
+		{# SOUS-TITRE LIMITE PLAYERS #}
+		<div class="row mt-3 mb-1">
+			<h5 class="offset-1 col-11 alignLeft">Limite de joueurs</h5>
+		</div>
+
+		{# MAXPLAYER #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.maxPlayer) }}</div>
+			{{ form_widget(form.maxPlayer) }}
+			<small id='suggestMaxPlayer' class="hidden">Suggestion de nombre de joueurs maximum: <span id='suggestMaxPlayerNumber'>1</span></small>
+		</div>
+		<div class="col-3"></div>
+	</div>
+
+	{# COMMENT #}
+	<div class="row center mt-2 row-players">
+
+		{# AUTRE #}
+		<div class="row mt-3 mb-1">
+			<h5 class="offset-1 col-11 alignLeft">Autre</h5>
+		</div>
+
+		{# COMMENT #}
+		<div class="offset-3 col-6 mb-2 pt-2 alignLeft">
+			<div class="alignLeft pb-1">{{ form_label(form.comment) }}</div>
+			{{ form_widget(form.comment) }}
+		</div>
+		<div class="col-3"></div>
+	</div>
+
+	<button type='submit' id='btn_submit' class="btn btn-success mt-3" disabled='disabled'>{{ button_label|default('Ouvrir la table') }}</button>
+
+{{ form_end(form) }}

@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\GameRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,7 +40,7 @@ class Game
     private $difficult;
 
     /**
-     * @ORM\Column(type="float", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $version;
 
@@ -51,6 +53,16 @@ class Game
      * @ORM\Column(type="time", nullable=true)
      */
     private $time;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Table::class, mappedBy="game", orphanRemoval=true)
+     */
+    private $tables;
+
+    public function __construct()
+    {
+        $this->tables = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,12 +117,12 @@ class Game
         return $this;
     }
 
-    public function getVersion(): ?float
+    public function getVersion(): ?string
     {
         return $this->version;
     }
 
-    public function setVersion(?float $version): self
+    public function setVersion(?string $version): self
     {
         $this->version = $version;
 
@@ -137,6 +149,36 @@ class Game
     public function setTime(?\DateTimeInterface $time): self
     {
         $this->time = $time;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Table>
+     */
+    public function getTables(): Collection
+    {
+        return $this->tables;
+    }
+
+    public function addTable(Table $table): self
+    {
+        if (!$this->tables->contains($table)) {
+            $this->tables[] = $table;
+            $table->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTable(Table $table): self
+    {
+        if ($this->tables->removeElement($table)) {
+            // set the owning side to null (unless already changed)
+            if ($table->getGame() === $this) {
+                $table->setGame(null);
+            }
+        }
 
         return $this;
     }

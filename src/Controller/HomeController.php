@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Tchat;
+use App\Entity\Table;
 use App\Entity\UserAsso;
 use App\Entity\UserProfil;
 
@@ -13,13 +14,25 @@ use App\Repository\UserProfilRepository;
 use App\Repository\UserAssoRepository;
 
 use App\Repository\ActuRepository;
+use App\Repository\GameRepository;
 use App\Repository\TchatRepository;
+use App\Repository\TableRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
+use App\Repository\SeanceLieuRepository;
 
 use App\Form\TchatType as TchatForm;
-use App\Form\SeancePresence1Type as SeancePresenceForm1;
-use App\Form\SeancePresence2Type as SeancePresenceForm2;
+use App\Form\TableType as TableForm;
+use App\Form\SeancePresence1Type as SeancePresence1Form;
+use App\Form\SeancePresence2Type as SeancePresence2Form;
+use App\Form\tablePresence\TablePresence1Type as TablePresence1Form;
+use App\Form\tablePresence\TablePresence2Type as TablePresence2Form;
+use App\Form\tablePresence\TablePresence3Type as TablePresence3Form;
+use App\Form\tablePresence\TablePresence4Type as TablePresence4Form;
+use App\Form\tablePresence\TablePresence5Type as TablePresence5Form;
+use App\Form\tablePresence\TablePresence6Type as TablePresence6Form;
+use App\Form\tablePresence\TablePresence7Type as TablePresence7Form;
+use App\Form\tablePresence\TablePresence8Type as TablePresence8Form;
 
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
@@ -33,7 +46,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class HomeController extends AbstractController
 {
-	const AFFICHAGE_MAX_SEANCE = 2;
+	const SEANCE_AFFICHAGE_MAX = 2;
+	const SEANCE_MAX_TABLE = 2;
+
+	const TABLE_PLAYERS_MAX = 12;
 
 	/**
 	 * @Route("/", name="")
@@ -41,49 +57,80 @@ class HomeController extends AbstractController
 	public function index(
 		Request $request,
 		ActuRepository $ar,
+		TableRepository $tar,
 		TchatRepository $tr,
 		SeanceRepository $ser,
+		SeanceLieuRepository $slr,
 		SondageRepository $sr,
+		GameRepository $gr,
 		DiscussionSer $discussionSer,
 		AuthenticationUtils $authenticationUtils
 	){
+		// User
+		$user = $this->getUser();
+
 		// Discussions
 		$discussionSer->update();
 
 		// Séances
-		$seances = $this->seances($ser->getOldSeance(self::AFFICHAGE_MAX_SEANCE), $ser->getNextSeance(self::AFFICHAGE_MAX_SEANCE));
-		$forms_seances = $this->seancesForm($seances, $ser, $request);
+		$seances_table = $this->seancesTable($ser, $user);
+		$seances = $this->seances($ser->getOldSeance(self::SEANCE_AFFICHAGE_MAX), $ser->getNextSeance(SELF::SEANCE_AFFICHAGE_MAX));
+		$seance_presence_forms = $this->seancesForm($seances, $ser, $tar, $request, $user);
 
 		// Tchat
-		$form_tchat = $this->tchatForm($tr, $request);
+		$tchat_form = $this->tchatForm($tr, $request, $user);
+
+		// Table
+		$this->get('session')->set('table_nb_presence_form', 1);
+		$table_form = $this->tableForm($tar, $ser, $gr, $request, $user);
+		$table_presence_forms = $this->tablesPresenceForm($seances, $tar, $ser, $request, $user);
 
 		// Form valid
-		if ($forms_seances === false || $form_tchat === false){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
+		if (
+			$seance_presence_forms === false ||
+			$table_presence_forms === false ||
+			$tchat_form === false ||
+			$table_form === false
+		){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
 
 		return $this->render('home/index.html.twig',[
 
+			// Authentification
+			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
+			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
+
 			// Tchat
 			'tchats' => $tr->getLastTchats(),
-			'form_tchat' => $form_tchat->createView(),
+			'tchat_form' => $tchat_form->createView(),
 
-			// Séances
-			'seances' => $seances,
-			'form1' => $forms_seances[0]->createView(),
-			'form2' => $forms_seances[1]->createView(),
-
-			// Actus
-			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
+			// Tables
+			'table_form' => $table_form->createView(),
+			'table_players_max' => self::TABLE_PLAYERS_MAX,
+			'table_presence_form_1' => isset($table_presence_forms[0]) ? $table_presence_forms[0]->createView() : null,
+			'table_presence_form_2' => isset($table_presence_forms[1]) ? $table_presence_forms[1]->createView() : null,
+			'table_presence_form_3' => isset($table_presence_forms[2]) ? $table_presence_forms[2]->createView() : null,
+			'table_presence_form_4' => isset($table_presence_forms[3]) ? $table_presence_forms[3]->createView() : null,
+			'table_presence_form_5' => isset($table_presence_forms[4]) ? $table_presence_forms[4]->createView() : null,
+			'table_presence_form_6' => isset($table_presence_forms[5]) ? $table_presence_forms[5]->createView() : null,
+			'table_presence_form_7' => isset($table_presence_forms[6]) ? $table_presence_forms[6]->createView() : null,
+			'table_presence_form_8' => isset($table_presence_forms[7]) ? $table_presence_forms[7]->createView() : null,
 
 			// Sondage
 			'request' => $request,
 			'sondages' => $sr->getSondageRunning(),
 
+			// Actus
+			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
+
+			// Séances
+			'seances' => $seances,
+			'seance_max_table' => self::SEANCE_MAX_TABLE,
+			'seance_lieu_defaut' => $slr->findOneByDefaut(true),
+			'seance_presence_form_1' => $seance_presence_forms[0]->createView(),
+			'seance_presence_form_2' => $seance_presence_forms[1]->createView(),
+
 			// Calendrier
 			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
-
-			// Authentification
-			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
-			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 		]);
 	}
 
@@ -134,20 +181,28 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux séances
 	 */
-	public function seancesForm($seances, $ser, $request) 
+	public function seancesForm($seances, $ser, $tar, $request, $user) 
 	{
-		$user = $this->getUser();
-
 		/* -- Form 1 -- */
 		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
-		$form1 = $this->createForm(SeancePresenceForm1::class, $seance);
+		$form1 = $this->createForm(SeancePresence1Form::class, $seance);
 		$form1->handleRequest($request);
 
 		if ($form1->isSubmitted() && $form1->isValid()){
-			$user->inSeance($seance)
-				? $seance->removePresent($user)
-				: $seance->addPresent($user)
-			;
+			
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
+
+				// Retrait des tables
+				$tables = $seance->getTables();
+				foreach($tables as $table){
+					$table->removePlayer($user);
+					$tar->add($table, true);
+				}
+
+			} else {
+				$seance->addPresent($user);
+			}
 			$ser->add($seance, true);
 
 			return false;
@@ -156,14 +211,23 @@ class HomeController extends AbstractController
 		/* -- Form 2 -- */
 		$seance = !empty($seances) ? $seances[array_key_last($seances)] : null;
 
-		$form2 = $this->createForm(SeancePresenceForm2::class, $seance);
+		$form2 = $this->createForm(SeancePresence2Form::class, $seance);
 		$form2->handleRequest($request);
 
 		if ($form2->isSubmitted() && $form2->isValid()){
-			$user->inSeance($seance)
-				? $seance->removePresent($user)
-				: $seance->addPresent($user)
-			;
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
+
+				// Retrait des tables
+				$tables = $seance->getTables();
+				foreach($tables as $table){
+					$table->removePlayer($user);
+					$tar->add($table, true);
+				}
+
+			} else {
+				$seance->addPresent($user);
+			}
 			$ser->add($seance, true);
 
 			return false;
@@ -173,13 +237,27 @@ class HomeController extends AbstractController
 	}
 
 	/**
+	 * Renvoie les 3 prochaines séances pour le formulaire de table
+	 */
+	public function seancesTable($ser, $user) 
+	{
+		$seances = $ser->getNextSeance(3);
+
+		$result = [];
+		foreach ($seances as $seance){
+			$titre = ucfirst($this->dateToFrench($seance->getDate()->format('Y/m/d'), 'l d/m/Y'))." - ".$seance->getType()->getName();
+			$result[$titre] = $seance->getId();
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Mini-tchat Ajout de contenu
 	 */
-	public function tchatForm($tr, $request) 
+	public function tchatForm($tr, $request, $user)
 	{
 		$tchat = new Tchat();
-		$user = $this->getUser();
-
 
 		$form = $this->createForm(TchatForm::class, $tchat);
 		$form->handleRequest($request);
@@ -194,6 +272,133 @@ class HomeController extends AbstractController
 			$tr->add($tchat, true);
 
 			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Mini-tchat Ajout de contenu
+	 */
+	public function tableForm($tar, $ser, $gr, $request, $user)
+	{
+		$table = new Table();
+
+		$form = $this->createForm(TableForm::class, $table, [
+			'user_id' => !empty($user) ? $user->getId() : 0,
+			'seance_id' => 0,
+			'seances_table' => [],
+		]);
+
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid() && $user != null){
+
+			$table_req = $request->request->get('table');
+
+			// Game
+			$game = null;
+			if (null == $table->getGameFree()){
+
+				if (null != $table_req['gameOwner']){
+					$game = $gr->find($table_req['gameOwner']);
+
+				} elseif(null != $table_req['gamePresent']){
+					$game = $gr->find($table_req['gamePresent']);
+
+				} elseif(null != $table_req['gameAdherant']){
+					$game = $gr->find($table_req['gameAdherant']);
+
+				} else {
+					$this->addFlash('error', "Aucun jeu sélectionné.");
+					return false;
+				}
+			}
+
+			// Seance
+			$seance = $ser->getOneSeanceByDate($table_req['date']);
+			$seance = $seance[0];
+
+			$seance->addPresent($user);
+			$ser->add($seance, true);
+
+			// Table
+			$table
+				->setGerant($user)
+				->setSeance($seance)
+				->setGame($game)
+				->addPlayer($user)
+			;
+			$tar->add($table, true);
+
+			return false;
+		}
+
+		return $form;
+	}
+
+	/**
+	 * Gère les formulaires d'inscription aux tables
+	 */
+	public function tablesPresenceForm($seances, $tar, $ser, $request, $user) 
+	{
+		$ii = 1;
+		$form = [];
+
+		for ($i = 0; $i < self::SEANCE_AFFICHAGE_MAX; $i++){
+
+			$seance = $seances[$i];
+			$tables = $seance->getTables();
+
+			foreach($tables as $key => $table){
+
+				switch ($ii){
+					case 1:
+						$form_tempo = $this->createForm(TablePresence1Form::class, $table);
+						break;
+					case 2:
+						$form_tempo = $this->createForm(TablePresence2Form::class, $table);
+						break;
+					case 3:
+						$form_tempo = $this->createForm(TablePresence3Form::class, $table);
+						break;
+					case 4:
+						$form_tempo = $this->createForm(TablePresence4Form::class, $table);
+						break;
+					case 5:
+						$form_tempo = $this->createForm(TablePresence5Form::class, $table);
+						break;
+					case 6:
+						$form_tempo = $this->createForm(TablePresence6Form::class, $table);
+						break;
+					case 7:
+						$form_tempo = $this->createForm(TablePresence7Form::class, $table);
+						break;
+					case 8:
+						$form_tempo = $this->createForm(TablePresence8Form::class, $table);
+						break;
+					
+					default:
+						$form_tempo = $this->createForm(TablePresence1Form::class, $table);
+						break;
+				}
+				$form_tempo->handleRequest($request);
+
+				if ($form_tempo->isSubmitted() && $form_tempo->isValid()){
+					$user->isInscrit($user, $table)
+						? $table->removePlayer($user)
+						: $table->addPlayer($user) && $seance->addPresent($user)
+					;
+
+					$tar->add($table, true);
+					$ser->add($seance, true);
+
+					return false;
+				}
+
+				$form[] = $form_tempo;
+				$ii++;
+			}
 		}
 
 		return $form;

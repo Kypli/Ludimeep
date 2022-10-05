@@ -5,6 +5,17 @@
 	display: block;
 }*/
 
+
+/* COULEURS PRINCIPALES */
+/* Fond jaune sable #F5F5DC */
+/* Fond violet clair en-tête #CDA7E2 */
+/* Fond violet clair en-tête #CDA7E2 */
+/* Fond violet sombre titre en-tête + bordure #AB6BC9 */
+/* Fond violet section #BBADC1 */
+/* Fond violet clair 1 #E6D2EE */
+/* Fond violet clair 2 #D3C5D9 */
+
+
 /* Matrice */
 body {
 	background-color: #F5F5DC;
@@ -50,11 +61,6 @@ h4 {
 		#e7f6ff 0 -1px 0,
 		#8345a1 3px 3px 0,
 		#333 5px 5px 10px;
-}
-
-/* Section variante */
-.section-middle {
-	background-color: rgb(211, 197, 217);
 }
 
 /* Radius */
@@ -125,7 +131,7 @@ h4 {
 	display: block;
 	padding: 15px;
 	width: 95%;
-	margin-left: 15px;
+	margin-left: 10px;
 }
 
 

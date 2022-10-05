@@ -58,7 +58,7 @@ class UserAsso
     private $membreHonneur = 0;
 
     /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="userAsso", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="asso", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;

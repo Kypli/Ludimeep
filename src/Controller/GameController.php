@@ -8,6 +8,7 @@ use App\Form\GameType as GameForm;
 
 use App\Repository\UserRepository;
 use App\Repository\GameRepository;
+use App\Repository\SeanceRepository;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -116,8 +117,8 @@ class GameController extends AbstractController
 			'id' => $game->getId(),
 			'user_id' => $owner->getId(),
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getUserProfil()->getNom(),
-			'prenom' => $owner->getUserProfil()->getPrenom(),
+			'nom' => $owner->getProfil()->getNom(),
+			'prenom' => $owner->getProfil()->getPrenom(),
 		]);
 	}
 
@@ -177,8 +178,8 @@ class GameController extends AbstractController
 			'save' => true,
 			'user_id' => $owner->getId(),
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getUserProfil()->getNom(),
-			'prenom' => $owner->getUserProfil()->getPrenom(),
+			'nom' => $owner->getProfil()->getNom(),
+			'prenom' => $owner->getProfil()->getPrenom(),
 		]);
 	}
 
@@ -248,9 +249,28 @@ class GameController extends AbstractController
 			'time_hour' => $time_hour,
 			'time_minute' => $time_minute,
 			'userName' => $owner->getUserName(),
-			'nom' => $owner->getUserProfil()->getNom(),
-			'prenom' => $owner->getUserProfil()->getPrenom(),
+			'nom' => $owner->getProfil()->getNom(),
+			'prenom' => $owner->getProfil()->getPrenom(),
 			'user_id' => $owner->getId(),
 		]);
+	}
+
+	/**
+	 * @Route("/liste_adherant/{date}", name="_liste_adherant", options={"expose"=true})
+	 * Récupère un jeu
+	 * Pour requête ajax seulement
+	 */
+	public function listeAdherant($date, GameRepository $gr, SeanceRepository $ser, Request $request)
+	{
+		// Control request
+		if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
+
+		// Seance
+		$seance = $ser->getOneSeanceByDate(str_replace('_', "/", $date));
+		$seance = $seance[0];
+
+		$liste = $gr->getListeAdherant($seance->getId(), $this->getUser()->getId());
+
+		return new JsonResponse($liste);
 	}
 }

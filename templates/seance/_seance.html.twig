@@ -1,0 +1,112 @@
+<div class='row m-1 p-2 {{ loop.last != true ? 'mb-2' }} seances{{ seance_key is divisible by(2) ? '-odd' }}'>
+
+	{# INFOS #}
+	<div class='col-12'>
+
+		{# TYPE #}
+		<div class='taille17 gras souligne mb-2 mt-1'>{{ seance.type.name }}</div>
+
+		{# DATE #}
+		<span class='taille15'>
+			le <span class='italique'>{{ seance.date|date('d/m/Y') }}</span> à partir de
+			{% set hours = '0' in seance.date|date('H') ? seance.date|date('H')|slice(1, 1) : seance.date|date('H') %}
+			{% set minutes = seance.date|date('i') != '00' ? seance.date|date('i') %}
+			<span class='italique'>{{ hours ~ 'h' ~ minutes }}</span>
+		</span>
+		<br/>
+
+		{# DURÉE #}
+		{% if seance.duree %}
+			<div class='taille14 mt-1'>
+				Durée ~
+				<span class='italique'>
+					{{ '0' in seance.duree|date('H') ? seance.duree|date('H')|slice(1, 1) : seance.duree|date('H') }}h
+					{{ seance.duree|date('i') != '00' ? seance.duree|date('i') ~ 'mn' }}
+				</span>
+			</div>
+		{% endif %}
+
+		{# LIEU #}
+		{% set lieu = null != seance.lieu ? seance.lieu : seance_lieu_defaut %}
+		<div class='taille14 mt-1 mb-2'>
+			Lieu - 
+			<a
+				href='http://www.google.com/search?q={{ lieu.adresse }}+{{ lieu.codePostal }}+{{ lieu.ville }}'
+				class='italique cursor_help'
+				title="{{ lieu.adresse ~ ', ' ~ lieu.codePostal ~ ', ' ~ lieu.ville }}"
+			>
+				{{ lieu.name }}
+			</a>
+		</div>
+
+		{# COMMENT #}
+		{% if seance.comment %}
+			<div class='mb-3'>
+				<span class='taille15'>{{ seance.comment }}</span>
+			</div>
+		{% endif %}
+	</div>
+
+	{# EN COURS #}
+	{% if seance.date <= date('now') %}
+		<div class='entoure seance-actif'>En cours !</div>
+
+	{# TIMER #}
+	{% else %}
+		<span class="timer"></span>
+		<div
+			id="countdown{{ loop.index }}"
+			class="countdown mb-3"
+			data-date='{{ seance.date|date('Y-m-d') }}'
+			data-hour='{{ seance.date|date('H') }}'
+			data-minute='{{ seance.date|date('i') }}'
+		>
+			<div class="counter" count="days"><span b="--"></span><b>Jours</b></div>
+			<div class="counter" count="hours"><span b="--"></span><b>Heures</b></div>
+			<div class="counter" count="minutes"><span b="--"></span><b>Min</b></div>
+			<div class="counter" count="seconds"><span b="--"></span><b>Sec</b></div>
+		</div>
+	{% endif %}
+
+	{# PERSONNES PRESENTES #}
+	{% set user_presence = app.user != null ? app.user.inSeance(seance) : false %}
+	{% for present in seance.presents %}
+		{% if loop.first %}
+			<hr class="mt-2">
+			<div class='col-12'>
+				Personnes présentes
+			</div>
+		{% endif %}
+		<div class='col-12 center present{{ loop.index is odd ? '-odd' }} {{ loop.last ? 'mb-3' }}'>
+			<span class='taille15'>{{ present.userName|capitalize }}</span>
+			{% if present.profil.prenom != null %}
+				<span class='taille14'>({{ present.profil.prenom|capitalize }})</span>
+			{% endif %}
+		</div>
+	{% endfor %}
+
+	{# TABLE #}
+	{% include 'table/_table.html.twig' %}
+
+	{# PRÉSENCE INSCRIPTION #}
+	{% if is_granted('ROLE_USER') %}
+		<hr class="mt-1">
+		<div class="col-12">
+			{{
+				user_presence
+					? "<i class='fas fa-check green'></i> J'ai confirmé ma présence"
+					: "<i class='fas fa-times red'></i> <span class='taille14'>Je n'ai pas confirmé ma présence</span>"
+			}}
+		</div>
+
+		{# FORM #}
+		{% set form = loop.index == 1 ? seance_presence_form_1 : seance_presence_form_2 %}
+		{% include('seance/_form_presence.html.twig')  with {
+				'form': form,
+				'presence': user_presence,
+				'presence_text': user_presence ? "J'ai changé d'avis" : 'Je serai présent',
+			}
+		%}
+
+	{% endif %}
+</div>

@@ -4,12 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Seance;
 use App\Entity\SeanceType;
+use App\Entity\SeanceLieu;
 
 use App\Repository\SeanceRepository;
 use App\Repository\SeanceTypeRepository;
+use App\Repository\SeanceLieuRepository;
 
 use App\Form\SeanceType as SeanceForm;
 use App\Form\SeanceTypeType as SeanceTypeForm;
+use App\Form\SeanceLieuType as SeanceLieuForm;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -149,5 +152,92 @@ class SeanceController extends AbstractController
 		}
 
 		return $this->redirectToRoute('seance_type', [], Response::HTTP_SEE_OTHER);
+	}
+
+	/**
+	 * @Route("/lieu", name="_lieu", methods={"GET"})
+	 */
+	public function lieu(SeanceLieuRepository $slr): Response
+	{
+		return $this->render('seance/lieu/index.html.twig', [
+			'lieus' => $slr->findAll(),
+		]);
+	}
+
+	/**
+	 * @Route("/lieu/add", name="_lieu_add", methods={"GET", "POST"})
+	 */
+	public function lieuAdd(Request $request, SeanceLieuRepository $slr): Response
+	{
+		$lieu = new SeanceLieu();
+		$form = $this->createForm(SeanceLieuForm::class, $lieu);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()){
+
+			// Désactive le défaut des autres lieu si le défaut est actif
+			if ($lieu->isDefaut()){
+				$lieux = $slr->findAll();
+				foreach($lieux as $lieu_bis){
+					if ($lieu_bis->getId() != $lieu->getId()){
+						$lieu_bis->setDefaut(false);
+						$slr->add($lieu_bis, true);
+					}
+				}
+			}
+
+			$slr->add($lieu, true);
+
+			return $this->redirectToRoute('seance_lieu', [], Response::HTTP_SEE_OTHER);
+		}
+
+		return $this->renderForm('seance/lieu/add.html.twig', [
+			'lieu' => $lieu,
+			'form' => $form,
+		]);
+	}
+
+	/**
+	 * @Route("/lieu/{id}/edit", name="_lieu_edit", methods={"GET", "POST"})
+	 */
+	public function lieuEdit(Request $request, SeanceLieu $lieu, SeanceLieuRepository $slr): Response
+	{
+		$form = $this->createForm(SeanceLieuForm::class, $lieu);
+		$form->handleRequest($request);
+
+		if ($form->isSubmitted() && $form->isValid()){
+
+			// Désactive le défaut des autres lieu si le défaut est actif
+			if ($lieu->isDefaut()){
+				$lieux = $slr->findAll();
+				foreach($lieux as $lieu_bis){
+					if ($lieu_bis->getId() != $lieu->getId()){
+						$lieu_bis->setDefaut(false);
+						$slr->add($lieu_bis, true);
+					}
+				}
+			}
+
+			$slr->add($lieu, true);
+
+			return $this->redirectToRoute('seance_lieu', [], Response::HTTP_SEE_OTHER);
+		}
+
+		return $this->renderForm('seance/lieu/edit.html.twig', [
+			'lieu' => $lieu,
+			'form' => $form,
+		]);
+	}
+
+	/**
+	 * @Route("/lieu/{id}", name="_lieu_delete", methods={"GET", "POST"})
+	 */
+	public function lieuDelete(Request $request, SeanceLieu $lieu, SeanceLieuRepository $slr): Response
+	{
+		if ($this->isCsrfTokenValid('delete'.$lieu->getId(), $request->request->get('_token'))) {
+			$slr->remove($lieu, true);
+		}
+
+		return $this->redirectToRoute('seance_lieu', [], Response::HTTP_SEE_OTHER);
 	}
 }

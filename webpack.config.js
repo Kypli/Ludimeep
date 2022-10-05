@@ -44,6 +44,9 @@ Encore
     .addEntry('sondage_index', './assets/js/sondage/sondage.js')
     .addStyleEntry('sondage_show', './assets/styles/sondage/sondage.css')
 
+    // Table
+    .addEntry('table', './assets/js/table/table.js')
+
     // Tchat
     .addEntry('tchat', './assets/js/tchat/tchat.js')
 
@@ -51,7 +54,7 @@ Encore
     .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
     // Actu
-    .addStyleEntry('actu_show', './assets/styles/actu/style.css')
+    .addStyleEntry('actu_show', './assets/styles/actu/actu.css')
 
     // Photo
     .addEntry('photo', './assets/js/photo/photo.js')

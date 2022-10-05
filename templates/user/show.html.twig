@@ -38,35 +38,35 @@
 						<tbody>
 							<tr>
 								<th>Nom</th>
-								<td class="smallbox">{{ user.userProfil.nom }}</td>
+								<td class="smallbox">{{ user.profil.nom }}</td>
 							</tr>
 							<tr>
 								<th>Prénom</th>
-								<td>{{ user.userProfil.prenom }}</td>
+								<td>{{ user.profil.prenom }}</td>
 							</tr>
 							<tr>
 								<th>Courriel</th>
-								<td>{{ user.userProfil.mail }}</td>
+								<td>{{ user.profil.mail }}</td>
 							</tr>
 							<tr>
 								<th>Adresse</th>
-								<td>{{ user.userProfil.adresse }}</td>
+								<td>{{ user.profil.adresse }}</td>
 							</tr>
 							<tr>
 								<th>Ville</th>
-								<td>{{ user.userProfil.ville }}</td>
+								<td>{{ user.profil.ville }}</td>
 							</tr>
 							<tr>
 								<th>Code postal</th>
-								<td>{{ user.userProfil.codePostal }}</td>
+								<td>{{ user.profil.codePostal }}</td>
 							</tr>
 							<tr>
 								<th>Pays</th>
-								<td>{{ user.userProfil.pays }}</td>
+								<td>{{ user.profil.pays }}</td>
 							</tr>
 							<tr>
 								<th>Téléphone</th>
-								<td>{{ user.userProfil.telephone }}</td>
+								<td>{{ user.profil.telephone }}</td>
 							</tr>
 						</tbody>
 					</table>
@@ -118,51 +118,51 @@
 						<tbody>
 							<tr>
 								<th>Adhérant ?</th>
-								<td>{{ user.userAsso.adherant is not null  ? 'Oui' : 'Non' }}</td>
+								<td>{{ user.asso.adherant is not null  ? 'Oui' : 'Non' }}</td>
 							</tr>
-							{% if user.userAsso.adherant %}
+							{% if user.asso.adherant %}
 								<tr>
 									<th>N° adhérant</th>
-									<td>{{ user.userAsso.adherant }}</td>
+									<td>{{ user.asso.adherant }}</td>
 								</tr>
 								<tr>
 									<th>Date d'inscription</th>
-									<td>{{ user.userAsso.dateInscription is null ? '' : user.userAsso.dateInscription|date('d/m/Y') }}</td>
+									<td>{{ user.asso.dateInscription is null ? '' : user.asso.dateInscription|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Date de fin d'adhésion</th>
-									<td>{{ user.userAsso.dateFinAdhesion is null ? '' : user.userAsso.dateFinAdhesion|date('d/m/Y') }}</td>
+									<td>{{ user.asso.dateFinAdhesion is null ? '' : user.asso.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Membre du CA ?</th>
 									<td>
-										{{ user.userAsso.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+										{{ user.asso.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
 									</td>
 								</tr>
-								{% if user.userAsso.roleCa is not null %}
+								{% if user.asso.roleCa is not null %}
 									<tr>
 										<th>Rôle du CA</th>
-										<td>{{ user.userAsso.roleCa }}</td>
+										<td>{{ user.asso.roleCa }}</td>
 									</tr>
 									<tr>
 										<th>Date de fin de mandat</th>
-										<td>{{ user.userAsso.dateFinMandat is null ? '' : user.userAsso.dateFinMandat|date('d/m/Y') }}</td>
+										<td>{{ user.asso.dateFinMandat is null ? '' : user.asso.dateFinMandat|date('d/m/Y') }}</td>
 									</tr>
 								{% endif %}
 								<tr>
 									<th>Membre d'honneur ?</th>
-									<td>{{ user.userAsso.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+									<td>{{ user.asso.membreHonneur ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 								</tr>
 							{% endif %}
 							<tr>
 								<th>J'autorise l'utilisation de mon image ?</th>
 								<td>
-									{{ user.userAsso.droitImage is null ? 'Sans réponse' : user.userAsso.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+									{{ user.asso.droitImage is null ? 'Sans réponse' : user.asso.droitImage ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
 								</td>
 							</tr>
 							<tr>
 								<th>Vous avez connu Ludi-Meep' gràce à</th>
-								<td>{{ user.userAsso.notoriete }}</td>
+								<td>{{ user.asso.notoriete }}</td>
 							</tr>
 							{% if is_granted('ROLE_ADMIN') %}
 								<tr>

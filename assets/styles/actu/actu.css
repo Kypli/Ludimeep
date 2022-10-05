@@ -10,6 +10,15 @@
 
 
 /* ACTU */
+.actu {
+	border: 1px solid #AB6BC9;
+	background-color: #E6D2EE;
+}
+.actu-odd {
+	border: 1px solid #AB6BC9;
+	background-color: #D3C5D9;
+}
+
 .actu ul {
 	text-align: left;
 	margin-left: 8%;
