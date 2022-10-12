@@ -9,7 +9,7 @@
 		{# DATE #}
 		<span class='taille15'>
 			le <span class='italique'>{{ seance.date|date('d/m/Y') }}</span> à partir de
-			{% set hours = '0' in seance.date|date('H') ? seance.date|date('H')|slice(1, 1) : seance.date|date('H') %}
+			{% set hours = '0' in seance.date|date('H')|slice(0, 1) ? seance.date|date('H')|slice(1, 1) : seance.date|date('H') %}
 			{% set minutes = seance.date|date('i') != '00' ? seance.date|date('i') %}
 			<span class='italique'>{{ hours ~ 'h' ~ minutes }}</span>
 		</span>
