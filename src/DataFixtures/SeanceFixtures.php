@@ -7,7 +7,6 @@ use App\Entity\Seance as Entity;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
-
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class SeanceFixtures extends Fixture implements DependentFixtureInterface, FixtureGroupInterface
