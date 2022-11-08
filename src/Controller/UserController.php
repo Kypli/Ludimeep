@@ -13,6 +13,8 @@ use App\Repository\DiscussionRepository;
 
 use App\Form\UserType;
 
+use App\Service\LigneComptable as LigneComptableSer;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
@@ -35,8 +37,11 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/", name="", methods={"GET"})
 	 */
-	public function index(UserRepository $ur): Response
+	public function index(UserRepository $ur, LigneComptableSer $ligneComptableSer): Response
 	{
+		// Lignes comptables
+		$ligneComptableSer->update();
+
 		return $this->render('user/index.html.twig', [
 			'users' => $ur->findAll(),
 		]);
@@ -363,7 +368,7 @@ class UserController extends AbstractController
 		}
 
 		// Si newsletter, doit avoir un mail
-		if (empty($user->getProfil()->getMail()) && $user->getNewsletter()){
+		if (empty($user->getProfil()->getMail()) && $user->isNewsletter()){
 			$this->addFlash('error', "Vous devez avoir un courriel pour être inscrit à la newsletter.");
 			return false;
 		}

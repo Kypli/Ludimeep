@@ -1,0 +1,11 @@
+<form
+    method="post"
+    action="{{ path('operation_delete', {'id': operation.id}) }}"
+    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette opération ? Cette action est irréversible !');
+">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ operation.id) }}">
+    <button class="btn btn-danger">
+        <i class="fas fa-times"></i>
+        Supprimer
+    </button>
+</form>

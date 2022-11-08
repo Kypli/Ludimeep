@@ -49,6 +49,11 @@
 					<a class="admin-li hoverable nav-link {{ route == 'user' ? 'active'}}" aria-current="page" href="{{ path('user') }}">
 						<i class="fas fa-user" title='Liste des membres'></i>
 						Membres
+						{% set solde_unvalid = app.session.get('solde_unvalid') != null ? app.session.get('solde_unvalid') : '0' %}
+						{% set pluriel = solde_unvalid > 1 ? 's' : '' %}
+						{% if solde_unvalid > 0 %}
+							<span title="{{ solde_unvalid }} ligne{{ pluriel }} à validée{{ pluriel }}">({{ solde_unvalid }})</span> 
+						{% endif %}
 					</a>
 				</li>
 

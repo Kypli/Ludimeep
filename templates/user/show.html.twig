@@ -118,7 +118,7 @@
 						<tbody>
 							<tr>
 								<th>Adhérant ?</th>
-								<td>{{ user.asso.adherant is not null  ? 'Oui' : 'Non' }}</td>
+								<td>{{ user.asso.adherant == true ? 'Oui' : 'Non' }}</td>
 							</tr>
 							{% if user.asso.adherant %}
 								<tr>
@@ -127,11 +127,11 @@
 								</tr>
 								<tr>
 									<th>Date d'inscription</th>
-									<td>{{ user.asso.dateInscription is null ? '' : user.asso.dateInscription|date('d/m/Y') }}</td>
+									<td>{{ user.asso.dateInscription == null ? '' : user.asso.dateInscription|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Date de fin d'adhésion</th>
-									<td>{{ user.asso.dateFinAdhesion is null ? '' : user.asso.dateFinAdhesion|date('d/m/Y') }}</td>
+									<td>{{ user.asso.dateFinAdhesion == null ? '' : user.asso.dateFinAdhesion|date('d/m/Y') }}</td>
 								</tr>
 								<tr>
 									<th>Membre du CA ?</th>

@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('operation') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('operation') }}
+{% endblock %}
+
+{% block title %}{{ type == 'add' ? 'Ajouter' : 'Modifier' }} une opération{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		{# TITRE #}
+		<h2 class="radius-long offset-4 col-4">{{ type == 'add' ? 'Ajouter' : 'Modifier' }} une opération</h2>
+
+		{# LISTE #}
+		<section class='row mb-5'>
+			{% if type == 'add' %}
+				{{ include('operation/_form.html.twig') }}
+			{% else %}
+				{{ include('operation/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+			{% endif %}
+		</section>
+	</div>
+{% endblock %}

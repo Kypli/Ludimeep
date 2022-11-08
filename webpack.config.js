@@ -40,8 +40,11 @@ Encore
     // Home
     .addStyleEntry('home', './assets/styles/home/style.css')
 
+    // Operation
+    .addEntry('operation', './assets/js/operation/operation.js')
+
     // Sondage
-    .addEntry('sondage_index', './assets/js/sondage/sondage.js')
+    .addEntry('sondage', './assets/js/sondage/sondage.js')
     .addStyleEntry('sondage_show', './assets/styles/sondage/sondage.css')
 
     // Table
@@ -66,8 +69,8 @@ Encore
     .addStyleEntry('discussion', './assets/styles/discussion/style.css')
 
     // Séance
+    .addStyleEntry('seance', './assets/styles/seance/index.css')
     .addStyleEntry('seance_show', './assets/styles/seance/show.css')
-    .addStyleEntry('seance_index', './assets/styles/seance/index.css')
 
     // Service
     .addEntry('timer', './assets/js/service/timer.js')

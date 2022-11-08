@@ -21,6 +21,7 @@
 							<th>Nom</th>
 							<th>Prénom</th>
 							<th>Admin</th>
+							<th>Lignes (A valider)</th>
 							<th>Droit image</th>
 							<th>Newsletter</th>
 							<th>Date fin adhésion</th>
@@ -51,7 +52,24 @@
 							<td>{{ user.profil.prenom }}</td>
 							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
 							<td>
-								{{ 
+								{% if user.asso.adherant %}
+									{% set lignes = user.operations|length %}
+									{%
+										set lignes_unvalid = render(
+											controller(
+												'App\\Controller\\OperationController::unvalid',
+												{ 'id': user.id }
+											)
+										)
+									%}
+									<a href="{{ path('operation_show', {'id': user.id}) }}">{{ lignes }}</a>
+									{% if lignes_unvalid > 0 %}
+										<span class="red">({{ lignes_unvalid }})</span>
+									{% endif %}
+								{% endif %}
+							</td>
+							<td>
+								{{
 									user.asso.droitImage is null
 										? 'Sans réponse'
 										: user.asso.droitImage

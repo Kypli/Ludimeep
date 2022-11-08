@@ -8,6 +8,7 @@ use App\Entity\UserAsso;
 use App\Entity\UserProfil;
 
 use App\Service\Discussion as DiscussionSer;
+use App\Service\LigneComptable as LigneComptableSer;
 
 use App\Repository\UserRepository;
 use App\Repository\UserProfilRepository;
@@ -19,6 +20,7 @@ use App\Repository\TchatRepository;
 use App\Repository\TableRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
+use App\Repository\OperationRepository;
 use App\Repository\SeanceLieuRepository;
 
 use App\Form\TchatType as TchatForm;
@@ -57,13 +59,15 @@ class HomeController extends AbstractController
 	public function index(
 		Request $request,
 		ActuRepository $ar,
+		GameRepository $gr,
 		TableRepository $tar,
 		TchatRepository $tr,
 		SeanceRepository $ser,
-		SeanceLieuRepository $slr,
 		SondageRepository $sr,
-		GameRepository $gr,
+		OperationRepository $or,
+		SeanceLieuRepository $slr,
 		DiscussionSer $discussionSer,
+		LigneComptableSer $ligneComptableSer,
 		AuthenticationUtils $authenticationUtils
 	){
 		// User
@@ -71,6 +75,9 @@ class HomeController extends AbstractController
 
 		// Discussions
 		$discussionSer->update();
+
+		// Lignes comptables
+		$ligneComptableSer->update();
 
 		// Séances
 		$seances_table = $this->seancesTable($ser, $user);
@@ -98,6 +105,9 @@ class HomeController extends AbstractController
 			// Authentification
 			'error' => $authenticationUtils->getLastAuthenticationError(),		// get the login error if there is one
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
+
+			// Solde
+			'solde' => $user != null ? $or->solde($user->getId()) : 0,
 
 			// Tchat
 			'tchats' => $tr->getLastTchats(),

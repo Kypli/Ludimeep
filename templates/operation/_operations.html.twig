@@ -1,0 +1,66 @@
+<table class="table">
+	<thead>
+		<tr>
+			{% if user.admin %}
+				<th>Id</th>
+			{% endif %}
+			<th>Montant</th>
+			<th>Commentaire</th>
+			<th>Date</th>
+			<th>Validé</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+	{% for operation in operations %}
+		<tr>
+			{% if user.admin %}
+				<td>{{ operation.id }}</td>
+			{% endif %}
+			<td><span class="{{ operation.number >= 0 ? 'green' : 'red' }}">{{ operation.number }}</span></td>
+			<td>{{ operation.comment|capitalize }}</td>
+			<td>{{ operation.date|date('d/m/Y') }}</td>
+			<td>
+				{% if user.admin %}
+					{{ operation.valid ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+				{% else %}
+					{{ operation.valid ? '<i class="fas fa-check green"></i>' : 'En cours de validation' }}
+				{% endif %}
+			</td>
+			{% if app.user.admin or operation.valid == false %}
+				<td>
+					<div class="row">
+						{% if app.user.admin and operation.valid == false %}
+							<div class="col-4">
+								<a href="{{ path('operation_valid', {'id': operation.id}) }}">
+									<button class="btn btn-success">
+										<i class="fa-solid fa-check"></i>
+										Valider
+									</button>
+								</a>
+							</div>
+						{% endif %}
+						<div class="col-4">
+							<a href="{{ path('operation_edit', {'id': operation.id}) }}">
+								<button class="btn btn-warning">
+									<i class="fas fa-edit"></i>
+									Modifier
+								</button>
+							</a>
+						</div>
+						<div class="col-4">
+							{{ include('operation/_delete_form.html.twig') }}
+						</div>
+					</div>
+				</td>
+			{% else %}
+				<td></td>
+			{% endif %}
+		</tr>
+	{% else %}
+		<tr>
+			<td colspan="6">Pas d'opérations</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+</table>

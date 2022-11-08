@@ -1,27 +1,42 @@
-<div class='row'>
-	<div class='col-4 alignRight'>
-		{{ app.user.userName|capitalize }}
-		{% if app.user.asso.adherant %}
-			<div class='col-12'>
-				<img src="{{ asset('build/image/logo/membre.png') }}" class='pointeur_help' title="Adhérant n° {{ app.user.asso.adherant }}">
-			</div>
-		{% endif %}
-	</div>
-	<div class='col-4'><a href="{{ path('game') }}" class='lien_profil'>Mes jeux</a></div>
-	<div class='col-4'><a href="{{ path('user_show', { 'id':app.user.id} ) }}" class='lien_profil'>Mon profil</a></div>
+{# USER #}
+<div class='col-12 mb-1'>
+	{{ app.user.userName|capitalize }}
+	{% if app.user.asso.adherant %}
+		<img
+			src="{{ asset('build/image/logo/membre.png') }}"
+			class='pointeur_help'
+			title="Adhérant n° {{ app.user.asso.adherant }}"
+		/>
+	{% endif %}
 </div>
-<div class='row mt-2'>
-	<div class='col-12'>
-		<p>
-			<span class='souligne'>A venir</span>
-			<ul class="alignLeft">
-				<li>Commenter les actualités et les images</li>
-			</ul>
-		</p>
+
+{# JEUX #}
+<div class='col-6'><a href="{{ path('game') }}" class='lien_profil'>Mes jeux</a></div>
+
+{# PROFIL #}
+<div class='col-6'><a href="{{ path('user_show', { 'id':app.user.id} ) }}" class='lien_profil'>Mon profil</a></div>
+
+{# SOLDE #}
+{% if app.user.asso.adherant %}
+	<div class='col-12 mt-2'>
+		<a href="{{ path('operation_show', { 'id':app.user.id} ) }}" class="lien_profil">
+			<span class='cursor_help' title='Solde utilisé dans le cadre du paiement commun des repas du soir'>Mon solde repas:</span>
+			{{ solde != null ? solde : '0' }} €
+		</a>
 	</div>
+{% endif %}
+
+{# FONCTIONNALITÉS À VENIR #}
+<div class='col-12 mt-2'>
+	<p>
+		<span class='souligne'>A venir</span>
+		<ul class="alignLeft">
+			<li>Commenter les actualités et les images</li>
+		</ul>
+	</p>
 </div>
-<div class='row'>
-	<div class='col-12'>
-		<a href='{{ path('logout') }}'>Déconnexion</a>
-	</div>
+
+{# DECO #}
+<div class='col-12 mt-2'>
+	<a href='{{ path('logout') }}'>Déconnexion</a>
 </div>

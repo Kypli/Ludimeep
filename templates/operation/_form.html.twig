@@ -1,0 +1,65 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-4">
+
+		{# NUMBER #}
+		<div class="offset-2 col-3 mb-4 pt-1 alignRight">
+			{{ form_label(form.number) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.number) }}
+		</div>
+
+		{# COMMENT #}
+		<div class="offset-2 col-3 mb-4 pt-1 alignRight">
+			{{ form_label(form.comment) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.comment) }}
+		</div>
+
+		{# DATE #}
+		<div class="offset-2 col-3 mb-4 pt-1 alignRight">
+			{{ form_label(form.date) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.date) }}
+		</div>
+
+		{% if is_granted('ROLE_ADMIN') %}
+
+			{# USER ADD #}
+			{% if type == 'add' %}
+				<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+					{{ form_label(form.user) }}
+				</div>
+				<div class="col-4 mb-4 pt-1">
+					{{ form_widget(form.user) }}
+				</div>
+
+			{# USER EDIT #}
+			{% else %}
+				<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+					Adhérant
+				</div>
+				<div class="col-4 mb-4 pt-1">
+					{{ operation.user.userName }}
+				</div>
+			{% endif %}
+
+			{# VALID #}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.valid) }}
+			</div>
+			<div class="col-4 mb-4 pt-1">
+				{{ form_widget(form.valid) }}
+			</div>
+		{% endif %}
+	</div>
+	
+	<div class="offset-5 col-4">
+		<button class="btn btn-success">
+			{{ button_label|default('Enregistrer') }}
+		</button>
+	</div>
+{{ form_end(form) }}

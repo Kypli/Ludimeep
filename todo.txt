@@ -1,9 +1,19 @@
 TO DO LIST
 
+
+RESPONSIVE TELEPHONE
+- Tout....
+
+
+OPERATION
+- Ne pas supprimer un compte si solde des opérations != 0
+
+
 USER
 - Désactivation pour user au lieu de delete
 - Désactivation / Suppression pour admin
 - Control connection si user actif = false
+- Possibilité de fusionner des users
 
 
 MINI-TCHAT
