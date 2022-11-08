@@ -231,6 +231,13 @@ class UserController extends AbstractController
 			$requestArray['user']['password'] = $form->getData()->getPassword();
 			$request->request->replace($requestArray);
 		}
+		
+		// Remplace adherant par 0 si null		
+		$requeteAll = $request->request->all();
+		if (isset($requeteAll['user']['asso']['adherant']) && $requeteAll['user']['asso']['adherant'] == null){
+			$requeteAll['user']['asso']['adherant'] = 0;
+			$request->request->replace($requeteAll);
+		}
 
 		$form->handleRequest($request);
 
