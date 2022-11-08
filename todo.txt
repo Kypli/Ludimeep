@@ -44,7 +44,6 @@ JEUX
 
 
 PHOTOS
-- Bouton pour n'afficher que ses photos
 - Aimer/commenter une photo
 - Carroussel
 - Uniformiser la taille des cards
@@ -57,6 +56,7 @@ NOUS CONTACTER
 
 
 CONVERSATION
+- Remplacer string par text
 - Admin
 	- Si supprimer message d'une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
 - Membre

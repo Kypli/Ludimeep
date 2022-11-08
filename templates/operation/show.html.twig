@@ -3,11 +3,13 @@
 {% block stylesheets %}
 	{{ parent() }}
 	{{ encore_entry_link_tags('operation') }}
+	{{ encore_entry_link_tags('modal_photo') }}
 {% endblock %}
 
 {% block javascripts %}
 	{{ parent() }}
 	{{ encore_entry_script_tags('operation') }}
+	{{ encore_entry_script_tags('modal_photo') }}
 {% endblock %}
 
 {% block title %}Liste des photos{% endblock %}
@@ -19,11 +21,21 @@
 		<h2 class="radius-long offset-4 col-4">Liste des opérations</h2>
 
 		{# ADD #}
-		<a href="{{ path('operation_add', {'user': user.id}) }}">
-			<div class="btn btn-success mb-2">
-				Ajouter une opération
+		<div class="row">
+			<div class="col-2">
+				<a href="{{ path('operation_add', {'user': user.id}) }}">
+					<div class="btn btn-success mb-2">
+						Ajouter une opération
+					</div>
+				</a>
 			</div>
-		</a>
+
+			{% if app.user.admin %}
+				<div  class="col-1">
+					({{ user.userName|capitalize }})
+				</div>
+			{% endif %}
+		</div>
 
 		{# LISTE #}
 		<section class='row mb-5'>
@@ -32,15 +44,27 @@
 			<div class='row'>
 				{% include 'operation/_operations.html.twig' %}
 
-				<div class="col-12 mt-3 mb-1">
-					{% if app.user.admin %}
-						({{ user.userName|capitalize }})
+				<div class="col-3 mt-3 mb-1 taille25">
+					Solde : <span class='gras'>{{ solde != null ? solde : '0' }} €</span>
+				</div>
+				<div class="col-9 mt-3 mb-1 img_grow">
+					<p>
+						Vous pouvez alimenter votre solde avec un virement sur le compte bancaire de Ludi-Meep' qui s'occupera dès lors  de payer à votre place les pizzas/burger/joyeusetés pour simplifier les transactions.
 						<br />
 						<br />
-					{% endif %}
-					Solde : {{ solde != null ? solde : '0' }} €
+						Vous pouvez ensuite signaler toute opérations que vous avez faite (dépense ou rentrée) en cliquant sur le bouton
+						« Ajouter une opération » qui sera par la suite validé par un admin.
+						<br />
+						<br />
+						IMPORTANT ! Ne pas oublier de mentionner votre pseudo ou votre nom/prénom dans le libellé du virement pour éviter toute confusion.
+						<br />
+					</p>
+					<img id='rib' class="" src="{{ asset('build/image/autre/rib.png') }}" alt="RIB">
 				</div>
 			</div>
 		</section>
 	</div>
+
+	{# MODAL PHOTOS #}
+	{% include 'photo/_modal.html.twig' %}
 {% endblock %}
