@@ -54,6 +54,7 @@ Encore
     .addEntry('tchat', './assets/js/tchat/tchat.js')
 
     // User
+    .addStyleEntry('user', './assets/styles/user/index.css')
     .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
     // Actu

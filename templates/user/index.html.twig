@@ -2,6 +2,11 @@
 
 {% block title %}Admin - Liste des utilisateurs{% endblock %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('user') }}
+{% endblock %}
+
 {% block body %}
 
 	<div class="container">
@@ -21,7 +26,7 @@
 							<th>Nom</th>
 							<th>Prénom</th>
 							<th>Admin</th>
-							<th>Lignes (A valider)</th>
+							<th title="Solde (Nbre de lignes / A valider)" class="pointeur_help">Solde</th>
 							<th>Droit image</th>
 							<th>Newsletter</th>
 							<th>Date fin adhésion</th>
@@ -51,7 +56,9 @@
 							<td>{{ user.profil.nom }}</td>
 							<td>{{ user.profil.prenom }}</td>
 							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
-							<td>
+
+							{# SOLDE #}
+							<td id='td_solde'>
 								{% if user.asso.adherant %}
 									{% set lignes = user.operations|length %}
 									{%
@@ -62,12 +69,30 @@
 											)
 										)
 									%}
-									<a href="{{ path('operation_show', {'id': user.id}) }}">{{ lignes }}</a>
-									{% if lignes_unvalid > 0 %}
-										<span class="red">({{ lignes_unvalid }})</span>
+									{%
+										set solde = render(
+											controller(
+												'App\\Controller\\OperationController::solde',
+												{ 'id': user.id }
+											)
+										)
+									%}
+									<a
+										href="{{ path('operation_show', {'id': user.id}) }}"
+										class="{{ solde >= 0 ? 'green' : 'red' }}"
+									>{{ solde }} €</a>
+									{% if lignes > 0 %}
+										(
+											{{ lignes }}
+											{% if lignes_unvalid > 0 %}
+												/ <span class="red">{{ lignes_unvalid }}</span>
+											{% endif %}
+										)
 									{% endif %}
 								{% endif %}
 							</td>
+
+							{# DROIT IMAGE #}
 							<td>
 								{{
 									user.asso.droitImage is null

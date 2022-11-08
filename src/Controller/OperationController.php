@@ -192,6 +192,15 @@ class OperationController extends AbstractController
 	}
 
 	/**
+	 * @Route("/solde/{id}", name="_vote")
+	 * Renvoie le solde d'un user
+	 */
+	public function solde(User $user, OperationRepository $or): Response
+	{
+		return new JsonResponse((int) $or->solde($user->getId()));
+	}
+
+	/**
 	 * @Route("/unvalid/{id}", name="_vote")
 	 * Renvoie le nombre de lignes non validées d'un user
 	 */
