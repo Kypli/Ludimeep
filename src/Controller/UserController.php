@@ -8,6 +8,7 @@ use App\Entity\UserProfil;
 
 use App\Repository\UserRepository;
 use App\Repository\UserAssoRepository;
+use App\Repository\OperationRepository;
 use App\Repository\UserProfilRepository;
 use App\Repository\DiscussionRepository;
 
@@ -214,13 +215,17 @@ class UserController extends AbstractController
 				->remove('ip')
 				->remove('accesPhoto')
 				->remove('accesPhotoLanceurAlerte')
+				->remove('commentaire')
+			;
+
+			$assoForm = $form->get('asso');
+			$assoForm
 				->remove('adherant')
 				->remove('dateInscription')
 				->remove('dateFinAdhesion')
 				->remove('roleCa')
 				->remove('dateFinMandat')
 				->remove('membreHonneur')
-				->remove('commentaire')
 			;
 		}
 
@@ -297,41 +302,47 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
-	public function delete(Request $request, User $user, UserRepository $ur, DiscussionRepository $dr): Response
-	{
+	public function delete(
+		Request $request,
+		User $user,
+		UserRepository $ur,
+		DiscussionRepository $dr,
+		OperationRepository $or
+	): Response	{
+
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
 			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 		}
 
 		// Doit rester 1 admin
-		$countAdmin = $ur->countAdmin();
-		if (
-			$countAdmin > 1 ||
-			(
-				$countAdmin == 1 &&
-				!in_array($user->getId(), $ur->getAdminsId())
-			)
-		){
-			if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
-
-				// Delete messages
-				foreach ($user->getDiscussionsAuteur() as $discussion){
-					$dr->remove($discussion);
-				}
-				foreach ($user->getDiscussionsDestinataire() as $discussion){
-					$dr->remove($discussion);
-				}
-
-				// Delete
-				$ur->remove($user);
-			}	
-
-		} else {
+		if ($ur->countAdmin() == 1 && in_array($user->getId(), $ur->getAdminsId())){
 			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
+			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
 
-		return $this->redirectToRoute('user', [], Response::HTTP_SEE_OTHER);
+		// Compte repas doit être à 0
+		if ((float) $or->solde($user->getId()) != 0){
+			$this->addFlash('error', 'Le solde du compte repas doit être à 0.');
+			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+		}
+
+		// Delete
+		if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
+
+			// Delete messages
+			foreach ($user->getDiscussionsAuteur() as $discussion){
+				$dr->remove($discussion);
+			}
+			foreach ($user->getDiscussionsDestinataire() as $discussion){
+				$dr->remove($discussion);
+			}
+
+			// Delete
+			$ur->remove($user);
+		}
+
+		return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 	}
 
 	public function accesControl($user_id)

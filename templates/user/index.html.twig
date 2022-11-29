@@ -35,6 +35,8 @@
 						</tr>
 					</thead>
 					<tbody>
+
+					{% set soldes_repas = 0 %}
 					{% for user in users %}
 						<tr>
 							<td style='min-width:100px;'>
@@ -77,6 +79,7 @@
 											)
 										)
 									%}
+									{% set soldes_repas = soldes_repas + solde %}
 									<a
 										href="{{ path('operation_show', {'id': user.id}) }}"
 										class="{{ solde >= 0 ? 'green' : 'red' }}"
@@ -102,6 +105,8 @@
 											: '<i class="fas fa-times red"></i>'
 								}}
 							</td>
+
+							{# NEWSLETTER #}
 							<td>
 								{{
 									user.newsletter is null
@@ -111,6 +116,8 @@
 											: '<i class="fas fa-times red"></i>'
 								}}
 							</td>
+
+							{# ASSO #}
 							<td>{{ user.asso.dateFinAdhesion is null ? '' : user.asso.dateFinAdhesion|date('d/m/Y') }}</td>
 							<td>{{ user.asso.roleCa is null ? '' : user.asso.roleCa }}</td>
 							<td>{{ user.asso.dateFinMandat is null ? '' : user.asso.dateFinMandat|date('d/m/Y') }}</td>
@@ -122,6 +129,8 @@
 					{% endfor %}
 					</tbody>
 				</table>
+
+				Solde total des comptes repas : {{ soldes_repas }} €
 			</section>
 		</div>
 	</div>

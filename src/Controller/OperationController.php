@@ -197,7 +197,7 @@ class OperationController extends AbstractController
 	 */
 	public function solde(User $user, OperationRepository $or): Response
 	{
-		return new JsonResponse((int) $or->solde($user->getId()));
+		return new JsonResponse((float) $or->solde($user->getId()));
 	}
 
 	/**
