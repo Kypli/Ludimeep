@@ -6,6 +6,6 @@
 	<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ user.id) }}">
 	<button class="btn btn-danger">
 		<i class="fa fa-times"></i>
-		Supprimer définitivement mon profil
+		Supprimer définitivement {{ proprietaire }} profil
 	</button>
 </form>

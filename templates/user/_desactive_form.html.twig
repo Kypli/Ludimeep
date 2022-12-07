@@ -1,0 +1,11 @@
+<form
+	method="post"
+	action="{{ path('user_desactive', {'id': user.id}) }}"
+	onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver {{ proprietaire }} profil ?');"
+>
+	<input type="hidden" name="_token" value="{{ csrf_token('desactive' ~ user.id) }}">
+	<button class="btn btn-warning">
+		<i class="fas fa-toggle-off"></i>
+		Désactiver {{ proprietaire }} profil
+	</button>
+</form>

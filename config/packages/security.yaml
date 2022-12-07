@@ -24,21 +24,33 @@ security:
             lazy: true
             provider: app_user_provider
 
+            # Control User
+            user_checker: App\Security\UserChecker
+
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
-            form_login:
-                login_path: login
-                check_path: login
             http_basic: ~
             entry_point: form_login
 
+            form_login:
+                check_path: login
+                failure_path: login_error
+                default_target_path: home
+
+                # login_path: xxx
+                # enable_csrf: true
+                # form_only: true
+
+                # Si true, force le renvoie du lien plutot que celui demandé avant connexion
+                # always_use_default_target_path: true
+
             logout:
                 path: logout
-                target: login
+                target: logout_alert
 
             login_throttling:
                 max_attempts: 5

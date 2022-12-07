@@ -1,24 +1,17 @@
 TO DO LIST
 
-
-RESPONSIVE TELEPHONE
+RESPONSIVE POUR TELEPHONE
 - Tout....
 
 
-OPERATION
-- Ne pas supprimer un compte si solde des opérations != 0
-
-
 USER
-- Désactivation pour user au lieu de delete
-- Désactivation / Suppression pour admin
-- Control connection si user actif = false
-- Possibilité de fusionner des users
+- Possibilité de fusionner des users avec user ou user anonyme
 
 
 MINI-TCHAT
 - Form par ajax
 - Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
+- Couleur si message du jour
 
 
 ACTUALITÉS
@@ -72,7 +65,6 @@ NEWSLETTER
 
 
 L'ASSO
-- Ajouter les fiches de jeu
 - Organigramme à faire
 - Réglement intérieur à intégrer
 - Statuts à intégrer
@@ -81,3 +73,7 @@ L'ASSO
 SITE
 - Référencer le site avec "jeux de société" + "loiret" + "baule" + "association"
 - Statistique de visites
+
+
+BUG
+- Timer séance n°2 ne s'affiche pas si séance n°1 en cours

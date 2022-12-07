@@ -4,7 +4,6 @@
 		<div class="container-fluid">
 			<ul class="navbar-nav me-auto mb-2">
 
-
 				{# PHOTO #}
 				<li class="nav-item">
 					<a class="hoverable nav-link {{ route == 'photo' ? 'active'}}" aria-current="page" href="{{ path('photo') }}">
@@ -149,8 +148,10 @@
 					</li>
 				{% endif %}
 
-				{# DISCUSSION #}
+				{# DISCUSSION + DECO#}
 				{% if app.user is not null %}
+
+					{# DISCUSSION #}
 					<li class="nav-item">
 						<a
 							class="hoverable nav-link {{ route == 'discussion' ? 'active'}}"
@@ -163,6 +164,14 @@
 							{% if message_perso > 0 %}
 								<span title="{{ message_perso }} message{{ pluriel }} non lu{{ pluriel }}">({{ message_perso }})</span> 
 							{% endif %}
+						</a>
+					</li>
+
+					{# DECO #}
+					<li class="nav-item">
+						<a class="hoverable nav-link" href="{{ path('logout') }}" >
+							<i class="fa-solid fa-power-off" title='Déconnexion'></i>
+							Déconnexion
 						</a>
 					</li>
 				{% endif %}

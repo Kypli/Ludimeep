@@ -1,0 +1,11 @@
+<form
+	method="post"
+	action="{{ path('user_active', {'id': user.id}) }}"
+	onsubmit="return confirm('Êtes-vous sûr de vouloir réactiver {{ proprietaire }} profil ?');"
+>
+	<input type="hidden" name="_token" value="{{ csrf_token('active' ~ user.id) }}">
+	<button class="btn btn-warning">
+		<i class="fas fa-toggle-off"></i>
+		Réactiver {{ proprietaire }} profil
+	</button>
+</form>

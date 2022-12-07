@@ -196,7 +196,7 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/edit/{id}", name="_edit", methods={"GET", "POST"})
 	 */
-	public function edit(Request $request, User $user, UserRepository $userRepository): Response
+	public function edit(Request $request, User $user, UserRepository $ur): Response
 	{
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -262,7 +262,7 @@ class UserController extends AbstractController
 					$user->setRoles(["ROLE_ADMIN"]);
 
 				// False
-				} elseif(!$user->isAdmin() || ($user->isAdmin() && $userRepository->countAdmin() > 1)){
+				} elseif(!$user->isAdmin() || ($user->isAdmin() && $ur->countAdmin() > 1)){
 					$user->setRoles(["ROLE_USER"]);
 
 				// Null
@@ -288,7 +288,7 @@ class UserController extends AbstractController
 				;
 			}
 
-			$userRepository->add($user);
+			$ur->add($user);
 			$this->addFlash('success', 'Vos modifications ont bien été prise en compte.');
 			return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
@@ -343,6 +343,60 @@ class UserController extends AbstractController
 		}
 
 		return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+	}
+
+	/**
+	 * @Route("/active/{id}", name="_active", methods={"POST"})
+	 */
+	public function active(Request $request, User $user, UserRepository $ur): Response {
+
+		// Acces control
+		if ($this->accesControl($user->getId()) == false){
+			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+		}
+
+		// Désactive
+		if ($this->isCsrfTokenValid('active'.$user->getId(), $request->request->get('_token'))){
+
+			// Désactive
+			$user->setActive(true);
+			$ur->add($user);
+		}
+
+		return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+	}
+
+	/**
+	 * @Route("/desactive/{id}", name="_desactive", methods={"POST"})
+	 */
+	public function desactive(Request $request, User $user, UserRepository $ur, OperationRepository $or): Response {
+
+		// Acces control
+		if ($this->accesControl($user->getId()) == false){
+			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+		}
+
+		// Doit rester 1 admin
+		if ($ur->countAdmin() == 1 && in_array($user->getId(), $ur->getAdminsId())){
+			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
+			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+		}
+
+		// Compte repas doit être à 0
+		if ((float) $or->solde($user->getId()) != 0){
+			$this->addFlash('error', 'Le solde du compte repas doit être à 0.');
+			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+		}
+
+		// Désactive
+		if ($this->isCsrfTokenValid('desactive'.$user->getId(), $request->request->get('_token'))){
+
+			// Désactive
+			$user->setActive(false);
+			$ur->add($user);
+		}
+
+		return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 	}
 
 	public function accesControl($user_id)

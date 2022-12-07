@@ -21,14 +21,12 @@
 					<thead>
 						<tr>
 							<th>Actions</th>
-							<th>Id</th>
 							<th>Login</th>
 							<th>Nom</th>
 							<th>Prénom</th>
 							<th>Admin</th>
 							<th title="Solde (Nbre de lignes / A valider)" class="pointeur_help">Solde</th>
 							<th>Droit image</th>
-							<th>Newsletter</th>
 							<th>Date fin adhésion</th>
 							<th>Rôle CA</th>
 							<th>Date fin mandat</th>
@@ -49,9 +47,11 @@
 									</div>
 								</div>
 							</td>
-							<td>{{ user.id }}</td>
-							<td class='{{ user.anonyme ? 'red' }}'>
-								<span title="{{ user.anonyme ? 'Anonyme' }}" class="{{ user.anonyme ? 'pointeur_help' }}">
+							<td class='{{ user.active == false ? 'text-warning' }} {{ user.anonyme ? 'red' }}'>
+								<span
+									title="{{ user.anonyme ? 'Anonyme' }} {{ user.active == false ? 'Désactiver' }}"
+									class="{{ user.anonyme or user.active == false ? 'pointeur_help' }}"
+								>
 									{{ user.userName }}
 								</span>
 							</td>
@@ -106,21 +106,18 @@
 								}}
 							</td>
 
-							{# NEWSLETTER #}
-							<td>
-								{{
-									user.newsletter is null
-										? 'Sans réponse'
-										: user.newsletter
-											? '<i class="fas fa-check green"></i>'
-											: '<i class="fas fa-times red"></i>'
-								}}
+							{# ASSO #}
+							{% set dateFinAdhe = user.asso.dateFinAdhesion %}
+							<td class="{{ dateFinAdhe != null and dateFinAdhe|date('d/m/Y') > 'now'|date('d/m/Y') ? 'red' }}">
+								{{ dateFinAdhe is null ? '' : dateFinAdhe|date('d/m/Y') }}
 							</td>
 
-							{# ASSO #}
-							<td>{{ user.asso.dateFinAdhesion is null ? '' : user.asso.dateFinAdhesion|date('d/m/Y') }}</td>
 							<td>{{ user.asso.roleCa is null ? '' : user.asso.roleCa }}</td>
-							<td>{{ user.asso.dateFinMandat is null ? '' : user.asso.dateFinMandat|date('d/m/Y') }}</td>
+
+							{% set dateFinMandat = user.asso.dateFinMandat %}
+							<td class="{{ dateFinMandat != null and dateFinMandat|date('d/m/Y') > 'now'|date('d/m/Y') ? 'red' }}">
+								{{ dateFinMandat is null ? '' : dateFinMandat|date('d/m/Y') }}
+							</td>
 						</tr>
 					{% else %}
 						<tr>

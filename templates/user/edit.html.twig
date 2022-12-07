@@ -12,14 +12,28 @@
 
 			{# MODIFIER USER #}
 			<section class='form'>
-				<div class="col-3">
+				<div class="col-3 alignLeft">
 					<a href="{{ path('user_show', {'id': user.id}) }}" class="btn btn-info">Retour</a>
 				</div>
 
 				{% include 'user/_form.html.twig' with {'edit': true, 'button_label': 'Modifier'} %}
 
-				<div class="col-3 offset-9 center mb-2">
-					{{ include('user/_delete_form.html.twig') }}
+				<div class="row">
+					{% set proprietaire = app.user.isAdmin == true and app.user.id != user.id ? 'ce' : 'mon' %}
+
+					{# ACTIVE/DÉSACTIVE #}
+					<div class="col-3 alignLeft mb-2">
+						{% if user.active == true %}
+							{% include('user/_desactive_form.html.twig') with {'button_label': proprietaire} %}
+						{% else %}
+							{% include('user/_active_form.html.twig') with {'button_label': proprietaire} %}
+						{% endif %}
+					</div>
+
+					{# DELETE #}
+					<div class="offset-6 col-3 center mb-2">
+						{% include('user/_delete_form.html.twig') with {'button_label': proprietaire} %}
+					</div>
 				</div>
 			</section>
 		</div>

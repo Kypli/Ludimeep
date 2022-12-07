@@ -13,19 +13,48 @@ class LoginController extends AbstractController
 	/**
 	 * @Route("/login", name="login")
 	 */
-	public function index(AuthenticationUtils $authenticationUtils): Response
+	public function login(AuthenticationUtils $authenticationUtils): Response
 	{
-		// get the login error if there is one
+	}
+
+	/**
+	 * @Route("/login_error", name="login_error")
+	 */
+	public function login_error(AuthenticationUtils $authenticationUtils): Response
+	{
+		// Get the login error if there is one
 		$error = $authenticationUtils->getLastAuthenticationError();
 
 		if ($error != null){
-			$this->addFlash('login_error', 'Email ou Mot de passe incorrect !');
-		} else {
-			$this->addFlash('login_info', 'Déconnexion effectuée !');
+
+			$message = 
+				$error->getMessage() == 'Bad credentials.' ||
+				$error->getMessage() == 'The presented password is invalid.' ||
+				$error->getMessage() == ''
+					? "Login/Mot de passe incorrect !"
+					: $error->getMessage()
+			;
+
+			$this->addFlash('login_error', $message);
 		}
 
-		// last username entered by the user
-		$lastUsername = $authenticationUtils->getLastUsername();
+		// Last username entered by the user
+		// $lastUsername = $authenticationUtils->getLastUsername();
+
+		// return $this->render('login/index.html.twig', [
+		// 	'last_username' => $lastUsername,
+		// 	'error'         => $error,
+		// ]);
+
+		return $this->redirectToRoute('home');
+	}
+
+	/**
+	 * @Route("/logout_alert", name="logout_alert")
+	 */
+	public function logout_alert(): Response
+	{
+		$this->addFlash('login_info', 'Déconnexion !');
 
 		return $this->redirectToRoute('home');
 	}
