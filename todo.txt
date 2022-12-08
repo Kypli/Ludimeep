@@ -4,14 +4,10 @@ RESPONSIVE POUR TELEPHONE
 - Tout....
 
 
-USER
-- Possibilité de fusionner des users avec user ou user anonyme
-
-
 MINI-TCHAT
 - Form par ajax
-- Message automatique pour nouveautés (actualité / update / photo / newsletter / sondage ...) avec apparence spécifique
-- Couleur si message du jour
+- Supprimer un message (admin)
+- Cacher un message (proprio)
 
 
 ACTUALITÉS

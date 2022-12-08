@@ -29,7 +29,6 @@ class Tchat
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tchats")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 

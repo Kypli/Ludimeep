@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Photo;
-use App\Form\PhotoType as PhotoForm;
-use App\Service\FileUploader;
+
 use App\Repository\PhotoRepository;
+
+use App\Form\PhotoType as PhotoForm;
+
+use App\Service\Log;
+use App\Service\FileUploader;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -99,7 +103,7 @@ class PhotoController extends AbstractController
 	 * @IsGranted("ROLE_USER")
 	 * @Route("/add", name="_add", methods={"GET", "POST"})
 	 */
-	public function add(Request $request, PhotoRepository $photoRepository): Response
+	public function add(Request $request, PhotoRepository $photoRepository, Log $log): Response
 	{
 		// User sans droit d'ajout d'image
 		if (!$this->getUser()->getAccesPhoto()){
@@ -148,6 +152,7 @@ class PhotoController extends AbstractController
 					$this->addFlash('error', "Erreur d'upload de l'image.");
 				}
 
+				$log->saveLog(Log::PHOTO);
 				$photoRepository->add($photo);
 				return $this->redirectToRoute('photo', [], Response::HTTP_SEE_OTHER);
 

@@ -10,6 +10,8 @@ use App\Repository\UserRepository;
 use App\Repository\GameRepository;
 use App\Repository\SeanceRepository;
 
+use App\Service\Log;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -74,7 +76,7 @@ class GameController extends AbstractController
 	/**
 	 * @Route("/add", name="_add", methods={"GET", "POST"}, options={"expose"=true})
 	 */
-	public function add(Request $request, GameRepository $gr, UserRepository $ur): Response
+	public function add(Request $request, GameRepository $gr, UserRepository $ur, Log $log): Response
 	{
 		// Control request
 		if (!$request->isXmlHttpRequest()){ throw new HttpException('500', 'Requête ajax uniquement'); }
@@ -111,6 +113,7 @@ class GameController extends AbstractController
 		;
 
 		$gr->add($game);
+		$log->saveLog(Log::GAME, ucfirst($game->getName()));
 
 		return new JsonResponse([
 			'save' => true,

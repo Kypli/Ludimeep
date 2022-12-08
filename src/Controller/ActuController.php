@@ -3,9 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Actu;
-use App\Form\ActuType;
-use App\Service\FileUploader;
+
 use App\Repository\ActuRepository;
+
+use App\Form\ActuType;
+
+use App\Service\Log;
+use App\Service\FileUploader;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
@@ -140,10 +144,14 @@ class ActuController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/{id}/valid", name="_valid")
 	 */
-	public function valid(Request $request, Actu $actu, ActuRepository $actuRepository): Response
+	public function valid(Request $request, Actu $actu, ActuRepository $actuRepository, Log $log): Response
 	{
 		$actu->setValid(!$actu->getValid());
 		$actuRepository->add($actu);
+
+		if ($actu->getValid() == true){
+			$log->saveLog(Log::ACTU, $actu->getId());
+		}
 
 		return $this->redirectToRoute('actu_show', ['id' => $actu->getId()], Response::HTTP_SEE_OTHER);
 	}

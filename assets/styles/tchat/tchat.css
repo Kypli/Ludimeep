@@ -28,3 +28,39 @@
 	display: table;
 	color: #800000;
 }
+
+.tchat-content-today {
+	line-height: 110%;
+	background-color: #AA6FC4;
+	font-size: 12px;
+	margin: 0!important;
+	padding: 3px;
+	border-radius: 6px;
+	word-wrap: break-word;
+	display: table;
+	color: #800000;
+}
+
+.tchat-bot-content {
+	line-height: 110%;
+	background-color: #F9CD62;
+	font-size: 12px;
+	margin: 0!important;
+	padding: 3px;
+	border-radius: 6px;
+	word-wrap: break-word;
+	display: table;
+	color: #800000;
+}
+
+.tchat-bot-content-today {
+	line-height: 110%;
+	background-color: #E7B844;
+	font-size: 12px;
+	margin: 0!important;
+	padding: 3px;
+	border-radius: 6px;
+	word-wrap: break-word;
+	display: table;
+	color: #800000;
+}

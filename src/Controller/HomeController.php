@@ -7,6 +7,7 @@ use App\Entity\Table;
 use App\Entity\UserAsso;
 use App\Entity\UserProfil;
 
+use App\Service\Log;
 use App\Service\Discussion as DiscussionSer;
 use App\Service\LigneComptable as LigneComptableSer;
 
@@ -52,6 +53,13 @@ class HomeController extends AbstractController
 	const SEANCE_MAX_TABLE = 2;
 
 	const TABLE_PLAYERS_MAX = 12;
+
+	private $log;
+
+	public function __construct(Log $log)
+	{
+		$this->log = $log;
+	}
 
 	/**
 	 * @Route("/", name="")
@@ -339,7 +347,15 @@ class HomeController extends AbstractController
 				->setGame($game)
 				->addPlayer($user)
 			;
+
 			$tar->add($table, true);
+
+			// Log
+			$game_name = empty($table->getGameFree())
+				? $table->getGame()->getName()
+				: $table->getGameFree()
+			;
+			$this->log->saveLog(Log::TABLE, ucfirst($game_name));
 
 			return false;
 		}

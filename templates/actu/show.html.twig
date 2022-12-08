@@ -33,7 +33,7 @@
 	</div>
 
 	{# ACTU #}
-	<section class='offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 center mb-3 {{ actu.valid ? : "brouillon" }}'>
+	<section class='offset-3 col-xs-6 col-sm-6 col-md-6 col-lg-6 center mb-3 p-3 {{ actu.valid ? : "brouillon" }}'>
 		{% if actu.valid != true %}
 			<span class='brouillon_text'>!! BROUILLON !!</span>
 		{% endif %}

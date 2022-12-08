@@ -59,6 +59,7 @@ class TchatRepository extends ServiceEntityRepository
 			->where('x.date > :dateLess1Month')
 			->andWhere('x.active = :true')
 			->andWhere('u.active = :true')
+			->orWhere('u IS NULL')
 
 			->setParameters([
 				':dateLess1Month' => new \Datetime('-1 month'),
@@ -66,7 +67,7 @@ class TchatRepository extends ServiceEntityRepository
 			])
 
 			->setMaxResults(30)
-			->orderBy('x.id', 'DESC')
+			->orderBy('x.date', 'DESC')
 
 			->getQuery()
 			->getArrayResult()

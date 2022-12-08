@@ -12,6 +12,8 @@ use App\Form\SondageType;
 use App\Form\SondageVote1Type;
 use App\Form\SondageVote2Type;
 
+use App\Service\Log;
+
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +43,7 @@ class SondageController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/add", name="_add", methods={"GET", "POST"})
 	 */
-	public function add(Request $request, SondageRepository $sr): Response
+	public function add(Request $request, SondageRepository $sr, Log $log): Response
 	{
 		$sondage = new Sondage();
 		$form = $this->createForm(SondageType::class, $sondage);
@@ -52,9 +54,9 @@ class SondageController extends AbstractController
 
 			$control = $this->controlForm($sondage, $sr);
 
-			$control !== true
-				? $this->addFlash('error', $control)
-				: $sr->add($sondage, true)
+			$control === true
+				? $log->saveLog(Log::SONDAGE, ucfirst($sondage->getTitle())) && $sr->add($sondage, true)
+				: $this->addFlash('error', $control)
 			;
 
 			return $this->redirectToRoute('sondage', [], Response::HTTP_SEE_OTHER);
