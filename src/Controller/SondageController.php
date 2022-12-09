@@ -239,7 +239,7 @@ class SondageController extends AbstractController
 
 			$sur->add($vote, true);
 
-			return $this->render('sondage/_show.html.twig', [
+			return $this->render('sondage/_sondage.html.twig', [
 				's' => $sondage,
 				'vote' => $vote_result,
 			]);
