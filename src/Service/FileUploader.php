@@ -41,22 +41,24 @@ class FileUploader
 
 	public function targetDirectory_actu()
 	{
+		$this->isDirOrCreate($this->targetDirectory_actu);
 		return $this->targetDirectory_actu;
 	}
 
 	public function targetDirectory_photo()
 	{
+		$this->isDirOrCreate($this->targetDirectory_photo);
 		return $this->targetDirectory_photo;
 	}
 
 	/**
 	 * Supprime les photos du dossier qui ne sont plus associé à une actualité en db
 	 */
-	public function cleanPhotosActu($actuRepository){
+	public function cleanPhotosActu($ar){
 
 		// Get all photos name
 		$photosInDb = [];
-		$photosInDbByActu = $actuRepository->getPhotosName();
+		$photosInDbByActu = $ar->getPhotosName();
 
 		foreach($photosInDbByActu as $photoInDbByActu){
 			foreach($photoInDbByActu as $photoInDb){
@@ -105,5 +107,18 @@ class FileUploader
 		}
 
 		return true;
+	}
+
+	public function isDirOrCreate($path){
+
+		if(is_dir($path)) {
+			return true;
+		} else {
+			if(mkdir($path)) {
+				return true;
+			} else {
+				return false;
+			}
+		}
 	}
 }

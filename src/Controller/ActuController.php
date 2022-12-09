@@ -129,12 +129,12 @@ class ActuController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/{id}", name="_delete", methods={"POST"})
 	 */
-	public function delete(Request $request, Actu $actu, ActuRepository $actuRepository): Response
+	public function delete(Request $request, Actu $actu, ActuRepository $ar): Response
 	{
 		if ($this->isCsrfTokenValid('delete'.$actu->getId(), $request->request->get('_token'))){
+			$ar->remove($actu);
+			$this->file_uploader->cleanPhotosActu($ar);
 			$this->addFlash('success', "L'actualité a bien été supprimée.");
-			$actuRepository->remove($actu);
-			$this->file_uploader->cleanPhotosActu($actuRepository);
 		}
 
 		return $this->redirectToRoute('actu', [], Response::HTTP_SEE_OTHER);
