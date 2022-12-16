@@ -203,7 +203,7 @@ class SondageController extends AbstractController
 	 * @Route("/vote/{id}", name="_vote")
 	 * Retoune le formulaire d'un sondage ou le résultat si le user à déja voté
 	 */
-	public function vote(Sondage $sondage, Request $request, $form_number, SondageUserRepository $sur)
+	public function vote(Sondage $sondage, Request $request, $form_number, $odd, SondageUserRepository $sur)
 	{
 		// Sondage questions
 		$sondage_questions = [];
@@ -248,6 +248,7 @@ class SondageController extends AbstractController
 		return $this->renderForm('sondage/_vote.html.twig', [
 			's' => $sondage,
 			'form' => $form,
+			'odd' => $odd,
 		]);
 	}
 

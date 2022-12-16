@@ -1,6 +1,11 @@
 {% set vote = vote is defined ? vote : 0 %}
 
-<div class='col-12 actu'>
+<div class='sondage{{ odd ? '-odd' }}'>
+
+	<div class='gras mb-2'>
+		{{ s.title|capitalize }}
+	</div>
+
 	<ul>
 		<li {{ vote == 1 ? "class='gras'" }}>{{ s.line1 }}</li>
 		<li {{ vote == 2 ? "class='gras'" }}>{{ s.line2 }}</li>

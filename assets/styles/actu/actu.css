@@ -19,7 +19,12 @@
 	background-color: #D3C5D9;
 }
 
-.actu ul {
+.actu ul, .actu-odd ul {
 	text-align: left;
-	margin-left: 8%;
+	margin-left: 1%;
+	list-style-type: none;
+}
+
+.actu li, .actu-odd li {
+	margin-bottom: 8px;
 }

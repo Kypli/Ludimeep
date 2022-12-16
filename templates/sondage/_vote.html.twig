@@ -1,7 +1,12 @@
-<div class='col-12 sondage'>
+<div class='sondage{{ odd ? '-odd' }}'>
+
+	<div class='gras mb-2'>
+		{{ s.title|capitalize }}
+	</div>
+
 	{{ form_start(form) }}
 
-		<ul>
+		<ul class="noPuces">
 			<li>{{ form_widget(form.vote.0) }} {{ form_label(form.vote.0) }}</li>
 			<li>{{ form_widget(form.vote.1) }} {{ form_label(form.vote.1) }}</li>
 			{% if s.line3 is not null %}<li>{{ form_widget(form.vote.2) }} {{ form_label(form.vote.2) }}</li>{% endif %}

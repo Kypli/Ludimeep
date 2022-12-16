@@ -1,12 +1,25 @@
-
-.sondage ul {
-	text-align: left;
-	margin-left: 1%;
-	list-style-type: none;
+.sondage {
+	border: 1px solid #AB6BC9;
+	background-color: #E6D2EE;
 }
-.sondage li {
+.sondage-odd {
+	border: 1px solid #AB6BC9;
+	background-color: #D3C5D9;
+}
+
+.sondage ul, .sondage-odd ul {
+	text-align: left;
+	margin-left: 2%;
+}
+
+.sondage li, .sondage-odd li {
 	margin-bottom: 8px;
 }
+
+.noPuces {
+	list-style-type: none!important;
+}
+
 .sondage input {
 	margin-right: 8px;
 }
