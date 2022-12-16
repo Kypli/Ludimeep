@@ -21,8 +21,8 @@
 
 .actu ul, .actu-odd ul {
 	text-align: left;
-	margin-left: 1%;
-	list-style-type: none;
+	margin-left: 25%;
+	margin-top: 10px;
 }
 
 .actu li, .actu-odd li {
