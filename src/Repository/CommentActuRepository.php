@@ -45,32 +45,81 @@ class CommentActuRepository extends ServiceEntityRepository
         }
     }
 
-    // /**
-    //  * @return CommentActu[] Returns an array of CommentActu objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Count Aimes
+     */
+    public function getAimes($actu_id)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+
+        return $this->createQueryBuilder('x')
+            ->select('COUNT(x)')
+
+            ->where('x.actu = :actu_id')
+            ->andWhere('x.aime = true')
+
+            ->setParameter('actu_id', $actu_id)
+
             ->getQuery()
-            ->getResult()
+            ->getSingleScalarResult()
         ;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Comment
+    /**
+     * @return Count Thumb up
+     */
+    public function getThumbUp($actu_id)
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+
+        return $this->createQueryBuilder('x')
+            ->select('COUNT(x)')
+
+            ->where('x.actu = :actu_id')
+            ->andWhere('x.thumb = true')
+
+            ->setParameter('actu_id', $actu_id)
+
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+     * @return Count Thumb down
+     */
+    public function getThumbDown($actu_id)
+    {
+
+        return $this->createQueryBuilder('x')
+            ->select('COUNT(x)')
+
+            ->where('x.actu = :actu_id')
+            ->andWhere('x.thumb = false')
+
+            ->setParameter('actu_id', $actu_id)
+
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
+    /**
+     * @return Count Thumb down
+     */
+    public function getCaByUserAndActu($actu_id, $user_id)
+    {
+        return $this->createQueryBuilder('x')
+            ->select('x')
+
+            ->where('x.actu = :actu_id')
+            ->andWhere('x.user = :user_id')
+
+            ->setParameters([
+                'actu_id' => $actu_id,
+                'user_id' => $user_id,
+            ])
+
             ->getQuery()
             ->getOneOrNullResult()
         ;
     }
-    */
 }

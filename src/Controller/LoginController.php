@@ -11,10 +11,24 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class LoginController extends AbstractController
 {
 	/**
-	 * @Route("/login", name="login")
+	 * @Route("/login", name="login", methods={"GET", "POST"})
 	 */
-	public function login(AuthenticationUtils $authenticationUtils): Response
+	public function login(AuthenticationUtils $authenticationUtils)
 	{
+		// if ($this->getUser()){
+		// 	return $this->redirectToRoute('home');
+		// }
+
+		// Get the login error if there is one
+		$error = $authenticationUtils->getLastAuthenticationError();
+
+		// Last username entered by the user
+		$lastUsername = $authenticationUtils->getLastUsername();
+
+		// return $this->render('home/connexion/_index.html.twig', [
+		// 	'last_username' => $lastUsername,
+		// 	'error' => $error,
+		// ]);
 	}
 
 	/**
@@ -27,7 +41,7 @@ class LoginController extends AbstractController
 
 		if ($error != null){
 
-			$message = 
+			$message =
 				$error->getMessage() == 'Bad credentials.' ||
 				$error->getMessage() == 'The presented password is invalid.' ||
 				$error->getMessage() == ''
@@ -37,14 +51,6 @@ class LoginController extends AbstractController
 
 			$this->addFlash('login_error', $message);
 		}
-
-		// Last username entered by the user
-		// $lastUsername = $authenticationUtils->getLastUsername();
-
-		// return $this->render('login/index.html.twig', [
-		// 	'last_username' => $lastUsername,
-		// 	'error'         => $error,
-		// ]);
 
 		return $this->redirectToRoute('home');
 	}
@@ -57,5 +63,13 @@ class LoginController extends AbstractController
 		$this->addFlash('login_info', 'Déconnexion !');
 
 		return $this->redirectToRoute('home');
+	}
+
+	/**
+	 * @Route("/logout", name="app_logout")
+	 */
+	public function logout(): Response
+	{
+		throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
 	}
 }

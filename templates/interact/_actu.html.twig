@@ -1,0 +1,57 @@
+<div class='mb-3 taille11 alignRight italique'>
+
+	{# THUMB UP #}
+	<span id='thumbUpCount' data-value='{{ nb_thumb_up }}'>{{ nb_thumb_up > 0 ? nb_thumb_up }}</span>
+	{% if is_granted('ROLE_USER') %}
+		<i
+			id='thumbUp_{{ actu.id }}'
+			data-id='{{ actu.id }}'
+			class="thumbUp pointeur taille13 fa-regular fa-thumbs-up{{ myThumb is same as true ? ' hide' }}"
+			title="J\'aime ce contenu"></i>
+		<i
+			id='thumbUpSolid_{{ actu.id }}'
+			data-id='{{ actu.id }}'
+			class="thumbUpSolid pointeur taille13 fa-solid fa-thumbs-up{{ myThumb is not same as true ? ' hide' }}"
+			title="J\'aime"></i>
+	{% else %}
+		<i class="taille13 fa-regular fa-thumbs-up" title="J\'aime ce contenu"></i>
+	{% endif %}
+
+	<span class="p-2">/</span>
+
+	{# THUMB DOWN #}
+	<span id='thumbDownCount' data-value='{{ nb_thumb_down }}'>{{ nb_thumb_down > 0 ? nb_thumb_down }}</span>
+	{% if is_granted('ROLE_USER') %}
+		<i
+			id='thumbDown_{{ actu.id }}'
+			data-id='{{ actu.id }}'
+			class="thumbDown pointeur taille13 fa-regular fa-thumbs-down{{ myThumb is same as false ? ' hide' }}"
+			title="Je n\'aime pas ce contenu"></i>
+		<i
+			id='thumbDownSolid_{{ actu.id }}'
+			data-id='{{ actu.id }}'
+			class="thumbDownSolid pointeur taille13 fa-solid fa-thumbs-down{{ myThumb is not same as false ? ' hide' }}"
+			title="Je n\'aime pas"></i>
+	{% else %}
+		<i class="taille13 fa-regular fa-thumbs-down" title="Je n\'aime pas ce contenu"></i>
+	{% endif %}
+
+	{# AIME #}
+	<span class="ml25">
+		<span id='heartCount' data-value='{{ nb_aimes }}'>{{ nb_aimes > 0 ? nb_aimes }}</span>
+		{% if is_granted('ROLE_USER') %}
+			<i
+				id='heart_{{ actu.id }}'
+				data-id='{{ actu.id }}'
+				class="heart pointeur taille13 fa-regular fa-heart{{ myAime is not same as false ? ' hide' }}"
+				title="J\'adore ce contenu"></i>
+			<i
+				id='heartSolid_{{ actu.id }}'
+				data-id='{{ actu.id }}'
+				class="heartSolid pointeur taille13 fa-solid fa-heart{{ myAime is same as false ? ' hide' }}"
+				title="J\'adore"></i>
+		{% else %}
+			<i class="taille13 fa-regular fa-heart test" title="J\'adore ce contenu"></i>
+		{% endif %}
+	</span>
+</div>

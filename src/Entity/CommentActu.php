@@ -18,22 +18,33 @@ class CommentActu
 	private $id;
 
 	/**
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	private $text;
 
 	/**
-	 * @ORM\Column(type="datetime")
+	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	private $date;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $thumb;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $aime = false;
+
 	/**
 	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsActu")
+	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $user;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity=Actu::class, inversedBy="comments")
+	 * @ORM\ManyToOne(targetEntity=Actu::class, inversedBy="comments", cascade={"persist"})
 	 * @ORM\JoinColumn(nullable=false)
 	 */
 	private $actu;
@@ -66,6 +77,30 @@ class CommentActu
 
 		return $this;
 	}
+
+    public function isThumb(): ?bool
+    {
+        return $this->thumb;
+    }
+
+    public function setThumb(?bool $thumb): self
+    {
+        $this->thumb = $thumb;
+
+        return $this;
+    }
+
+    public function isAime(): ?bool
+    {
+        return $this->aime;
+    }
+
+    public function setAime(bool $aime): self
+    {
+        $this->aime = $aime;
+
+        return $this;
+    }
 
 	public function getUser(): ?user
 	{

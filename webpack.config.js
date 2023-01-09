@@ -78,6 +78,9 @@ Encore
     .addEntry('shieldui', './assets/js/service/shieldui.js')
     .addEntry('modal_photo', './assets/js/service/modal_photo.js')
 
+    // Interact
+    .addEntry('interact_actu', './assets/js/interact/actu.js')
+
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')
 

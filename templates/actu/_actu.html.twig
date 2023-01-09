@@ -41,14 +41,34 @@
 		{% endif %}
 	{% endfor %}
 
-	{# AUTEUR #}
-	<div class='mb-3 taille11 alignRight italique'>
-		Par
-		{{ 
-			actu.auteur.profil.prenom != null and actu.auteur.profil.prenom != null
-				? actu.auteur.profil.prenom|capitalize ~ ' ' ~ actu.auteur.profil.nom|upper
-				: actu.auteur.userName|capitalize
-		}}
-		- {{ actu.date|date('d/m/Y à H:i') }}
+	<div class="row mt-2">
+
+		{# AUTEUR #}
+		<div class='col-7 ml-2 taille11 alignLeft italique'>
+			Par
+			{{
+				actu.auteur.profil.prenom != null and actu.auteur.profil.prenom != null
+					? actu.auteur.profil.prenom|capitalize ~ ' ' ~ actu.auteur.profil.nom|upper
+					: actu.auteur.userName|capitalize
+			}}
+			- {{ actu.date|date('d/m/Y à H:i') }}
+		</div>
+
+		{# INTERACTIONS #}
+		<div class='offset-1 col-3 alignRight'>
+			{% include 'interact/_actu.html.twig' with {
+					'nb_aimes' : actus_interact[actu.id].nb_aimes,
+					'nb_thumb_up' : actus_interact[actu.id].nb_thumb_up,
+					'nb_thumb_down' : actus_interact[actu.id].nb_thumb_down,
+					'myAime' : actus_interact[actu.id].myAime,
+					'myThumb' : actus_interact[actu.id].myThumb,
+				}
+			%}
+		</div>
+		<div class='col-1 centrer'>
+			<div id='spinner_interact_{{ actu.id }}' class="spinner-grow spinner-grow-sm hide" role="status">
+				<span class="sr-only">Chargement...</span>
+			</div>
+		</div>
 	</div>
 </div>

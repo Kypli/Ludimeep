@@ -185,3 +185,26 @@ input[type="checkbox"]:checked::before {
 form[name="user"] label {
 	padding-right: 15px;
 }
+
+/* SCROLLBAR */
+/* width */
+::-webkit-scrollbar {
+	width: 10px;
+	color: blue;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: #CDA7E2;
+	border-radius: 10px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #AB6BC9;
+}

@@ -17,12 +17,13 @@ use App\Repository\UserAssoRepository;
 
 use App\Repository\ActuRepository;
 use App\Repository\GameRepository;
-use App\Repository\TchatRepository;
 use App\Repository\TableRepository;
+use App\Repository\TchatRepository;
 use App\Repository\SeanceRepository;
 use App\Repository\SondageRepository;
 use App\Repository\OperationRepository;
 use App\Repository\SeanceLieuRepository;
+use App\Repository\CommentActuRepository;
 
 use App\Form\TchatType as TchatForm;
 use App\Form\TableType as TableForm;
@@ -74,18 +75,39 @@ class HomeController extends AbstractController
 		SondageRepository $sr,
 		OperationRepository $or,
 		SeanceLieuRepository $slr,
+		CommentActuRepository $car,
 		DiscussionSer $discussionSer,
 		LigneComptableSer $ligneComptableSer,
 		AuthenticationUtils $authenticationUtils
 	){
 		// User
 		$user = $this->getUser();
+		$user_id = $user != null ? $user->getId() : 0;
 
 		// Discussions
 		$discussionSer->update();
 
 		// Lignes comptables
 		$ligneComptableSer->update();
+
+		// Actus
+		$actus = $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0);
+
+		// InteractActu
+		$actus_interact = [];
+		foreach ($actus as $actu){
+
+			$actu_id = $actu->getId();
+			$ca = $user != null ? $car->getCaByUserAndActu($actu_id, $user_id) : null;
+
+			$actus_interact[$actu->getid()] = [
+				'nb_aimes' => $car->getAimes($actu_id),
+				'nb_thumb_up' => $car->getThumbUp($actu_id),
+				'nb_thumb_down' => $car->getThumbDown($actu_id),
+				'myAime' => $ca != null ? $ca->isAime() : false,
+				'myThumb' => $ca != null ? $ca->isThumb() : null,
+			];
+		}
 
 		// Séances
 		$seances_table = $this->seancesTable($ser, $user);
@@ -115,7 +137,7 @@ class HomeController extends AbstractController
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 
 			// Solde
-			'solde' => $user != null ? $or->solde($user->getId()) : 0,
+			'solde' => $user != null ? $or->solde($user_id) : 0,
 
 			// Tchat
 			'tchats' => $tr->getLastTchats(),
@@ -138,7 +160,8 @@ class HomeController extends AbstractController
 			'sondages' => $sr->getSondageRunning(),
 
 			// Actus
-			'actus' => $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0),
+			'actus' => $actus,
+			'actus_interact' => $actus_interact,
 
 			// Séances
 			'seances' => $seances,

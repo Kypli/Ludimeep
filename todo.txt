@@ -14,6 +14,7 @@ ACTUALITÉS
 - Rendre plus simple d'utilisation la gestion de l'ordre d'affichage (avec jquery)
 - Commenter une actu (membre only)
 - Aimer une actu (tous)
+- Admin : Afficher qui a aimé/thumb
 - Réduire la section de la page actu/show
 - Vérifier si pas de bug pour les photos
 
@@ -21,6 +22,7 @@ ACTUALITÉS
 SONDAGE
 - Limiter à deux sondages en cours maximum
 - Débug création date_début
+- Admin : Afficher les votant et leur vote
 
 
 TABLE
