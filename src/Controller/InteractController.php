@@ -45,10 +45,10 @@ class InteractController extends AbstractController
 				$ca->setAime(!$ca->isAime());
 
 			} elseif ($datas == 'thumbUp'){
-				$ca->setThumb($ca->isThumb() == true ? null : true);
+				$ca->setThumb($ca->isThumb() === true ? null : true);
 
 			} else {
-				$ca->setThumb($ca->isThumb() == false ? null : false);
+				$ca->setThumb($ca->isThumb() === false ? null : false);
 			}
 
 		} else {

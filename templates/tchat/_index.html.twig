@@ -23,7 +23,12 @@
 										title="{{ 
 											t.nom is not empty and t.prenom is not empty
 												? t.nom|upper ~  ' ' ~  t.prenom|capitalize ~  ' : '
-										}}{{ t.date|date('d/m/Y') == 'now'|date('d/m/Y') ? "Aujourd'hui à " ~ t.date|date('H:i:s') : t.date|date('d/m/Y H:i:s') }}"
+										}}
+										{{
+											t.date|date('d/m/Y') == 'now'|date('d/m/Y')
+												? "Aujourd'hui à " ~ t.date|date('H:i:s')
+												: t.date|date('d/m/Y H:i:s')
+										}}"
 									>
 										{{ t.login != null ? t.login|capitalize : botname }}:
 									</span>

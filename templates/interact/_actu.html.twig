@@ -1,7 +1,7 @@
 <div class='mb-3 taille11 alignRight italique'>
 
 	{# THUMB UP #}
-	<span id='thumbUpCount' data-value='{{ nb_thumb_up }}'>{{ nb_thumb_up > 0 ? nb_thumb_up }}</span>
+	<span id='thumbUpCount_{{ actu.id }}' data-value='{{ nb_thumb_up }}'>{{ nb_thumb_up > 0 ? nb_thumb_up }}</span>
 	{% if is_granted('ROLE_USER') %}
 		<i
 			id='thumbUp_{{ actu.id }}'
@@ -20,7 +20,7 @@
 	<span class="p-2">/</span>
 
 	{# THUMB DOWN #}
-	<span id='thumbDownCount' data-value='{{ nb_thumb_down }}'>{{ nb_thumb_down > 0 ? nb_thumb_down }}</span>
+	<span id='thumbDownCount_{{ actu.id }}' data-value='{{ nb_thumb_down }}'>{{ nb_thumb_down > 0 ? nb_thumb_down }}</span>
 	{% if is_granted('ROLE_USER') %}
 		<i
 			id='thumbDown_{{ actu.id }}'
@@ -38,7 +38,7 @@
 
 	{# AIME #}
 	<span class="ml25">
-		<span id='heartCount' data-value='{{ nb_aimes }}'>{{ nb_aimes > 0 ? nb_aimes }}</span>
+		<span id='heartCount_{{ actu.id }}' data-value='{{ nb_aimes }}'>{{ nb_aimes > 0 ? nb_aimes }}</span>
 		{% if is_granted('ROLE_USER') %}
 			<i
 				id='heart_{{ actu.id }}'
