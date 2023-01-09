@@ -49,7 +49,7 @@
 
 	{# EN COURS #}
 	{% if seance.date <= date('now') %}
-		<div class='entoure seance-actif'>En cours !</div>
+		<div id="countdown{{ loop.index }}" class='entoure seance-actif'>En cours !</div>
 
 	{# TIMER #}
 	{% else %}
