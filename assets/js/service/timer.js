@@ -3,7 +3,7 @@ import '../../styles/service/timer.css';
 
 for (var i = 1; i < 10; i++){
 
-	if ($('#countdown' + i).length > 0) {
+	if ($('#countdown' + i).length > 0){
 
 		timer(
 			$('#countdown' + i).data('date'),

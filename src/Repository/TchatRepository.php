@@ -42,8 +42,11 @@ class TchatRepository extends ServiceEntityRepository
 	/**
 	 * Renvoie les 30 derniers tchat de moins d'un mois
 	 */
-	public function getLastTchats()
+	public function getLastTchats($dateLimitShow)
 	{
+
+		$dateLimitShow = new \Datetime('- '.$dateLimitShow);
+
 		return $this->createQueryBuilder('x')
 			->leftjoin('x.user', 'u')
 			->leftjoin('u.profil', 'up')
@@ -59,10 +62,10 @@ class TchatRepository extends ServiceEntityRepository
 			->where('x.date > :dateLess1Month')
 			->andWhere('x.active = :true')
 			->andWhere('u.active = :true')
-			->orWhere('u IS NULL')
+			// ->orWhere('u IS NULL')
 
 			->setParameters([
-				':dateLess1Month' => new \Datetime('-1 month'),
+				':dateLess1Month' => $dateLimitShow,
 				':true' => true,
 			])
 

@@ -58,6 +58,7 @@ Encore
     .addStyleEntry('user_fiche', './assets/styles/user/style.css')
 
     // Actu
+    .addEntry('actu', './assets/js/actu/actu.js')
     .addStyleEntry('actu_show', './assets/styles/actu/actu.css')
 
     // Photo

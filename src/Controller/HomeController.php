@@ -55,6 +55,8 @@ class HomeController extends AbstractController
 
 	const TABLE_PLAYERS_MAX = 12;
 
+	const TCHAT_DATE_LIMIT_SHOW = '20 days';
+
 	private $log;
 
 	public function __construct(Log $log)
@@ -137,7 +139,7 @@ class HomeController extends AbstractController
 			'solde' => $user != null ? $or->solde($user_id) : 0,
 
 			// Tchat
-			'tchats' => $tr->getLastTchats(),
+			'tchats' => $tr->getLastTchats(self::TCHAT_DATE_LIMIT_SHOW),
 			'tchat_form' => $tchat_form->createView(),
 
 			// Tables

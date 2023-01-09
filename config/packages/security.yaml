@@ -33,9 +33,10 @@ security:
             # Control User
             user_checker: App\Security\UserChecker
 
-            guard:
-                authenticators:
-                    - App\Security\LoginFormAuthenticator
+            # ERREUR : BLOCK LES REQUEST D'AUTRES FORM
+            # guard:
+            #     authenticators:
+            #         - App\Security\LoginFormAuthenticator
 
             http_basic: ~
             entry_point: form_login

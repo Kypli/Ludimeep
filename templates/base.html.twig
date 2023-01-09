@@ -24,8 +24,12 @@
 
 			{# SHIELDUI #}
 			{# <script src="{{ asset('shieldui/shieldui-all.min.js') }}"></script> #} {# SHIELD UI FULL #}
-			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-all.min.js') }}"></script> {# SHIELD UI LITE #}
-			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-latestjszip.min.js') }}"></script> {# EXPORT EXCEL #}
+
+			{# SHIELD UI LITE #}
+			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-all.min.js') }}"></script>
+			
+			{# EXPORT EXCEL #}
+			<script src="{{ asset('shieldui/shieldui-lite/dist/js/shieldui-lite-latestjszip.min.js') }}"></script>
 			<script id="noRecordsTemplate" type="text/x-shield-template">{% include 'shieldui/_noRecordsTemplate.html.twig' %}</script>
 			<script id="loading" type="text/x-shield-template">{% include 'shieldui/_loading.html.twig' %}</script>
 
