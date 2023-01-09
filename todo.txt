@@ -44,7 +44,6 @@ NOUS CONTACTER
 
 
 CONVERSATION
-- Remplacer string par text
 - Admin
 	- Si supprimer message d'une discussion, remplacer contenu par 'Supprimé', sinon delete discussion
 - Membre
@@ -68,7 +67,3 @@ L'ASSO
 SITE
 - Référencer le site avec "jeux de société" + "loiret" + "baule" + "association"
 - Statistique de visites
-
-
-BUG
-- Timer séance n°2 ne s'affiche pas si séance n°1 en cours

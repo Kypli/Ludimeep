@@ -10,22 +10,22 @@ use App\Repository\CommentRepository;
  */
 class CommentActu
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-	/**
-	 * @ORM\Column(type="text", nullable=true)
-	 */
-	private $text;
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $text;
 
-	/**
-	 * @ORM\Column(type="datetime", nullable=true)
-	 */
-	private $date;
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $date;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -37,46 +37,46 @@ class CommentActu
      */
     private $aime = false;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsActu")
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $user;
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="commentsActu")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=Actu::class, inversedBy="comments", cascade={"persist"})
-	 * @ORM\JoinColumn(nullable=false)
-	 */
-	private $actu;
+    /**
+     * @ORM\ManyToOne(targetEntity=Actu::class, inversedBy="comments", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $actu;
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	public function getText(): ?string
-	{
-		return $this->text;
-	}
+    public function getText(): ?string
+    {
+        return $this->text;
+    }
 
-	public function setText(string $text): self
-	{
-		$this->text = $text;
+    public function setText(string $text): self
+    {
+        $this->text = $text;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getDate(): ?\DateTimeInterface
-	{
-		return $this->date;
-	}
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
 
-	public function setDate(\DateTimeInterface $date): self
-	{
-		$this->date = $date;
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
 
-		return $this;
-	}
+        return $this;
+    }
 
     public function isThumb(): ?bool
     {
@@ -102,27 +102,27 @@ class CommentActu
         return $this;
     }
 
-	public function getUser(): ?user
-	{
-		return $this->user;
-	}
+    public function getUser(): ?user
+    {
+        return $this->user;
+    }
 
-	public function setUser(?user $user): self
-	{
-		$this->user = $user;
+    public function setUser(?user $user): self
+    {
+        $this->user = $user;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	public function getActu(): ?Actu
-	{
-		return $this->actu;
-	}
+    public function getActu(): ?Actu
+    {
+        return $this->actu;
+    }
 
-	public function setActu(?Actu $actu): self
-	{
-		$this->actu = $actu;
+    public function setActu(?Actu $actu): self
+    {
+        $this->actu = $actu;
 
-		return $this;
-	}
+        return $this;
+    }
 }

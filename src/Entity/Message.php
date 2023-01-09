@@ -10,32 +10,32 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Message
 {
-	/**
-	 * @ORM\Id
-	 * @ORM\GeneratedValue
-	 * @ORM\Column(type="integer")
-	 */
-	private $id;
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
 
-	/**
-	 * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
-	 */
-	private $user;
+    /**
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="messages")
+     */
+    private $user;
 
-	/**
-	 * @ORM\Column(type="string", length=255)
-	 */
-	private $contenu;
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $contenu;
 
-	/**
-	 * @ORM\Column(type="boolean")
-	 */
-	private $lu = false;
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $lu = false;
 
-	/**
-	 * @ORM\Column(type="datetime")
-	 */
-	private $date;
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
 
     /**
      * @ORM\ManyToOne(targetEntity=Discussion::class, inversedBy="messages")
@@ -43,58 +43,58 @@ class Message
      */
     private $discussion;
 
-	public function getId(): ?int
-	{
-		return $this->id;
-	}
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-	public function getUser(): ?User
-	{
-		return $this->user;
-	}
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
 
-	public function setUser(?User $user): self
-	{
-		$this->user = $user;
-
-		return $this;
-	}
-
-	public function getContenu(): ?string
-	{
-		return $this->contenu;
-	}
-
-	public function setContenu(string $contenu): self
-	{
-		$this->contenu = $contenu;
-
-		return $this;
-	}
-
-	public function getLu(): ?bool
-	{
-		return $this->lu;
-	}
-
-	public function setLu(bool $lu): self
- 	{
- 		$this->lu = $lu;
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
  
- 		return $this;
- 	}
+        return $this;
+    }
 
-	public function getDate(): ?\DateTimeInterface
- 	{
- 		return $this->date;
- 	}
+    public function getContenu(): ?string
+    {
+        return $this->contenu;
+    }
 
-	public function setDate(\DateTimeInterface $date): self
- 	{
- 		$this->date = $date;
- 
- 		return $this;
- 	}
+    public function setContenu(string $contenu): self
+    {
+        $this->contenu = $contenu;
+
+        return $this;
+    }
+
+    public function getLu(): ?bool
+    {
+        return $this->lu;
+    }
+
+    public function setLu(bool $lu): self
+    {
+        $this->lu = $lu;
+  
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+  
+        return $this;
+    }
 
     public function getDiscussion(): ?Discussion
     {
