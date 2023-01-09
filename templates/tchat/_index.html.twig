@@ -5,43 +5,11 @@
 	<div class='card tchat'>
 		<div class="row">
 			{% if tchats is not empty %}
-				<ul>
+
+				{# MESSAGES #}
+				<ul id='tchat_ul'>
 					{% for t in tchats %}
-						<li>
-							<div class="row">
-
-								{# SIZE #}
-								{% set botname = 'Bot' %}
-								{% set lengthLog = t.login != null ? t.login|length : botname|length  %}
-								{% set sizeAuteur = lengthLog >= 12 ? '5' : lengthLog >= 8 ? '4' : lengthLog >= 4 ? '3' : '2' %}
-								{% set sizeContent = lengthLog >= 12 ? '6' : lengthLog >= 8 ? '7' : lengthLog >= 4 ? '8' : '9' %}
-
-								{# AUTEUR #}
-								<div class="col-{{ sizeAuteur }} pl-1">
-									<span
-										class="tchat-auteur"
-										title="{{ 
-											t.nom is not empty and t.prenom is not empty
-												? t.nom|upper ~  ' ' ~  t.prenom|capitalize ~  ' : '
-										}}
-										{{
-											t.date|date('d/m/Y') == 'now'|date('d/m/Y')
-												? "Aujourd'hui à " ~ t.date|date('H:i:s')
-												: t.date|date('d/m/Y H:i:s')
-										}}"
-									>
-										{{ t.login != null ? t.login|capitalize : botname }}:
-									</span>
-								</div>
-
-								{# CONTENT #}
-								<div class="col-{{ sizeContent }} p-0 pt-1">
-									<span class='tchat-{{ t.login == null ? 'bot-' }}content{{ t.date|date('d/m/Y') == 'now'|date('d/m/Y') ? '-today' }}'>
-										{{ t.login != null ? t.content : t.content|raw }}
-									</span>
-								</div>
-							</div>
-						</li>
+						{% include 'tchat/_message.html.twig' %}
 					{% endfor %}
 				</ul>
 			{% else %}

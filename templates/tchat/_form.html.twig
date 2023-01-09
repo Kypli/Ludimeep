@@ -6,8 +6,11 @@
 			{{ form_widget(tchat_form.content) }}
 		</div>
 		<div class="col-1">
-			<button class="btn btn-success input-valid">
-				<i class="far fa-comment-dots"></i>
+			<div id='spinner_tchat_valid' class="pt-1 spinner-grow spinner-grow-xl green hide" role="status">
+				<span class="sr-only">Chargement...</span>
+			</div>
+			<button id='tchat_valid' class="btn btn-success input-valid">
+				<i id='button_valid_icon'class="far fa-comment-dots grey"></i>
 				{{ button_label|default('') }}
 			</button>
 		</div>

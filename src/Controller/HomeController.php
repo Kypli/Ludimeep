@@ -115,7 +115,7 @@ class HomeController extends AbstractController
 		$seance_presence_forms = $this->seancesForm($seances, $ser, $tar, $request, $user);
 
 		// Tchat
-		$tchat_form = $this->tchatForm($tr, $request, $user);
+		$tchat_form = $this->createForm(TchatForm::class);
 
 		// Table
 		$this->get('session')->set('table_nb_presence_form', 1);
@@ -123,12 +123,9 @@ class HomeController extends AbstractController
 		$table_presence_forms = $this->tablesPresenceForm($seances, $tar, $ser, $request, $user);
 
 		// Form valid
-		if (
-			$seance_presence_forms === false ||
-			$table_presence_forms === false ||
-			$tchat_form === false ||
-			$table_form === false
-		){ return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER); }
+		if ($table_form === false || $seance_presence_forms === false || $table_presence_forms === false){
+			return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+		}
 
 		return $this->render('home/index.html.twig',[
 
@@ -291,31 +288,6 @@ class HomeController extends AbstractController
 		}
 
 		return $result;
-	}
-
-	/**
-	 * Mini-tchat Ajout de contenu
-	 */
-	public function tchatForm($tr, $request, $user)
-	{
-		$tchat = new Tchat();
-
-		$form = $this->createForm(TchatForm::class, $tchat);
-		$form->handleRequest($request);
-
-		if ($form->isSubmitted() && $form->isValid() && $user != null){
-
-			$tchat
-				->setDate(new \Datetime('now'))
-				->setUser($user)
-			;
-
-			$tr->add($tchat, true);
-
-			return false;
-		}
-
-		return $form;
 	}
 
 	/**
