@@ -44,7 +44,6 @@ class TchatRepository extends ServiceEntityRepository
 	 */
 	public function getLastTchats($dateLimitShow)
 	{
-
 		$dateLimitShow = new \Datetime('- '.$dateLimitShow);
 
 		return $this->createQueryBuilder('x')
@@ -62,7 +61,8 @@ class TchatRepository extends ServiceEntityRepository
 			->where('x.date > :dateLess1Month')
 			->andWhere('x.active = :true')
 			->andWhere('u.active = :true')
-			// ->orWhere('u IS NULL')
+
+			->orWhere('u IS NULL and x.date > :dateLess1Month and x.active = :true')
 
 			->setParameters([
 				':dateLess1Month' => $dateLimitShow,

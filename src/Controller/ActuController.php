@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Actu;
 
 use App\Repository\ActuRepository;
+use App\Repository\CommentActuRepository;
 
 use App\Form\ActuType;
 
@@ -87,10 +88,24 @@ class ActuController extends AbstractController
 	/**
 	 * @Route("/{id}", name="_show", methods={"GET"})
 	 */
-	public function show(Actu $actu): Response
+	public function show(Actu $actu, CommentActuRepository $car): Response
 	{
+		$user = $this->getUser();
+		$user_id = $user != null ? $user->getId() : 0;
+		$actu_id = $actu->getId();
+		$ca = $user != null ? $car->getCaByUserAndActu($actu_id, $user_id) : null;
+
+		$actus_interact[$actu->getid()] = [
+			'nb_aimes' => $car->getAimes($actu_id),
+			'nb_thumb_up' => $car->getThumbUp($actu_id),
+			'nb_thumb_down' => $car->getThumbDown($actu_id),
+			'myAime' => $ca != null ? $ca->isAime() : false,
+			'myThumb' => $ca != null ? $ca->isThumb() : null,
+		];
+
 		return $this->render('actu/show.html.twig', [
 			'actu' => $actu,
+			'actus_interact' => $actus_interact,
 		]);
 	}
 

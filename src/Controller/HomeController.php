@@ -55,7 +55,7 @@ class HomeController extends AbstractController
 
 	const TABLE_PLAYERS_MAX = 12;
 
-	const TCHAT_DATE_LIMIT_SHOW = '20 days';
+	const TCHAT_DATE_LIMIT_SHOW = '14 days';
 
 	private $log;
 
