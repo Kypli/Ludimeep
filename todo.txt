@@ -12,7 +12,6 @@ MINI-TCHAT
 ACTUALITÉS
 - Commenter une actu (membre only)
 - Admin : Afficher qui a aimé/thumb
-- Réduire la section de la page actu/show
 - Vérifier si pas de bug pour les photos
 
 
