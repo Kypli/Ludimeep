@@ -37,7 +37,7 @@ class Log extends AbstractController
 	 */
 	public function saveLog($action, $cible = null)
 	{
-		// Enregistre
+		// Set datas
 		$log = new Tchat;
 		$log
 			->setUser(null)
@@ -45,6 +45,10 @@ class Log extends AbstractController
 			->setDate($this->date)
 		;
 
+		// Doublon ?
+		if ($this->doublon($log->getContent())){ return false; } 
+		
+		// Enregistre
 		$this->tr->add($log, true);
 
 		return true;
@@ -93,5 +97,19 @@ class Log extends AbstractController
 		}
 
 		return $text;
+	}
+
+	/**
+	 * Contrôle les doublons
+	 */
+	public function doublon($content)
+	{
+		$doublon = $this->tr->findByContent($content);
+		
+		if (count($doublon) == 0){
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

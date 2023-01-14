@@ -14,14 +14,11 @@
 				<table class="table">
 					<thead>
 						<tr>
-							<th>Actions</th>
+							<th class="center">Actions</th>
 							<th>Titre</th>
 							<th>Date</th>
 							<th>Auteur</th>
 							<th>Text ...</th>
-							{% if is_granted('ROLE_ADMIN') %}
-								<th>Active</th>
-							{% endif %}
 						</tr>
 					</thead>
 					<tbody>
@@ -30,12 +27,25 @@
 								<tr>
 									<td style='min-width:100px;'>
 										<div class='row'>
-											<div class='col-4 offset-1'>
+											<div class='col-3 offset-1'>
 												<a href="{{ path('actu_show', {'id': actu.id}) }}" class="mr-3"><i class="fa-solid fa-newspaper" title="Lire"></i></a>
 											</div>
 											{% if is_granted('ROLE_ADMIN') %}
-												<div class='col-4'>
-													<a href="{{ path('actu_edit', {'id': actu.id}) }}"><i class="fas fa-edit" title="Modifier"></i></a>
+												<div class='col-3'>
+													<a href="{{ path('actu_edit', {'id': actu.id}) }}">
+														<i class="fas fa-edit" title="Modifier"></i>
+													</a>
+												</div>
+												<div class='col-3'>
+													<a
+														href="{{ path('actu_valid', {'id': actu.id, 'path': ''}) }}"
+														title="{{ actu.valid
+															? 'Validé -> Brouillon'
+															: 'Brouillon -> Revalider'
+														}}"
+													>
+														<i class="fas fa-check {{ actu.valid ? 'green' : 'grey' }}"></i>
+													</a>
 												</div>
 											{% endif %}
 										</div>
@@ -44,9 +54,6 @@
 									<td>{{ actu.date ? actu.date|date('d/m/Y à H:i') : '' }}</td>
 									<td>{{ actu.auteur.profil.prenom|capitalize ~ ' ' ~ actu.auteur.profil.nom|upper }}</td>
 									<td>{{ actu.text1|slice(0, 30) }} ...</td>
-									{% if is_granted('ROLE_ADMIN') %}
-										<td>{{ actu.valid ? '<i class="fas fa-check green"></i>' : '<span class="yellow">BROUILLON</span>' }}</td>
-									{% endif %}
 								</tr>
 							{% endif %}
 						{% else %}

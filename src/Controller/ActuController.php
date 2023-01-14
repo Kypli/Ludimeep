@@ -159,7 +159,7 @@ class ActuController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/{id}/valid", name="_valid")
 	 */
-	public function valid(Request $request, Actu $actu, ActuRepository $actuRepository, Log $log): Response
+	public function valid(Actu $actu, Request $request, ActuRepository $actuRepository, Log $log): Response
 	{
 		$actu->setValid(!$actu->getValid());
 		$actuRepository->add($actu);
@@ -168,7 +168,7 @@ class ActuController extends AbstractController
 			$log->saveLog(Log::ACTU, $actu->getId());
 		}
 
-		return $this->redirectToRoute('actu_show', ['id' => $actu->getId()], Response::HTTP_SEE_OTHER);
+		return $this->redirectToRoute('actu'.$request->query->get('path'), ['id' => $actu->getId()], Response::HTTP_SEE_OTHER);
 	}
 
 	/**
