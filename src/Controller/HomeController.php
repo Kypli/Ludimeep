@@ -10,6 +10,7 @@ use App\Entity\UserProfil;
 use App\Service\Log;
 use App\Service\Discussion as DiscussionSer;
 use App\Service\LigneComptable as LigneComptableSer;
+use App\Service\Date as DateSer;
 
 use App\Repository\UserRepository;
 use App\Repository\UserProfilRepository;
@@ -59,9 +60,12 @@ class HomeController extends AbstractController
 
 	private $log;
 
-	public function __construct(Log $log)
+	private $dateSer;
+
+	public function __construct(Log $log, DateSer $dateSer)
 	{
 		$this->log = $log;
+		$this->dateSer = $dateSer;
 	}
 
 	/**
@@ -112,8 +116,8 @@ class HomeController extends AbstractController
 		}
 
 		// Séances
-		$seances_table = $this->seancesTable($ser, $user);
 		$seances = $this->seances($ser->getOldSeance(self::SEANCE_AFFICHAGE_MAX), $ser->getNextSeance(SELF::SEANCE_AFFICHAGE_MAX));
+		$seances_date = $this->seancesDate($seances);
 		$seance_presence_forms = $this->seancesForm($seances, $ser, $tar, $request, $user);
 
 		// Tchat
@@ -164,35 +168,15 @@ class HomeController extends AbstractController
 
 			// Séances
 			'seances' => $seances,
+			'seances_date' => $seances_date,
 			'seance_max_table' => self::SEANCE_MAX_TABLE,
 			'seance_lieu_defaut' => $slr->findOneByDefaut(true),
 			'seance_presence_form_1' => $seance_presence_forms[0]->createView(),
 			'seance_presence_form_2' => $seance_presence_forms[1]->createView(),
 
 			// Calendrier
-			'dateJour' => ucfirst($this->dateToFrench('now', 'l j F Y')),
+			'dateJour' => $this->dateSer->dateToFrench('now', 'l j F Y'),
 		]);
-	}
-
-	/**
-	 * Crée et traduit une date en Français
-	 */
-	public static function dateToFrench($date, $format) 
-	{
-		$english_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-		$french_days = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi', 'dimanche'];
-		$english_months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-		$french_months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-
-		return str_replace(
-			$english_months,
-			$french_months,
-			str_replace(
-				$english_days,
-				$french_days,
-				date($format, strtotime($date))
-			)
-		);
 	}
 
 	/**
@@ -277,16 +261,13 @@ class HomeController extends AbstractController
 	}
 
 	/**
-	 * Renvoie les 3 prochaines séances pour le formulaire de table
+	 * Renvoie les dates des prochaines séances
 	 */
-	public function seancesTable($ser, $user) 
+	public function seancesDate($seances) 
 	{
-		$seances = $ser->getNextSeance(3);
-
 		$result = [];
 		foreach ($seances as $seance){
-			$titre = ucfirst($this->dateToFrench($seance->getDate()->format('Y/m/d'), 'l d/m/Y'))." - ".$seance->getType()->getName();
-			$result[$titre] = $seance->getId();
+			$result[(int) $seance->getId()] = $this->dateSer->dateToFrench($seance->getDate()->format('Y/m/d'), 'l d F');
 		}
 
 		return $result;
