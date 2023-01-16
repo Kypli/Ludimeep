@@ -2,11 +2,6 @@
 
 namespace App\Service;
 
-use App\Entity\Tchat;
-use App\Repository\TchatRepository;
-
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**

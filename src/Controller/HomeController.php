@@ -58,75 +58,105 @@ class HomeController extends AbstractController
 
 	const TCHAT_DATE_LIMIT_SHOW = '14 days';
 
+	// Var
+	private $user;
+
+	// Service
 	private $log;
-
 	private $dateSer;
+	private $discussionSer;
+	private $ligneComptableSer;
 
-	public function __construct(Log $log, DateSer $dateSer)
-	{
+	// Repository
+	private $gr;
+	private $ar;
+	private $tar;
+	private $tr;
+	private $ser;
+	private $sr;
+	private $or;
+	private $slr;
+	private $car;
+
+	public function __construct(
+			Log $log,
+			DateSer $dateSer,
+			DiscussionSer $discussionSer,
+			LigneComptableSer $ligneComptableSer,
+			GameRepository $gr,
+			ActuRepository $ar,
+			TableRepository $tar,
+			TchatRepository $tr,
+			SeanceRepository $ser,
+			SondageRepository $sr,
+			OperationRepository $or,
+			SeanceLieuRepository $slr,
+			CommentActuRepository $car
+	){
+		$this->user = $this->user;
+		$this->user_id = $this->user != null ? $this->user->getId() : 0;
+
 		$this->log = $log;
 		$this->dateSer = $dateSer;
+		$this->discussionSer = $discussionSer;
+		$this->ligneComptableSer = $ligneComptableSer;
+
+		$this->gr = $gr;
+		$this->tr = $tr;
+		$this->sr = $sr;
+		$this->ar = $ar;
+		$this->or = $or;
+		$this->tar = $tar;
+		$this->ser = $ser;
+		$this->slr = $slr;
+		$this->car = $car;
 	}
 
 	/**
 	 * @Route("/", name="")
 	 */
-	public function index(
-		Request $request,
-		ActuRepository $ar,
-		GameRepository $gr,
-		TableRepository $tar,
-		TchatRepository $tr,
-		SeanceRepository $ser,
-		SondageRepository $sr,
-		OperationRepository $or,
-		SeanceLieuRepository $slr,
-		CommentActuRepository $car,
-		DiscussionSer $discussionSer,
-		LigneComptableSer $ligneComptableSer,
-		AuthenticationUtils $authenticationUtils
-	){
-		// User
-		$user = $this->getUser();
-		$user_id = $user != null ? $user->getId() : 0;
-
+	public function index(Request $request, AuthenticationUtils $authenticationUtils)
+	{
 		// Discussions
-		$discussionSer->update();
+		$this->discussionSer->update();
 
 		// Lignes comptables
-		$ligneComptableSer->update();
+		$this->ligneComptableSer->update();
 
 		// Actus
-		$actus = $ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0);
+		$actus = $this->ar->findBy(['valid' => true], ['id' => 'DESC'], 3, 0);
 
 		// InteractActu
 		$actus_interact = [];
 		foreach ($actus as $actu){
 
 			$actu_id = $actu->getId();
-			$ca = $user != null ? $car->getCaByUserAndActu($actu_id, $user_id) : null;
+			$ca = $this->user != null ? $this->car->getCaByUserAndActu($actu_id, $user_id) : null;
 
 			$actus_interact[$actu->getid()] = [
-				'nb_aimes' => $car->getAimes($actu_id),
-				'nb_thumb_up' => $car->getThumbUp($actu_id),
-				'nb_thumb_down' => $car->getThumbDown($actu_id),
+				'nb_aimes' => $this->car->getAimes($actu_id),
+				'nb_thumb_up' => $this->car->getThumbUp($actu_id),
+				'nb_thumb_down' => $this->car->getThumbDown($actu_id),
 				'myAime' => $ca != null ? $ca->isAime() : false,
 				'myThumb' => $ca != null ? $ca->isThumb() : null,
 			];
 		}
 
 		// Séances
-		$seances = $this->seances($ser->getOldSeance(self::SEANCE_AFFICHAGE_MAX), $ser->getNextSeance(SELF::SEANCE_AFFICHAGE_MAX));
+		$seances = $this->seances(
+			$this->ser->getOldSeance(self::SEANCE_AFFICHAGE_MAX),
+			$this->ser->getNextSeance(SELF::SEANCE_AFFICHAGE_MAX)
+		);
 		$seances_date = $this->seancesDate($seances);
-		$seance_presence_forms = $this->seancesForm($seances, $ser, $tar, $request, $user);
+		$seance_presence_forms = $this->seancesForm($seances, $request);
 
 		// Tchat
 		$tchat_form = $this->createForm(TchatForm::class);
 
 		// Table
 		$this->get('session')->set('table_nb_presence_form', 1);
-		$table_form = $this->tableForm($tar, $ser, $gr, $request, $user);
-		$table_presence_forms = $this->tablesPresenceForm($seances, $tar, $ser, $request, $user);
+		$table_form = $this->tableForm($request);
+		$table_presence_forms = $this->tablesPresenceForm($seances, $request);
 
 		// Form valid
 		if ($table_form === false || $seance_presence_forms === false || $table_presence_forms === false){
@@ -140,10 +170,10 @@ class HomeController extends AbstractController
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 
 			// Solde
-			'solde' => $user != null ? $or->solde($user_id) : 0,
+			'solde' => $this->user != null ? $this->or->solde($user_id) : 0,
 
 			// Tchat
-			'tchats' => $tr->getLastTchats(self::TCHAT_DATE_LIMIT_SHOW),
+			'tchats' => $this->tr->getLastTchats(self::TCHAT_DATE_LIMIT_SHOW),
 			'tchat_form' => $tchat_form->createView(),
 
 			// Tables
@@ -160,7 +190,7 @@ class HomeController extends AbstractController
 
 			// Sondage
 			'request' => $request,
-			'sondages' => $sr->getSondageRunning(),
+			'sondages' => $this->sr->getSondageRunning(),
 
 			// Actus
 			'actus' => $actus,
@@ -170,7 +200,7 @@ class HomeController extends AbstractController
 			'seances' => $seances,
 			'seances_date' => $seances_date,
 			'seance_max_table' => self::SEANCE_MAX_TABLE,
-			'seance_lieu_defaut' => $slr->findOneByDefaut(true),
+			'seance_lieu_defaut' => $this->slr->findOneByDefaut(true),
 			'seance_presence_form_1' => $seance_presence_forms[0]->createView(),
 			'seance_presence_form_2' => $seance_presence_forms[1]->createView(),
 
@@ -205,7 +235,7 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux séances
 	 */
-	public function seancesForm($seances, $ser, $tar, $request, $user) 
+	public function seancesForm($seances, $request) 
 	{
 		/* -- Form 1 -- */
 		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
@@ -214,20 +244,20 @@ class HomeController extends AbstractController
 
 		if ($form1->isSubmitted() && $form1->isValid()){
 			
-			if ($user->inSeance($seance)){
-				$seance->removePresent($user);
+			if ($this->user->inSeance($seance)){
+				$seance->removePresent($this->user);
 
 				// Retrait des tables
 				$tables = $seance->getTables();
 				foreach($tables as $table){
-					$table->removePlayer($user);
-					$tar->add($table, true);
+					$table->removePlayer($this->user);
+					$this->tar->add($table, true);
 				}
 
 			} else {
-				$seance->addPresent($user);
+				$seance->addPresent($this->user);
 			}
-			$ser->add($seance, true);
+			$this->ser->add($seance, true);
 
 			return false;
 		}
@@ -239,20 +269,20 @@ class HomeController extends AbstractController
 		$form2->handleRequest($request);
 
 		if ($form2->isSubmitted() && $form2->isValid()){
-			if ($user->inSeance($seance)){
-				$seance->removePresent($user);
+			if ($this->user->inSeance($seance)){
+				$seance->removePresent($this->user);
 
 				// Retrait des tables
 				$tables = $seance->getTables();
 				foreach($tables as $table){
-					$table->removePlayer($user);
-					$tar->add($table, true);
+					$table->removePlayer($this->user);
+					$this->tar->add($table, true);
 				}
 
 			} else {
-				$seance->addPresent($user);
+				$seance->addPresent($this->user);
 			}
-			$ser->add($seance, true);
+			$this->ser->add($seance, true);
 
 			return false;
 		}
@@ -276,19 +306,19 @@ class HomeController extends AbstractController
 	/**
 	 * Mini-tchat Ajout de contenu
 	 */
-	public function tableForm($tar, $ser, $gr, $request, $user)
+	public function tableForm($request)
 	{
 		$table = new Table();
 
 		$form = $this->createForm(TableForm::class, $table, [
-			'user_id' => !empty($user) ? $user->getId() : 0,
+			'user_id' => !empty($this->user) ? $this->user->getId() : 0,
 			'seance_id' => 0,
 			'seances_table' => [],
 		]);
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid() && $user != null){
+		if ($form->isSubmitted() && $form->isValid() && $this->user != null){
 
 			$table_req = $request->request->get('table');
 
@@ -297,13 +327,13 @@ class HomeController extends AbstractController
 			if (null == $table->getGameFree()){
 
 				if (null != $table_req['gameOwner']){
-					$game = $gr->find($table_req['gameOwner']);
+					$game = $this->gr->find($table_req['gameOwner']);
 
 				} elseif(null != $table_req['gamePresent']){
-					$game = $gr->find($table_req['gamePresent']);
+					$game = $this->gr->find($table_req['gamePresent']);
 
 				} elseif(null != $table_req['gameAdherant']){
-					$game = $gr->find($table_req['gameAdherant']);
+					$game = $this->gr->find($table_req['gameAdherant']);
 
 				} else {
 					$this->addFlash('error', "Aucun jeu sélectionné.");
@@ -312,21 +342,21 @@ class HomeController extends AbstractController
 			}
 
 			// Seance
-			$seance = $ser->getOneSeanceByDate($table_req['date']);
+			$seance = $this->ser->getOneSeanceByDate($table_req['date']);
 			$seance = $seance[0];
 
-			$seance->addPresent($user);
-			$ser->add($seance, true);
+			$seance->addPresent($this->user);
+			$this->ser->add($seance, true);
 
 			// Table
 			$table
-				->setGerant($user)
+				->setGerant($this->user)
 				->setSeance($seance)
 				->setGame($game)
-				->addPlayer($user)
+				->addPlayer($this->user)
 			;
 
-			$tar->add($table, true);
+			$this->tar->add($table, true);
 
 			// Log
 			$game_name = empty($table->getGameFree())
@@ -344,7 +374,7 @@ class HomeController extends AbstractController
 	/**
 	 * Gère les formulaires d'inscription aux tables
 	 */
-	public function tablesPresenceForm($seances, $tar, $ser, $request, $user) 
+	public function tablesPresenceForm($seances, $request) 
 	{
 		$ii = 1;
 		$form = [];
@@ -389,13 +419,13 @@ class HomeController extends AbstractController
 				$form_tempo->handleRequest($request);
 
 				if ($form_tempo->isSubmitted() && $form_tempo->isValid()){
-					$user->isInscrit($user, $table)
-						? $table->removePlayer($user)
-						: $table->addPlayer($user) && $seance->addPresent($user)
+					$this->user->isInscrit($this->user, $table)
+						? $table->removePlayer($this->user)
+						: $table->addPlayer($this->user) && $seance->addPresent($this->user)
 					;
 
-					$tar->add($table, true);
-					$ser->add($seance, true);
+					$this->tar->add($table, true);
+					$this->ser->add($seance, true);
 
 					return false;
 				}
