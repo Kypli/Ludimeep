@@ -58,10 +58,6 @@ class HomeController extends AbstractController
 
 	const TCHAT_DATE_LIMIT_SHOW = '14 days';
 
-	// Var
-	private $user;
-	private $user_id;
-
 	// Service
 	private $log;
 	private $dateSer;
