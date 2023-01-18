@@ -60,6 +60,7 @@ class HomeController extends AbstractController
 
 	// Var
 	private $user;
+	private $user_id;
 
 	// Service
 	private $log;
@@ -93,9 +94,6 @@ class HomeController extends AbstractController
 			SeanceLieuRepository $slr,
 			CommentActuRepository $car
 	){
-		$this->user = $this->user;
-		$this->user_id = $this->user != null ? $this->user->getId() : 0;
-
 		$this->log = $log;
 		$this->dateSer = $dateSer;
 		$this->discussionSer = $discussionSer;
@@ -117,6 +115,9 @@ class HomeController extends AbstractController
 	 */
 	public function index(Request $request, AuthenticationUtils $authenticationUtils)
 	{
+		// User
+		$user = $this->getUser();
+		$user_id = $user != null ? $user->getId() : 0;
 		// Discussions
 		$this->discussionSer->update();
 
@@ -131,7 +132,7 @@ class HomeController extends AbstractController
 		foreach ($actus as $actu){
 
 			$actu_id = $actu->getId();
-			$ca = $this->user != null ? $this->car->getCaByUserAndActu($actu_id, $user_id) : null;
+			$ca = $user != null ? $this->car->getCaByUserAndActu($actu_id, $user_id) : null;
 
 			$actus_interact[$actu->getid()] = [
 				'nb_aimes' => $this->car->getAimes($actu_id),
@@ -170,7 +171,7 @@ class HomeController extends AbstractController
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 
 			// Solde
-			'solde' => $this->user != null ? $this->or->solde($user_id) : 0,
+			'solde' => $user != null ? $this->or->solde($user_id) : 0,
 
 			// Tchat
 			'tchats' => $this->tr->getLastTchats(self::TCHAT_DATE_LIMIT_SHOW),
@@ -219,7 +220,10 @@ class HomeController extends AbstractController
 			unset($dateTempo);
 			$dateTempo = clone $old->getDate();
 
-			$date_time = $old->getDate()->modify("+".$old->getDuree()->format('H').' hour +'.$old->getDuree()->format('i').'minute');
+			$date_time = $old
+				->getDate()
+				->modify("+".$old->getDuree()->format('H').' hour +'.$old->getDuree()->format('i').'minute')
+			;
 
 			if ($date_time <= new \Datetime('now')){
 				unset($olds[$key]);
@@ -237,6 +241,8 @@ class HomeController extends AbstractController
 	 */
 	public function seancesForm($seances, $request) 
 	{
+		$user = $this->getUser();
+
 		/* -- Form 1 -- */
 		$seance = !empty($seances) ? $seances[array_key_first($seances)] : null;
 		$form1 = $this->createForm(SeancePresence1Form::class, $seance);
@@ -244,18 +250,18 @@ class HomeController extends AbstractController
 
 		if ($form1->isSubmitted() && $form1->isValid()){
 			
-			if ($this->user->inSeance($seance)){
-				$seance->removePresent($this->user);
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
 
 				// Retrait des tables
 				$tables = $seance->getTables();
 				foreach($tables as $table){
-					$table->removePlayer($this->user);
+					$table->removePlayer($user);
 					$this->tar->add($table, true);
 				}
 
 			} else {
-				$seance->addPresent($this->user);
+				$seance->addPresent($user);
 			}
 			$this->ser->add($seance, true);
 
@@ -269,18 +275,18 @@ class HomeController extends AbstractController
 		$form2->handleRequest($request);
 
 		if ($form2->isSubmitted() && $form2->isValid()){
-			if ($this->user->inSeance($seance)){
-				$seance->removePresent($this->user);
+			if ($user->inSeance($seance)){
+				$seance->removePresent($user);
 
 				// Retrait des tables
 				$tables = $seance->getTables();
 				foreach($tables as $table){
-					$table->removePlayer($this->user);
+					$table->removePlayer($user);
 					$this->tar->add($table, true);
 				}
 
 			} else {
-				$seance->addPresent($this->user);
+				$seance->addPresent($user);
 			}
 			$this->ser->add($seance, true);
 
@@ -308,17 +314,18 @@ class HomeController extends AbstractController
 	 */
 	public function tableForm($request)
 	{
+		$user = $this->getUser();
 		$table = new Table();
 
 		$form = $this->createForm(TableForm::class, $table, [
-			'user_id' => !empty($this->user) ? $this->user->getId() : 0,
+			'user_id' => !empty($user) ? $user->getId() : 0,
 			'seance_id' => 0,
 			'seances_table' => [],
 		]);
 
 		$form->handleRequest($request);
 
-		if ($form->isSubmitted() && $form->isValid() && $this->user != null){
+		if ($form->isSubmitted() && $form->isValid() && $user != null){
 
 			$table_req = $request->request->get('table');
 
@@ -345,15 +352,15 @@ class HomeController extends AbstractController
 			$seance = $this->ser->getOneSeanceByDate($table_req['date']);
 			$seance = $seance[0];
 
-			$seance->addPresent($this->user);
+			$seance->addPresent($user);
 			$this->ser->add($seance, true);
 
 			// Table
 			$table
-				->setGerant($this->user)
+				->setGerant($user)
 				->setSeance($seance)
 				->setGame($game)
-				->addPlayer($this->user)
+				->addPlayer($user)
 			;
 
 			$this->tar->add($table, true);
@@ -419,9 +426,11 @@ class HomeController extends AbstractController
 				$form_tempo->handleRequest($request);
 
 				if ($form_tempo->isSubmitted() && $form_tempo->isValid()){
-					$this->user->isInscrit($this->user, $table)
-						? $table->removePlayer($this->user)
-						: $table->addPlayer($this->user) && $seance->addPresent($this->user)
+
+					$user = $this->getUser();
+					$user->isInscrit($user, $table)
+						? $table->removePlayer($user)
+						: $table->addPlayer($user) && $seance->addPresent($user)
 					;
 
 					$this->tar->add($table, true);
