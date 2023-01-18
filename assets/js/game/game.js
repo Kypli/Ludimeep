@@ -403,7 +403,7 @@ $(document).ready(function(){
 			minAge: $("#game_minAge").val(),
 			time_hour: $("#game_time_hour").val(),
 			time_minute: $("#game_time_minute").val(),
-			owner: $("#game_owner").val(),
+			user_id: $("#game_owner").val(),
 		}
 	}
 
@@ -444,6 +444,9 @@ $(document).ready(function(){
 					datas.nom = response.nom
 					datas.prenom = response.prenom
 					datas.user_id = response.user_id
+					datas.owner = datas.nom != '' && datas.prenom != ''
+						? datas.nom + ' ' + datas.prenom
+						: datas.userName
 
 					action == 'edit'
 						? toaster("Le jeu à bien été modifié") + editItem(datas, getIndexSelected())

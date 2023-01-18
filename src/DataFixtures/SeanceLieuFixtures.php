@@ -13,18 +13,16 @@ class SeanceLieuFixtures extends Fixture implements FixtureGroupInterface
 {
 	public function load(ObjectManager $manager)
 	{
-		foreach ($datas as $key => $value){
+		$entity = new Entity();
+		$entity
+			->setName('Salle de jeux')
+			->setAdresse('4 Rue Jean Bordier')
+			->setCodePostal('45130')
+			->setVille('Baule')
+			->setDefaut(true)
+		;
+		$manager->persist($entity);
 
-			$entity = new Entity();
-			$entity
-				->setName('Salle de jeux')
-				->setAdresse('4 Rue Jean Bordier')
-				->setCodePostal('45130')
-				->setVille('Baule')
-				->setDefault(true)
-			;
-			$manager->persist($entity);
-		}
 		$manager->flush();
 	}
 

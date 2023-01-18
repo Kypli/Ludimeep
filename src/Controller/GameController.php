@@ -64,7 +64,7 @@ class GameController extends AbstractController
 			$time = $game['time'];
 			$games[$key]['time_hour'] = isset($time) ? $time->format('H') : null;
 			$games[$key]['time_minute'] = isset($time) ? $time->format('i') : null;
-			$games[$key]['owner'] = !isset($game['nom']) || !isset($game['prenom'])
+			$games[$key]['owner'] = $game['nom'] == "" && $game['prenom'] == ""
 				? $game['userName']
 				: ucfirst($game['nom']).' '.ucfirst($game['prenom'])
 			;
