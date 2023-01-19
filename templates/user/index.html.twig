@@ -62,7 +62,6 @@
 							{# SOLDE #}
 							<td id='td_solde'>
 								{% if user.asso.adherant %}
-									{% set lignes = user.operations|length %}
 									{%
 										set lignes_unvalid = render(
 											controller(
@@ -84,14 +83,10 @@
 										href="{{ path('operation_show', {'id': user.id}) }}"
 										class="{{ solde >= 0 ? 'green' : 'red' }}"
 									>{{ solde }} €</a>
-									{% if lignes > 0 %}
-										(
-											{{ lignes }}
-											{% if lignes_unvalid > 0 %}
-												/ <span class="red">{{ lignes_unvalid }}</span>
-											{% endif %}
-										)
-									{% endif %}
+
+										{% if lignes_unvalid > 0 %}
+											( <span class="red">{{ lignes_unvalid }}</span> )
+										{% endif %}
 								{% endif %}
 							</td>
 
