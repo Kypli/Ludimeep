@@ -114,6 +114,7 @@ class HomeController extends AbstractController
 		// User
 		$user = $this->getUser();
 		$user_id = $user != null ? $user->getId() : 0;
+
 		// Discussions
 		$this->discussionSer->update();
 

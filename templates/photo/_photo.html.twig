@@ -69,7 +69,7 @@
 		<div class='taille11 alignRight italique'>
 			{% set auteur = p_user.profil.prenom is not empty and p_user.profil.nom is not empty
 				? p_user.profil.prenom|capitalize ~ ' ' ~ p_user.profil.nom|upper
-				: p_user.profil.userName|capitalize
+				: p_user.userName|capitalize
 			%}
 
 			Par 

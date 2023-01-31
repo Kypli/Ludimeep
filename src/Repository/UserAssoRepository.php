@@ -21,7 +21,7 @@ class UserAssoRepository extends ServiceEntityRepository
 		parent::__construct($registry, UserAsso::class);
 	}
 
-	public function add(UserAsso $entity, bool $flush = false): void
+	public function add(UserAsso $entity, bool $flush = true): void
 	{
 		$this->getEntityManager()->persist($entity);
 
@@ -30,7 +30,7 @@ class UserAssoRepository extends ServiceEntityRepository
 		}
 	}
 
-	public function remove(UserAsso $entity, bool $flush = false): void
+	public function remove(UserAsso $entity, bool $flush = true): void
 	{
 		$this->getEntityManager()->remove($entity);
 

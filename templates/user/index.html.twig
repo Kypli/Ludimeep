@@ -43,13 +43,15 @@
 										<a href="{{ path('user_show', {'id': user.id}) }}" class="mr-3"><i class="fas fa-user" title="Fiche utilisateur"></i></a>
 									</div>
 									<div class='col-4'>
-										<a href="{{ path('user_edit', {'id': user.id}) }}"><i class="fas fa-edit" title="Modifier sa fiche"></i></a>
+										<a href="{{ path('user_edit', {'id': user.id}) }}">
+											<i class="fas fa-edit" title="Modifier sa fiche"></i>
+										</a>
 									</div>
 								</div>
 							</td>
 							<td class='{{ user.active == false ? 'text-warning' }} {{ user.anonyme ? 'red' }}'>
 								<span
-									title="{{ user.anonyme ? 'Anonyme' }} {{ user.active == false ? 'Désactiver' }}"
+									title="{{ user.anonyme ? 'Anonyme' }} {{ user.active == false ? 'Compte désactivé' }}"
 									class="{{ user.anonyme or user.active == false ? 'pointeur_help' }}"
 								>
 									{{ user.userName }}
@@ -57,7 +59,10 @@
 							</td>
 							<td>{{ user.profil.nom }}</td>
 							<td>{{ user.profil.prenom }}</td>
-							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+							<td>{{ 'ROLE_ADMIN' in user.roles|json_encode
+								? '<i class="fas fa-check green"></i>'
+								: '<i class="fas fa-times red"></i>' }}
+							</td>
 
 							{# SOLDE #}
 							<td id='td_solde'>

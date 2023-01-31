@@ -109,4 +109,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			->getSingleScalarResult()
 		;
 	}
+
+	/**
+	 * @return Renvoie les users, trié par leur rôle CA puis ID
+	 */
+	public function byRoleCaAndId()
+	{
+		return $this->createQueryBuilder('u')
+			->join('u.asso', 'a')
+
+			->orderBy('a.roleCa', 'ASC')
+			->addOrderBy('u.id', 'ASC')
+
+			->getQuery()
+			->getResult()
+		;
+	}
 }

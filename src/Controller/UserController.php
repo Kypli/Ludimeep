@@ -6,11 +6,15 @@ use App\Entity\User;
 use App\Entity\UserAsso;
 use App\Entity\UserProfil;
 
+use App\Repository\GameRepository;
 use App\Repository\UserRepository;
+use App\Repository\TchatRepository;
+use App\Repository\PhotoRepository;
 use App\Repository\UserAssoRepository;
 use App\Repository\OperationRepository;
 use App\Repository\UserProfilRepository;
 use App\Repository\DiscussionRepository;
+use App\Repository\SondageUserRepository;
 
 use App\Form\UserType;
 
@@ -44,7 +48,7 @@ class UserController extends AbstractController
 		$ligneComptableSer->update();
 
 		return $this->render('user/index.html.twig', [
-			'users' => $ur->findAll(),
+			'users' => $ur->byRoleCaAndId(),
 		]);
 	}
 
@@ -112,7 +116,10 @@ class UserController extends AbstractController
 				$upr->add($userProfil);
 				$uar->add($userAsso);
 
-				$this->addFlash('success', 'Félicitations, vous inscription est prise en compte, vous pouvez maintenant vous connecter.');
+				$this->addFlash(
+					'success',
+					'Félicitations, vous inscription est prise en compte, vous pouvez maintenant vous connecter.'
+				);
 
 				return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 			}
@@ -179,6 +186,7 @@ class UserController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_USER")
 	 * @Route("/{id}", name="_show", methods={"GET"})
 	 */
 	public function show(User $user): Response
@@ -194,6 +202,7 @@ class UserController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_USER")
 	 * @Route("/edit/{id}", name="_edit", methods={"GET", "POST"})
 	 */
 	public function edit(Request $request, User $user, UserRepository $ur): Response
@@ -300,14 +309,19 @@ class UserController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/delete/{id}", name="_delete", methods={"POST"})
 	 */
 	public function delete(
 		Request $request,
 		User $user,
+		GameRepository $gr,
 		UserRepository $ur,
+		PhotoRepository $pr,
+		TchatRepository $tr,
+		OperationRepository $or,
 		DiscussionRepository $dr,
-		OperationRepository $or
+		SondageUserRepository $sur
 	): Response	{
 
 		// Acces control
@@ -327,6 +341,15 @@ class UserController extends AbstractController
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
 
+		// On ne peut supprimer son propre compte
+		if ($user->getId() == $this->getUser()->getId()){
+			$this->addFlash(
+				'error',
+				'Vous ne pouvez supprimer votre propre compte, juste le désactiver. Demander à un autre admin de le faire.'
+			);
+			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+		}
+
 		// Delete
 		if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))){
 
@@ -338,14 +361,43 @@ class UserController extends AbstractController
 				$dr->remove($discussion);
 			}
 
+			// Delete Games
+			foreach ($user->getGames() as $game){
+				$gr->remove($game);
+			}
+
+			// Delete Photos
+			foreach ($user->getPhotos() as $photo){
+				if (file_exists($this->getParameter('kernel.project_dir')."\uploads\photos\\".$photo->getName())){
+					unlink($this->getParameter('kernel.project_dir')."\uploads\photos\\".$photo->getName());
+				}
+				$pr->remove($photo);
+			}
+
+			// Delete Vote (Sondage)
+			foreach ($user->getSondages() as $sondage){
+				$sur->remove($sondage, true);
+			}
+
+			// Delete Tchat
+			foreach ($user->getTchats() as $tchat){
+				$tr->remove($tchat, true);
+			}
+
 			// Delete
 			$ur->remove($user);
+
+			$this->addFlash(
+				'success',
+				"L'utilisateur a bien été supprimé ainsi que ses messages, ses photos, ses votes, ses séances, ses tables et ses jeux."
+			);
 		}
 
 		return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
 	}
 
 	/**
+	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/active/{id}", name="_active", methods={"POST"})
 	 */
 	public function active(Request $request, User $user, UserRepository $ur): Response {
@@ -367,6 +419,7 @@ class UserController extends AbstractController
 	}
 
 	/**
+	 * @IsGranted("ROLE_USER")
 	 * @Route("/desactive/{id}", name="_desactive", methods={"POST"})
 	 */
 	public function desactive(Request $request, User $user, UserRepository $ur, OperationRepository $or): Response {
@@ -394,6 +447,10 @@ class UserController extends AbstractController
 			// Désactive
 			$user->setActive(false);
 			$ur->add($user);
+		}
+
+		if ($user->getId() == $this->getUser()->getId()){
+			return $this->redirectToRoute('logout');
 		}
 
 		return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);

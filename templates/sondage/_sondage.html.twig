@@ -1,4 +1,5 @@
 {% set vote = vote is defined ? vote : 0 %}
+{% if odd is not defined  %}{% set odd = true %}{% endif %}
 
 <div class='sondage{{ odd ? '-odd' }}'>
 

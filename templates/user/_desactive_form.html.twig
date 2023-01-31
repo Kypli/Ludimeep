@@ -4,7 +4,7 @@
 	onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver {{ proprietaire }} profil ?');"
 >
 	<input type="hidden" name="_token" value="{{ csrf_token('desactive' ~ user.id) }}">
-	<button class="btn btn-warning">
+	<button class="btn btn-{{ color }}">
 		<i class="fas fa-toggle-off"></i>
 		Désactiver {{ proprietaire }} profil
 	</button>

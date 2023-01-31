@@ -4,7 +4,7 @@
 	onsubmit="return confirm('Êtes-vous sûr de vouloir réactiver {{ proprietaire }} profil ?');"
 >
 	<input type="hidden" name="_token" value="{{ csrf_token('active' ~ user.id) }}">
-	<button class="btn btn-warning">
+	<button class="btn btn-{{ color }}">
 		<i class="fas fa-toggle-off"></i>
 		Réactiver {{ proprietaire }} profil
 	</button>
