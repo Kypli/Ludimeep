@@ -30,6 +30,7 @@
 				</a>
 			</div>
 
+			{# USER #}
 			{% if app.user.admin %}
 				<div  class="col-1">
 					({{ user.userName|capitalize }})
@@ -42,8 +43,6 @@
 
 			{# OPERATIONS #}
 			<div class='row'>
-				{% include 'operation/_operations.html.twig' %}
-
 				<div class="col-3 mt-3 mb-1 taille25">
 					Solde : <span class='gras'>{{ solde != null ? solde : '0' }} €</span>
 				</div>
@@ -61,6 +60,8 @@
 					</p>
 					<img id='rib' class="" src="{{ asset('build/image/autre/rib.png') }}" alt="RIB">
 				</div>
+
+				{% include 'operation/_operations.html.twig' %}
 			</div>
 		</section>
 	</div>

@@ -1,9 +1,6 @@
 <table class="table">
 	<thead>
 		<tr>
-			{% if user.admin %}
-				<th>Id</th>
-			{% endif %}
 			<th>Montant</th>
 			<th>Commentaire</th>
 			<th>Date</th>
@@ -14,9 +11,6 @@
 	<tbody>
 	{% for operation in operations %}
 		<tr>
-			{% if user.admin %}
-				<td>{{ operation.id }}</td>
-			{% endif %}
 			<td><span class="{{ operation.number >= 0 ? 'green' : 'red' }}">{{ operation.number }}</span></td>
 			<td>{{ operation.comment|capitalize }}</td>
 			<td>{{ operation.date|date('d/m/Y') }}</td>
