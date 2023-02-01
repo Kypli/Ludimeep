@@ -2,6 +2,7 @@ TO DO LIST
 
 RESPONSIVE POUR TELEPHONE
 - Tout....
+- Si téléphone, n'afficher qu'une actu sur la page d'accueil
 
 
 MINI-TCHAT
@@ -34,6 +35,15 @@ PHOTOS
 - Aimer/commenter une photo
 - Carroussel
 - Uniformiser la taille des cards
+
+
+PROCES-VERBAL
+- AG
+- CR réunion bureau
+
+
+TABLEAU DE PRESENCE + BUDGET
+- Directement sur le site
 
 
 NOUS CONTACTER

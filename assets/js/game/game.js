@@ -444,7 +444,7 @@ $(document).ready(function(){
 					datas.nom = response.nom
 					datas.prenom = response.prenom
 					datas.user_id = response.user_id
-					datas.owner = datas.nom != '' && datas.prenom != ''
+					datas.owner = datas.nom != '' && datas.prenom != '' && datas.nom != null && datas.prenom != null
 						? datas.nom + ' ' + datas.prenom
 						: datas.userName
 
