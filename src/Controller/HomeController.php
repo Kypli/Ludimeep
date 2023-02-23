@@ -168,7 +168,7 @@ class HomeController extends AbstractController
 			'last_username' => $authenticationUtils->getLastUsername(),			// last username entered by the user
 
 			// Solde
-			'solde' => $user != null ? $this->or->solde($user_id) : 0,
+			'solde' => $user != null ? round($this->or->solde($user_id), 2) : 0,
 
 			// Tchat
 			'tchats' => $this->tr->getLastTchats(self::TCHAT_DATE_LIMIT_SHOW),
