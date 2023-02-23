@@ -91,7 +91,7 @@ class OperationController extends AbstractController
 
 		return $this->render('operation/show.html.twig', [
 			'user' => $user,
-			'solde' => $or->solde($user->getId()),
+			'solde' => round($or->solde($user->getId()), 2),
 			'operations' => $or->findBy(['user' => $user], ['date' => 'DESC'], null, 0),
 		]);
 	}
@@ -197,7 +197,7 @@ class OperationController extends AbstractController
 	 */
 	public function solde(User $user, OperationRepository $or): Response
 	{
-		return new JsonResponse((float) $or->solde($user->getId()));
+		return new JsonResponse(round($or->solde($user->getId()), 2));
 	}
 
 	/**
