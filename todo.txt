@@ -8,6 +8,8 @@ RESPONSIVE POUR TELEPHONE
 MINI-TCHAT
 - Supprimer un message (admin)
 - Cacher un message (proprio)
+- Intégrer dans whats'app
+- Nouveau article -> remplacer ici par le nom
 
 
 ACTUALITÉS
@@ -19,6 +21,10 @@ SONDAGE
 - Limiter à deux sondages en cours maximum
 - Débug création date_début
 - Admin : Afficher les votant et leur vote
+
+
+Playlist Spotify
+- Intégrer la playlist
 
 
 TABLE

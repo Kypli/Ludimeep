@@ -5,7 +5,7 @@ security:
         App\Intranet\Entity\User:
             algorithm: auto
 
-    # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
+    # https://symfony.com/doc/current/security.html#loading-the-user-provider
     providers:
         app_user_provider:
             entity:
@@ -42,7 +42,7 @@ security:
             entry_point: form_login
 
             form_login:
-                # login_path: login
+                login_path: home
                 check_path: login
                 failure_path: login_error
                 # enable_csrf: true
@@ -54,7 +54,7 @@ security:
                 # always_use_default_target_path: true
 
             logout:
-                path: app_logout
+                path: logout
                 target: logout_alert
                 invalidate_session: true
 

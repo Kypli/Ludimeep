@@ -12,27 +12,16 @@ class LoginController extends AbstractController
 {
 	/**
 	 * @Route("/login", name="login", methods={"GET", "POST"})
+	 * Réorienté sur la page 'Home'
 	 */
 	public function login(AuthenticationUtils $authenticationUtils)
 	{
-		// if ($this->getUser()){
-		// 	return $this->redirectToRoute('home');
-		// }
-
-		// Get the login error if there is one
-		$error = $authenticationUtils->getLastAuthenticationError();
-
-		// Last username entered by the user
-		$lastUsername = $authenticationUtils->getLastUsername();
-
-		// return $this->render('home/connexion/_index.html.twig', [
-		// 	'last_username' => $lastUsername,
-		// 	'error' => $error,
-		// ]);
+		return $this->redirectToRoute('home');
 	}
 
 	/**
 	 * @Route("/login_error", name="login_error")
+	 * Erreur de connection
 	 */
 	public function login_error(AuthenticationUtils $authenticationUtils): Response
 	{
@@ -66,7 +55,7 @@ class LoginController extends AbstractController
 	}
 
 	/**
-	 * @Route("/logout", name="app_logout")
+	 * @Route("/logout", name="logout")
 	 */
 	public function logout(): Response
 	{
