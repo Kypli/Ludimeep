@@ -49,6 +49,7 @@ class UserController extends AbstractController
 
 		return $this->render('user/index.html.twig', [
 			'users' => $ur->byRoleCaAndId(),
+			'date_now' => new \DateTime('now'),
 		]);
 	}
 

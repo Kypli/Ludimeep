@@ -108,14 +108,14 @@
 
 							{# ASSO #}
 							{% set dateFinAdhe = user.asso.dateFinAdhesion %}
-							<td class="{{ dateFinAdhe != null and dateFinAdhe|date('d/m/Y') < 'now'|date('d/m/Y') ? 'red' }}">
+							<td class="{{ dateFinAdhe != null and dateFinAdhe < date_now ? 'red' }}">
 								{{ dateFinAdhe is null ? '' : dateFinAdhe|date('d/m/Y') }}
 							</td>
 
 							<td>{{ user.asso.roleCa is null ? '' : user.asso.roleCa }}</td>
 
 							{% set dateFinMandat = user.asso.dateFinMandat %}
-							<td class="{{ dateFinMandat != null and dateFinMandat|date('d/m/Y') < 'now'|date('d/m/Y') ? 'red' }}">
+							<td class="{{ dateFinMandat != null and dateFinMandat < date_now ? 'red' }}">
 								{{ dateFinMandat is null ? '' : dateFinMandat|date('d/m/Y') }}
 							</td>
 						</tr>
