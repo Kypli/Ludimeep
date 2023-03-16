@@ -1,4 +1,10 @@
-<div class='row img_grow actu{{ actu_key is defined and actu_key is divisible by(2) ? '-odd' }} p-2'>
+
+{% set show = mobile is defined and mobile is same as true
+	? "d-none d-lg-block d-xl-block"
+	: ""
+%}
+
+<div class='row img_grow actu{{ actu_key is defined and actu_key is divisible by(2) ? '-odd' }} p-2 {{ show }}'>
 
 	{% if is_granted('ROLE_ADMIN') %}
 		<div class='col-2 m-2'>

@@ -2,7 +2,7 @@ TO DO LIST
 
 RESPONSIVE POUR TELEPHONE
 - Tout....
-- Si téléphone, n'afficher qu'une actu sur la page d'accueil
+- NavBar en stick avec ancre pour les sections de la page "home"
 
 
 MINI-TCHAT
@@ -21,10 +21,6 @@ SONDAGE
 - Limiter à deux sondages en cours maximum
 - Débug création date_début
 - Admin : Afficher les votant et leur vote
-
-
-Playlist Spotify
-- Intégrer la playlist
 
 
 TABLE

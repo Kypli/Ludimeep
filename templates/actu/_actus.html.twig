@@ -5,7 +5,7 @@
 {# ACTUS #}
 {% for actu_key, actu in actus %}
 	<div class="m-1 mt-2">
-		{% include 'actu/_actu.html.twig' %}
+		{% include 'actu/_actu.html.twig' with {'mobile': loop.first ? false : true } %}
 	</div>
 {% endfor %}
 
