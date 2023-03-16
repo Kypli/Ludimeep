@@ -1,5 +1,8 @@
-<h4 class="radius-long offset-2 col-8">Actualités</h4>
 
+{# TITRE #}
+{% include 'home/_titre.html.twig' with {'titre': "Actualités" } %}
+
+{# ACTUS #}
 {% for actu_key, actu in actus %}
 	<div class="m-1 mt-2">
 		{% include 'actu/_actu.html.twig' %}

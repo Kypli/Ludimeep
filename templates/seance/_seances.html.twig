@@ -1,13 +1,12 @@
 {% if seances is not empty %}
 	<div class='row mb-4'>
 
-		<h4 class="radius-short offset-1 col-10 d-none d-lg-block d-xl-block">Prochaines date</h4>
-		<h4 class="radius-long offset-1 col-10 d-none d-lg-none d-xl-none d-sm-block d-md-block">Prochaines date</h4>
+		{# TITRE #}
+		{% include 'home/_titre.html.twig' with {'titre': "Prochaines date", 'col': 'offset-1 col-10' } %}
 
+		{# SÉANCES #}
 		<div>
 			{% for seance_key, seance in seances %}
-
-				{# SÉANCE #}
 				{% include 'seance/_seance.html.twig' %}
 			{% endfor %}
 		</div>

@@ -1,9 +1,7 @@
 <div class='row mb-4 p-1'>
 
-	<h4 class="radius-short offset-2 col-8 d-none d-lg-block d-xl-block">{{ app.user != null ? 'Mon espace' : 'Connexion' }}</h4>
-	<h4 class="radius-long offset-2 col-8 d-none d-lg-none d-xl-none d-sm-block d-md-block">
-		{{ app.user != null ? 'Mon espace' : 'Connexion' }}
-	</h4>
+	{# TITRE #}
+	{% include 'home/_titre.html.twig' with {'titre': app.user != null ? 'Mon espace' : 'Connexion' } %}
 
 	{# MESSAGES FLASH SUCCESS #}
 	{% for message in app.flashes('login_success') %}
