@@ -1,0 +1,70 @@
+{# CARD #}
+<div class='col-4 p-3'>
+	<div class="card img_grow" style="width: 19rem;">
+		<span class='photo_id' data-id='{{ orga.id }}'></span>
+
+		{# IMAGE #}
+		<img
+			id='img_{{ orga.id }}'
+			class="card-img-top"
+			src="{{ asset('uploads/orga/' ~ orga.photo) }}"
+			alt="{{ orga.mandat }}"
+		/>
+
+		{# CARD BODY #}
+		<div class="card-body b_lightgrey">
+
+			{# MANDAT #}
+			<h3
+				class="card-title center {{ orga.mandat.isActif ? : 'red pointeur_help' }}"
+				{{ orga.mandat.isActif ? : "title='Mandat obsolète'"}}
+			>
+				{{ orga.mandat }}
+			</h3>
+
+			{# NOM PRENOM #}
+			{%
+				set nom = orga.user.profil.nom != '' and orga.user.profil.prenom != ''
+					? orga.user.userName ~ '<br/>' ~ orga.user.profil.prenom ~ ' ' ~ orga.user.profil.nom
+					: orga.user.userName
+			 %}
+			<h5 class="card-title center">{{ nom|raw }}</h5>
+
+			{# DATES #}
+			<p class="card-text">
+				Début : {{ orga.start|date('d/m/Y') }}
+				<br/>
+				Fin : {{ orga.end|date('d/m/Y') }}
+			</p>
+
+			{# COMMENTAIRE #}
+			{% if orga.comment %}
+				<p class="card-text">{{ orga.comment }}</p>
+			{% else %}
+				<br />
+			{% endif %}
+
+			{# BOUTONS #}
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="row mt-2 mb-0">
+
+					<div class="col-2 p-0" title="Modifier">
+						<a href="{{ path('orga_edit', {'id': orga.id}) }}" class="btn btn-warning">
+							<i class="fas fa-edit"></i>
+						</a>
+					</div>
+
+					{# DÉSACTIVE #}
+					{# <div class="col-4 p-0" title="Supprimer">
+						{{ include('asso/organigramme/_desactive.html.twig') }}
+					</div> #}
+
+					{# SUPPRIMER #}
+					{# <div class="col-4 p-0" title="Supprimer">
+						{{ include('asso/organigramme/_delete.html.twig') }}
+					</div> #}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+</div>

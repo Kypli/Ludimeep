@@ -123,6 +123,7 @@ h4 {
 .white				{	color: white;					}
 .orange				{	color: orange;					}
 .grey				{	color: grey;					}
+.black				{	color: black!important;			}
 
 .bck_gainsboro		{	background-color: #DCDCDC;		}
 

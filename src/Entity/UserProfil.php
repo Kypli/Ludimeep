@@ -93,6 +93,14 @@ class UserProfil
         return $this;
     }
 
+    public function getFullNom(User $user): self
+    {
+        if (null !== $user->getNom() && null !== $user->getPrenom()){
+            return $user->getUserName().' ('.$user->getPrenom().' '.$user->getNom().')';
+        }
+        return $this->userName;
+    }
+
     public function getMail(): ?string
     {
         return $this->mail;

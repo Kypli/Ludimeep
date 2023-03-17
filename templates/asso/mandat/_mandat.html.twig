@@ -1,0 +1,15 @@
+<tr>
+	<td style='min-width:20px;'>
+		<div class='row'>
+			<div class='offset-1 col-1'>
+				<a href="{{ path('mandat_edit', {'id': mandat.id}) }}"><i class="fas fa-edit" title="Modifier"></i></a>
+			</div>
+		</div>
+	</td>
+	<td>{{ mandat.titre }}</td>
+	<td>{{ mandat.duree }} année{{ mandat.duree > 1 ? 's' }}</td>
+	<td>{{ mandat.priorite }}</td>
+	<td>{{ mandat.required is same as true ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+	<td>{{ mandat.uniq is same as true ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+	<td>{{ mandat.isActif is same as true ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}</td>
+</tr>

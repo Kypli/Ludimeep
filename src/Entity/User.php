@@ -169,6 +169,11 @@ class User implements UserInterface
      */
     private $operations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Organigramme::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $organigrammes;
+
     public function __construct()
     {
         $this->actus = new ArrayCollection();
@@ -186,6 +191,7 @@ class User implements UserInterface
         $this->gerantTables = new ArrayCollection();
         $this->tables = new ArrayCollection();
         $this->operations = new ArrayCollection();
+        $this->organigrammes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -856,6 +862,36 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($operation->getUser() === $this) {
                 $operation->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Organigramme>
+     */
+    public function getOrganigrammes(): Collection
+    {
+        return $this->organigrammes;
+    }
+
+    public function addOrganigramme(Organigramme $organigramme): self
+    {
+        if (!$this->organigrammes->contains($organigramme)) {
+            $this->organigrammes[] = $organigramme;
+            $organigramme->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOrganigramme(Organigramme $organigramme): self
+    {
+        if ($this->organigrammes->removeElement($organigramme)) {
+            // set the owning side to null (unless already changed)
+            if ($organigramme->getUser() === $this) {
+                $organigramme->setUser(null);
             }
         }
 

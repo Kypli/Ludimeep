@@ -1,5 +1,17 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	{{ encore_entry_link_tags('photo') }}
+	{{ encore_entry_link_tags('modal_photo') }}
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	{{ encore_entry_script_tags('photo') }}
+	{{ encore_entry_script_tags('modal_photo') }}
+{% endblock %}
+
 {% block title %}Asso - Organigramme{% endblock %}
 
 {% block body %}
@@ -10,10 +22,34 @@
 			{# TITRE #}
 			<h2 class="radius-long offset-4 col-4">Organigramme</h2>
 
-			{# ... #}
-			<section class='prochainement'>
-				Prochainement
+			{# ADD #}
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class='row'>
+
+					<div class='col-2'>
+						<a href="{{ path('orga_add') }}">
+							<div class="btn btn-success mb-2">
+								Ajouter
+							</div>
+						</a>
+					</div>
+				</div>
+			{% endif %}
+
+			{# ORGANIGRAMMES #}
+			<section>
+				<div class='row'>
+					{% for orga in orgas %}
+						{% include 'asso/organigramme/_card.html.twig' %}
+					{% else %}
+						Personne à afficher
+					{% endfor %}
+				</div>
 			</section>
 		</div>
 	</div>
+
+	{# MODAL PHOTO #}
+	{% include 'photo/_modal.html.twig' %}
+
 {% endblock %}

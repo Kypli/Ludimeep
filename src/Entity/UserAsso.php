@@ -43,11 +43,6 @@ class UserAsso
     private $notoriete;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $roleCa;
-
-    /**
      * @ORM\Column(type="date", nullable=true)
      */
     private $dateFinMandat;
@@ -56,6 +51,11 @@ class UserAsso
      * @ORM\Column(type="boolean")
      */
     private $membreHonneur = 0;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Mandat::class, inversedBy="mandataires")
+     */
+    private $mandat;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, inversedBy="asso", cascade={"persist", "remove"})
@@ -161,6 +161,18 @@ class UserAsso
     public function setMembreHonneur(bool $membreHonneur): self
     {
         $this->membreHonneur = $membreHonneur;
+
+        return $this;
+    }
+
+    public function getMandat(): ?Mandat
+    {
+        return $this->mandat;
+    }
+
+    public function setMandat(?Mandat $mandat): self
+    {
+        $this->mandat = $mandat;
 
         return $this;
     }

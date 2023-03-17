@@ -2,12 +2,15 @@
 
 namespace App\Form;
 
+use App\Entity\Mandat;
 use App\Entity\UserAsso;
 
+use App\Repository\MandatRepository;
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 use Symfony\Component\Form\AbstractType;
@@ -79,14 +82,24 @@ class UserAssoType extends AbstractType
 				]
 			)
 			->add(
-				'roleCa',
-				TextType::class,
+				'mandat',
+				EntityType::class,
 				[
+					'class' => Mandat::class,
+					'choice_label' => 'titre',
 					'required' => false,
-					'label' => "Rôle du CA",
+					'expanded' => false,
+					'label' => "Mandat",
 					'attr' => [
 						'class' => 'form-control',
 					],
+					'query_builder' => function(MandatRepository $e){
+						return $e->createQueryBuilder('x')
+							->where('x.isActif = :true')
+							->setParameter(':true', true)
+							->orderBy('x.priorite', 'ASC')
+						;
+					},
 				]
 			)
 			->add(

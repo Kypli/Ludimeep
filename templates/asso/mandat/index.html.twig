@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manddats{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Mandats</h2>
+
+			{# ADD #}
+			<div class='row'>
+
+				<div class='col-2'>
+					<a href="{{ path('mandat_add') }}">
+						<div class="btn btn-success mb-2">
+							Ajouter
+						</div>
+					</a>
+				</div>
+			</div>
+
+
+			{# MANDATS #}
+			<section>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Actions</th>
+							<th>Titre</th>
+							<th>Durée</th>
+							<th>Priorité d'affichage</th>
+							<th>Mandataire requis</th>
+							<th>Mandataire unique</th>
+							<th>Actif</th>
+						</tr>
+					</thead>
+					<tbody>
+
+						{% for mandat in mandats %}
+							{% include 'asso/mandat/_mandat.html.twig' %}
+						{% else %}
+							<tr><td>Aucun mandats !</td></tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</section>
+		</div>
+	</div>
+{% endblock %}

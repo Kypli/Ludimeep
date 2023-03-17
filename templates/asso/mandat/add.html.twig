@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mandat - Ajout{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Ajout d'un mandataire</h2>
+
+			{# AJOUT #}
+			<section class='form mb-3'>
+
+				<div class='col-2 mb-3'>
+					<a href="{{ path('mandat') }}">Retour</a>
+				</div>
+
+				{% include 'asso/mandat/_form.html.twig' %}
+			</section>
+		</div>
+	</div>
+{% endblock %}

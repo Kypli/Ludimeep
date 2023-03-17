@@ -28,7 +28,11 @@
 							<th title="Solde (Nbre de lignes / A valider)" class="pointeur_help">Solde</th>
 							<th>Droit image</th>
 							<th>Date fin adhésion</th>
-							<th>Rôle CA</th>
+							<th title="Gérer les mandats">
+								<a class="black italique" href="{{ path('mandat') }}">
+									Mandat
+								</a>
+							</th>
 							<th>Date fin mandat</th>
 						</tr>
 					</thead>
@@ -112,7 +116,7 @@
 								{{ dateFinAdhe is null ? '' : dateFinAdhe|date('d/m/Y') }}
 							</td>
 
-							<td>{{ user.asso.roleCa is null ? '' : user.asso.roleCa }}</td>
+							<td>{{ user.asso.mandat is null ? '' : user.asso.mandat.titre }}</td>
 
 							{% set dateFinMandat = user.asso.dateFinMandat %}
 							<td class="{{ dateFinMandat != null and dateFinMandat < date_now ? 'red' }}">

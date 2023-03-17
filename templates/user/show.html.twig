@@ -136,13 +136,13 @@
 								<tr>
 									<th>Membre du CA ?</th>
 									<td>
-										{{ user.asso.roleCa is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
+										{{ user.asso.mandat is not null ? '<i class="fas fa-check green"></i>' : '<i class="fas fa-times red"></i>' }}
 									</td>
 								</tr>
-								{% if user.asso.roleCa is not null %}
+								{% if user.asso.mandat is not null %}
 									<tr>
-										<th>Rôle du CA</th>
-										<td>{{ user.asso.roleCa }}</td>
+										<th>Mandat</th>
+										<td>{{ user.asso.mandat.titre }}</td>
 									</tr>
 									<tr>
 										<th>Date de fin de mandat</th>

@@ -1,0 +1,58 @@
+{{ form_start(form) }}
+
+	<div class="row center mt-4">
+
+		{# USER #}
+		{% if edit is same as false %}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.user) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.user) }}
+			</div>
+		{% endif %}
+
+		{# PHOTO #}
+		{% if edit is same as false %}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.photo) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.photo) }}
+			</div>
+		{% endif %}
+
+		{# END #}
+		{% if edit is same as true %}
+			<div class="offset-2 col-3 mb-4 alignRight">
+				{{ form_label(form.end) }}
+			</div>
+			<div class="col-4 mb-4">
+				{{ form_widget(form.end) }}
+			</div>
+		{% endif %}
+
+		{# COMMENT #}
+		<div class="offset-2 col-3 mb-4 pt-2 alignRight">
+			{{ form_label(form.comment) }}
+		</div>
+		<div class="col-4 mb-4">
+			{{ form_widget(form.comment) }}
+		</div>
+
+		{# ACTIF #}
+		{% if edit is same as true %}
+			<div class="offset-2 col-3 alignRight">
+				{{ form_label(form.isActif) }}
+			</div>
+			<div class="col-4 pt-2">
+				{{ form_widget(form.isActif) }}
+			</div>
+		{% endif %}
+	</div>
+
+	<div class="offset-6 col-2 mt-4 mb-4">
+		<button class="btn btn-success">{{ button_label|default("Enregistrer") }}</button>
+	</div>
+
+{{ form_end(form) }}

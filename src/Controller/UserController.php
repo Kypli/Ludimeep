@@ -15,6 +15,7 @@ use App\Repository\OperationRepository;
 use App\Repository\UserProfilRepository;
 use App\Repository\DiscussionRepository;
 use App\Repository\SondageUserRepository;
+use App\Repository\OrganigrammeRepository;
 
 use App\Form\UserType;
 
@@ -33,8 +34,29 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
  */
 class UserController extends AbstractController
 {
-	public function __construct(UserPasswordHasherInterface $passwordHasher)
-	{
+	// Password
+	private $passwordHasher;
+
+	// Repository
+	private $ur;
+	private $upr;
+	private $uar;
+	private $or;
+	private $orr;
+
+	public function __construct(
+		UserRepository $ur,
+		UserAssoRepository $uar,
+		OperationRepository $or,
+		UserProfilRepository $upr,
+		OrganigrammeRepository $orr,
+		UserPasswordHasherInterface $passwordHasher
+	){
+		$this->ur = $ur;
+		$this->or = $or;
+		$this->uar = $uar;
+		$this->upr = $upr;
+		$this->orr = $orr;
 		$this->passwordHasher = $passwordHasher;
 	}
 
@@ -42,13 +64,13 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/", name="", methods={"GET"})
 	 */
-	public function index(UserRepository $ur, LigneComptableSer $ligneComptableSer): Response
+	public function index(LigneComptableSer $ligneComptableSer): Response
 	{
 		// Lignes comptables
 		$ligneComptableSer->update();
 
 		return $this->render('user/index.html.twig', [
-			'users' => $ur->byRoleCaAndId(),
+			'users' => $this->ur->byMandatAndPseudo(),
 			'date_now' => new \DateTime('now'),
 		]);
 	}
@@ -56,7 +78,7 @@ class UserController extends AbstractController
 	/**
 	 * @Route("/inscription", name="_add", methods={"GET", "POST"})
 	 */
-	public function add(Request $request, UserRepository $ur, UserProfilRepository $upr, UserAssoRepository $uar)
+	public function add(Request $request)
 	{
 		// Ne doit pas être membre ou être admin
 		if (null !== $this->getUser() && !$this->isGranted('ROLE_ADMIN')){
@@ -85,7 +107,7 @@ class UserController extends AbstractController
 		if ($form->isSubmitted() && $form->isValid()){
 
 			// Duplicate control
-			if (!empty($ur->findByUserName($form->getData()->getUserName()))){
+			if (!empty($this->ur->findByUserName($form->getData()->getUserName()))){
 				$this->addFlash('error', "Ce login est déjà pris. Merci d'en sélectionner un autre.");
 
 			// Save
@@ -113,9 +135,9 @@ class UserController extends AbstractController
 					->setUser($user)
 				;
 
-				$ur->add($user);
-				$upr->add($userProfil);
-				$uar->add($userAsso);
+				$this->ur->add($user);
+				$this->upr->add($userProfil);
+				$this->uar->add($userAsso);
 
 				$this->addFlash(
 					'success',
@@ -138,12 +160,9 @@ class UserController extends AbstractController
 	public function addAnonyme($mail, $ip)
 	{
 		$user = new User();
-		$ur = $this->getDoctrine()->getRepository(User::class);
-		$upr = $this->getDoctrine()->getRepository(UserProfil::class);
-		$uar = $this->getDoctrine()->getRepository(UserAsso::class);
 
 		// Nombre anonyme
-		$count = (int) $ur->countAnonymous();
+		$count = (int) $this->ur->countAnonymous();
 		$count++;
 
 		// Login + mdp
@@ -175,9 +194,9 @@ class UserController extends AbstractController
 			->setUser($user)
 		;
 
-		$ur->add($user);
-		$upr->add($userProfil);
-		$uar->add($userAsso);
+		$this->ur->add($user);
+		$this->upr->add($userProfil);
+		$this->uar->add($userAsso);
 
 		return [
 			'user' => $user,
@@ -206,7 +225,7 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_USER")
 	 * @Route("/edit/{id}", name="_edit", methods={"GET", "POST"})
 	 */
-	public function edit(Request $request, User $user, UserRepository $ur): Response
+	public function edit(Request $request, User $user): Response
 	{
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -233,7 +252,7 @@ class UserController extends AbstractController
 				->remove('adherant')
 				->remove('dateInscription')
 				->remove('dateFinAdhesion')
-				->remove('roleCa')
+				->remove('mandat')
 				->remove('dateFinMandat')
 				->remove('membreHonneur')
 			;
@@ -247,7 +266,7 @@ class UserController extends AbstractController
 			$request->request->replace($requestArray);
 		}
 		
-		// Remplace adherant par 0 si null		
+		// Remplace adherant par 0 si null
 		$requeteAll = $request->request->all();
 		if (isset($requeteAll['user']['asso']['adherant']) && $requeteAll['user']['asso']['adherant'] == null){
 			$requeteAll['user']['asso']['adherant'] = 0;
@@ -272,12 +291,17 @@ class UserController extends AbstractController
 					$user->setRoles(["ROLE_ADMIN"]);
 
 				// False
-				} elseif(!$user->isAdmin() || ($user->isAdmin() && $ur->countAdmin() > 1)){
+				} elseif(!$user->isAdmin() || ($user->isAdmin() && $this->ur->countAdmin() > 1)){
 					$user->setRoles(["ROLE_USER"]);
 
 				// Null
 				} else {
 					$this->addFlash('error', 'Suppression du rôle Admin annulée, il doit au moins en rester un.');
+				}
+
+				// Si pas de mandat, pas de date de fin de mandat
+				if (null == $user->getAsso()->getMandat()){
+					$user->getAsso()->setDateFinMandat(null);
 				}
 			}
 
@@ -298,7 +322,7 @@ class UserController extends AbstractController
 				;
 			}
 
-			$ur->add($user);
+			$this->ur->add($user);
 			$this->addFlash('success', 'Vos modifications ont bien été prise en compte.');
 			return $this->redirectToRoute('user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
@@ -317,10 +341,8 @@ class UserController extends AbstractController
 		Request $request,
 		User $user,
 		GameRepository $gr,
-		UserRepository $ur,
 		PhotoRepository $pr,
 		TchatRepository $tr,
-		OperationRepository $or,
 		DiscussionRepository $dr,
 		SondageUserRepository $sur
 	): Response	{
@@ -331,13 +353,13 @@ class UserController extends AbstractController
 		}
 
 		// Doit rester 1 admin
-		if ($ur->countAdmin() == 1 && in_array($user->getId(), $ur->getAdminsId())){
+		if ($this->ur->countAdmin() == 1 && in_array($user->getId(), $this->ur->getAdminsId())){
 			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
 
 		// Compte repas doit être à 0
-		if ((float) $or->solde($user->getId()) != 0){
+		if ((float) $this->or->solde($user->getId()) != 0){
 			$this->addFlash('error', 'Le solde du compte repas doit être à 0.');
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
@@ -386,7 +408,7 @@ class UserController extends AbstractController
 			}
 
 			// Delete
-			$ur->remove($user);
+			$this->ur->remove($user);
 
 			$this->addFlash(
 				'success',
@@ -401,7 +423,7 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_ADMIN")
 	 * @Route("/active/{id}", name="_active", methods={"POST"})
 	 */
-	public function active(Request $request, User $user, UserRepository $ur): Response {
+	public function active(Request $request, User $user): Response {
 
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -413,7 +435,7 @@ class UserController extends AbstractController
 
 			// Désactive
 			$user->setActive(true);
-			$ur->add($user);
+			$this->ur->add($user);
 		}
 
 		return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
@@ -423,7 +445,7 @@ class UserController extends AbstractController
 	 * @IsGranted("ROLE_USER")
 	 * @Route("/desactive/{id}", name="_desactive", methods={"POST"})
 	 */
-	public function desactive(Request $request, User $user, UserRepository $ur, OperationRepository $or): Response {
+	public function desactive(Request $request, User $user): Response {
 
 		// Acces control
 		if ($this->accesControl($user->getId()) == false){
@@ -431,13 +453,13 @@ class UserController extends AbstractController
 		}
 
 		// Doit rester 1 admin
-		if ($ur->countAdmin() == 1 && in_array($user->getId(), $ur->getAdminsId())){
+		if ($this->ur->countAdmin() == 1 && in_array($user->getId(), $this->ur->getAdminsId())){
 			$this->addFlash('error', 'Il doit rester au moins 1 admin.');
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
 
 		// Compte repas doit être à 0
-		if ((float) $or->solde($user->getId()) != 0){
+		if ((float) $this->or->solde($user->getId()) != 0){
 			$this->addFlash('error', 'Le solde du compte repas doit être à 0.');
 			return $this->redirectToRoute('user_edit', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
 		}
@@ -447,7 +469,7 @@ class UserController extends AbstractController
 
 			// Désactive
 			$user->setActive(false);
-			$ur->add($user);
+			$this->ur->add($user);
 		}
 
 		if ($user->getId() == $this->getUser()->getId()){
@@ -479,15 +501,38 @@ class UserController extends AbstractController
 
 	public function formControl($user)
 	{
+		// Init
+		$user_asso = $user->getAsso();
+		$mandat = $user_asso->getMandat();
+		$adherant = $user_asso->isAdherant();
+
 		// Si adhérant, rajouter date inscription + date fin adhesion
 		if (
-			null != $user->getAsso()->isAdherant() &&
+			null != $adherant &&
 			(
-				null == $user->getAsso()->getDateInscription() ||
-				null == $user->getAsso()->getDateFinAdhesion()
+				null == $user_asso->getDateInscription() ||
+				null == $user_asso->getDateFinAdhesion()
 			)
 		){
 			$this->addFlash('error', "Si l'utilisateur est un adhérant, il doit avoir une date d'inscription et de fin d'adhésion.");
+			return false;
+		}
+
+		// Si mandat, doit être adhérant
+		if (isset($mandat) && 0 == $adherant){
+			$this->addFlash('error', "Un mandataire doit être adhérant.");
+			return false;
+		}
+
+		// Si mandat, doit avoir une date de fin
+		if (isset($mandat) && null == $user_asso->getDateFinMandat()){
+			$this->addFlash('error', "Un mandataire doit avoir une date de fin de mandat.");
+			return false;
+		}
+
+		// Si mandat unique, pas de doublon
+		if (isset($mandat) && $mandat->isUniq() && count($this->uar->findBy(['mandat' => $mandat->getId()])) > 0){
+			$this->addFlash('error', "Ce mandat est unique et est déjà occupé.");
 			return false;
 		}
 

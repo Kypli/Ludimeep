@@ -1,0 +1,8 @@
+<form
+    method="post"
+    action="{{ path('orga_delete', {'id': orga.id}) }}"
+    onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer cette carte ?');
+">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ orga.id) }}">
+    <button class="btn btn-danger">Supprimer</button>
+</form>

@@ -1,0 +1,8 @@
+<form
+    method="post"
+    action="{{ path('orga_desactive', {'id': orga.id}) }}"
+    onsubmit="return confirm('Êtes-vous sûr de vouloir désactiver cette carte ?');
+">
+    <input type="hidden" name="_token" value="{{ csrf_token('desactive' ~ orga.id) }}">
+    <button class="btn btn-danger">Désactive</button>
+</form>

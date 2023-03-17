@@ -21,7 +21,7 @@ class UserAssoFixtures extends Fixture implements FixtureGroupInterface
 			->setDateInscription(new \Datetime('2022-04-19'))
 			->setDateFinAdhesion(new \Datetime('2023-07-01'))
 			->setNotoriete('Membre fondateur')
-			->setRoleCa('Président')
+			->setMandat($this->getReference(MandatFixtures::PRESIDENT))
 			->setDateFinMandat(new \Datetime('2025-07-01'))
 			->setMembreHonneur(false)
 		;

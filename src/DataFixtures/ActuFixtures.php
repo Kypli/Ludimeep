@@ -28,8 +28,30 @@ class ActuFixtures extends Fixture implements FixtureGroupInterface, DependentFi
 			->setOrdre("t1_t2_t3_t4_p1")
 			->setValid(true)
 		;
-
 		$manager->persist($entity);
+
+		$entity = new Entity();
+		$entity
+			->setTitre("Actu 2")
+			->setAuteur($this->getReference(UserFixtures::USER_ADMIN))
+			->setDate(new \Datetime('2022-05-20 10:30:00'))
+			->setText1("Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum")
+			->setOrdre("t1")
+			->setValid(true)
+		;
+		$manager->persist($entity);
+
+		$entity = new Entity();
+		$entity
+			->setTitre("Actu 3")
+			->setAuteur($this->getReference(UserFixtures::USER_ADMIN))
+			->setDate(new \Datetime('2022-07-20 10:30:00'))
+			->setText1("Lorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem IpsumLorem Ipsum")
+			->setOrdre("t1")
+			->setValid(true)
+		;
+		$manager->persist($entity);
+
 		$manager->flush();
 	}
 

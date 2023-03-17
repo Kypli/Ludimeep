@@ -14,10 +14,13 @@ class FileUploader
 
 	private $targetDirectory_photo;
 
-	public function __construct($targetDirectory_actu, $targetDirectory_photo, SluggerInterface $slugger)
+	private $targetDirectory_orga;
+
+	public function __construct($targetDirectory_actu, $targetDirectory_photo, $targetDirectory_orga, SluggerInterface $slugger)
 	{
 		$this->targetDirectory_actu = $targetDirectory_actu;
 		$this->targetDirectory_photo = $targetDirectory_photo;
+		$this->targetDirectory_orga = $targetDirectory_orga;
 		$this->slugger = $slugger;
 	}
 
@@ -28,10 +31,23 @@ class FileUploader
 		$fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
 		try {
-			$directory == 'photo'
-				? $file->move($this->targetDirectory_photo(), $fileName)
-				: $file->move($this->targetDirectory_actu(), $fileName)
-			;
+			switch ($directory){
+				case 'photo':
+					$file->move($this->targetDirectory_photo(), $fileName);
+					break;
+
+				case 'actu':
+					$file->move($this->targetDirectory_actu(), $fileName);
+					break;
+
+				case 'orga':
+					$file->move($this->targetDirectory_orga(), $fileName);
+					break;
+				
+				default:
+					$file->move($this->targetDirectory_photo(), $fileName);
+					break;
+			}
 		} catch (FileException $e) {
 			// ... handle exception if something happens during file upload
 			return null; // for example
@@ -49,6 +65,12 @@ class FileUploader
 	{
 		$this->isDirOrCreate($this->targetDirectory_photo);
 		return $this->targetDirectory_photo;
+	}
+
+	public function targetDirectory_orga()
+	{
+		$this->isDirOrCreate($this->targetDirectory_orga);
+		return $this->targetDirectory_orga;
 	}
 
 	/**
