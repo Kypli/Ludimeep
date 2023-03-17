@@ -87,6 +87,7 @@ class OrgaController extends AbstractController
 				$orga->$text($file_name);
 
 				// Save
+				$orga->setIsActif(true);
 				$orga->setMandat($mandat);
 				$orga->setStart($dateDebutMandat);
 				$orga->setEnd($dateFinMandat);

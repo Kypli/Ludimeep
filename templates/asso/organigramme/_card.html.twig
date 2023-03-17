@@ -25,8 +25,8 @@
 			{# NOM PRENOM #}
 			{%
 				set nom = orga.user.profil.nom != '' and orga.user.profil.prenom != ''
-					? orga.user.userName ~ '<br/>' ~ orga.user.profil.prenom ~ ' ' ~ orga.user.profil.nom
-					: orga.user.userName
+					? orga.user.userName|capitalize ~ '<br/>' ~ orga.user.profil.prenom ~ ' ' ~ orga.user.profil.nom
+					: orga.user.userName|capitalize
 			 %}
 			<h5 class="card-title center">{{ nom|raw }}</h5>
 

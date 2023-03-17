@@ -75,7 +75,7 @@ L'ASSO
 
 
 MEMBRE
-- Liste des rôles CA en bdd
+- Affichage par mandat (priorité) puis par membre puis par id
 
 
 SITE
@@ -84,7 +84,7 @@ SITE
 
 
 ORGANIGRAMME
-- Si requis, afficher meme si pas de membre
+- Si mandat requis, les afficher meme si pas de membre
 - Si orga inactif, les cacher, avec bouton historique pour les afficher et cacher les actifs
 - Si désactivation d'un mandat, désactiver aussi l'organigramme
 
@@ -92,18 +92,3 @@ ORGANIGRAMME
 MANDAT
 - Si plus actif, aucun membre ne doit l'avoir
 - Si unique, ne pas enregistrer un membre en double
-
-
-Requête SQL en prod
-CREATE TABLE mandat (id INT AUTO_INCREMENT NOT NULL, titre VARCHAR(255) NOT NULL, duree INT NOT NULL, priorite INT NOT NULL, required TINYINT(1) NOT NULL, uniq TINYINT(1) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
-DROP TABLE role_ca
-ALTER TABLE organigramme CHANGE role mandat VARCHAR(255) NOT NULL
-ALTER TABLE user_asso ADD mandat_id INT DEFAULT NULL, DROP role_ca
-ALTER TABLE user_asso ADD CONSTRAINT FK_57F78346C687DD98 FOREIGN KEY (mandat_id) REFERENCES mandat (id)
-CREATE INDEX IDX_57F78346C687DD98 ON user_asso (mandat_id)
-ALTER TABLE mandat ADD is_actif TINYINT(1) NOT NULL
-
-
-ALTER TABLE organigramme ADD mandat_id INT NOT NULL, DROP mandat
-ALTER TABLE organigramme ADD CONSTRAINT FK_9CCC2B10C687DD98 FOREIGN KEY (mandat_id) REFERENCES mandat (id)
-CREATE INDEX IDX_9CCC2B10C687DD98 ON organigramme (mandat_id)
