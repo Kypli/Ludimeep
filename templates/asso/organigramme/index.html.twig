@@ -20,21 +20,26 @@
 		<div class='row mb-3'>
 
 			{# TITRE #}
-			<h2 class="radius-long offset-4 col-4">Organigramme</h2>
+			<h2 class="radius-long offset-4 col-4">{{ old is defined ? 'Ancien organigramme' : 'Organigramme' }}</h2>
 
-			{# ADD #}
-			{% if is_granted('ROLE_ADMIN') %}
-				<div class='row'>
-
-					<div class='col-2'>
-						<a href="{{ path('orga_add') }}">
-							<div class="btn btn-success mb-2">
-								Ajouter
+			{# OLD #}
+			<div class='row'>
+				<div class='col-5'>
+					{% if old is not defined %}
+						<a href="{{ path('orga_old') }}">
+							<div class="btn btn-info mb-2">
+								Voir les anciens mandataires
 							</div>
 						</a>
-					</div>
+					{% else %}
+						<a href="{{ path('orga') }}">
+							<div class="btn btn-info mb-2">
+								Retour
+							</div>
+						</a>
+					{% endif %}
 				</div>
-			{% endif %}
+			</div>
 
 			{# ORGANIGRAMMES #}
 			<section>

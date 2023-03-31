@@ -117,10 +117,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 	{
 		return $this->createQueryBuilder('u')
 			->join('u.asso', 'a')
-			->leftjoin('a.mandat', 'm')
+			->join('a.mandat', 'm')
+
+			->where('u.active = TRUE')
 
 			->orderBy('m.priorite', 'ASC')
 			->addOrderBy('u.userName', 'ASC')
+
+			->getQuery()
+			->getResult()
+		;
+	}
+
+	/**
+	 * @return Renvoie les users sans mandat
+	 */
+	public function noMandat()
+	{
+		return $this->createQueryBuilder('u')
+			->join('u.asso', 'a')
+			->leftjoin('a.mandat', 'm')
+
+			->where('u.active = TRUE')
+			->andWhere('m IS NULL')
+
+			->orderBy('u.userName', 'ASC')
 
 			->getQuery()
 			->getResult()

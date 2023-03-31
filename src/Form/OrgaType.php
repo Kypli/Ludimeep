@@ -10,8 +10,6 @@ use App\Repository\UserRepository;
 
 use Symfony\Component\Validator\Constraints\Image;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -26,64 +24,12 @@ class OrgaType extends AbstractType
 	{
 		$builder
 			->add(
-				'user',
-				EntityType::class,
-				[
-					'class' => User::class,
-					'choice_label' => function (User $user){
-						$nom = null !== $user->getProfil()->getNom() && null !== $user->getProfil()->getPreNom()
-							? ' ('.ucfirst($user->getProfil()->getPreNom()).' '.ucfirst($user->getProfil()->getNom()).')'
-							: ''
-						;
-						$mandat = null !== $user->getAsso()->getMandat()
-							? ' - '.$user->getAsso()->getMandat()->getTitre()
-							: ''
-						;
-
-        				return $user->getUserName().$nom.$mandat;
-        			},
-					'required' => true,
-					'expanded' => false,
-					'attr' => [
-						'class' => 'form-control',
-					],
-					'label' => "Utilisateur",
-					'query_builder' => function(UserRepository $u) use($options){
-
-						$q = $u->createQueryBuilder('u')
-
-							// Doit avoir un rôle CA
-							->join('u.asso', 'a')
-							->where('a.mandat != :null')
-							->setParameter('null', '')
-
-							// User actif
-							->andWhere('u.active = :true')
-							->setParameter('true', true)
-
-							->orderBy('u.id', 'ASC')
-						;
-
-						// Ne doit pas déja être actif dans l'organigramme
-						// if ($options['nb_orga'] > 0){
-						// 	$q
-						// 		->leftjoin('u.organigrammes', 'o')
-						// 		->andWhere('o.isActif != :true')
-						// 		->setParameter('true', true)
-						// 	;
-						// 	// Error : N'affiche plus ceux qui ne sont pas dans un orga
-						// }
-
-						return $q;
-					},
-				]
-			)
-			->add(
 				'photo',
 				FileType::class,
 				[
-					'required' => true,
+					'required' => false,
 					'label' => 'Photo',
+					'mapped' => false,
 					'attr' => [
 						'class' => 'form-control',
 					],
@@ -92,6 +38,16 @@ class OrgaType extends AbstractType
 							'maxSize' => '5M'
 						]),
 					],
+				]
+			)
+			->add(
+				'deletePhoto',
+				CheckboxType::class,
+				[
+					'required' => false,
+					'label' => 'Retirer la photo',
+					'mapped' => false,
+					'data' => false,
 				]
 			)
 			->add(

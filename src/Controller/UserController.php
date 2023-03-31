@@ -70,7 +70,7 @@ class UserController extends AbstractController
 		$ligneComptableSer->update();
 
 		return $this->render('user/index.html.twig', [
-			'users' => $this->ur->byMandatAndPseudo(),
+			'users' => array_merge($this->ur->byMandatAndPseudo(), $this->ur->noMandat()),
 			'date_now' => new \DateTime('now'),
 		]);
 	}
@@ -580,5 +580,40 @@ class UserController extends AbstractController
 		}
 
 		return implode($pass);
+	}
+
+	/**
+	 * Trie les organigramme par ordre de priorité
+	 */
+	public function orgaByPrio($orgas)
+	{
+		//  Initialise
+		$orders = [];
+		$order2 = [];
+
+		// Organise par priorité
+		foreach($orgas as $orga){
+			$orga->getUser() != null
+				? $orders[$orga->getMandat()->getPriorite()][$orga->getUser()->getUsername()] = $orga
+				: $orders[$orga->getMandat()->getPriorite()][] = $orga
+			;
+		}
+
+		// Order by key
+		ksort($orders);
+
+		// Order sub by key
+		foreach($orders as $key => $order){
+			ksort($orders[$key]);
+		}
+
+		// Réorganise
+		foreach($orders as $order){
+			foreach($order as $sub_order){
+				$order2[] = $sub_order;
+			}
+		}
+
+		return $order2;
 	}
 }

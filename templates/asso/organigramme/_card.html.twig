@@ -56,11 +56,13 @@
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="row mt-2 mb-0">
 
-					<div class="col-2 p-0" title="Modifier">
-						<a href="{{ path('orga_edit', {'id': orga.id}) }}" class="btn btn-warning">
-							<i class="fas fa-edit"></i>
-						</a>
-					</div>
+					{% if orga.user != null %}
+						<div class="col-2 p-0" title="Modifier">
+							<a href="{{ path('orga_edit', {'id': orga.id}) }}" class="btn btn-warning">
+								<i class="fas fa-edit"></i>
+							</a>
+						</div>
+					{% endif %}
 
 					{# DÉSACTIVE #}
 					{# <div class="col-4 p-0" title="Supprimer">

@@ -10,7 +10,6 @@ use App\Repository\MandatRepository;
 use App\Repository\OrganigrammeRepository;
 
 use App\Form\OrgaType;
-use App\Form\OrgaEditType;
 
 use App\Service\Log;
 use App\Service\FileUploader;
@@ -127,22 +126,35 @@ class OrgaController extends AbstractController
 		// Vérifie que les mandataires ont bien un orga, add ou edit si orga sans user
 		foreach($mandataires as $key => $mandataire){
 
-			$keepKey = -1;
 			$getOrga = false;
+			$mandataire_asso = $mandataire->getAsso();
+			$mandataire_mandat = $mandataire_asso->getMandat();
+			$mandataire_mandat_dateFin = $mandataire_asso->getDateFinMandat();
 
 			foreach($orgas as $key2 => $orga){
+
+				// Orga existant
 				if($orga->getUser() == $mandataire){
 					$getOrga = true;
-				} elseif($orga->getUser() == null && $orga->getMandat() == $mandataire->getAsso()->getMandat()){
-					$keepKey = $key2;
+
+				// Orga sans user existant
+				} elseif($orga->getUser() == null && $orga->getMandat() == $mandataire_mandat){
+					$getOrga = true;
+					$or = $orgas[$key2];
+					$or->setUser($mandataire);
+					$or = $this->setDateStartEnd($or, $mandataire_mandat_dateFin);
+					$this->or->add($or, true);
+					$orgas[$key2] = $or;
 				}
 			}
-			if(!$getOrga){
-				$or = $orgas[$keepKey];
-				$or = $this->setDateStartEnd($or, $mandataire->getAsso()->getDateFinMandat());
-				$or->setUser($mandataire);
 
+			// Pas d'orga
+			if(!$getOrga){
+				$or = new Organigramme();
+				$or->setMandat($mandataire_mandat)->setUser($mandataire);
+				$or = $this->setDateStartEnd($or, $mandataire_mandat_dateFin);
 				$this->or->add($or, true);
+				$orgas[] = $or;
 			}
 		}
 
@@ -158,53 +170,22 @@ class OrgaController extends AbstractController
 	}
 
 	/**
-	 * @IsGranted("ROLE_ADMIN")
-	 * @Route("/add", name="_add")
+	 * @Route("/old", name="_old")
 	 */
-	public function add(Request $request)
+	public function old()
 	{
-		$orga = new Organigramme();
-		$form = $this->createForm(OrgaType::class, $orga, ['nb_orga' => count($this->or->findAll())]);
-		$form->handleRequest($request);
+		// Initialise
+		$orgas = $this->or->findBy(['isActif' => false], ['id' => 'ASC']);
 
-		if ($form->isSubmitted() && $form->isValid() && $this->formControl($orga)){
+		// Clean les orga inactif sans user
+		$this->or->cleanUseless();
 
-			// Init
-			$user_asso = $orga->getUser()->getAsso();
-			$mandat = $user_asso->getMandat();
+		// Trie par ordre de priorité
+		$orgas = $this->orgaByPrio($orgas);
 
-			// Date
-			$dateFinMandat = $user_asso->getDateFinMandat();
-			$dateDebutMandat = clone $dateFinMandat;
-			$dateDebutMandat->modify('-'.$mandat->getDuree().' years');
-
-			// Photo
-			$file = $form['photo']->getData();
-			$file_name = $this->file_uploader->upload($file, 'orga');
-
-			if (null !== $file_name){
-				$text = 'setPhoto';
-				$orga->$text($file_name);
-
-				// Save
-				$orga->setIsActif(true);
-				$orga->setMandat($mandat);
-				$orga->setStart($dateDebutMandat);
-				$orga->setEnd($dateFinMandat);
-
-				$this->or->add($orga, true);
-				// $log->saveLog(Log::ORGA);
-
-				return $this->redirectToRoute('orga', [], Response::HTTP_SEE_OTHER);
-
-			} else {
-				$this->addFlash('error', "Erreur d'upload de l'image.");
-			}
-		}
-
-		return $this->renderForm('asso/organigramme/add.html.twig', [
-			'edit' => false,
-			'form' => $form,
+		return $this->render('asso/organigramme/index.html.twig', [
+			'old' => true,
+			'orgas' => $orgas,
 		]);
 	}
 
@@ -214,34 +195,42 @@ class OrgaController extends AbstractController
 	 */
 	public function edit(Organigramme $orga, Request $request)
 	{
-		$form = $this->createForm(OrgaEditType::class, $orga, ['nb_orga' => count($this->or->findAll())]);
+		// User required
+		if ($orga->getUser() == null){
+			$this->addFlash('error', "Un organigramme sans mandataire ne peut pas être modifié.");
+			return $this->redirectToRoute('orga', [], Response::HTTP_SEE_OTHER);
+		}
+
+		$form = $this->createForm(OrgaType::class, $orga, ['nb_orga' => count($this->or->findAll())]);
 		$form->handleRequest($request);
 
 		if ($form->isSubmitted() && $form->isValid() && $this->formControl($orga, true)){
 
-			// Photo
 			$file = $form['photo']->getData();
-			$file_name = $this->file_uploader->upload($file, 'orga');
+			$delPhoto = $form['deletePhoto']->getData();
 
-			if (null !== $file_name){
-				$text = 'setPhoto';
-				$orga->$text($file_name);
+			// Photo
+			if ($file != null && !$delPhoto){
 
-				// Save
-				$orga->setStart($dateDebutMandat);
-				$orga->setEnd($dateFinMandat);
+				$file_name = $this->file_uploader->upload($file, 'orga');
 
-				$this->or->add($orga, true);
+				if (null !== $file_name){
+					$orga->setPhoto($file_name);
+					$this->or->add($orga, true);
+					return $this->redirectToRoute('orga', [], Response::HTTP_SEE_OTHER);
 
-				return $this->redirectToRoute('orga', [], Response::HTTP_SEE_OTHER);
+				} else {
+					$this->addFlash('error', "Erreur d'upload de l'image.");
+				}
 
 			} else {
-				$this->addFlash('error', "Erreur d'upload de l'image.");
+				if ($delPhoto){ $orga->setPhoto(null); }
+				$this->or->add($orga, true);
+				return $this->redirectToRoute('orga', [], Response::HTTP_SEE_OTHER);
 			}
 		}
 
-		return $this->renderForm('asso/organigramme/add.html.twig', [
-			'edit' => true,
+		return $this->renderForm('asso/organigramme/edit.html.twig', [
 			'form' => $form,
 		]);
 	}
@@ -282,12 +271,6 @@ class OrgaController extends AbstractController
 			return false;
 		}
 
-		// Photo obligatoire
-		if (null == $orga->getPhoto()){
-			$this->addFlash('error', "Photo obligatoire.");
-			return false;
-		}
-
 		return true;
 	}
 
@@ -296,13 +279,16 @@ class OrgaController extends AbstractController
 	 */
 	public function setDateStartEnd($orga, $dateFinMandat)
 	{
-		// Date
-		$dateDebutMandat = clone $dateFinMandat;
-		$dateDebutMandat->modify('-'.$orga->getMandat()->getDuree().' years');
+		if ($dateFinMandat != null){
 
-		$orga->setStart($dateDebutMandat);
-		$orga->setEnd($dateFinMandat);
+			// Date
+			$dateDebutMandat = clone $dateFinMandat;
+			$dateDebutMandat->modify('-'.$orga->getMandat()->getDuree().' years');
 
+			$orga->setStart($dateDebutMandat);
+			$orga->setEnd($dateFinMandat);
+
+		}
 		return $orga;
 	}
 
@@ -311,7 +297,33 @@ class OrgaController extends AbstractController
 	 */
 	public function orgaByPrio($orgas)
 	{
+		//  Initialise
+		$orders = [];
+		$order2 = [];
 
-		return $orgas;
+		// Organise par priorité
+		foreach($orgas as $orga){
+			$orga->getUser() != null
+				? $orders[$orga->getMandat()->getPriorite()][$orga->getUser()->getUsername()] = $orga
+				: $orders[$orga->getMandat()->getPriorite()][] = $orga
+			;
+		}
+
+		// Order by key
+		ksort($orders);
+
+		// Order sub by key
+		foreach($orders as $key => $order){
+			ksort($orders[$key]);
+		}
+
+		// Réorganise
+		foreach($orders as $order){
+			foreach($order as $sub_order){
+				$order2[] = $sub_order;
+			}
+		}
+
+		return $order2;
 	}
 }
