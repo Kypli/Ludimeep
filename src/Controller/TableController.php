@@ -77,7 +77,7 @@ class TableController extends AbstractController
 	}
 
 	/**
-	 * @Route("/{id}", name="_delete", methods={"POST"})
+	 * @Route("/{id}/delete", name="_delete", methods={"POST"})
 	 */
 	public function delete(Request $request, Table $table, TableRepository $tableRepository): Response
 	{

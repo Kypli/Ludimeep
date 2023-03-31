@@ -302,6 +302,23 @@ class UserController extends AbstractController
 				// Si pas de mandat, pas de date de fin de mandat
 				if (null == $user->getAsso()->getMandat()){
 					$user->getAsso()->setDateFinMandat(null);
+				} else {
+
+					$dateFinMandat = $user->getAsso()->getDateFinMandat();
+					$dateDebutMandat = clone $dateFinMandat;
+					$dateDebutMandat->modify('-'.$user->getAsso()->getMandat()->getDuree().' years');
+
+					$orga = $this->orr->findOneBy([
+						'isActif' => true,
+						'user' => $user->getId(),
+						'mandat' => $user->getAsso()->getMandat()
+					]);
+					if (null != $orga){
+						$orga
+							->setStart($dateDebutMandat)
+							->setEnd($dateFinMandat)
+						;
+					}
 				}
 			}
 
@@ -531,7 +548,7 @@ class UserController extends AbstractController
 		}
 
 		// Si mandat unique, pas de doublon
-		if (isset($mandat) && $mandat->isUniq() && count($this->uar->findBy(['mandat' => $mandat->getId()])) > 0){
+		if (isset($mandat) && $mandat->isUniq() && count($this->uar->findBy(['mandat' => $mandat->getId()])) > 1){
 			$this->addFlash('error', "Ce mandat est unique et est déjà occupé.");
 			return false;
 		}

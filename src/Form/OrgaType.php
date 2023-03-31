@@ -57,6 +57,10 @@ class OrgaType extends AbstractType
 							->where('a.mandat != :null')
 							->setParameter('null', '')
 
+							// User actif
+							->andWhere('u.active = :true')
+							->setParameter('true', true)
+
 							->orderBy('u.id', 'ASC')
 						;
 

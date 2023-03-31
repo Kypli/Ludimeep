@@ -7,7 +7,7 @@
 		<img
 			id='img_{{ orga.id }}'
 			class="card-img-top"
-			src="{{ asset('uploads/orga/' ~ orga.photo) }}"
+			src="{{ orga.photo != null ? asset('uploads/orga/' ~ orga.photo) : asset('build/image/autre/noMandat.jpeg') }}"
 			alt="{{ orga.mandat }}"
 		/>
 
@@ -23,18 +23,26 @@
 			</h3>
 
 			{# NOM PRENOM #}
-			{%
-				set nom = orga.user.profil.nom != '' and orga.user.profil.prenom != ''
-					? orga.user.userName|capitalize ~ '<br/>' ~ orga.user.profil.prenom ~ ' ' ~ orga.user.profil.nom
-					: orga.user.userName|capitalize
-			 %}
+			{% if orga.user != null %}
+				{%
+					set nom = orga.user.profil.nom != '' and orga.user.profil.prenom != ''
+						? orga.user.userName|capitalize ~ '<br/>' ~ orga.user.profil.prenom ~ ' ' ~ orga.user.profil.nom
+						: orga.user.userName|capitalize
+				 %}
+			{% else %}
+				{% set nom = 'Pas de mandataire' %}
+			{% endif %}
 			<h5 class="card-title center">{{ nom|raw }}</h5>
 
 			{# DATES #}
 			<p class="card-text">
-				Début : {{ orga.start|date('d/m/Y') }}
-				<br/>
-				Fin : {{ orga.end|date('d/m/Y') }}
+				{% if orga.user != null %}
+					Début : {{ orga.start|date('d/m/Y') }}
+					<br/>
+					Fin : {{ orga.end|date('d/m/Y') }}
+				{% else %}
+					A pourvoir sur {{ orga.mandat.duree }} an{{ orga.mandat.duree > 1 ? 's' }}
+				{% endif %}
 			</p>
 
 			{# COMMENTAIRE #}

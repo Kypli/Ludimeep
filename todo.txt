@@ -83,12 +83,7 @@ SITE
 - Statistique de visites
 
 
-ORGANIGRAMME
-- Si mandat requis, les afficher meme si pas de membre
-- Si orga inactif, les cacher, avec bouton historique pour les afficher et cacher les actifs
-- Si désactivation d'un mandat, désactiver aussi l'organigramme
-
-
 MANDAT
 - Si plus actif, aucun membre ne doit l'avoir
 - Si unique, ne pas enregistrer un membre en double
+- Si désactivation d'un mandat, désactiver aussi l'organigramme

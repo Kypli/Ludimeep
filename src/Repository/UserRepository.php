@@ -126,4 +126,24 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			->getResult()
 		;
 	}
+
+	/**
+	 * @return Get all mandataires
+	 */
+	public function mandataires()
+	{
+		return $this->createQueryBuilder('x')
+			->join('x.asso', 'a')
+
+			->where('a.mandat IS NOT NULL')
+
+			->andWhere('a.dateFinMandat > :now')
+			->setParameter(':now', new \Datetime('now'))
+
+			->andWhere('x.active = TRUE')
+
+			->getQuery()
+			->getResult()
+		;
+	}
 }

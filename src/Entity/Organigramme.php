@@ -23,12 +23,12 @@ class Organigramme
     private $photo;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $start;
 
     /**
-     * @ORM\Column(type="date")
+     * @ORM\Column(type="date", nullable=true)
      */
     private $end;
 
@@ -40,11 +40,10 @@ class Organigramme
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isActif;
+    private $isActif = true;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="organigrammes")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 

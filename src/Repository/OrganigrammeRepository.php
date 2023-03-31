@@ -38,4 +38,23 @@ class OrganigrammeRepository extends ServiceEntityRepository
 			$this->getEntityManager()->flush();
 		}
 	}
+
+	/**
+	 * Clean les orga inactif sans user
+	 */
+	public function cleanUseless()
+	{
+		$q = $this->createQueryBuilder('x')
+			->where('x.isActif = FALSE and x.user is NULL')
+			->getQuery()
+			->getResult()
+		;
+
+		foreach($q as $entity){
+			$this->getEntityManager()->remove($entity);
+			$this->getEntityManager()->flush();
+		}
+
+		return $q;
+	}
 }

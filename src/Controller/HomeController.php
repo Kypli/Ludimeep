@@ -380,6 +380,10 @@ class HomeController extends AbstractController
 	 */
 	public function tablesPresenceForm($seances, $request) 
 	{
+		// Min 1 séance
+		if (empty($seances)){ return []; }
+
+		// Initialise
 		$ii = 1;
 		$form = [];
 
