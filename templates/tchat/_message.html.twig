@@ -27,7 +27,7 @@
 		{# CONTENT #}
 		<div class="col-{{ sizeContent }} p-0 pt-1">
 			<span class='tchat-{{ t.login == null ? 'bot-' }}content{{ t.date|date('d/m/Y') == 'now'|date('d/m/Y') ? '-today' }}'>
-				{{ t.login != null ? t.content : t.content|raw }}
+				{{ t.content|raw }}
 			</span>
 		</div>
 	</div>
