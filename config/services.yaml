@@ -7,6 +7,7 @@ parameters:
     upload_directory_actu: '%kernel.project_dir%/public/uploads/actus/images'
     upload_directory_orga: '%kernel.project_dir%/public/uploads/orga'
     upload_directory_photo: '%kernel.project_dir%/public/uploads/photos'
+    statuts_files: '%kernel.project_dir%/public/uploads/statuts/'
 
 services:
     # default configuration for services in *this* file
@@ -31,3 +32,7 @@ services:
             $targetDirectory_actu: '%upload_directory_actu%'
             $targetDirectory_photo: '%upload_directory_photo%'
             $targetDirectory_orga: '%upload_directory_orga%'
+
+    App\Controller\Asso\StatutsController:
+        arguments:
+            $statuts_files: '%statuts_files%'

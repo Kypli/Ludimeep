@@ -8,11 +8,15 @@
 		<div class='row mb-3'>
 
 			{# TITRE #}
-			<h2 class="radius-long offset-4 col-4">Status</h2>
+			<h2 class="radius-long offset-4 col-4">Statuts</h2>
 
 			{# ... #}
 			<section class='prochainement'>
-				Prochainement
+				{% for file in files %}
+					<a href="{{ path('statuts_export', {'fileName': file.filename}) }}">{{ file.filename }}</a>
+				{% else %}
+					Aucun document disponible.
+				{% endfor %}
 			</section>
 		</div>
 	</div>
