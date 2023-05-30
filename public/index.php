@@ -1,6 +1,4 @@
 <?php
-echo('Mise à jours en cours, reprise du suite dans peu de temps.');
-die;
 
 use App\Kernel;
 
