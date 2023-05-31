@@ -38,11 +38,6 @@ PHOTOS
 - Uniformiser la taille des cards
 
 
-PROCES-VERBAL
-- AG
-- CR réunion bureau
-
-
 TABLEAU DE PRESENCE + BUDGET
 - Directement sur le site
 
@@ -66,12 +61,6 @@ NEWSLETTER
 - S'inscrire
 - Envoyer des newsletters aux mails
 - Lien de désabonnement avec id en algorythme
-
-
-L'ASSO
-- Organigramme à faire
-- Réglement intérieur à intégrer
-- Statuts à intégrer
 
 
 MEMBRE

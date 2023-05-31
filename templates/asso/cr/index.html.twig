@@ -21,7 +21,7 @@
 							)) }}
 						</li>
 						<ul>
-							{% for file in files %}
+							{% for file in files|sort %}
 								<li>
 									<a href="{{ path('cr_export', {'fileName': file, 'dir': dir}) }}">
 										{{ file }}
