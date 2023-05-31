@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Asso - Comptes-rendus{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+		<div class='row mb-3'>
+
+			{# TITRE #}
+			<h2 class="radius-long offset-4 col-4">Comptes-rendus</h2>
+
+			{# COMPTES-RENDUS #}
+			<section>
+				<ul>
+					{% for dir, files in dirs %}
+						<li class="{{ loop.first ? : 'mt-3' }}">
+							{{ render(controller(
+								'App\\Controller\\Asso\\CompteRenduController::dirTitle',
+								{ 'title': dir }
+							)) }}
+						</li>
+						<ul>
+							{% for file in files %}
+								<li>
+									<a href="{{ path('cr_export', {'fileName': file, 'dir': dir}) }}">
+										{{ file }}
+									</a>
+								</li>
+							{% else %}
+								<li>Aucun document disponible.</li>
+							{% endfor %}
+						</ul>
+					{% else %}
+						<li>Aucun document disponible.</li>
+					{% endfor %}
+				</ul>
+			</section>
+		</div>
+	</div>
+{% endblock %}

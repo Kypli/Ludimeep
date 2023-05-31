@@ -10,7 +10,7 @@
 			{# TITRE #}
 			<h2 class="radius-long offset-4 col-4">Statuts</h2>
 
-			{# ... #}
+			{# STATUTS #}
 			<section class='prochainement'>
 				{% for file in files %}
 					<a href="{{ path('statuts_export', {'fileName': file.filename}) }}">{{ file.filename }}</a>

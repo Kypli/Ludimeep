@@ -1,4 +1,19 @@
+{# ROUTAGE #}
 {% set route = app.request.attributes.get('_route') %}
+{% set route_vieSite = route == 'actu' or route == 'sondage' or route == 'newsletter'
+	? true
+	: false
+%}
+{% set route_asso = route == 'infos' or route == 'faq' or route == 'organigramme' or route == 'reglement' or route == 'statuts'
+	? true
+	: false
+%}
+{% set route_contact = route == 'message' or route == 'appel'
+	? true
+	: false
+%}
+
+{# NAVBAR #}
 <div class="text-center">
 	<nav class="navbar navbar-expand-lg navbar-light">
 		<div class="container-fluid">
@@ -21,14 +36,6 @@
 				</li>
 
 				{# VIE DU SITE #}
-				{% 
-					set route_vieSite = 
-						route == 'actu' or
-						route == 'sondage' or
-						route == 'newsletter'
-							? true
-							: false
-				%}
 				<li class="nav-item dropdown">
 					<a
 						class="hoverable nav-link {{ route_vieSite ? 'active'}} dropdown-toggle"
@@ -38,7 +45,6 @@
 						aria-expanded="false"
 						data-bs-toggle="dropdown"
 					>
-						{# <i class="far fa-heart-rate"></i> #}
 						<i class="fas fa-heartbeat"></i>
 						Vie du site
 					</a>
@@ -71,16 +77,6 @@
 				</li>
 
 				{# ASSO #}
-				{% 
-					set route_asso = 
-						route == 'infos' or
-						route == 'faq' or
-						route == 'organigramme' or
-						route == 'reglement' or
-						route == 'statuts'
-							? true
-							: false
-				%}
 				<li class="nav-item dropdown">
 					<a
 						class="hoverable nav-link {{ route_asso ? 'active'}} dropdown-toggle"
@@ -93,23 +89,83 @@
 						<i class="fas fa-building" title='Asso'></i>
 						L'asso
 					</a>
-					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<li><a class="dropdown-item" href="{{ path('infos') }}">&nbsp;<i class="fas fa-info"></i> &nbsp;&nbsp;&nbsp;Infos pratique</a></li>
-						<li><a class="dropdown-item" href="{{ path('faq') }}"><i class="fas fa-question"></i> &nbsp;&nbsp;&nbsp;Foire aux questions</a></li>
-						<li><a class="dropdown-item" href="{{ path('orga') }}"><i class="fas fa-sitemap"></i> &nbsp;Organigramme</a></li>
-						<li><a class="dropdown-item" href="{{ path('reglement') }}"><i class="fas fa-file"></i> &nbsp;&nbsp;&nbsp;Réglement intérieur</a></li>
-						<li><a class="dropdown-item" href="{{ path('statuts') }}"><i class="fas fa-file-alt"></i> &nbsp;&nbsp;&nbsp;Statuts</a></li>
+					<ul class="dropdown-menu width-200" aria-labelledby="navbarDropdown">
+						<li class=''>
+							<a class="dropdown-item" href="{{ path('infos') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="fas fa-info"></i>
+									</div>
+									<div class="col-10">
+										Infos pratique
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('faq') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="fas fa-question"></i>
+									</div>
+									<div class="col-10">
+										Foire aux questions
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('orga') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="fas fa-sitemap"></i>
+									</div>
+									<div class="col-10">
+										Organigramme
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('cr') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="far fa-folder-open"></i>
+									</div>
+									<div class="col-10">
+										Comptes-rendus
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('reglement') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="fas fa-file"></i>
+									</div>
+									<div class="col-10">
+										Réglement intérieur
+									</div>
+								</div>
+							</a>
+						</li>
+						<li>
+							<a class="dropdown-item" href="{{ path('statuts') }}">
+								<div class="row">
+									<div class="col-1">
+										<i class="fas fa-file-alt"></i>
+									</div>
+									<div class="col-10">
+										Statuts
+									</div>
+								</div>
+							</a>
+						</li>
 					</ul>
 				</li>
 
 				{# CONTACT #}
-				{% 
-					set route_contact = 
-						route == 'message' or
-						route == 'appel'
-							? true
-							: false
-				%}
 				<li class="nav-item dropdown">
 					<a
 						class="hoverable nav-link {{ route_contact ? 'active'}} dropdown-toggle"

@@ -10,9 +10,13 @@
 			{# TITRE #}
 			<h2 class="radius-long offset-4 col-4">Réglement intérieur</h2>
 
-			{# ... #}
+			{# RÉGLEMENT INTÉRIEUR #}
 			<section class='prochainement'>
-				Prochainement
+				{% for file in files %}
+					<a href="{{ path('reglement_export', {'fileName': file.filename}) }}">{{ file.filename }}</a>
+				{% else %}
+					Aucun document disponible.
+				{% endfor %}
 			</section>
 		</div>
 	</div>

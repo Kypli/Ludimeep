@@ -8,6 +8,8 @@ parameters:
     upload_directory_orga: '%kernel.project_dir%/public/uploads/orga'
     upload_directory_photo: '%kernel.project_dir%/public/uploads/photos'
     statuts_files: '%kernel.project_dir%/public/uploads/statuts/'
+    reglement_files: '%kernel.project_dir%/public/uploads/reglement/'
+    cr_files: '%kernel.project_dir%/public/uploads/cr/'
 
 services:
     # default configuration for services in *this* file
@@ -36,3 +38,11 @@ services:
     App\Controller\Asso\StatutsController:
         arguments:
             $statuts_files: '%statuts_files%'
+
+    App\Controller\Asso\ReglementController:
+        arguments:
+            $reglement_files: '%reglement_files%'
+
+    App\Controller\Asso\CompteRenduController:
+        arguments:
+            $cr_files: '%cr_files%'
