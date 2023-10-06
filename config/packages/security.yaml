@@ -71,7 +71,6 @@ security:
         ROLE_ADMIN: [ROLE_USER, ROLE_ADMIN]
 
     access_control:
-
         # - { path: ^/*, roles: PUBLIC_ACCESS }
         - { path: ^/*, roles: PUBLIC_ACCESS, requires_channel: '%env(SECURE_SCHEME)%' }
         - { path: ^/admin, roles: ROLE_ADMIN }

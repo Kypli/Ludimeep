@@ -63,10 +63,6 @@ NEWSLETTER
 - Lien de désabonnement avec id en algorythme
 
 
-MEMBRE
-- Affichage par mandat (priorité) puis par membre puis par id
-
-
 SITE
 - Référencer le site avec "jeux de société" + "loiret" + "baule" + "association"
 - Statistique de visites
