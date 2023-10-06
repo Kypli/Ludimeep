@@ -141,7 +141,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 			->where('u.active = TRUE')
 			->andWhere('m IS NULL')
 
-			->orderBy('ua.dateFinAdhesion', 'ASC')
+			->orderBy('ua.dateFinAdhesion', 'DESC')
 			->addOrderBy('u.userName', 'ASC')
 
 			->getQuery()
