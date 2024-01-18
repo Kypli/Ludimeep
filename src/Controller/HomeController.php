@@ -389,6 +389,9 @@ class HomeController extends AbstractController
 
 		for ($i = 0; $i < self::SEANCE_AFFICHAGE_MAX; $i++){
 
+			// Présence de la séance
+			if(!isset($seances[$i])){ continue; }
+
 			$seance = $seances[$i];
 			$tables = $seance->getTables();
 

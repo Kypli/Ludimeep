@@ -24,6 +24,10 @@ class CompteRenduController extends AbstractController
 	 */
 	public function index(Request $request)
 	{
+		// Create folder cr if not exist
+		if (!file_exists($this->cr_files)){ mkdir($this->cr_files, 0700, true); }
+
+		// Find files
 		$directories = [];
 		$finder = new Finder();
 		$finder->files()->in($this->cr_files);
@@ -41,7 +45,7 @@ class CompteRenduController extends AbstractController
 				$directories[$file->getRelativePath()][] = $file->getFileName();
 			}
 		}
-		ksort($directories);
+		krsort($directories);
 
 		return $this->render('asso/cr/index.html.twig', [
 			'dirs' => $directories,
