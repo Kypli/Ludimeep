@@ -13,10 +13,14 @@
 .actu {
 	border: 1px solid #AB6BC9;
 	background-color: #E6D2EE;
+	text-align: justify;
+	text-justify: auto;
 }
 .actu-odd {
 	border: 1px solid #AB6BC9;
 	background-color: #D3C5D9;
+	text-align: justify;
+	text-justify: auto;
 }
 
 .actu ul, .actu-odd ul {
