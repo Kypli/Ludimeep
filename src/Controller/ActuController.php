@@ -80,7 +80,7 @@ class ActuController extends AbstractController
 			'form' => $form,
 			'metaDatas' => [
 				'ordre' => $this->getMetaDatas_ordre($actu->getOrdre()),
-				'class' => $this->getMetaDatas_class($actu),
+				'class' => [], // $this->getMetaDatas_class($actu)
 			],
 		]);
 	}
@@ -131,7 +131,7 @@ class ActuController extends AbstractController
 
 		// Méta-datas
 		$metaDatas['ordre'] = $this->getMetaDatas_ordre($actu->getOrdre());
-		$metaDatas['class'] = $this->getMetaDatas_class($actu);
+		$metaDatas['class'] = []; // $this->getMetaDatas_class($actu);
 
 		return $this->renderForm('actu/edit.html.twig', [
 			'actu' => $actu,
@@ -332,6 +332,7 @@ class ActuController extends AbstractController
 
 	/**
 	 * @IsGranted("ROLE_ADMIN")
+	 * OBSOLETE
 	 * Récupère la liste des class des éléments à afficher
 	 */
 	public function getMetaDatas_class($actu){

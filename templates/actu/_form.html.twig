@@ -63,7 +63,8 @@
 
 	<div class="row center mt-4">
 
-		{# TEXT1 #}
+		{# ANCIEN #}
+		{# <hr>
 		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
 			{{ form_label(form.text1) }}
 		</div>
@@ -71,62 +72,66 @@
 			{{ form_widget(form.text1) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 1, 'i': metaDatas['ordre']['t1'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 1, 'class': metaDatas['class'][1]} %}
+		{% include 'actu/_options.html.twig' with {'i': 1, 'class': metaDatas['class'][1]} %} #}
+
+		{# TEXT1 #}
+		<div class="col-12 mb-2">
+			{{ form_label(form.text1) }}
+		</div>
+		<div class="offset-2 col-8">
+			{{ form_widget(form.text1) }}
+		</div>
+		{% include 'actu/_ordre.html.twig' with {'id': 1, 'i': metaDatas['ordre']['t1'], 'type':'t'} %}
 
 		{# TEXT2 #}
-		<hr>
-		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+		<hr class='mt-4'>
+		<div class="col-12 mb-2">
 			{{ form_label(form.text2) }}
 		</div>
-		<div class="col-4 mb-1">
+		<div class="offset-2 col-8">
 			{{ form_widget(form.text2) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 2, 'i': metaDatas['ordre']['t2'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 2, 'class': metaDatas['class'][2]} %}
 
 		{# TEXT3 #}
-		<hr>
-		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+		<hr class='mt-4'>
+		<div class="col-12 mb-2">
 			{{ form_label(form.text3) }}
 		</div>
-		<div class="col-4 mb-1">
+		<div class="offset-2 col-8">
 			{{ form_widget(form.text3) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 3, 'i': metaDatas['ordre']['t3'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 3, 'class': metaDatas['class'][3]} %}
 
 		{# TEXT4 #}
-		<hr>
-		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+		<hr class='mt-4'>
+		<div class="col-12 mb-2">
 			{{ form_label(form.text4) }}
 		</div>
-		<div class="col-4 mb-1">
+		<div class="offset-2 col-8">
 			{{ form_widget(form.text4) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 4, 'i': metaDatas['ordre']['t4'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 4, 'class': metaDatas['class'][4]} %}
 
 		{# TEXT5 #}
-		<hr>
-		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+		<hr class='mt-4'>
+		<div class="col-12 mb-2">
 			{{ form_label(form.text5) }}
 		</div>
-		<div class="col-4 mb-1">
+		<div class="offset-2 col-8">
 			{{ form_widget(form.text5) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 5, 'i': metaDatas['ordre']['t5'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 5, 'class': metaDatas['class'][5]} %}
 
 		{# TEXT6 #}
-		<hr>
-		<div class="col-2 offset-3 mb-1 pt-2 alignRight">
+		<hr class='mt-4'>
+		<div class="col-12 mb-2">
 			{{ form_label(form.text6) }}
 		</div>
-		<div class="col-4 mb-1">
+		<div class="offset-2 col-8">
 			{{ form_widget(form.text6) }}
 		</div>
 		{% include 'actu/_ordre.html.twig' with {'id': 6, 'i': metaDatas['ordre']['t6'], 'type':'t'} %}
-		{% include 'actu/_options.html.twig' with {'i': 6, 'class': metaDatas['class'][6]} %}
 	</div>
 
 	{# IMAGES #}
